@@ -1,0 +1,71 @@
+# Dependencies
+node_modules
+package-lock.json
+npm-debug.log*
+
+# Build outputs
+dist
+dist-ssr
+build
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE / Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Vite cache
+.vite
+
+# Testing
+coverage
+.nyc_output
+
+# Logs
+logs
+*.log
+
+# Temp files
+tmp
+temp
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Optional Prettier cache
+.prettierrc.json
+.prettierignore
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn (if you ever use it)
+yarn-debug.log*
+yarn-error.log*
+.yarn-integrity
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
