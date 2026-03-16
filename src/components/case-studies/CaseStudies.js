@@ -1,65 +1,65 @@
 // src/data/caseStudies.js
+import lmdVideo from '../../assets/case-studies/lmdouglas.mp4';
+import lmdouglas from '../../assets/case-studies/lmdouglas.png';
+import lokaVideo from '../../assets/case-studies/loka.mp4';
 import lokaImage from '../../assets/case-studies/loka1.png';
-import omsImage from '../../assets/case-studies/oms1.jpg';
+import omsImage from '../../assets/case-studies/oms1.png';
+import pendoPush from '../../assets/case-studies/pendo-push.png';
 import sujinVideo from '../../assets/case-studies/sujik.mp4';
 import sujinImage from '../../assets/case-studies/sujin.jpg';
 
 export const caseStudies = [
+ {
+  id: 1,
+  title: "Design and Perspective",
+  client: "Sujin Kim",
+  shortDescription: "Graphic designer's portfolio, built using React 19 & showcasing complex animations (GSAP) and innovative navigation",
+  description: "Sujin had a clear vision for her portfolio. It reflected her sensibility, letting her work take center stage. She sent me a polished Figma design and precise requirements, removing much of the guessing from the development.\n\nHer designs translated into a custom React application that respects her vision while adding interactive depth. Complex animations and unconventional navigation patterns create an experience that feels as considered as her design work.\n\nThe result does exactly what Sujin needed and gets out of the way while making her work look its best. Clean execution of a clear vision",
+  image: sujinImage,
+  video: sujinVideo,
+  tags: ["React", "Animations", "Web Development"],
+  year: "2024",
+},
   {
-    id: 1,
-    title: "Design and Perspective",
-    client: "Sujin Kim",
-    shortDescription: "A comprehensive design system that transforms how users interact with digital products.",
-    description: "A comprehensive design system that transforms how users interact with digital products...",
-    image: sujinImage,
-    video: sujinVideo,
-    tags: ["UI/UX Design", "Brand Identity", "Web Design"],
-    year: "2024",
-    color: "#4F46E5"
-  },
-  {
-    id: 2,
-    title: "Website Re-Design",
-    client: "Orders Made Simple",
-    shortDescription: "Streamlined order management system with real-time tracking and analytics dashboard. Reduced processing time.",
-    description: "Streamlined order management system with real-time tracking and analytics dashboard. Reduced processing time by 40% and improved customer satisfaction scores. Streamlined order management system with real-time tracking and analytics dashboard. Reduced processing time by 40% and improved customer satisfaction scores. Streamlined order management system with real-time tracking and analytics dashboard. Reduced processing time by 40% and improved customer satisfaction scores.",
-    image: omsImage,
-    tags: ["Product Design", "SaaS", "Dashboard"],
-    year: "2023",
-    color: "#10B981"
-  },
-  {
-    id: 3,
-    title: "Healthcare Startup",
-    client: "Loka Care",
-    shortDescription: "Mobile-first healthcare application connecting patients with specialized care providers.",
-    description: "Mobile-first healthcare application connecting patients with specialized care providers. Implemented secure messaging and appointment scheduling features. Mobile-first healthcare application connecting patients with specialized care providers. Implemented secure messaging and appointment scheduling features. Mobile-first healthcare application connecting patients with specialized care providers. Implemented secure messaging and appointment scheduling features.",
-    image: lokaImage,
-    video: null,
-    tags: ["Mobile App", "Healthcare", "React Native"],
-    year: "2024",
-    color: "#8B5CF6"
-  },
-  {
-    id: 4,
-    title: "Project Alpha",
-    client: "Tech Corporation",
-    shortDescription: "Enterprise-level dashboard with advanced data visualization and reporting tools for business intelligence.",
-    description: "Enterprise-level dashboard with advanced data visualization and reporting tools for business intelligence.Enterprise-level dashboard with advanced data visualization and reporting tools for business intelligence. Enterprise-level dashboard with advanced data visualization and reporting tools for business intelligence. Enterprise-level dashboard with advanced data visualization and reporting tools for business intelligence.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=480&h=360&fit=crop",
-    tags: ["Data Visualization", "Enterprise", "React"],
-    year: "2023",
-    color: "#F59E0B"
-  },
-  {
-    id: 5,
-    title: "Urban Planner",
-    client: "City Development",
-    shortDescription: "Interactive urban planning tool with 3D modeling and community engagement features for sustainable city development.",
-    description: "Interactive urban planning tool with 3D modeling and community engagement features for sustainable city development. Interactive urban planning tool with 3D modeling and community engagement features for sustainable city development. Interactive urban planning tool with 3D modeling and community engagement features for sustainable city development. Interactive urban planning tool with 3D modeling and community engagement features for sustainable city development.",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=480&h=360&fit=crop",
-    tags: ["3D Modeling", "Civic Tech", "WebGL"],
-    year: "2024",
-    color: "#3B82F6"
-  }
+  id: 2,
+  title: "Fantasy Author Website",
+  client: "LM Douglas",
+  shortDescription: "Custom Vue website merging author platform and world hub that includes new titles plus exclusive content enriching the fantasy universe for dedicated readers",
+  description: "As LM Douglas' book catalog expanded, she needed more than a promotional site. Her fantasy world kept on growing with maps, character backstories—but and designs and the website was the perfect place to showcase it all.\n\nI redesigned and built a custom Vue application that serves as professional author platform showcasing her growing catalog, and an immersive portal into her fantasy world.\n\n This transformed a static author site into a living world that grows with each release. Readers now have a destination to dive deeper between books, strengthening engagement and loyalty. The platform is ready to scale with whatever world-building she envisions next",
+  image: lmdouglas,
+  video: lmdVideo,
+  tags: ["Vue", "Figma", "UI/UX Design"],
+  year: "2024",
+},
+ {
+  id: 3,
+  title: "Website Re-Design",
+  client: "Orders Made Simple",
+  shortDescription: "Marketing website redesign restoring the company's distinctive visual identity. Returned to the unique style that originally set them apart in the SaaS space",
+  description: "OMS' website had drifted from the distinctive design that made them recognizable. Years of incremental updates diluted their unique visual identity, making them blend in with generic SaaS competitors.\n\nAs a former frontend developer and designer for OMS, I understand their original design DNA. Led complete marketing website redesign and deployment, reclaiming the clean aesthetic that once differentiated them while modernizing for current standards.\n\n The redesign presents a cohesive, memorable identity to new prospects ",
+  image: omsImage,
+  tags: ["Brand Redesign", "Figma", "UI/UX Design"],
+  year: "2025 - 2026",
+},
+ {
+  id: 4,
+  title: "Healthcare Website in WIX",
+  client: "Loka Care",
+  shortDescription: "Design-as-filter recruiting site for specialized caregiver roles. Intentional calm aesthetics attracted right candidates while deterring misaligned applicants",
+  description: "Loka Care needed caregivers for a young adult. Traditional job postings attracted quantity over quality. Applicants who didn't understand the role's patient, focused nature.\n\nDesigned a website where the aesthetic itself acted as a pre-screening tool. Calm color palette, deliberate pacing, and thoughtful typography created an environment that resonated with patient, attentive candidates while naturally filtering out those seeking fast-paced work.\n\nThe aim was to filter applicants before they even applied. Candidates who connected with the site's intentional calm were exactly the personalities suited for the role",
+  image: lokaImage,
+  video: lokaVideo,
+  tags: ["UI/UX Design", "Healthcare", "Wix"],
+  year: "2025",
+},
+{
+  id: 5,
+  title: "Pendo Audit and Management",
+  client: "The PUSH Agency",
+  shortDescription: "Complete analytics from 0 for talent platform. 50% increase in assignment creation, 70% in reports, and 32 user guides and comprehensive tracking infrastructure",
+  description: "The PUSH Agency had little visibility into user engagement on their talent platform, no analytics, no tracking, no way to identify friction or measure adoption.\n\nI helped them build a Pendo infrastructure: 32 guides, 38 tracked features, 15 dashboards, 51 reports, and comprehensive user journey analysis.\n\nWe performed assignment creation: +52% (33%→50%)\nand kickstarted report generation: +37% (51%→70%)\n\n Thanks to all this we activated dormant features, reduced navigation time 34%, and established data-driven optimization framework for ongoing improvement",
+  image: pendoPush,
+  tags: ["Pendo", "Analytics", "Optimization"],
+  year: "2025 - 2026",
+}
 ];

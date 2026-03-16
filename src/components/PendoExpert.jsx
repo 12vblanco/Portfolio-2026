@@ -9,25 +9,27 @@ import cert5 from '..//assets/pendoCert/cert5.png';
 import cert6 from '..//assets/pendoCert/cert6.png';
 import cert7 from '..//assets/pendoCert/cert7.png';
 import cert8 from '..//assets/pendoCert/cert8.png';
-import pendoIcon from '..//assets/pendoCert/pendo-icon.png';
 import cert1 from '../assets/pendoCert/cert1.png';
 import pendoGraph from '../assets/pendoCert/pendo-graph-2.jpg';
+import PendoIcon from './PendoIcon';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Section = styled.section`
+height: 100vh;
   padding: 24px 0 48px;
   margin-bottom: 5rem;
 `;
 
 const Container = styled.div`
   max-width: 1905px;
+  height: 100%;
   margin: 0 auto;
   padding: 0 80px 0 136px;
   display: flex;
   flex-direction: column;
-  gap: 48px;
-
+  justify-content: space-between;
+padding-bottom: 4rem;
   @media (max-width: 768px) {
     padding: 0 24px;
   }
@@ -79,7 +81,7 @@ const MiddleRow = styled.div`
 const FeatureList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 40px;
   flex: 1;
   max-width: 540px;
 
@@ -104,7 +106,6 @@ const FeatureIcon = styled.div`
   flex-shrink: 0;
   overflow: hidden;
   padding: 6px;
-  background: rgba(255, 56, 99, 0.1);
 
   @media (max-width: 768px) {
     width: 50px;
@@ -122,6 +123,7 @@ const FeatureText = styled.div`
   font-size: 18px;
   line-height: 1.6;
   color: #282828;
+  min-width: 540px;
 
   @media (max-width: 768px) {
     font-size: 16px;
@@ -132,6 +134,7 @@ const GraphContainer = styled.div`
   flex: 1;
   max-width: 500px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
@@ -210,9 +213,9 @@ const BadgeImg = styled.img`
 `;
 
 const features = [
-  'Pendo expert specialising in the whole lifecycle, from installations to analytics and reporting',
-  'Deep expertise in Pendo implementation, visitor tracking, and metadata configuration',
-  'Certified in Product Analytics, Product Discovery, and Pendo Administration',
+  'Certified Pendo developer and consultant with over two years of hands-on experience across freelance and corporate SaaS. I can help you get the most out of your account',
+  'From implementation and tracking setup to advanced guides and segmentation, I know how to capture the data that actually matters to your business',
+  "Officially certified by Pendo, I bring a depth of knowledge that goes beyond trial and error and will help you save time and money",
 ];
 
 const certImages = [cert1, cert2, cert3, cert4, cert5, cert6, cert7, cert8];
@@ -228,33 +231,35 @@ export const PendoExpert = () => {
     badgeRefs.current = badgeRefs.current.slice(0, certImages.length);
 
     const ctx = gsap.context(() => {
-      const sectionTrigger = ScrollTrigger.create({
+      // Header + middle fire when the top of the section scrolls into view
+      ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top 70%',
-        end: 'bottom 20%',
         onEnter: () => {
-          // Header animation
           gsap.fromTo(headerRef.current,
             { x: -50, opacity: 0 },
             { x: 0, opacity: 1, duration: 0.8 }
           );
 
-          // Middle section animation
           gsap.fromTo(middleRef.current,
             { y: 30, opacity: 0 },
             { y: 0, opacity: 1, duration: 0.8, delay: 0.15 }
           );
+        },
+      });
 
-          // Random animations for each certification badge
+      // Badges fire when the badges container itself enters the viewport
+      ScrollTrigger.create({
+        trigger: badgesRef.current,
+        start: 'top 90%',
+        onEnter: () => {
           badgeRefs.current.forEach((badge) => {
             if (!badge) return;
 
             const randomDelay = Math.random() * 0.8;
             const randomDuration = 0.4 + Math.random() * 0.6;
 
-            const tl = gsap.timeline({
-              delay: randomDelay,
-            });
+            const tl = gsap.timeline({ delay: randomDelay });
 
             tl.to(badge, {
               opacity: 1,
@@ -353,10 +358,6 @@ export const PendoExpert = () => {
           });
         },
       });
-
-      return () => {
-        sectionTrigger.kill();
-      };
     }, sectionRef);
 
     return () => ctx.revert();
@@ -376,7 +377,7 @@ export const PendoExpert = () => {
             {features.map((feature, index) => (
               <Feature key={index}>
                 <FeatureIcon>
-                  <PendoIconImg src={pendoIcon} alt="Pendo" />
+                  <PendoIcon size={38} color="#FF3863" />
                 </FeatureIcon>
                 <FeatureText>{feature}</FeatureText>
               </Feature>
@@ -385,6 +386,7 @@ export const PendoExpert = () => {
 
           <GraphContainer>
             <GraphImage src={pendoGraph} alt="Pendo Analytics Graph" />
+            <p style={{fontStyle:'italic', fontSize:'18px', marginTop:'1rem', fontWeight:'600'}}>"Get measurable results faster"</p>
           </GraphContainer>
         </MiddleRow>
 

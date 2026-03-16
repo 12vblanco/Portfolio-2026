@@ -2,59 +2,63 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import CarouselControls from './CarouselControls';
-import { caseStudies } from './caseStudies';
+import { caseStudies } from './CaseStudies';
 
 /* ─── Lazy Video Card ─────────────────────────────────────────────────────── */
 
-const LazyVideoCard = ({ study, index, hasAnimated }) => {
+const LazyVideoCard = ({ study, index, hasAnimated, containerRef }) => {
   const cardRef = useRef(null);
   const videoRef = useRef(null);
-  const [videoSrcSet, setVideoSrcSet] = useState(false); // has the src been assigned?
-  const [videoReady, setVideoReady] = useState(false);   // has video fired canplay?
+  const srcSetRef = useRef(false);
+  const [videoSrcSet, setVideoSrcSet] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
     if (!study.video) return;
+    const root = containerRef?.current ?? null;
+    if (!root) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !videoSrcSet) {
-          setVideoSrcSet(true); // triggers src assignment → browser starts fetching
-          observer.disconnect();
+        if (entry.isIntersecting) {
+          if (!srcSetRef.current) {
+            srcSetRef.current = true;
+            setTimeout(() => setVideoSrcSet(true), 0);
+          }
+          if (videoRef.current && videoRef.current.readyState >= 3) {
+            videoRef.current.currentTime = 0;
+            videoRef.current.playbackRate = 1.1;
+            videoRef.current.play().catch(() => {});
+          }
+        } else {
+          if (videoRef.current) videoRef.current.pause();
+          setTimeout(() => setVideoReady(false), 0);
         }
       },
-      { threshold: 0.3 }
+      { root, threshold: 0.4 }
     );
 
     if (cardRef.current) observer.observe(cardRef.current);
     return () => observer.disconnect();
-  }, [study.video, videoSrcSet]);
+  }, [study.video, containerRef]);  
 
-  // Once the video can play, show it and play once (no loop)
   const handleCanPlay = useCallback(() => {
-    if (videoReady) return; // guard against duplicate fires
+    if (videoReady) return;
     setVideoReady(true);
     if (videoRef.current) {
       videoRef.current.playbackRate = 1.1;
-      videoRef.current.play().catch(() => {
-        // Autoplay blocked by browser — still reveal the video frame
-      });
+      videoRef.current.play().catch(() => {});
     }
   }, [videoReady]);
 
   const handleEnded = useCallback(() => {
-    setVideoReady(false); // fade image back in, hide video
+    setVideoReady(false);
   }, []);
 
   return (
     <Card ref={cardRef} $index={index} $hasAnimated={hasAnimated}>
       <MediaContainer>
-        {/* Poster image — fades out once video is ready */}
-        <Image
-          src={study.image}
-          alt={study.title}
-          $hidden={videoReady}
-        />
-
+        <Image src={study.image} alt={study.title} $hidden={videoReady} />
         {study.video && (
           <Video
             ref={videoRef}
@@ -68,7 +72,9 @@ const LazyVideoCard = ({ study, index, hasAnimated }) => {
         )}
       </MediaContainer>
 
-      <CardTop />
+        <CardTopWrapper>
+          <CardTopInner />
+        </CardTopWrapper>
 
       <CardContent>
         <ClientName>{study.client}</ClientName>
@@ -80,12 +86,12 @@ const LazyVideoCard = ({ study, index, hasAnimated }) => {
       <OverlayCard>
         <OverlayContent>
           <OverlayTitle>{study.client}</OverlayTitle>
-          <OverlaySubtitle>{study.title}</OverlaySubtitle>
+          {/* <OverlaySubtitle>{study.title}</OverlaySubtitle> */}
           <OverlayDescription>{study.description}</OverlayDescription>
         </OverlayContent>
         <OverlayTagsButton>
           <OverlayTags>{study.tags?.join(' • ')}</OverlayTags>
-          <ViewButton>Full Case Study →</ViewButton>
+          {/* <ViewButton>Full Case Study →</ViewButton> */}
         </OverlayTagsButton>
       </OverlayCard>
     </Card>
@@ -99,6 +105,7 @@ const CaseStudies = () => {
   const sectionRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
+  const [animationDone, setAnimationDone] = useState(false);
 
   const CARD_WIDTH = 480;
   const GAP = 64;
@@ -129,6 +136,19 @@ const CaseStudies = () => {
   }, [hasAnimated]);
 
   useEffect(() => {
+    if (!hasAnimated) return;
+    // After the track animation finishes (1.2s), reset any scroll drift and enable snapping
+    const timer = setTimeout(() => {
+      if (containerRef.current) {
+        containerRef.current.style.scrollSnapType = 'x mandatory';
+        containerRef.current.scrollLeft = 0;
+      }
+      setAnimationDone(true);
+    }, 1300);
+    return () => clearTimeout(timer);
+  }, [hasAnimated]);
+
+  useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
     container.addEventListener('scroll', updateCurrentIndex);
@@ -155,14 +175,15 @@ const CaseStudies = () => {
             />
           </ControlsWrapper>
 
-          <CardsContainer ref={containerRef}>
+          <CardsContainer ref={containerRef} $animationDone={animationDone}>
             <CardsTrack $hasAnimated={hasAnimated}>
-              {caseStudies.map((study, index) => (
+              {hasAnimated && caseStudies.map((study, index) => (
                 <LazyVideoCard
                   key={study.id}
                   study={study}
                   index={index}
                   hasAnimated={hasAnimated}
+                  containerRef={containerRef}
                 />
               ))}
               <Placeholder />
@@ -174,14 +195,11 @@ const CaseStudies = () => {
   );
 };
 
-/* ─── Styled Components ───────────────────────────────────────────────────── */
-
 const Section = styled.section`
   padding: 0 0 48px 0;
   height: 100vh;
   overflow: hidden;
   position: relative;
-  margin-bottom: 4rem;
 `;
 
 const Container = styled.div`
@@ -261,7 +279,7 @@ const CardsContainer = styled.div`
   &::-webkit-scrollbar { display: none; }
   -ms-overflow-style: none;
   scrollbar-width: none;
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: ${p => p.$animationDone ? 'x mandatory' : 'none'};
 `;
 
 const CardsTrack = styled.div`
@@ -276,13 +294,13 @@ const CardsTrack = styled.div`
 
 const Card = styled.div`
   flex: 0 0 480px;
-  height: 560px;
+  height: 500px;
   background: #fafafa;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 10px 20px rgba(40, 40, 40, 0.12);
   scroll-snap-align: center;
-  border: 1px solid rgba(40, 40, 40, 0.08);
+  border: 2px solid rgba(40, 40, 40, 0.18);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -301,7 +319,7 @@ const Card = styled.div`
 
 const MediaContainer = styled.div`
   width: 100%;
-  height: 360px;
+  height: 300px;
   overflow: hidden;
   background: #f5f5f5;
   flex-shrink: 0;
@@ -314,7 +332,6 @@ const Image = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Fade out once video is ready */
   opacity: ${p => p.$hidden ? 0 : 1};
   transition: all 0.6s ease;
   z-index: 2;
@@ -327,23 +344,30 @@ const Video = styled.video`
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: cover;
   background: #000;
-  /* Only reveal once canplay has fired */
   opacity: ${p => p.$visible ? 1 : 0};
   transition: opacity 0.6s ease, transform 0.3s ease;
   z-index: 1;
   ${Card}:hover & { transform: scale(1.1); }
 `;
 
-const CardTop = styled.div`
+const CardTopWrapper = styled.div`
   width: 100%;
-  height: 40px;
+  height: 44px;
   flex-shrink: 0;
-  background: #FCFDFF;
   margin-top: -40px;
   position: relative;
   z-index: 2;
+  filter: 
+    drop-shadow(0px -1px 0px rgba(40, 40, 40, 0.08))
+    drop-shadow(0px -1px 0px rgba(40, 40, 40, 0.08));
+    `;
+
+const CardTopInner = styled.div`
+  width: 100%;
+  height: 100%;
+  background: #FCFDFF;
   clip-path: polygon(
     0% 65%, 1% 64.95%, 2% 64.8%, 3% 64.6%, 4% 64.3%, 5% 63.9%,
     6% 63.45%, 7% 62.9%, 8% 62.25%, 9% 61.55%, 10% 60.8%, 11% 59.95%,
@@ -364,13 +388,10 @@ const CardTop = styled.div`
     96% 56.8%, 97% 55.75%, 98% 54.65%, 99% 53.55%, 100% 52.4%,
     100% 100%, 0% 100%
   );
-  filter:
-    drop-shadow(0px -4px 12px rgba(40, 40, 40, 0.18))
-    drop-shadow(0px -1px 4px rgba(40, 40, 40, 0.10));
 `;
 
 const CardContent = styled.div`
-  padding: 24px;
+  padding: 8px 24px 16px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -381,7 +402,7 @@ const CardContent = styled.div`
 const ClientName = styled.h3`
   font-size: 25px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #282828;
   margin: 0 0 4px 0;
   line-height: 1;
 `;
@@ -404,9 +425,11 @@ const ProjectDescription = styled.h4`
 
 const Tags = styled.div`
   font-size: 16px;
-  color: #FF3863;
+  color: #282828;
+  font-weight: 700;
   font-family: monospace;
   margin-top: auto;
+  text-align: center;
 `;
 
 const OverlayCard = styled.div`
@@ -428,7 +451,8 @@ const OverlayCard = styled.div`
 `;
 
 const OverlayContent = styled.div`
-  padding: 32px 24px;
+  padding: 24px;
+  min-height: 90%;
   text-align: left;
   opacity: 0;
   transform: scale(0.9);
@@ -447,27 +471,21 @@ const OverlayTagsButton = styled.div`
 `;
 
 const OverlayTitle = styled.h3`
-  font-size: 31px;
-  font-weight: 700;
+  font-size: 25px;
+  font-weight: 600;
   color: #FFFEFA;
-  margin: 0 0 8px 0;
-  line-height: 1.2;
+  margin: 0 0 24px 0;
+  line-height: 1;
 `;
 
-const OverlaySubtitle = styled.h4`
-  font-size: 20px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, .9);
-  margin: 0 0 16px 0;
-  line-height: 1.3;
-`;
 
 const OverlayDescription = styled.p`
   font-size: 16px;
-  min-height: 270px;
+  min-height: 210px;
   color: rgba(255, 255, 255, .9);
-  margin: 0 0 20px 0;
+  margin: 10px 0 10px 0;
   line-height: 1.6;
+  white-space: pre-line;
 `;
 
 const OverlayTags = styled.div`

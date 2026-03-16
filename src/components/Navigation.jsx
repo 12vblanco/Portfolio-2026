@@ -11,6 +11,7 @@ const NavWrapper = styled.div`
   max-width: 900px;
   margin: 37px auto 0;
   /* padding: 6px 8px 6px 12px; */
+  padding-right: 2px;
   background: #FFFEFA;
   border-radius: 50px;
   box-shadow: 0 4px 20px rgba(40, 40, 40, 0.1);
@@ -72,16 +73,16 @@ const NavLink = styled.a`
 `;
 
 const CTA = styled.a`
-  padding: 10px 14px 6px 14px;
-  background: #FF3863;
+  padding: 10px 16px;
+  background: #282828;
   color: #FFFFFF;
   border-radius: 50px;
   font-size: 18px;
   font-weight: 600;
-  line-height: 1.8;
   text-decoration: none;
+    margin-right: 2px;
   transition: all 0.4s ease, box-shadow 0.2s ease;
-    border: 2px solid #f40035;
+    border: 2px solid #282828;
     animation: pulseScale 1.5s ease-in-out 6;
 
   @keyframes pulseScale {
