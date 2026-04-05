@@ -1,37 +1,112 @@
-// Testimonials.jsx
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Star } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import reviewBg from "../assets//review-bg.png";
+import ReviewCard from './ReviewCard';
+import { reviewsData } from './reviewsData';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Section = styled.section`
+const slotTransform = (slot) => {
+  if (slot === 0)  return 'translateX(0%)    translateY(-12px) scale(1.08)';
+  if (slot === 1)  return 'translateX(108%)  translateY(0px)   scale(0.92)';
+  if (slot === -1) return 'translateX(-108%) translateY(0px)   scale(0.92)';
+  if (slot > 0)    return 'translateX(220%)  scale(0.8)';
+  return                  'translateX(-220%) scale(0.8)';
+};
+
+const slotOpacity = (slot) => {
+  if (slot === 0)                    return 1;
+  if (slot === 1 || slot === -1)     return 0.4;
+  return 0;
+};
+
+const Testimonials = () => {
+  const sectionRef = useRef(null);
+  const headerRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex(prev => (prev + 1) % reviewsData.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+    useEffect(() => {
+      const ctx = gsap.context(() => {
+        gsap.to(headerRef.current, {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 80%',
+            once: true,
+          },
+        });
+      }, sectionRef);
+      return () => ctx.revert();
+    }, []);
+
+  const getSlot = (cardIndex) => {
+    const total = reviewsData.length;
+    let slot = cardIndex - currentIndex;
+    if (slot > Math.floor(total / 2))  slot -= total;
+    if (slot < -Math.floor(total / 2)) slot += total;
+    return slot;
+  };
+
+  return (
+    <Section ref={sectionRef}>
+      <Container>
+        <Header ref={headerRef}>
+          <Eyebrow>Don't take my word<br />for it</Eyebrow>
+        </Header>
+
+        <DotsRow>
+          {reviewsData.map((_, i) => (
+            <Dot
+              key={i}
+              $active={i === currentIndex}
+              onClick={() => setCurrentIndex(i)}
+            />
+          ))}
+        </DotsRow>
+
+        <Scene>
+          <CardsContainer>
+            {reviewsData.map((review, i) => {
+              const slot = getSlot(i);
+              return (
+                <CardWrapper
+                  key={review.id}
+                  $slot={slot}
+                  onClick={() => slot !== 0 && setCurrentIndex(i)}
+                >
+                  <ReviewCard review={review} isCenter={slot === 0} />
+                </CardWrapper>
+              );
+            })}
+          </CardsContainer>
+        </Scene>
+      </Container>
+    </Section>
+  );
+};
+
+export default Testimonials;
+
+// ─── Styled Components ────────────────────────────────────────────────────────
+
+const Section = styled.section.attrs({ className: 'testimonials-Section' })`
   width: 100%;
-  display: flex;
-  flex-direction: column;
   background: #282828;
-  position: relative;
-  padding: 4rem 0 6rem 0;
-  min-height: 600px;
-  border-bottom: 1px black solid;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url(${reviewBg}) center/cover;
-    opacity: 0.8;
-    pointer-events: none;
-  }
+  padding: 5rem 0 6rem;
+  height: 70vh;
 `;
 
-const Container = styled.div`
+const Container = styled.div.attrs({ className: 'testimonials-Container' })`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -39,24 +114,53 @@ const Container = styled.div`
   z-index: 1;
 `;
 
-const Header = styled.div`
-  color: white;
+const Header = styled.div.attrs({ className: 'testimonials-Header' })`
   text-align: center;
-  margin-bottom: 3rem;
-  position: relative;
-  z-index: 1;
+  margin-bottom: 1.5rem;
   opacity: 0;
   transform: translateY(30px);
-  
-  h2 {
-    font-size: 39px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin: 0;
+    width: 100%; 
+`;
+
+const Eyebrow = styled.h2.attrs({ className: 'testimonials-Eyebrow' })`
+  font-size: clamp(32px, 6vw, 52px);
+  color: #FFFEFA;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  margin: 0 auto;
+  text-align: center;
+  display: block;
+  line-height: 1.2;
+`;
+
+const DotsRow = styled.div.attrs({ className: 'testimonials-DotsRow' })`
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 2.5rem;
+`;
+
+const Dot = styled.button.attrs({ className: 'testimonials-Dot' })`
+  width: ${p => p.$active ? '24px' : '8px'};
+  height: 8px;
+  border-radius: 4px;
+  background: ${p => p.$active ? '#FF3863' : 'rgba(255,255,255,0.25)'};
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: ${p => p.$active ? '#FF3863' : 'rgba(255,255,255,0.5)'};
   }
 `;
 
-const CardsContainer = styled.div`
+const Scene = styled.div.attrs({ className: 'testimonials-Scene' })`
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+`;
+
+const CardsContainer = styled.div.attrs({ className: 'testimonials-CardsContainer' })`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,236 +168,34 @@ const CardsContainer = styled.div`
   margin: 0 auto;
   position: relative;
   height: 400px;
-  z-index: 1;
+
+  @media (max-width: 768px) {
+    height: 480px;
+  }
 `;
 
-const CardWrapper = styled.div`
+const CardWrapper = styled.div.attrs({ className: 'testimonials-CardWrapper' })`
   position: absolute;
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: ${props => {
-    if (props.$position === 0) return 'translateX(0) scale(1)';
-    if (props.$position === -1) return 'translateX(-120%) scale(0.85)';
-    if (props.$position === 1) return 'translateX(120%) scale(0.85)';
-    return 'translateX(0) scale(0)';
-  }};
-  opacity: ${props => {
-    if (props.$position === 0) return 1;
-    if (props.$position === -1 || props.$position === 1) return 0.4;
-    return 0;
-  }};
-  z-index: ${props => props.$position === 0 ? 10 : 1};
-  pointer-events: ${props => props.$position === 0 ? 'auto' : 'none'};
+  width: 480px;
+  height: 380px; /* Add fixed height - adjust based on your card content */
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity   0.9s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: ${p => slotTransform(p.$slot)};
+  opacity:   ${p => slotOpacity(p.$slot)};
+  z-index:   ${p => p.$slot === 0 ? 10 : (p.$slot === 1 || p.$slot === -1) ? 5 : 0};
+  pointer-events: ${p => p.$slot === 0 ? 'auto' : 'none'};
+  cursor: ${p => p.$slot === 0 ? 'default' : 'pointer'};
+
+  /* Ensure the inner ReviewCard fills the wrapper */
+  & > div {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 768px) {
+    width: calc(100vw - 48px);
+    height: auto; /* Or set a specific height for mobile */
+    min-height: 380px;
+  }
 `;
-
-const Card = styled.div`
-  background: ${props => props.$isCenter ? '#FFFEFA' : 'rgba(255, 254, 250, 0.1)'};
-  backdrop-filter: ${props => props.$isCenter ? 'none' : 'blur(10px)'};
-  border: ${props => props.$isCenter ? 'none' : '2px solid rgba(255, 254, 250, 0.2)'};
-  border-radius: 6px;
-  padding: 1.2rem 1.8rem;
-  width: 390px;
-  min-height: 300px;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s ease;
-  box-shadow: ${props => props.$isCenter 
-    ? '0 10px 30px rgba(0, 0, 0, 0.2)' 
-    : '0 5px 15px rgba(0, 0, 0, 0.1)'};
-  color: ${props => props.$isCenter ? '#282828' : '#FFFEFA'};
-`;
-
-const Row = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 12px;
-`;
-
-const Stars = styled.div`
-  display: flex;
-  gap: 0.25rem;
-  margin-bottom: 0.8rem;
-`;
-
-const StarIcon = styled(Star)`
-  fill: #ef4444;
-  color: #ef4444;
-  size: 1.4rem;
-`;
-
-const Logo = styled.div`
-  width: 90px;
-  height: 50px;
-  background: ${props => props.$isCenter ? 'rgba(40, 40, 40, 0.1)' : 'rgba(255, 254, 250, 0.2)'};
-  border-radius: 6px;
-`;
-
-const Title = styled.h3`
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin: 0 0 1rem 0;
-  color: inherit;
-  text-align: left;
-`;
-
-const Subtitle = styled.p`
-  font-size: 1.2rem;
-  line-height: 1.5;
-  color: inherit;
-  text-align: left;
-  margin: 0 0 0.5rem 0;
-  flex-grow: 1;
-  line-height: 1.4;
-  font-weight: 500;
-`;
-
-const Divider = styled.hr`
-  border: none;
-  border-top: 2px solid #FF3863;
-  opacity: 0.9;
-  width: 94%;
-  margin: 0 auto;
-  margin-bottom: 1.6rem;
-`;
-
-const Footer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Name = styled.span`
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: inherit;
-`;
-
-const Company = styled.span`
-  font-size: 1rem;
-  font-weight: 600;
-  color: inherit;
-`;
-
-export const Testimonials = () => {
-  const sectionRef = useRef(null);
-  const headerRef = useRef(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const testimonials = [
-    {
-      id: 1,
-      rating: 5,
-      title: "you can trust Victor",
-      subtitle: "Some subtitle and more Some subtitle and more Some subtitle and more",
-      name: "Helene C.",
-      company: "N-able Inc"
-    },
-    {
-      id: 2,
-      rating: 5,
-      title: "He's a gem!",
-      subtitle: "If you're looking for a good developer I'd recommend Victor. He's genuinely a pleasure to work with, and I've had the chance to work with him at OMS.",
-      name: "Stephen S.",
-      company: "Orders Made Simple"
-    },
-    {
-      id: 3,
-      rating: 5,
-      title: "Excellent Work!",
-      subtitle: "Professional, creative, and always on time. Highly recommend for any project needs.",
-      name: "Lorraine M.",
-      company: "The Orchard Bar"
-    },
-    {
-      id: 4,
-      rating: 5,
-      title: "Outstanding!",
-      subtitle: "Delivered beyond what we asked for. Communication was clear throughout the process.",
-      name: "Victoria W.",
-      company: "Loka Care"
-    },
-    {
-      id: 5,
-      rating: 5,
-      title: "Highly Recommended!",
-      subtitle: "Incredible attention to detail and creative solutions. Will definitely work together again.",
-      name: "Sujin Kim",
-      company: "Sujin K."
-    }
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [testimonials.length]);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate header
-      gsap.to(headerRef.current, {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-        },
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  const getVisibleReviews = () => {
-    const visible = [];
-    // Show 3 cards: left (-1), center (0), right (1)
-    for (let i = -1; i <= 1; i++) {
-      const index = (currentIndex + i + testimonials.length) % testimonials.length;
-      visible.push({
-        ...testimonials[index],
-        position: i
-      });
-    }
-    return visible;
-  };
-
-  return (
-    <Section ref={sectionRef}>
-      <Container>
-        <Header ref={headerRef}>
-          <h2>Don't take <br />my word for it</h2>
-        </Header>
-        
-        <CardsContainer>
-          {getVisibleReviews().map((testimonial) => (
-            <CardWrapper 
-              key={`${testimonial.id}-${testimonial.position}`} 
-              $position={testimonial.position}
-            >
-              <Card $isCenter={testimonial.position === 0}>
-                <Row>
-                  <Stars>
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <StarIcon key={i} size={22} />
-                    ))}
-                  </Stars>
-                  <Logo $isCenter={testimonial.position === 0} />
-                </Row>
-                <Title>{testimonial.title}</Title>
-                <Subtitle>{testimonial.subtitle}</Subtitle>
-                <Divider />
-                <Footer>
-                  <Name>{testimonial.name}</Name>
-                  <Company>{testimonial.company}</Company>
-                </Footer>
-              </Card>
-            </CardWrapper>
-          ))}
-        </CardsContainer>
-      </Container>
-    </Section>
-  );
-};

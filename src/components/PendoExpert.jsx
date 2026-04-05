@@ -1,4 +1,5 @@
 import gsap from 'gsap';
+import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
@@ -11,56 +12,297 @@ import cert7 from '..//assets/pendoCert/cert7.png';
 import cert8 from '..//assets/pendoCert/cert8.png';
 import cert1 from '../assets/pendoCert/cert1.png';
 import pendoGraph from '../assets/pendoCert/pendo-graph-2.jpg';
-import PendoIcon from './PendoIcon';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin);
 
-const Section = styled.section`
-height: 100vh;
+const features = [
+  {
+    number: '01',
+    title: 'Installation & Setup',
+    text: 'Pendo Admin certified and experienced in full installations. I set up your account the right way so everything downstream is reliable.',
+  },
+  {
+    number: '02',
+    title: 'Audit & Optimisation',
+    text: 'Audits of existing installations, identify gaps in tracking coverage, flag redundant or broken tags, and deliver a clear prioritised list of improvements.',
+  },
+  {
+    number: '03',
+    title: 'Guides, Onboarding & User Flows',
+    text: 'From tooltips to multi-step onboarding flows and announcements, I build fully customised guides that match your brand and move users toward key actions.',
+  },
+  {
+    number: '04',
+    title: 'Analytics & Reporting',
+    text: 'Dashboards, funnels, and reports that surface what actually matters. Data you can act on, not just admire.',
+  },
+];
+
+const certImages = [cert1, cert2, cert3, cert4, cert5, cert6, cert7, cert8];
+
+export const PendoExpert = () => {
+  const sectionRef   = useRef(null);
+  const headerRef    = useRef(null);
+  const middleRef    = useRef(null);
+  const badgesRef    = useRef(null);
+  const badgeRefs    = useRef([]);
+  const certifiedRef = useRef(null);
+
+  useEffect(() => {
+    badgeRefs.current = badgeRefs.current.slice(0, certImages.length);
+
+    const ctx = gsap.context(() => {
+
+      // ── Header & middle row fade in ──────────────────────────────────────
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top 70%',
+        once: true,
+        onEnter: () => {
+          gsap.fromTo(headerRef.current,
+            { x: -50, opacity: 0 },
+            { x: 0, opacity: 1, duration: 0.8 }
+          );
+          gsap.fromTo(middleRef.current,
+            { y: 30, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.8, delay: 0.15 }
+          );
+
+          // Scramble only the "Certified" label word
+          gsap.to(certifiedRef.current, {
+            duration: 1.2,
+            scrambleText: {
+              text: 'Certified',
+              chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+              revealDelay: 0.3,
+              speed: 0.5,
+            },
+            ease: 'none',
+          });
+        },
+      });
+
+      // ── Feature paragraphs — sequential: number → title → text → next ───
+      ScrollTrigger.create({
+        trigger: middleRef.current,
+        start: 'top 75%',
+        once: true,
+        onEnter: () => {
+          const featureEls = middleRef.current.querySelectorAll('[data-feature]');
+
+          const itemDuration = 0.18;
+          const itemGap      = 0.08;
+          const featureGap   = 0.18;
+
+          let cursor = 0.1;
+
+          featureEls.forEach((feature) => {
+            const number = feature.querySelector('[data-feature-number]');
+            const title  = feature.querySelector('[data-feature-title]');
+            const text   = feature.querySelector('[data-feature-text]');
+
+            gsap.fromTo(number,
+              { y: 12, opacity: 0 },
+              { y: 0, opacity: 0.18, duration: itemDuration, delay: cursor, ease: 'power2.out' }
+            );
+            cursor += itemDuration + itemGap;
+
+            gsap.fromTo(title,
+              { y: 12, opacity: 0 },
+              { y: 0, opacity: 1, duration: itemDuration, delay: cursor, ease: 'power2.out' }
+            );
+            cursor += itemDuration + itemGap;
+
+            gsap.fromTo(text,
+              { y: 12, opacity: 0 },
+              { y: 0, opacity: 1, duration: itemDuration, delay: cursor, ease: 'power2.out' }
+            );
+            cursor += itemDuration + featureGap;
+          });
+        },
+      });
+
+      // ── Badges ───────────────────────────────────────────────────────────
+      ScrollTrigger.create({
+        trigger: badgesRef.current,
+        start: 'top 90%',
+        onEnter: () => {
+          badgeRefs.current.forEach((badge) => {
+            if (!badge) return;
+
+            const randomDelay    = Math.random() * 0.8;
+            const randomDuration = 0.4 + Math.random() * 0.6;
+            const tl = gsap.timeline({ delay: randomDelay });
+
+            tl.to(badge, {
+              opacity: 1,
+              scale: 1,
+              duration: randomDuration * 0.6,
+              ease: 'back.out(1.2)',
+            });
+
+            const randomEffect = Math.floor(Math.random() * 4);
+
+            switch (randomEffect) {
+              case 0:
+                tl.to(badge, { scale: 1.3, duration: 0.4, ease: 'power1.inOut' })
+                  .to(badge, { scale: 1, duration: 0.5, ease: 'bounce.out' });
+                break;
+              case 1:
+                tl.to(badge, { rotation: 360, scale: 1.2, duration: 0.6, ease: 'power2.inOut' })
+                  .to(badge, { rotation: 0, scale: 1, duration: 0.7, ease: 'power2.out' });
+                break;
+              case 2:
+                tl.to(badge, { scale: 1.2, rotation: 5, duration: 0.1 })
+                  .to(badge, { scale: 0.9, rotation: -5, duration: 0.1 })
+                  .to(badge, { scale: 1.1, rotation: 2, duration: 0.1 })
+                  .to(badge, { scale: 1, rotation: 0, duration: 0.2, ease: 'elastic.out(1, 0.3)' });
+                break;
+              case 3:
+                tl.to(badge, { scale: 1.25, skewX: 5, duration: 0.15, ease: 'sine.inOut' })
+                  .to(badge, { scale: 0.95, skewX: -5, duration: 0.15, ease: 'sine.inOut' })
+                  .to(badge, { scale: 1.15, skewX: 2, duration: 0.1, ease: 'sine.inOut' })
+                  .to(badge, { scale: 1, skewX: 0, duration: 0.3, ease: 'elastic.out(1, 0.3)' });
+                break;
+            }
+
+            tl.to(badge, {
+              y: -(5 + Math.random() * 8),
+              duration: 1.5 + Math.random() * 1.5,
+              repeat: -1,
+              yoyo: true,
+              ease: 'sine.inOut',
+              delay: 0.2 + Math.random() * 0.4,
+            });
+          });
+        },
+      });
+
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <Section id="pendo" ref={sectionRef}>
+      <Container>
+        <Header>
+          <HeaderLeft ref={headerRef}>
+            <Label>
+              <span ref={certifiedRef}>Certified</span>
+            </Label>
+            <Title>Pendo Consultant</Title>
+          </HeaderLeft>
+          <Subtitle>
+            <strong>Certified Pendo developer</strong>  and consultant with over two years hands-on experience.
+          </Subtitle>
+        </Header>
+
+        <MiddleRow ref={middleRef}>
+          <FeatureList>
+            {features.map((feature, index) => (
+              <Feature key={index} data-feature>
+                <FeatureNumber data-feature-number>{feature.number}</FeatureNumber>
+                <FeatureContent>
+                  <FeatureTitle data-feature-title>{feature.title}</FeatureTitle>
+                  <FeatureText data-feature-text>{feature.text}</FeatureText>
+                </FeatureContent>
+              </Feature>
+            ))}
+          </FeatureList>
+
+          <GraphContainer>
+            <GraphImage src={pendoGraph} alt="Pendo Analytics Graph" />
+            <p style={{ fontStyle: 'italic', fontSize: '18px', marginTop: '1rem', fontWeight: '600' }}>
+              "Get measurable results faster"
+            </p>
+          </GraphContainer>
+        </MiddleRow>
+
+        <BadgesContainer ref={badgesRef}>
+          {certImages.map((cert, i) => (
+            <Badge key={i} ref={el => badgeRefs.current[i] = el}>
+              <BadgeImg src={cert} alt={`Pendo Certification ${i + 1}`} />
+            </Badge>
+          ))}
+        </BadgesContainer>
+      </Container>
+    </Section>
+  );
+};
+
+// ─── Styled Components ────────────────────────────────────────────────────────
+
+const Section = styled.section.attrs({ className: 'pendoExpert-Section' })`
+  height: 100vh;
   padding: 24px 0 48px;
   margin-bottom: 5rem;
 `;
 
-const Container = styled.div`
-  max-width: 1905px;
+const Container = styled.div.attrs({ className: 'pendoExpert-Container' })`
+  max-width: 1805px;
   height: 100%;
   margin: 0 auto;
-  padding: 0 80px 0 136px;
+  padding: 0 80px 4rem 136px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-padding-bottom: 4rem;
+
+  @media (max-width: 1415px) {
+    height: auto;
+    padding: 40px 32px;
+  }
+
   @media (max-width: 768px) {
-    padding: 0 24px;
+    padding: 20px;
   }
 `;
 
-/* Row 1: Header — left aligned */
-const HeaderRow = styled.div`
+const Header = styled.div.attrs({ className: 'pendoExpert-Header' })`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  gap: 40px;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 16px;
+  }
 `;
 
-const Label = styled.span`
+const HeaderLeft = styled.div.attrs({ className: 'pendoExpert-HeaderLeft' })``;
+
+const Label = styled.span.attrs({ className: 'pendoExpert-Label' })`
   display: block;
   font-size: 2rem;
   color: #282828;
   line-height: 1.2;
-  font-weight: 600;
-
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-  }
+  font-weight: 800;
 `;
 
-const Title = styled.h2`
+const Title = styled.h2.attrs({ className: 'pendoExpert-Title' })`
   font-size: clamp(48px, 8vw, 61px);
   font-weight: 700;
   color: #FF3863;
-  margin: 0;
+  margin-bottom: 0;
+  line-height: 1.1;
 `;
 
-const MiddleRow = styled.div`
+const Subtitle = styled.p.attrs({ className: 'pendoExpert-Subtitle' })`
+  font-size: 20px;
+  color: #282828;
+  max-width: 560px;
+  margin-top: 2rem;
+
+  strong {
+    font-weight: 800;
+  }
+`;
+
+const MiddleRow = styled.div.attrs({ className: 'pendoExpert-MiddleRow' })`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -74,63 +316,65 @@ const MiddleRow = styled.div`
   @media (max-width: 968px) {
     flex-direction: column-reverse;
     gap: 60px;
-
   }
 `;
 
-const FeatureList = styled.div`
+const FeatureList = styled.div.attrs({ className: 'pendoExpert-FeatureList' })`
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 28px;
   flex: 1;
-  max-width: 540px;
+  max-width: 60%;
 
   @media (max-width: 968px) {
     max-width: 100%;
   }
 `;
 
-const Feature = styled.div`
+const Feature = styled.div.attrs({ className: 'pendoExpert-Feature' })`
   display: flex;
-  gap: 20px;
+  gap: 24px;
   align-items: flex-start;
+  max-width: 90%;
+  margin: 0 auto;
 `;
 
-const FeatureIcon = styled.div`
-  width: 60px;
-  height: 60px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const FeatureNumber = styled.span.attrs({ className: 'pendoExpert-FeatureNumber' })`
+  font-size: clamp(45px, 5vw, 65px);
+  font-weight: 700;
+  color: #FF3863;
+  line-height: 1;
   flex-shrink: 0;
-  overflow: hidden;
-  padding: 6px;
-
-  @media (max-width: 768px) {
-    width: 50px;
-    height: 50px;
-  }
+  width: 64px;
+  opacity: 0;
+  letter-spacing: -2px;
+  padding-top: 2px;
 `;
 
-const PendoIconImg = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+const FeatureContent = styled.div.attrs({ className: 'pendoExpert-FeatureContent' })`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 `;
 
-const FeatureText = styled.div`
-  font-size: 18px;
-  line-height: 1.6;
+const FeatureTitle = styled.h3.attrs({ className: 'pendoExpert-FeatureTitle' })`
+  font-size: 24px;
+  font-weight: 700;
   color: #282828;
-  min-width: 540px;
-
-  @media (max-width: 768px) {
-    font-size: 16px;
-  }
+  margin: 0;
+  line-height: 1.3;
+  opacity: 0;
 `;
 
-const GraphContainer = styled.div`
+const FeatureText = styled.p.attrs({ className: 'pendoExpert-FeatureText' })`
+  font-size: 20px;
+  line-height: 1.6;
+  color: #555;
+  margin: 0;
+  opacity: 0;
+`;
+
+const GraphContainer = styled.div.attrs({ className: 'pendoExpert-GraphContainer' })`
   flex: 1;
   max-width: 500px;
   display: flex;
@@ -144,7 +388,7 @@ const GraphContainer = styled.div`
   }
 `;
 
-const GraphImage = styled.img`
+const GraphImage = styled.img.attrs({ className: 'pendoExpert-GraphImage' })`
   width: 100%;
   height: auto;
   max-height: 400px;
@@ -162,8 +406,7 @@ const GraphImage = styled.img`
   }
 `;
 
-/* Row 3: Badges — centred */
-const BadgesContainer = styled.div`
+const BadgesContainer = styled.div.attrs({ className: 'pendoExpert-BadgesContainer' })`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -182,10 +425,9 @@ const BadgesContainer = styled.div`
     width: 100%;
     gap: 20px;
   }
-  
 `;
 
-const Badge = styled.div`
+const Badge = styled.div.attrs({ className: 'pendoExpert-Badge' })`
   width: 120px;
   height: 120px;
   border-radius: 50%;
@@ -195,9 +437,9 @@ const Badge = styled.div`
   opacity: 0;
   transform: scale(0.8);
 
-@media (max-width: 1331px) {
+  @media (max-width: 1331px) {
     width: 100px;
-  height: 100px;
+    height: 100px;
   }
 
   @media (max-width: 768px) {
@@ -206,202 +448,8 @@ const Badge = styled.div`
   }
 `;
 
-const BadgeImg = styled.img`
+const BadgeImg = styled.img.attrs({ className: 'pendoExpert-BadgeImg' })`
   width: 100%;
   height: 100%;
   object-fit: cover;
 `;
-
-const features = [
-  'Certified Pendo developer and consultant with over two years of hands-on experience across freelance and corporate SaaS. I can help you get the most out of your account',
-  'From implementation and tracking setup to advanced guides and segmentation, I know how to capture the data that actually matters to your business',
-  "Officially certified by Pendo, I bring a depth of knowledge that goes beyond trial and error and will help you save time and money",
-];
-
-const certImages = [cert1, cert2, cert3, cert4, cert5, cert6, cert7, cert8];
-
-export const PendoExpert = () => {
-  const sectionRef = useRef(null);
-  const headerRef = useRef(null);
-  const middleRef = useRef(null);
-  const badgesRef = useRef(null);
-  const badgeRefs = useRef([]);
-
-  useEffect(() => {
-    badgeRefs.current = badgeRefs.current.slice(0, certImages.length);
-
-    const ctx = gsap.context(() => {
-      // Header + middle fire when the top of the section scrolls into view
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top 70%',
-        onEnter: () => {
-          gsap.fromTo(headerRef.current,
-            { x: -50, opacity: 0 },
-            { x: 0, opacity: 1, duration: 0.8 }
-          );
-
-          gsap.fromTo(middleRef.current,
-            { y: 30, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.8, delay: 0.15 }
-          );
-        },
-      });
-
-      // Badges fire when the badges container itself enters the viewport
-      ScrollTrigger.create({
-        trigger: badgesRef.current,
-        start: 'top 90%',
-        onEnter: () => {
-          badgeRefs.current.forEach((badge) => {
-            if (!badge) return;
-
-            const randomDelay = Math.random() * 0.8;
-            const randomDuration = 0.4 + Math.random() * 0.6;
-
-            const tl = gsap.timeline({ delay: randomDelay });
-
-            tl.to(badge, {
-              opacity: 1,
-              scale: 1,
-              duration: randomDuration * 0.6,
-              ease: 'back.out(1.2)',
-            });
-
-            const randomEffect = Math.floor(Math.random() * 4);
-            
-            switch(randomEffect) {
-              case 0:
-                tl.to(badge, {
-                  scale: 1.3,
-                  duration: 0.4,
-                  ease: 'power1.inOut',
-                }).to(badge, {
-                  scale: 1,
-                  duration: 0.5,
-                  ease: 'bounce.out',
-                });
-                break;
-                
-              case 1:
-                tl.to(badge, {
-                  rotation: 360,
-                  scale: 1.2,
-                  duration: 0.6,
-                  ease: 'power2.inOut',
-                }).to(badge, {
-                  rotation: 0,
-                  scale: 1,
-                  duration: 0.7,
-                  ease: 'power2.out',
-                });
-                break;
-                
-              case 2:
-                tl.to(badge, {
-                  scale: 1.2,
-                  rotation: 5,
-                  duration: 0.1,
-                }).to(badge, {
-                  scale: 0.9,
-                  rotation: -5,
-                  duration: 0.1,
-                }).to(badge, {
-                  scale: 1.1,
-                  rotation: 2,
-                  duration: 0.1,
-                }).to(badge, {
-                  scale: 1,
-                  rotation: 0,
-                  duration: 0.2,
-                  ease: 'elastic.out(1, 0.3)',
-                });
-                break;
-                
-              case 3:
-                tl.to(badge, {
-                  scale: 1.25,
-                  skewX: 5,
-                  duration: 0.15,
-                  ease: 'sine.inOut',
-                }).to(badge, {
-                  scale: 0.95,
-                  skewX: -5,
-                  duration: 0.15,
-                  ease: 'sine.inOut',
-                }).to(badge, {
-                  scale: 1.15,
-                  skewX: 2,
-                  duration: 0.1,
-                  ease: 'sine.inOut',
-                }).to(badge, {
-                  scale: 1,
-                  skewX: 0,
-                  duration: 0.3,
-                  ease: 'elastic.out(1, 0.3)',
-                });
-                break;
-            }
-
-            const floatAmount = 5 + Math.random() * 8;
-            const floatDuration = 1.5 + Math.random() * 1.5;
-            const floatDelay = 0.2 + Math.random() * 0.4;
-            
-            tl.to(badge, {
-              y: -floatAmount,
-              duration: floatDuration,
-              repeat: -1,
-              yoyo: true,
-              ease: 'sine.inOut',
-              delay: floatDelay,
-            });
-          });
-        },
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <Section id="pendo" ref={sectionRef}>
-      <Container>
-
-        <HeaderRow ref={headerRef}>
-          <Label>Certified</Label>
-          <Title>Pendo Consultant</Title>
-        </HeaderRow>
-
-        <MiddleRow ref={middleRef}>
-          <FeatureList>
-            {features.map((feature, index) => (
-              <Feature key={index}>
-                <FeatureIcon>
-                  <PendoIcon size={38} color="#FF3863" />
-                </FeatureIcon>
-                <FeatureText>{feature}</FeatureText>
-              </Feature>
-            ))}
-          </FeatureList>
-
-          <GraphContainer>
-            <GraphImage src={pendoGraph} alt="Pendo Analytics Graph" />
-            <p style={{fontStyle:'italic', fontSize:'18px', marginTop:'1rem', fontWeight:'600'}}>"Get measurable results faster"</p>
-          </GraphContainer>
-        </MiddleRow>
-
-        <BadgesContainer ref={badgesRef}>
-          {certImages.map((cert, i) => (
-            <Badge 
-              key={i} 
-              ref={el => badgeRefs.current[i] = el}
-            >
-              <BadgeImg src={cert} alt={`Pendo Certification ${i + 1}`} />
-            </Badge>
-          ))}
-        </BadgesContainer>
-
-      </Container>
-    </Section>
-  );
-};

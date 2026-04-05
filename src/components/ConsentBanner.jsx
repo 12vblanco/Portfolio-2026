@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-const Banner = styled.div`
+const Banner = styled.div.attrs({ className: 'consentBanner-Banner' })`
   position: fixed;
   bottom: 24px;
   right: 24px;
@@ -31,14 +31,14 @@ const Banner = styled.div`
   }
 `;
 
-const Text = styled.p`
+const Text = styled.p.attrs({ className: 'consentBanner-Text' })`
   font-size: 16px;
   line-height: 1.5;
   margin: 0;
   color: rgba(255, 255, 255, 0.9);
 `;
 
-const Button = styled.button`
+const Button = styled.button.attrs({ className: 'consentBanner-Button' })`
   padding: 10px 24px;
   background: #FFFEFA;
   color: #282828;

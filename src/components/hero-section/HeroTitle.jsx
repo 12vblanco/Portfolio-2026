@@ -3,52 +3,6 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import { Star4Svg } from './StarIcons';
 
-const TitleWrapper = styled.div`
-  position: relative;
-  margin-bottom: 24px;
-  width: 100%;
-`;
-
-const Title = styled.h1`
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -4%;
-  color: #282828;
-  position: relative;
-  z-index: 1;
-
-  span {
-    color: #FF3863;
-    display: block;
-  }
-`;
-
-const TitleLine = styled.span`
-  display: block;
-  overflow: hidden;
-`;
-
-const TitleText = styled.span`
-  display: inline-block;
-`;
-
-const StarsContainer = styled.div`
-  position: absolute;
-  top: -18px;
-  left: -24px;
-  width: 80px;
-  height: 60px;
-  z-index: 2;
-`;
-
-const StarEl = styled.div`
-  position: absolute;
-  transform: scale(0);
-  opacity: 0;
-  transform-origin: center center;
-  cursor: pointer;
-`;
-
 const STAR_HOVER = [
   { enter: 135, leave: -12 },
   { enter: -45, leave:  8  },
@@ -105,3 +59,51 @@ export const HeroTitle = ({ line1Ref, line2Ref, star1Ref, star2Ref, star3Ref }) 
     </TitleWrapper>
   );
 };
+
+// ─── Styled Components ────────────────────────────────────────────────────────
+
+const TitleWrapper = styled.div.attrs({ className: 'heroTitle-TitleWrapper' })`
+  position: relative;
+  margin-bottom: 24px;
+  width: 100%;
+`;
+
+const Title = styled.h1.attrs({ className: 'heroTitle-Title' })`
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -4%;
+  color: #282828;
+  position: relative;
+  z-index: 1;
+
+  span {
+    color: #FF3863;
+    display: block;
+  }
+`;
+
+const TitleLine = styled.span.attrs({ className: 'heroTitle-TitleLine' })`
+  display: block;
+  overflow: hidden;
+`;
+
+const TitleText = styled.span.attrs({ className: 'heroTitle-TitleText' })`
+  display: inline-block;
+`;
+
+const StarsContainer = styled.div.attrs({ className: 'heroTitle-StarsContainer' })`
+  position: absolute;
+  top: -18px;
+  left: -24px;
+  width: 80px;
+  height: 60px;
+  z-index: 2;
+`;
+
+const StarEl = styled.div.attrs({ className: 'heroTitle-StarEl' })`
+  position: absolute;
+  transform: scale(0);
+  opacity: 0;
+  transform-origin: center center;
+  cursor: pointer;
+`;

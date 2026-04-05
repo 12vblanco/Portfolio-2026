@@ -3,36 +3,37 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Dribbble, Github, Linkedin, Mail } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { Heart } from '../assets/icons/Heart';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Section = styled.section`
+const Section = styled.section.attrs({ className: 'contact-Section' })`
   /* padding: 120px 0 80px; */
   max-height: 30vh;
 `;
 
-const Container = styled.div`
+const Container = styled.div.attrs({ className: 'contact-Container' })`
   max-width: 1280px;
   margin: 0 auto;
   padding: 60px 32px 20px 32px;
   text-align: center;
 `;
 
-const Title = styled.h2`
+const Title = styled.h2.attrs({ className: 'contact-Title' })`
   font-size: clamp(48px, 8vw, 72px);
   font-weight: 700;
   color: #282828;
   margin-bottom: 24px;
 `;
 
-const SocialLinks = styled.div`
+const SocialLinks = styled.div.attrs({ className: 'contact-SocialLinks' })`
   display: flex;
   justify-content: center;
   gap: 24px;
   margin-bottom: 64px;
 `;
 
-const SocialLink = styled.a`
+const SocialLink = styled.a.attrs({ className: 'contact-SocialLink' })`
   width: 56px;
   height: 56px;
   border: 1px solid #282828;
@@ -51,17 +52,17 @@ const SocialLink = styled.a`
   }
 `;
 
-const Span = styled.span`
+const Span = styled.span.attrs({ className: 'contact-Span' })`
 color: #FF3863;
 font-weight: 500;
 `
 
-const Footer = styled.footer`
+const Footer = styled.footer.attrs({ className: 'contact-Footer' })`
   /* padding-top: 48px; */
   border-top: 1px solid #e5e5e5;
 `;
 
-const Copyright = styled.p`
+const Copyright = styled.p.attrs({ className: 'contact-Copyright' })`
   font-size: 16px;
   color: #282828;
 `;
@@ -80,7 +81,7 @@ export const Contact = () => {
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Use gsap's y but then clear it after animation so CSS hover works
-      gsap.fromTo('.social-link',
+      gsap.fromTo('.contact-socialLink',
         { y: 30, opacity: 0 },
         { 
           y: 0, 
@@ -88,10 +89,11 @@ export const Contact = () => {
           duration: 0.6, 
           stagger: 0.1,
           ease: 'power2.out',
-          clearProps: 'transform', // ← this clears the inline style after animation
+          clearProps: 'transform',
           scrollTrigger: {
             trigger: sectionRef.current,
             start: 'top 80%',
+            once: true,
           }
         }
       );
@@ -106,6 +108,7 @@ export const Contact = () => {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: 'top 80%',
+            once: true,
           }
         }
       );
@@ -121,6 +124,7 @@ export const Contact = () => {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: 'top 80%',
+            once: true,
           }
         }
       );
@@ -139,7 +143,7 @@ export const Contact = () => {
             href="https://github.com/victorblanco" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="social-link"
+            className="contact-socialLink"
           >
             <Github size={24} />
           </SocialLink>
@@ -148,7 +152,7 @@ export const Contact = () => {
             href="https://linkedin.com/in/victorblanco" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="social-link"
+            className="contact-socialLink"
           >
             <Linkedin size={24} />
           </SocialLink>
@@ -157,7 +161,7 @@ export const Contact = () => {
             href="https://www.upwork.com/freelancers/~victorblanco" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="social-link"
+            className="contact-socialLink"
           >
             <UpworkIcon size={24} />
           </SocialLink>
@@ -166,14 +170,14 @@ export const Contact = () => {
             href="https://dribbble.com/victorblanco" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="social-link"
+            className="contact-socialLink"
           >
             <Dribbble size={24} />
           </SocialLink>
           
           <SocialLink 
             href="mailto:victor@victorblanco.com"
-            className="social-link"
+            className="contact-socialLink"
           >
             <Mail size={24} />
           </SocialLink>
@@ -181,7 +185,7 @@ export const Contact = () => {
         
         <Footer>
           <Copyright>
-            ALL RIGHTS RESERVED - <Span>VICTOR BLANCO</Span> 2019 - 2026
+            &copy; ALL RIGHTS RESERVED - <Heart /><Span>VICTOR BLANCO</Span> 2019 - 2026
           </Copyright>
         </Footer>
       </Container>

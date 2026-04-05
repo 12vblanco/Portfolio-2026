@@ -1,53 +1,76 @@
 import gsap from 'gsap';
+import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin);
 
 const experiences = [
- 
   {
-        position: 'Pendo Web Developer',
+    position: 'Pendo Web Developer',
     company: 'N-able Inc.',
     date: 'April 2024 - October 2025',
     side: 'left',
     description: "Pendo Specialist & Web Developer for N-able Inc. \n\nExpertise in developing in-app guides and announcements using Pendo's Visual Design Studio and custom JavaScript, CSS & HTML, ensuring adherence to brand guidelines and user experience best practices. Led projects with cross-functional teams and stakeholders, including product, UX, and customer success teams, to deliver targeted user engagement campaigns and onboarding flows.",
   },
   {
-        position: 'Junior Software Engineer',
-company: 'Orders Made Simple',
-    date: 'July 2021 - September 2023 ',
+    position: 'Junior Software Engineer',
+    company: 'Orders Made Simple',
+    date: 'July 2021 - September 2023',
     side: 'right',
     description: 'Full-Stack Developer and acting designer in a start-up environment. \n\nAdopted new technologies while working autonomously to develop scalable applications using the MERN stack (React JS/Native with Redux Toolkit, MongoDB, and Node.js). \n\nDemonstrated versatility across technical and creative aspects of product development, from feature conceptualisation to implementation.',
   },
-   {
+  {
     position: 'Website Manager',
     company: 'Edinburgh College',
     date: 'March 2021 - July 2023',
     side: 'left',
-    description: 'I owned the whole process from design to execution.\n\nManaged the full lifecycle of a WordPress site for Edinburgh Council, creating a  platform for community groups in North Edinburgh to connect and share information. Enhanced  functionality by leveraging existing modules and customizing plugins to improve styling, user engagement, and overall performance.  \n\nCollaborated effectively with stakeholders to deliver tailored website customizations, ensuring a user-centric platform that met community needs.'
+    description: 'I owned the whole process from design to execution.\n\nManaged the full lifecycle of a WordPress site for Edinburgh Council, creating a platform for community groups in North Edinburgh to connect and share information. Enhanced functionality by leveraging existing modules and customizing plugins to improve styling, user engagement, and overall performance.\n\nCollaborated effectively with stakeholders to deliver tailored website customizations, ensuring a user-centric platform that met community needs.',
   },
   {
-        position: 'Bsc (Hons) Web Design & Development',
-company: 'Edinburgh Napier University',
-    location: '',
+    position: 'Bsc (Hons) Web Design & Development',
+    company: 'Edinburgh Napier University',
     date: 'September 2020 - December 2024',
     side: 'right',
-    description: 'First Honours degree and class medal for best academic performance!!\n\nComprehensive degree covering key areas as web and mobile programming, interaction design, and UX. Studied modules in Practical Interaction Design, Web Technologies, and UX Research Methods. Developed skills in designing visual interfaces, database development, and working on collaborative projects, culminating in a dissertation titled "Performance comparison of an art portfolio website built in Vue, Angular and React using common browser-based tools.',
+    description: 'First Honours degree and class medal for best academic performance!!\n\nComprehensive degree covering key areas as web and mobile programming, interaction design, and UX. Studied modules in Practical Interaction Design, Web Technologies, and UX Research Methods. Developed skills in designing visual interfaces, database development, and working on collaborative projects, culminating in a dissertation titled "Performance comparison of an art portfolio website built in Vue, Angular and React using common browser-based tools."',
   },
 ];
 
 export const Experience = () => {
-  const sectionRef = useRef(null);
-  const itemsRef   = useRef([]);
-  const dotsRef    = useRef([]);
-  const [expanded, setExpanded] = useState(null);
+  const sectionRef   = useRef(null);
+  const itemsRef     = useRef([]);
+  const dotsRef      = useRef([]);
+  const cardRefs     = useRef([]);
+  const labelRef     = useRef(null);
+  const [expanded, setExpanded]         = useState(null);
+  const [displayYears, setDisplayYears] = useState(1);
+
+  const actualYears = Math.floor((new Date() - new Date(2020, 8)) / (1000 * 60 * 60 * 24 * 365.25));
 
   const toggle = (index) => {
+    const isOpening = expanded !== index;
     setExpanded(prev => prev === index ? null : index);
+
+    if (isOpening) {
+      setTimeout(() => {
+        const card = cardRefs.current[index];
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const cardHeight = rect.height;
+
+        if (rect.bottom > viewportHeight || rect.top < 0) {
+          card.scrollIntoView({
+            behavior: 'smooth',
+            block: cardHeight > viewportHeight * 0.8 ? 'start' : 'nearest',
+          });
+        }
+      }, 520);
+    }
   };
 
+  // ── Timeline card & dot animations ────────────────────────────────────────
   useEffect(() => {
     const ctx = gsap.context(() => {
       itemsRef.current.forEach((item, index) => {
@@ -61,7 +84,7 @@ export const Experience = () => {
             scrollTrigger: {
               trigger: item,
               start: 'top 95%',
-              toggleActions: 'play none none reverse',
+              toggleActions: 'restart none none restart',
             },
           }
         );
@@ -78,7 +101,7 @@ export const Experience = () => {
             scrollTrigger: {
               trigger: dot,
               start: 'top 95%',
-              toggleActions: 'play none none reverse',
+              toggleActions: 'restart none none restart',
             },
           }
         );
@@ -88,43 +111,70 @@ export const Experience = () => {
     return () => ctx.revert();
   }, []);
 
+  // ── Header: scramble label + year counter ─────────────────────────────────
+  useEffect(() => {
+    const trigger = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: 'top 80%',
+      once: true,
+      onEnter: () => {
+        // Scramble the label — element starts empty in JSX
+        gsap.to(labelRef.current, {
+          duration: 1.6,
+          delay: 0.2,
+          scrambleText: {
+            text: 'Professional & Academic',
+            chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+            revealDelay: 0.4,
+            speed: 0.6,
+          },
+          ease: 'none',
+        });
+
+        // Year counter
+        let current = 0;
+        const interval = setInterval(() => {
+          current += 1;
+          setDisplayYears(current);
+          if (current >= actualYears) clearInterval(interval);
+        }, 400);
+      },
+    });
+
+    return () => trigger.kill();
+  }, [actualYears]);
+
   return (
     <Section id="experience" ref={sectionRef}>
       <Container>
         <Header>
           <HeaderLeft>
-            <Label>Professional & Academic</Label>
+            {/* Empty — GSAP ScrambleTextPlugin writes the text in from scratch */}
+            <Label ref={labelRef} aria-label="Professional & Academic" />
             <Title>Experience</Title>
           </HeaderLeft>
           <Subtitle>
-            As well as freelancing I completed university and formed part of
-            different professional teams during the last 5 years
+            A mix of freelance work, academic achievement, and in-house team experience
+            over the past <YearCount key={displayYears}>{displayYears} years.</YearCount>
           </Subtitle>
         </Header>
 
         <TimelineContainer>
           <TimelineLine />
           {experiences.map((exp, index) => {
-            const isLast = index === experiences.length - 1;
-            const isFirst = index === 0;
             const isExpanded = expanded === index;
-            
+
             return (
               <TimelineItem
                 key={index}
                 ref={el => itemsRef.current[index] = el}
                 $side={exp.side}
-                $isExpanded={isExpanded}
-                $isLast={isLast}
-                $isFirst={isFirst}
               >
                 <Card
-                  data-card
+                  ref={el => cardRefs.current[index] = el}
                   $expanded={isExpanded}
                   $side={exp.side}
                   onClick={() => toggle(index)}
-                  $isLast={isLast}
-                  $isFirst={isFirst}
                 >
                   <CardHeader>
                     <TitleSection>
@@ -146,11 +196,9 @@ export const Experience = () => {
                   </ExpandHint>
                 </Card>
 
-                <Dot 
+                <Dot
                   ref={el => dotsRef.current[index] = el}
                   $expanded={isExpanded}
-                  $isLast={isLast}
-                  $isFirst={isFirst}
                 />
               </TimelineItem>
             );
@@ -163,38 +211,29 @@ export const Experience = () => {
 
 // ─── Styled Components ────────────────────────────────────────────────────────
 
-const Section = styled.section`
-  height: 100vh;
-  max-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  overflow: hidden;
+const blip = keyframes`
+  0%   { opacity: 0; transform: translateY(-6px) scale(0.85); }
+  60%  { opacity: 1; transform: translateY(2px) scale(1.05); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+`;
 
-  @media (max-width: 1415px) {
-    height: auto;
-    max-height: none;
-    overflow: visible;
-  }
+const Section = styled.section`
+  padding: 60px 0 80px;
 `;
 
 const Container = styled.div`
   max-width: 1805px;
   width: 100%;
   margin: 0 auto;
-  padding: 40px 80px 20px 136px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  padding: 0 80px 0 136px;
   box-sizing: border-box;
 
   @media (max-width: 1415px) {
-    height: auto;
-    padding: 40px 32px;
+    padding: 0 32px;
   }
 
   @media (max-width: 768px) {
-    padding: 20px;
+    padding: 0 20px;
   }
 `;
 
@@ -203,9 +242,8 @@ const Header = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: 48px;
   gap: 40px;
-  flex-shrink: 0;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -220,7 +258,8 @@ const Label = styled.span`
   font-size: 2rem;
   color: #282828;
   line-height: 1.2;
-  font-weight: 600;
+  font-weight: 800;
+  min-height: 1.2em; /* reserves space before text appears so Title doesn't jump */
 `;
 
 const Title = styled.h2`
@@ -238,23 +277,21 @@ const Subtitle = styled.p`
   margin-top: 2rem;
 `;
 
+const YearCount = styled.span`
+  font-weight: 700;
+  display: inline-block;
+  animation: ${blip} 0.3s ease;
+`;
+
 const TimelineContainer = styled.div`
   position: relative;
-  flex: 1;
   display: flex;
   flex-direction: column;
-justify-content: center;
-  gap: 1rem;  
-  max-width: 1200px;
+  gap: 24px;
+  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
-  min-height: 0;
   padding: 10px 0;
-
-  @media (max-width: 768px) {
-    justify-content: flex-start;
-    gap: 16px;
-  }
 `;
 
 const TimelineLine = styled.div`
@@ -267,6 +304,10 @@ const TimelineLine = styled.div`
   background: linear-gradient(to bottom, #FF3863, #ff00cc);
   pointer-events: none;
   z-index: 0;
+
+  @media (max-width: 768px) {
+    left: 12px;
+  }
 `;
 
 const TimelineItem = styled.div`
@@ -274,42 +315,19 @@ const TimelineItem = styled.div`
   display: flex;
   justify-content: ${p => p.$side === 'left' ? 'flex-start' : 'flex-end'};
   width: 100%;
-  height: auto;
-  min-height: 0;
-  flex: ${p => p.$isExpanded ? '1' : '0 0 auto'};
-  
-  ${p => p.$isExpanded && p.$isLast && `
-    margin-top: auto;
-    margin-bottom: 0;
-    align-items: flex-end;
-  `}
-  
-  ${p => p.$isExpanded && p.$isFirst && `
-    margin-top: 0;
-    margin-bottom: auto;
-    align-items: flex-start;
-  `}
-  
-  ${p => p.$isExpanded && !p.$isFirst && !p.$isLast && `
-    margin: auto 0;
-    align-items: center;
-  `}
 
   @media (max-width: 768px) {
-    justify-content: center;
-    flex: 0 0 auto;
-    margin: 0 !important;
-    align-items: flex-start !important;
+    justify-content: flex-end;
   }
 `;
 
 const Dot = styled.div`
   position: absolute;
   left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  top: 50%;
-  width: ${p => p.$expanded ? '24px' : '16px'};
-  height: ${p => p.$expanded ? '24px' : '16px'};
+  top: 28px;
+  transform: translateX(-50%);
+  width: ${p => p.$expanded ? '22px' : '14px'};
+  height: ${p => p.$expanded ? '22px' : '14px'};
   background: #FF3863;
   border: 3px solid #FFFEFA;
   border-radius: 50%;
@@ -318,33 +336,27 @@ const Dot = styled.div`
   transition: all 0.3s ease;
 
   @media (max-width: 768px) {
-    top: -8px;
-    z-index: 3;
-    transform: translateX(-50%);
+    left: 12px;
+    top: 20px;
   }
 `;
 
 const Card = styled.div`
-  width: calc(50% - 40px);
-  max-width: 540px;
+  width: calc(50% - 24px);
   background: #FFFEFA;
   border-radius: 24px;
-  padding: 22px 28px;
+  padding: 22px 24px;
   border: 1px solid ${p => p.$expanded ? '#FF3863' : '#e5e5e5'};
   box-shadow: ${p => p.$expanded
     ? '0 20px 40px rgba(255, 56, 99, 0.15)'
     : '0 4px 15px rgba(40, 40, 40, 0.03)'};
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: border 0.4s ease, box-shadow 0.4s ease;
   box-sizing: border-box;
-  margin-left: ${p => p.$side === 'left' ? '0' : '40px'};
-  margin-right: ${p => p.$side === 'right' ? '0' : '40px'};
+  margin-left: ${p => p.$side === 'left' ? '0' : '24px'};
+  margin-right: ${p => p.$side === 'right' ? '0' : '24px'};
   display: flex;
   flex-direction: column;
-  
-  ${p => p.$expanded && p.$isLast && `transform-origin: bottom center;`}
-  ${p => p.$expanded && p.$isFirst && `transform-origin: top center;`}
-  ${p => p.$expanded && !p.$isFirst && !p.$isLast && `transform-origin: center;`}
 
   &:hover {
     box-shadow: 0 8px 25px rgba(40, 40, 40, 0.08);
@@ -352,13 +364,10 @@ const Card = styled.div`
   }
 
   @media (max-width: 768px) {
-    width: 100%;
-    max-width: 100%;
-    margin: 0 !important;
+    width: calc(100% - 36px);
+    margin-left: 36px !important;
+    margin-right: 0 !important;
     border-radius: 16px;
-    background: #FFFEFA;
-    z-index: 2;
-    position: relative;
   }
 `;
 
@@ -366,7 +375,6 @@ const CardHeader = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  flex-shrink: 0;
 `;
 
 const TitleSection = styled.div`
@@ -410,15 +418,16 @@ const DateText = styled.span`
 
 const ExpandContent = styled.div`
   overflow: hidden;
-  max-height: ${p => p.$expanded ? '350px' : '0'};
+  max-height: ${p => p.$expanded ? '600px' : '0'};
   opacity: ${p => p.$expanded ? 1 : 0};
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s ease,
+              margin-top 0.4s ease;
   margin-top: ${p => p.$expanded ? '16px' : '0'};
-  flex-shrink: 0;
 `;
 
 const Description = styled.p`
-  font-size: 15px;
+  font-size: 18px;
   color: #282828;
   line-height: 1.7;
   margin: 0;
@@ -435,5 +444,4 @@ const ExpandHint = styled.span`
   transition: opacity 0.2s ease;
   text-align: right;
   letter-spacing: 0.5px;
-  flex-shrink: 0;
 `;

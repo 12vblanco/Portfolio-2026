@@ -29,14 +29,16 @@ const CarouselControls = ({ onPrev, onNext, canScrollLeft, canScrollRight }) => 
 
 export default CarouselControls;
 
-const ControlsContainer = styled.div`
+// ─── Styled Components ────────────────────────────────────────────────────────
+
+const ControlsContainer = styled.div.attrs({ className: 'carouselControls-ControlsContainer' })`
   display: flex;
   gap: 18px;
   align-items: center;
   justify-content: center;
 `;
 
-const ArrowButton = styled.button`
+const ArrowButton = styled.button.attrs({ className: 'carouselControls-ArrowButton' })`
   width: 58px;
   height: 58px;
   background: rgba(255, 255, 255, 0.95);

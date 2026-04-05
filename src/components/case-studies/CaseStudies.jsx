@@ -1,8 +1,12 @@
 // src/components/case-studies/CaseStudies.js
+import gsap from 'gsap';
+import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import CarouselControls from './CarouselControls';
 import { caseStudies } from './CaseStudies';
+
+gsap.registerPlugin(ScrambleTextPlugin);
 
 /* ─── Lazy Video Card ─────────────────────────────────────────────────────── */
 
@@ -40,7 +44,7 @@ const LazyVideoCard = ({ study, index, hasAnimated, containerRef }) => {
 
     if (cardRef.current) observer.observe(cardRef.current);
     return () => observer.disconnect();
-  }, [study.video, containerRef]);  
+  }, [study.video, containerRef]);
 
   const handleCanPlay = useCallback(() => {
     if (videoReady) return;
@@ -72,9 +76,9 @@ const LazyVideoCard = ({ study, index, hasAnimated, containerRef }) => {
         )}
       </MediaContainer>
 
-        <CardTopWrapper>
-          <CardTopInner />
-        </CardTopWrapper>
+      <CardTopWrapper>
+        <CardTopInner />
+      </CardTopWrapper>
 
       <CardContent>
         <ClientName>{study.client}</ClientName>
@@ -86,12 +90,10 @@ const LazyVideoCard = ({ study, index, hasAnimated, containerRef }) => {
       <OverlayCard>
         <OverlayContent>
           <OverlayTitle>{study.client}</OverlayTitle>
-          {/* <OverlaySubtitle>{study.title}</OverlaySubtitle> */}
           <OverlayDescription>{study.description}</OverlayDescription>
         </OverlayContent>
         <OverlayTagsButton>
           <OverlayTags>{study.tags?.join(' • ')}</OverlayTags>
-          {/* <ViewButton>Full Case Study →</ViewButton> */}
         </OverlayTagsButton>
       </OverlayCard>
     </Card>
@@ -101,14 +103,16 @@ const LazyVideoCard = ({ study, index, hasAnimated, containerRef }) => {
 /* ─── CaseStudies ─────────────────────────────────────────────────────────── */
 
 const CaseStudies = () => {
-  const containerRef = useRef(null);
-  const sectionRef = useRef(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const containerRef  = useRef(null);
+  const sectionRef    = useRef(null);
+  const labelRef      = useRef(null);
+  const hasAnimatedRef = useRef(false);
+  const [currentIndex, setCurrentIndex]   = useState(0);
+  const [hasAnimated, setHasAnimated]     = useState(false);
   const [animationDone, setAnimationDone] = useState(false);
 
   const CARD_WIDTH = 480;
-  const GAP = 64;
+  const GAP        = 64;
 
   const updateCurrentIndex = useCallback(() => {
     if (!containerRef.current) return;
@@ -126,18 +130,43 @@ const CaseStudies = () => {
   const scrollToPrev = () => { if (currentIndex > 0) scrollToCard(currentIndex - 1); };
   const scrollToNext = () => { if (currentIndex < caseStudies.length - 1) scrollToCard(currentIndex + 1); };
 
+  // ── Section enter: animations fire only once ──────────────────────────────
   useEffect(() => {
+    if (hasAnimatedRef.current) return;
+
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting && !hasAnimated) setHasAnimated(true); },
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimatedRef.current) {
+          hasAnimatedRef.current = true;
+          setHasAnimated(true);
+
+          if (labelRef.current) labelRef.current.textContent = '';
+
+          gsap.to(labelRef.current, {
+            duration: 1.6,
+            delay: 0.2,
+            scrambleText: {
+              text: 'Selected Works &',
+              chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+              revealDelay: 0.4,
+              speed: 0.6,
+            },
+            ease: 'none',
+          });
+
+          observer.disconnect();
+        }
+      },
       { threshold: 0.3 }
     );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => { if (sectionRef.current) observer.unobserve(sectionRef.current); };
-  }, [hasAnimated]);
 
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  // ── After track animation finishes, lock scroll snap ────────────────────
   useEffect(() => {
     if (!hasAnimated) return;
-    // After the track animation finishes (1.2s), reset any scroll drift and enable snapping
     const timer = setTimeout(() => {
       if (containerRef.current) {
         containerRef.current.style.scrollSnapType = 'x mandatory';
@@ -159,10 +188,13 @@ const CaseStudies = () => {
     <Section ref={sectionRef} id="works">
       <Container>
         <Header>
-          <TitleWrapper>
-            <Label $hasAnimated={hasAnimated}>Selected Works &</Label>
+          <HeaderLeft>
+            <Label ref={labelRef} aria-label="Selected Works &" $hasAnimated={hasAnimated} />
             <Title $hasAnimated={hasAnimated}>Case Studies</Title>
-          </TitleWrapper>
+          </HeaderLeft>
+          <Subtitle $hasAnimated={hasAnimated}>
+            Hand-picked projects including web development, design, and Pendo consulting.
+          </Subtitle>
         </Header>
 
         <CarouselWrapper>
@@ -195,61 +227,98 @@ const CaseStudies = () => {
   );
 };
 
-const Section = styled.section`
+export default CaseStudies;
+
+// ─── Styled Components ────────────────────────────────────────────────────────
+
+const Section = styled.section.attrs({ className: 'caseStudies-Section' })`
   padding: 0 0 48px 0;
   height: 100vh;
   overflow: hidden;
   position: relative;
 `;
 
-const Container = styled.div`
+const Container = styled.div.attrs({ className: 'caseStudies-Container' })`
+  max-width: 1805px;
+  width: 100%;
   margin: 0 auto;
-  height: 100%;
+  padding: 40px 80px 20px 136px;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+
+  @media (max-width: 1415px) {
+    height: auto;
+    padding: 40px 32px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
 `;
 
-const Header = styled.div`
+const Header = styled.div.attrs({ className: 'caseStudies-Header' })`
   margin-bottom: 24px;
-  padding-left: 135px;
   flex-shrink: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 20px;
+
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;
   }
 `;
 
-const TitleWrapper = styled.div``;
+const HeaderLeft = styled.div.attrs({ className: 'caseStudies-HeaderLeft' })``;
 
-const Label = styled.span`
+const Label = styled.span.attrs({ className: 'caseStudies-Label' })`
   display: block;
   font-size: 2rem;
   color: #282828;
   line-height: 1.2;
-  font-weight: 600;
-  transform: translateX(${p => p.$hasAnimated ? '0' : '-50px'});
-  opacity: ${p => p.$hasAnimated ? 1 : 0};
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s,
-              opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+  font-weight: 800;
+  min-height: 1.2em;
 `;
 
-const Title = styled.h2`
+const Title = styled.h2.attrs({ className: 'caseStudies-Title' })`
   font-size: clamp(48px, 8vw, 61px);
   font-weight: 700;
   color: #FF3863;
   margin-bottom: 16px;
-  transform: translateX(${p => p.$hasAnimated ? '0' : '-50px'});
-  opacity: ${p => p.$hasAnimated ? 1 : 0};
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s,
-              opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+  opacity: 0;
+  transform: translateX(-50px);
+  animation: caseStudiesTitleIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+
+  @keyframes caseStudiesTitleIn {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
 `;
 
-const CarouselWrapper = styled.div`
+const Subtitle = styled.p.attrs({ className: 'caseStudies-Subtitle' })`
+  font-size: 20px;
+  color: #282828;
+  max-width: 560px;
+  margin-top: 2rem;
+  opacity: 0;
+  transform: translateX(50px);
+  animation: caseStudiesSubtitleIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+
+  @keyframes caseStudiesSubtitleIn {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+`;
+
+const CarouselWrapper = styled.div.attrs({ className: 'caseStudies-CarouselWrapper' })`
   position: relative;
   flex: 1;
   display: flex;
@@ -257,18 +326,24 @@ const CarouselWrapper = styled.div`
   min-height: 0;
 `;
 
-const ControlsWrapper = styled.div`
+const ControlsWrapper = styled.div.attrs({ className: 'caseStudies-ControlsWrapper' })`
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
   z-index: 10;
-  transform: translateY(${p => p.$hasAnimated ? '0' : '-30px'});
-  opacity: ${p => p.$hasAnimated ? 1 : 0};
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s,
-              opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s;
+  opacity: 0;
+  transform: translateY(-30px);
+  animation: caseStudiesControlsIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+
+  @keyframes caseStudiesControlsIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 `;
 
-const CardsContainer = styled.div`
+const CardsContainer = styled.div.attrs({ className: 'caseStudies-CardsContainer' })`
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
@@ -282,7 +357,7 @@ const CardsContainer = styled.div`
   scroll-snap-type: ${p => p.$animationDone ? 'x mandatory' : 'none'};
 `;
 
-const CardsTrack = styled.div`
+const CardsTrack = styled.div.attrs({ className: 'caseStudies-CardsTrack' })`
   display: flex;
   gap: 64px;
   padding-left: calc(10vw - 90px);
@@ -292,7 +367,7 @@ const CardsTrack = styled.div`
   will-change: transform;
 `;
 
-const Card = styled.div`
+const Card = styled.div.attrs({ className: 'caseStudies-Card' })`
   flex: 0 0 480px;
   height: 500px;
   background: #fafafa;
@@ -317,7 +392,7 @@ const Card = styled.div`
     transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${p => p.$hasAnimated ? `${0.5 + p.$index * 0.1}s` : '0s'};
 `;
 
-const MediaContainer = styled.div`
+const MediaContainer = styled.div.attrs({ className: 'caseStudies-MediaContainer' })`
   width: 100%;
   height: 300px;
   overflow: hidden;
@@ -326,7 +401,7 @@ const MediaContainer = styled.div`
   position: relative;
 `;
 
-const Image = styled.img`
+const Image = styled.img.attrs({ className: 'caseStudies-Image' })`
   position: absolute;
   inset: 0;
   width: 100%;
@@ -339,7 +414,7 @@ const Image = styled.img`
   ${Card}:hover & { transform: scale(1.1); }
 `;
 
-const Video = styled.video`
+const Video = styled.video.attrs({ className: 'caseStudies-Video' })`
   position: absolute;
   inset: 0;
   width: 100%;
@@ -352,19 +427,19 @@ const Video = styled.video`
   ${Card}:hover & { transform: scale(1.1); }
 `;
 
-const CardTopWrapper = styled.div`
+const CardTopWrapper = styled.div.attrs({ className: 'caseStudies-CardTopWrapper' })`
   width: 100%;
   height: 44px;
   flex-shrink: 0;
   margin-top: -40px;
   position: relative;
   z-index: 2;
-  filter: 
+  filter:
     drop-shadow(0px -1px 0px rgba(40, 40, 40, 0.08))
     drop-shadow(0px -1px 0px rgba(40, 40, 40, 0.08));
-    `;
+`;
 
-const CardTopInner = styled.div`
+const CardTopInner = styled.div.attrs({ className: 'caseStudies-CardTopInner' })`
   width: 100%;
   height: 100%;
   background: #FCFDFF;
@@ -390,7 +465,7 @@ const CardTopInner = styled.div`
   );
 `;
 
-const CardContent = styled.div`
+const CardContent = styled.div.attrs({ className: 'caseStudies-CardContent' })`
   padding: 8px 24px 16px;
   flex: 1;
   display: flex;
@@ -399,7 +474,7 @@ const CardContent = styled.div`
   margin-top: -2px;
 `;
 
-const ClientName = styled.h3`
+const ClientName = styled.h3.attrs({ className: 'caseStudies-ClientName' })`
   font-size: 25px;
   font-weight: 600;
   color: #282828;
@@ -407,7 +482,7 @@ const ClientName = styled.h3`
   line-height: 1;
 `;
 
-const ProjectTitle = styled.h4`
+const ProjectTitle = styled.h4.attrs({ className: 'caseStudies-ProjectTitle' })`
   font-size: 20px;
   font-weight: 500;
   color: #282828;
@@ -415,7 +490,7 @@ const ProjectTitle = styled.h4`
   line-height: 1.3;
 `;
 
-const ProjectDescription = styled.h4`
+const ProjectDescription = styled.h4.attrs({ className: 'caseStudies-ProjectDescription' })`
   font-size: 16px;
   font-weight: 400;
   color: #282828;
@@ -423,7 +498,7 @@ const ProjectDescription = styled.h4`
   line-height: 1.3;
 `;
 
-const Tags = styled.div`
+const Tags = styled.div.attrs({ className: 'caseStudies-Tags' })`
   font-size: 16px;
   color: #282828;
   font-weight: 700;
@@ -432,7 +507,7 @@ const Tags = styled.div`
   text-align: center;
 `;
 
-const OverlayCard = styled.div`
+const OverlayCard = styled.div.attrs({ className: 'caseStudies-OverlayCard' })`
   position: absolute;
   inset: 0;
   background: rgba(40, 40, 40, 0.95);
@@ -450,7 +525,7 @@ const OverlayCard = styled.div`
   ${Card}:hover & { clip-path: circle(150% at 50% 0%); }
 `;
 
-const OverlayContent = styled.div`
+const OverlayContent = styled.div.attrs({ className: 'caseStudies-OverlayContent' })`
   padding: 24px;
   min-height: 90%;
   text-align: left;
@@ -461,7 +536,7 @@ const OverlayContent = styled.div`
   ${Card}:hover & { opacity: 1; transform: scale(1); }
 `;
 
-const OverlayTagsButton = styled.div`
+const OverlayTagsButton = styled.div.attrs({ className: 'caseStudies-OverlayTagsButton' })`
   text-align: center;
   opacity: 0;
   transform: scale(0.9);
@@ -470,7 +545,7 @@ const OverlayTagsButton = styled.div`
   ${Card}:hover & { opacity: 1; transform: scale(1); }
 `;
 
-const OverlayTitle = styled.h3`
+const OverlayTitle = styled.h3.attrs({ className: 'caseStudies-OverlayTitle' })`
   font-size: 25px;
   font-weight: 600;
   color: #FFFEFA;
@@ -478,8 +553,7 @@ const OverlayTitle = styled.h3`
   line-height: 1;
 `;
 
-
-const OverlayDescription = styled.p`
+const OverlayDescription = styled.p.attrs({ className: 'caseStudies-OverlayDescription' })`
   font-size: 16px;
   min-height: 210px;
   color: rgba(255, 255, 255, .9);
@@ -488,7 +562,7 @@ const OverlayDescription = styled.p`
   white-space: pre-line;
 `;
 
-const OverlayTags = styled.div`
+const OverlayTags = styled.div.attrs({ className: 'caseStudies-OverlayTags' })`
   text-align: center;
   font-size: 16px;
   font-weight: 500;
@@ -496,7 +570,7 @@ const OverlayTags = styled.div`
   margin-bottom: 24px;
 `;
 
-const ViewButton = styled.button`
+const ViewButton = styled.button.attrs({ className: 'caseStudies-ViewButton' })`
   background: transparent;
   border: 2px solid #FF3863;
   color: #FF3863;
@@ -509,11 +583,9 @@ const ViewButton = styled.button`
   &:hover { background: #FF3863; color: #FFFEFA; transform: scale(1.05); }
 `;
 
-const Placeholder = styled.div`
+const Placeholder = styled.div.attrs({ className: 'caseStudies-Placeholder' })`
   width: 1px;
   height: 1px;
   opacity: 0;
   flex-shrink: 0;
 `;
-
-export default CaseStudies;

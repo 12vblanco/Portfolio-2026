@@ -6,7 +6,7 @@ import { Experience } from './components/Experience';
 import { Hero } from './components/hero-section/Hero';
 import { Navigation } from './components/Navigation';
 import { PendoExpert } from './components/PendoExpert';
-import { Testimonials } from './components/Testimonials';
+import Testimonials from './components/Testimonials';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import { GlobalStyles, theme } from './styles/GlobalStyles';
 
