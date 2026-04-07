@@ -419,6 +419,7 @@ const GraphContainer = styled.div.attrs({ className: 'pendoExpert-GraphContainer
 `;
 
 const GraphImage = styled.img.attrs({ className: 'pendoExpert-GraphImage' })`
+  aspect-ratio: 505 / 307;
   width: 100%;
   height: auto;
   max-height: 400px;

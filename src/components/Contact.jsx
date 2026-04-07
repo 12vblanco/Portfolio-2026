@@ -53,11 +53,6 @@ const SocialLink = styled.a.attrs({ className: 'contact-SocialLink' })`
   }
 `;
 
-const Span = styled.span.attrs({ className: 'contact-Span' })`
-  color: #FF3863;
-  font-weight: 500;
-`;
-
 const Footer = styled.footer.attrs({ className: 'contact-Footer' })`
   display: flex;
   width: 100%;
@@ -84,7 +79,6 @@ const Copyright = styled.p.attrs({ className: 'contact-Copyright' })`
   }
 `;
 
-// Moved ExternalLink outside of Copyright - this was the issue!
 const ExternalLink = styled.a.attrs({ className: 'contact-ExternalLink' })`
   color: #FF3863;
   font-weight: 500;
@@ -97,7 +91,6 @@ const ExternalLink = styled.a.attrs({ className: 'contact-ExternalLink' })`
   }
 `;
 
-// Custom Upwork icon that matches Lucide style
 const UpworkIcon = () => (
   <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd" strokeLinejoin="round" strokeMiterlimit="1">
     <ellipse fill="none" cx="184.5" cy="234.5" rx="57.5" ry="56.5" transform="translate(-546.174 -763.565) scale(4.34783)"/>
@@ -110,58 +103,72 @@ export const Contact = () => {
   const currentYear = new Date().getFullYear();
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Use gsap's y but then clear it after animation so CSS hover works
-      gsap.fromTo('.contact-socialLink',
-        { y: 30, opacity: 0 },
-        { 
-          y: 0, 
-          opacity: 1, 
-          duration: 0.6, 
-          stagger: 0.1,
-          ease: 'power2.out',
-          clearProps: 'transform',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%',
-            once: true,
-          }
+    // Small delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      const ctx = gsap.context(() => {
+        // Animate social links
+        const socialLinks = document.querySelectorAll('.contact-SocialLink');
+        if (socialLinks.length) {
+          gsap.fromTo(socialLinks,
+            { y: 30, opacity: 0 },
+            { 
+              y: 0, 
+              opacity: 1, 
+              duration: 0.6, 
+              stagger: 0.1,
+              ease: 'power2.out',
+              clearProps: 'transform',
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: 'top 80%',
+                once: true,
+              }
+            }
+          );
         }
-      );
 
-      // Animate the title
-      gsap.fromTo('.contact-title',
-        { y: -30, opacity: 0 },
-        { 
-          y: 0, 
-          opacity: 1, 
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%',
-            once: true,
-          }
+        // Animate the title
+        const title = document.querySelector('.contact-Title');
+        if (title) {
+          gsap.fromTo(title,
+            { y: -30, opacity: 0 },
+            { 
+              y: 0, 
+              opacity: 1, 
+              duration: 0.8,
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: 'top 80%',
+                once: true,
+              }
+            }
+          );
         }
-      );
 
-      // Animate the footer
-      gsap.fromTo('.contact-footer',
-        { y: 30, opacity: 0 },
-        { 
-          y: 0, 
-          opacity: 1, 
-          duration: 0.6,
-          delay: 0.3,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%',
-            once: true,
-          }
+        // Animate the footer
+        const footer = document.querySelector('.contact-Footer');
+        if (footer) {
+          gsap.fromTo(footer,
+            { y: 30, opacity: 0 },
+            { 
+              y: 0, 
+              opacity: 1, 
+              duration: 0.6,
+              delay: 0.3,
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: 'top 80%',
+                once: true,
+              }
+            }
+          );
         }
-      );
-    }, sectionRef);
+      }, sectionRef);
 
-    return () => ctx.revert();
+      return () => ctx.revert();
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -174,7 +181,6 @@ export const Contact = () => {
             href="https://github.com/victorblanco" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="contact-socialLink"
           >
             <Github size={24} />
           </SocialLink>
@@ -183,7 +189,6 @@ export const Contact = () => {
             href="https://www.upwork.com/freelancers/~victorblanco" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="contact-socialLink"
           >
             <UpworkIcon size={24} />
           </SocialLink>
@@ -192,14 +197,12 @@ export const Contact = () => {
             href="https://dribbble.com/victorblanco" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="contact-socialLink"
           >
             <Dribbble size={24} />
           </SocialLink>
           
           <SocialLink 
             href="mailto:victor@victorblanco.com"
-            className="contact-socialLink"
           >
             <Mail size={24} />
           </SocialLink>
