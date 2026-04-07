@@ -347,7 +347,7 @@ export default CaseStudies;
 // ─── Styled Components ────────────────────────────────────────────────────────
 
 const Section = styled.section.attrs({ className: 'caseStudies-Section' })`
-  height: 100vh;
+  height: 90vh;
   overflow: hidden;
   position: relative;
 

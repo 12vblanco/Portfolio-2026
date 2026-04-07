@@ -218,7 +218,6 @@ const blip = keyframes`
 `;
 
 const Section = styled.section`
-  /* padding: 60px 0 80px; */
 `;
 
 const Container = styled.div.attrs({ className: 'experience-Container' })`
@@ -320,7 +319,7 @@ const TimelineContainer = styled.div`
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
-  padding: 10px 0;
+  margin: 4rem auto 2rem ;
   @media (max-width: 968px) {
    
     padding: 2rem 4rem;

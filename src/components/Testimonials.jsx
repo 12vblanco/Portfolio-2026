@@ -120,7 +120,7 @@ export default Testimonials;
 const Section = styled.section.attrs({ className: 'testimonials-Section' })`
   width: 100%;
   background: #282828;
-  padding: 4rem 0 6rem;
+  padding: 4rem 0 ;
   height: 70vh;
 
   @media (max-width: 768px) {
@@ -153,7 +153,6 @@ const Eyebrow = styled.h2.attrs({ className: 'testimonials-Eyebrow' })`
   text-align: center;
   display: block;
   line-height: 1.2;
-  margin-bottom: 1rem;
 `;
 
 const DotsRow = styled.div.attrs({ className: 'testimonials-DotsRow' })`
