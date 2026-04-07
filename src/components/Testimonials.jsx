@@ -141,7 +141,6 @@ const Container = styled.div.attrs({ className: 'testimonials-Container' })`
   z-index: 1;
   flex: 1;
   min-height: 0;
-  overflow: hidden;
 
   @media (max-width: 768px) {
     overflow: visible;
@@ -209,6 +208,8 @@ const CardsContainer = styled.div.attrs({ className: 'testimonials-CardsContaine
   margin: 0 auto;
   position: relative;
   height: 100%;
+  padding-bottom: 20px;
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     height: auto;
@@ -220,8 +221,8 @@ const CardsContainer = styled.div.attrs({ className: 'testimonials-CardsContaine
 const CardWrapper = styled.div.attrs({ className: 'testimonials-CardWrapper' })`
   position: absolute;
   width: 480px;
-  height: 88%;
-  max-height: 380px;
+  height: 85%;
+  max-height: 360px;
   transform-style: preserve-3d;
   transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1),
               opacity   0.9s cubic-bezier(0.4, 0, 0.2, 1);
