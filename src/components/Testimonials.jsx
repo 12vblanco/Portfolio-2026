@@ -221,8 +221,8 @@ const CardsContainer = styled.div.attrs({ className: 'testimonials-CardsContaine
 const CardWrapper = styled.div.attrs({ className: 'testimonials-CardWrapper' })`
   position: absolute;
   width: 480px;
-  height: 85%;
-  max-height: 360px;
+  height: 92%;
+  max-height: 420px;
   transform-style: preserve-3d;
   transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1),
               opacity   0.9s cubic-bezier(0.4, 0, 0.2, 1);
