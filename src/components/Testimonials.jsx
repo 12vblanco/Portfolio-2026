@@ -86,6 +86,7 @@ useEffect(() => {
             <Dot
               key={i}
               $active={i === currentIndex}
+                aria-label={`Go to testimonial ${i + 1}`}  
               onClick={() => setCurrentIndex(i)}
             />
           ))}

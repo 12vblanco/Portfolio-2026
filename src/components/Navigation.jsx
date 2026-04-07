@@ -21,21 +21,21 @@ export const Navigation = () => {
           
           <CTA href="#contact">Let's Talk</CTA>
           
-          <MobileMenuButton onClick={() => setMobileOpen(true)}>
+          <MobileMenuButton aria-label="Open menu" onClick={() => setMobileOpen(true)}>
             <Menu size={34} />
           </MobileMenuButton>
         </NavContainer>
       </NavWrapper>
       
-      <MobileNavOverlay $isOpen={mobileOpen} onClick={() => setMobileOpen(false)} />
+      <MobileNavOverlay $isOpen={mobileOpen} aria-label="Open overlay" onClick={() => setMobileOpen(false)} />
       <MobileNav $isOpen={mobileOpen}>
-        <CloseButton onClick={() => setMobileOpen(false)}>
+        <CloseButton aria-label="close menu" onClick={() => setMobileOpen(false)}>
           <X size={24} />
         </CloseButton>
-        <MobileNavLink href="#works" onClick={() => setMobileOpen(false)}>Works</MobileNavLink>
-        <MobileNavLink href="#pendo" onClick={() => setMobileOpen(false)}>Pendo</MobileNavLink>
-        <MobileNavLink href="#experience" onClick={() => setMobileOpen(false)}>Experience</MobileNavLink>
-        <MobileCTA href="#contact" onClick={() => setMobileOpen(false)}>Let's Talk</MobileCTA>
+        <MobileNavLink href="#works" aria-label="navigate to works" onClick={() => setMobileOpen(false)}>Works</MobileNavLink>
+        <MobileNavLink href="#pendo" aria-label="navigate to pendo" onClick={() => setMobileOpen(false)}>Pendo</MobileNavLink>
+        <MobileNavLink href="#experience" aria-label="navigate to experience" onClick={() => setMobileOpen(false)}>Experience</MobileNavLink>
+        <MobileCTA href="#contact" aria-label="navigate to contact" onClick={() => setMobileOpen(false)}>Let's Talk</MobileCTA>
       </MobileNav>
     </>
   );
