@@ -59,8 +59,7 @@ const ScrollProgress = styled.div`
     cursor: grabbing;
   }
   
-  @media (max-width: 768px) {
-    height: 2px;
+@media (max-width: 968px) {    height: 2px;
     
     &:hover {
       height: 4px;
@@ -101,8 +100,7 @@ const ProgressDot = styled.div`
     transform: translate(-50%, -50%) scale(1.1);
   }
   
-  @media (max-width: 768px) {
-    width: 10px;
+@media (max-width: 968px) {    width: 10px;
     height: 10px;
     border-width: 1.5px;
   }

@@ -218,36 +218,47 @@ const blip = keyframes`
 `;
 
 const Section = styled.section`
-  padding: 60px 0 80px;
+  /* padding: 60px 0 80px; */
 `;
 
-const Container = styled.div`
+const Container = styled.div.attrs({ className: 'experience-Container' })`
   max-width: 1805px;
   width: 100%;
   margin: 0 auto;
-  padding: 0 80px 0 136px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   box-sizing: border-box;
 
   @media (max-width: 1415px) {
-    padding: 0 32px;
+    height: auto;
+    padding: 40px 0;
   }
 
-  @media (max-width: 768px) {
-    padding: 0 20px;
+  @media (max-width: 968px) {
+    padding: 32px 0 48px;
   }
 `;
 
-const Header = styled.div`
+const Header = styled.div.attrs({ className: 'experience-Header' })`
+  margin-bottom: 24px;
+  flex-shrink: 0;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 48px;
-  gap: 40px;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-left: 136px;
+  padding-right: 120px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 968px) {
     flex-direction: column;
-    gap: 16px;
+    align-items: flex-start;
+    padding: 0 2rem 0 6rem;
+  }
+
+  @media (max-width: 426px) {
+    padding: 0 2rem;
   }
 `;
 
@@ -262,19 +273,37 @@ const Label = styled.span`
   min-height: 1.2em; /* reserves space before text appears so Title doesn't jump */
 `;
 
-const Title = styled.h2`
-  font-size: clamp(48px, 8vw, 61px);
+const Title = styled.h2.attrs({ className: 'experience-Title' })`
   font-weight: 700;
   color: #FF3863;
-  margin-bottom: 0;
-  line-height: 1.1;
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateX(-50px);
+  animation: experienceTitleIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+
+  @keyframes experienceTitleIn {
+    to { opacity: 1; transform: translateX(0); }
+  }
 `;
 
-const Subtitle = styled.p`
+const Subtitle = styled.p.attrs({ className: 'experience-Subtitle' })`
   font-size: 20px;
   color: #282828;
-  max-width: 560px;
+  max-width: 460px;
   margin-top: 2rem;
+  opacity: 0;
+  transform: translateX(50px);
+  animation: caseStudiesSubtitleIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+
+  @media (max-width: 968px) {
+    font-size: 18px;
+    max-width: 400px;
+    margin-top: 0;
+  }
+
+  @keyframes caseStudiesSubtitleIn {
+    to { opacity: 1; transform: translateX(0); }
+  }
 `;
 
 const YearCount = styled.span`
@@ -292,6 +321,14 @@ const TimelineContainer = styled.div`
   margin: 0 auto;
   width: 100%;
   padding: 10px 0;
+  @media (max-width: 968px) {
+   
+    padding: 2rem 4rem;
+  }
+  @media (max-width: 426px) {
+   
+    padding: 1rem;
+  }
 `;
 
 const TimelineLine = styled.div`
@@ -305,8 +342,9 @@ const TimelineLine = styled.div`
   pointer-events: none;
   z-index: 0;
 
-  @media (max-width: 768px) {
-    left: 12px;
+@media (max-width: 968px) {    left: 76px;
+  }
+@media (max-width: 426px) {    left: 28px;
   }
 `;
 
@@ -316,8 +354,7 @@ const TimelineItem = styled.div`
   justify-content: ${p => p.$side === 'left' ? 'flex-start' : 'flex-end'};
   width: 100%;
 
-  @media (max-width: 768px) {
-    justify-content: flex-end;
+@media (max-width: 968px) {    justify-content: flex-end;
   }
 `;
 
@@ -335,8 +372,7 @@ const Dot = styled.div`
   box-shadow: 0 0 0 2px #FF3863;
   transition: all 0.3s ease;
 
-  @media (max-width: 768px) {
-    left: 12px;
+@media (max-width: 968px) {    left: 12px;
     top: 20px;
   }
 `;
@@ -363,8 +399,7 @@ const Card = styled.div`
     border-color: #FF3863;
   }
 
-  @media (max-width: 768px) {
-    width: calc(100% - 36px);
+@media (max-width: 968px) {    width: calc(100% - 36px);
     margin-left: 36px !important;
     margin-right: 0 !important;
     border-radius: 16px;

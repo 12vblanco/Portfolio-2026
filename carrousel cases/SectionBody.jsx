@@ -315,8 +315,7 @@ const CaseStudiesContainer = styled.div`
     border-radius: 8px;
   }
 
-  @media (max-width: 768px) {
-    padding: 2rem 1.5rem;
+@media (max-width: 968px) {    padding: 2rem 1.5rem;
   }
 `;
 

@@ -70,8 +70,8 @@ export const Hero = () => {
         <ContentWrapper>
           <LeftColumn>
             <Subtitle ref={line3Ref}>
-              I specialize in designing and building websites using modern technologies.
-              I provide expert Pendo services, from audit and setup to expert custom guides, Analytics & Reporting.
+              I specialize in <strong>designing and building websites</strong> using modern technologies.
+              I provide <strong>expert Pendo services</strong>, from audit and setup to expert custom guides, analytics & reporting.
             </Subtitle>
           </LeftColumn>
 
@@ -87,14 +87,19 @@ export const Hero = () => {
 // ─── Styled Components ────────────────────────────────────────────────────────
 
 const HeroSection = styled.section.attrs({ className: 'hero-HeroSection' })`
-  min-height: calc(100vh - 40px);
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden;
-  padding-bottom: 20px;
+  padding: 80px 32px;
   margin-top: -4rem;
+      @media (max-width: 968px) {
+      margin-top: -2rem;
+      min-height: 70vh;
+        padding: 1rem;
+
+  }
 `;
 
 const Container = styled.div.attrs({ className: 'hero-Container' })`
@@ -102,6 +107,14 @@ const Container = styled.div.attrs({ className: 'hero-Container' })`
   margin: 0 auto;
   padding: 0 32px;
   width: 100%;
+
+  @media (max-width: 968px) {
+    padding: 4rem 1rem 0 1rem;
+    width: fit-content;
+  }
+  @media (max-width: 426px) {
+    width: 100%;
+  }
 `;
 
 const Badge = styled.div.attrs({ className: 'hero-Badge' })`
@@ -118,6 +131,9 @@ const Badge = styled.div.attrs({ className: 'hero-Badge' })`
   font-weight: 600;
   position: relative;
   cursor: pointer;
+
+@media (max-width: 968px) {    display: none;
+  }
 `;
 
 const BorderTrail = styled.div.attrs({ className: 'hero-BorderTrail' })`
@@ -201,6 +217,15 @@ const RightColumn = styled.div.attrs({ className: 'hero-RightColumn' })`
   gap: 24px;
   align-items: flex-start;
   width: 480px;
+
+  @media (max-width: 968px) {
+    align-items: flex-start;
+    width: 100%;
+  }
+  @media (max-width: 432px) {
+    align-items: flex-start;
+    width: 100%;
+  }
 `;
 
 const Subtitle = styled.p.attrs({ className: 'hero-Subtitle' })`
@@ -209,4 +234,7 @@ const Subtitle = styled.p.attrs({ className: 'hero-Subtitle' })`
   color: #282828;
   max-width: 540px;
   margin-bottom: 0;
+
+@media (max-width: 968px) {    font-size: 18px;
+  }
 `;

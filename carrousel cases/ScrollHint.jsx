@@ -24,8 +24,7 @@ const ScrollHintContainer = styled.div`
   pointer-events: none;
   z-index: 10;
   
-  @media (max-width: 768px) {
-    display: none; 
+@media (max-width: 968px) {    display: none; 
   }
   
   @media (prefers-reduced-motion: reduce) {

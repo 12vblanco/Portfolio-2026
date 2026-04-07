@@ -72,8 +72,7 @@ const ArrowButton = styled.button.attrs({ className: 'carouselControls-ArrowButt
     pointer-events: none;
   }
 
-  @media (max-width: 768px) {
-    width: 40px;
+@media (max-width: 968px) {    width: 40px;
     height: 40px;
   }
 `;

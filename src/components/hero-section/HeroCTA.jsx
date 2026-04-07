@@ -90,9 +90,9 @@ const FlipText = () => {
 };
 
 const AVATARS = [
-  { color: '#DBE1E8', first: true },
+  { color: '#94A3B8', first: true },
   { color: '#B8C4D1' },
-  { color: '#94A3B8' },
+  { color: '#DBE1E8' },
 ];
 
 export const HeroCTA = () => {
@@ -204,6 +204,7 @@ const RightContent = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   min-height: 112px;
+  
 `;
 
 const ButtonGroup = styled.div`
@@ -211,6 +212,10 @@ const ButtonGroup = styled.div`
   gap: 16px;
   flex-wrap: wrap;
   flex-direction: row;
+  @media (max-width: 432px) {
+    gap: 8px;
+    width: 100vw;
+}
 `;
 
 const PrimaryButton = styled.a`
@@ -226,7 +231,6 @@ const PrimaryButton = styled.a`
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
-  min-width: 176px;
   border: 2px solid transparent;
   position: relative;
 
@@ -237,6 +241,10 @@ const PrimaryButton = styled.a`
     background: #FFFEFA;
     color: #FF3863;
   }
+
+  @media (max-width: 432px) {
+     min-width: 140px;
+}
 `;
 
 const SecondaryButton = styled.a`
@@ -262,6 +270,10 @@ const SecondaryButton = styled.a`
     border-color: #FF3863;
     color: #FF3863;
   }
+
+  @media (max-width: 432px) {
+     min-width: 140px;
+}
 `;
 
 const BorderTrail = styled.div`
@@ -300,6 +312,7 @@ const TrustBadge = styled.div`
   gap: 16px;
   font-size: 16px;
   color: #282828;
+  overflow: hidden;
 `;
 
 const AvatarGroup = styled.div`
@@ -313,6 +326,8 @@ const AvatarRing = styled.div`
   background: #eaeaea;
   padding: 2px;
   margin-left: ${p => p.$first ? '0' : '-12px'};
+
+  
 `;
 
 const AvatarInner = styled.div`
@@ -324,19 +339,23 @@ const AvatarInner = styled.div`
 
 const FlipWrapper = styled.div`
   display: inline-flex;
-  font-size: 16px;
+  font-size: 15px;
   color: #282828;
   font-weight: 500;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
   cursor: default;
   perspective: 400px;
+    @media (max-width: 430px) {
+      font-size: 13px;
+  }
 `;
 
 const FlipSpan = styled.span`
   display: inline-block;
   min-width: 0.55em;
   text-align: center;
-
+   max-width: 100vw;
+overflow: hidden;
   &.flip {
     animation: ${charFlip} 0.1s ease forwards;
   }

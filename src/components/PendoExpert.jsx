@@ -235,41 +235,53 @@ export const PendoExpert = () => {
 
 const Section = styled.section.attrs({ className: 'pendoExpert-Section' })`
   height: 100vh;
-  padding: 24px 0 48px;
+  /* padding: 24px 0 48px; */
   margin-bottom: 5rem;
+  @media (max-width: 968px) {
+    height: fit-content;
+    margin-bottom: 1rem;
+  }
 `;
 
 const Container = styled.div.attrs({ className: 'pendoExpert-Container' })`
   max-width: 1805px;
-  height: 100%;
+  width: 100%;
   margin: 0 auto;
-  padding: 0 80px 4rem 136px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  height: 100%;
+  box-sizing: border-box;
 
   @media (max-width: 1415px) {
     height: auto;
-    padding: 40px 32px;
+    padding: 40px 0;
   }
 
-  @media (max-width: 768px) {
-    padding: 20px;
+  @media (max-width: 968px) {
+    padding: 32px 0 48px;
   }
+  
 `;
 
 const Header = styled.div.attrs({ className: 'pendoExpert-Header' })`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
-  gap: 40px;
+  margin-bottom: 24px;
   flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-left: 136px;
+  padding-right: 120px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 968px) {
     flex-direction: column;
-    gap: 16px;
+    align-items: flex-start;
+    padding: 0 2rem 0 6rem;
+  }
+
+  @media (max-width: 426px) {
+    padding: 0 2rem;
   }
 `;
 
@@ -284,18 +296,25 @@ const Label = styled.span.attrs({ className: 'pendoExpert-Label' })`
 `;
 
 const Title = styled.h2.attrs({ className: 'pendoExpert-Title' })`
-  font-size: clamp(48px, 8vw, 61px);
   font-weight: 700;
   color: #FF3863;
   margin-bottom: 0;
   line-height: 1.1;
+
+
 `;
 
 const Subtitle = styled.p.attrs({ className: 'pendoExpert-Subtitle' })`
   font-size: 20px;
   color: #282828;
-  max-width: 560px;
+  max-width: 460px;
+
   margin-top: 2rem;
+
+@media (max-width: 968px) {    font-size: 18px;
+  }
+@media (max-width: 426px) {    margin-top: 0;
+  }
 
   strong {
     font-weight: 800;
@@ -308,6 +327,7 @@ const MiddleRow = styled.div.attrs({ className: 'pendoExpert-MiddleRow' })`
   align-items: center;
   justify-content: space-evenly;
   gap: 60px;
+  padding: 3rem 0;
 
   @media (max-width: 1200px) {
     gap: 40px;
@@ -328,6 +348,7 @@ const FeatureList = styled.div.attrs({ className: 'pendoExpert-FeatureList' })`
 
   @media (max-width: 968px) {
     max-width: 100%;
+    padding: 0 1rem 3rem 1rem;
   }
 `;
 
@@ -340,7 +361,6 @@ const Feature = styled.div.attrs({ className: 'pendoExpert-Feature' })`
 `;
 
 const FeatureNumber = styled.span.attrs({ className: 'pendoExpert-FeatureNumber' })`
-  font-size: clamp(45px, 5vw, 65px);
   font-weight: 700;
   color: #FF3863;
   line-height: 1;
@@ -349,6 +369,13 @@ const FeatureNumber = styled.span.attrs({ className: 'pendoExpert-FeatureNumber'
   opacity: 0;
   letter-spacing: -2px;
   padding-top: 2px;
+  font-size: 64px;
+  @media (max-width: 968px) {
+    width: 42px;
+  }
+  @media (max-width: 426px) {
+    width: 44px;
+  }
 `;
 
 const FeatureContent = styled.div.attrs({ className: 'pendoExpert-FeatureContent' })`
@@ -372,6 +399,9 @@ const FeatureText = styled.p.attrs({ className: 'pendoExpert-FeatureText' })`
   color: #555;
   margin: 0;
   opacity: 0;
+
+@media (max-width: 968px) {    font-size: 18px;
+  }
 `;
 
 const GraphContainer = styled.div.attrs({ className: 'pendoExpert-GraphContainer' })`
@@ -401,8 +431,12 @@ const GraphImage = styled.img.attrs({ className: 'pendoExpert-GraphImage' })`
     transform: scale(1.02);
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 968px) {
     max-height: 300px;
+    box-shadow: none;
+  }
+  @media (max-width: 426px) {
+    padding: 0 1.4rem;
   }
 `;
 
@@ -442,8 +476,7 @@ const Badge = styled.div.attrs({ className: 'pendoExpert-Badge' })`
     height: 100px;
   }
 
-  @media (max-width: 768px) {
-    width: 90px;
+@media (max-width: 968px) {    width: 90px;
     height: 90px;
   }
 `;

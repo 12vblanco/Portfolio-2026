@@ -36,25 +36,34 @@ const Card = styled.div.attrs({ className: 'reviewCard-Card' })`
     : '0 8px 24px rgba(0,0,0,0.15)'};
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
   border: ${p => p.$isCenter ? '1px solid #e5e5e5' : '1px solid rgba(255,255,255,0.08)'};
-`;
-
-const StarsRow = styled.div.attrs({ className: 'reviewCard-StarsRow' })`
-  display: flex;
-  gap: 4px;
-  align-items: center;
+  @media (max-width: 426px) {
+    min-height: 396px;
+  }
 `;
 
 const ReviewText = styled.p.attrs({ className: 'reviewCard-ReviewText' })`
   font-size: 20px;
   font-weight: 500;
   color: ${p => p.$isCenter ? '#282828' : 'rgba(255,255,255,0.4)'};
-  line-height: 1.7;
-  margin: 0;
+  line-height: 1.8;
+  margin: 16px 0;
   flex: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: left;
   font-style: italic;
+
+  @media (max-width: 968px) { font-size: 18px; }
+`;
+
+const StarsRow = styled.div.attrs({ className: 'reviewCard-StarsRow' })`
+  display: flex;
+  gap: 4px;
+  align-items: center;
 `;
 
 const ClientRow = styled.div.attrs({ className: 'reviewCard-ClientRow' })`
@@ -76,7 +85,7 @@ const ClientName = styled.span.attrs({ className: 'reviewCard-ClientName' })`
 `;
 
 const ClientMeta = styled.span.attrs({ className: 'reviewCard-ClientMeta' })`
-  font-size: 16px;
+  font-size: 18px;
   color: ${p => p.$isCenter ? '#282828' : 'rgba(255,255,255,0.4)'};
   font-weight: 600;
 `;

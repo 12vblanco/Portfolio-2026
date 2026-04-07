@@ -7,7 +7,12 @@ import { reviewsData } from './reviewsData';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const slotTransform = (slot) => {
+const slotTransform = (slot, isMobile) => {
+  if (isMobile) {
+    if (slot === 0) return 'translateX(0%) scale(1)';
+    if (slot > 0)   return 'translateX(150%) scale(0.9)';
+    return                  'translateX(-150%) scale(0.9)';
+  }
   if (slot === 0)  return 'translateX(0%)    translateY(-12px) scale(1.08)';
   if (slot === 1)  return 'translateX(108%)  translateY(0px)   scale(0.92)';
   if (slot === -1) return 'translateX(-108%) translateY(0px)   scale(0.92)';
@@ -15,11 +20,14 @@ const slotTransform = (slot) => {
   return                  'translateX(-220%) scale(0.8)';
 };
 
-const slotOpacity = (slot) => {
-  if (slot === 0)                    return 1;
-  if (slot === 1 || slot === -1)     return 0.4;
+const slotOpacity = (slot, isMobile) => {
+  if (isMobile)  return slot === 0 ? 1 : 0;
+  if (slot === 0)                return 1;
+  if (slot === 1 || slot === -1) return 0.4;
   return 0;
 };
+
+
 
 const Testimonials = () => {
   const sectionRef = useRef(null);
@@ -57,11 +65,20 @@ const Testimonials = () => {
     return slot;
   };
 
+  const [isMobile, setIsMobile] = useState(false);
+
+useEffect(() => {
+  const check = () => setIsMobile(window.innerWidth <= 768);
+  check();
+  window.addEventListener('resize', check);
+  return () => window.removeEventListener('resize', check);
+}, []);
+
   return (
     <Section ref={sectionRef}>
       <Container>
         <Header ref={headerRef}>
-          <Eyebrow>Don't take my word<br />for it</Eyebrow>
+          <Eyebrow>Don't take my <br />word for it</Eyebrow>
         </Header>
 
         <DotsRow>
@@ -82,6 +99,7 @@ const Testimonials = () => {
                 <CardWrapper
                   key={review.id}
                   $slot={slot}
+                  $isMobile={isMobile}
                   onClick={() => slot !== 0 && setCurrentIndex(i)}
                 >
                   <ReviewCard review={review} isCenter={slot === 0} />
@@ -102,8 +120,13 @@ export default Testimonials;
 const Section = styled.section.attrs({ className: 'testimonials-Section' })`
   width: 100%;
   background: #282828;
-  padding: 5rem 0 6rem;
+  padding: 4rem 0 6rem;
   height: 70vh;
+
+  @media (max-width: 768px) {
+    height: auto;
+    padding: 3rem 0 4rem;
+  }
 `;
 
 const Container = styled.div.attrs({ className: 'testimonials-Container' })`
@@ -123,7 +146,6 @@ const Header = styled.div.attrs({ className: 'testimonials-Header' })`
 `;
 
 const Eyebrow = styled.h2.attrs({ className: 'testimonials-Eyebrow' })`
-  font-size: clamp(32px, 6vw, 52px);
   color: #FFFEFA;
   font-weight: 700;
   letter-spacing: 0.3px;
@@ -131,6 +153,7 @@ const Eyebrow = styled.h2.attrs({ className: 'testimonials-Eyebrow' })`
   text-align: center;
   display: block;
   line-height: 1.2;
+  margin-bottom: 1rem;
 `;
 
 const DotsRow = styled.div.attrs({ className: 'testimonials-DotsRow' })`
@@ -169,25 +192,28 @@ const CardsContainer = styled.div.attrs({ className: 'testimonials-CardsContaine
   position: relative;
   height: 400px;
 
+  @media (max-width: 968px) { height: 480px; }
+
   @media (max-width: 768px) {
-    height: 480px;
+    height: auto;
+    min-height: 320px;
+    padding: 0 24px;
   }
 `;
 
 const CardWrapper = styled.div.attrs({ className: 'testimonials-CardWrapper' })`
   position: absolute;
   width: 480px;
-  height: 380px; /* Add fixed height - adjust based on your card content */
+  height: 380px;
   transform-style: preserve-3d;
   transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1),
               opacity   0.9s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: ${p => slotTransform(p.$slot)};
-  opacity:   ${p => slotOpacity(p.$slot)};
+  transform: ${p => slotTransform(p.$slot, p.$isMobile)};
+  opacity:   ${p => slotOpacity(p.$slot, p.$isMobile)};
   z-index:   ${p => p.$slot === 0 ? 10 : (p.$slot === 1 || p.$slot === -1) ? 5 : 0};
-  pointer-events: ${p => p.$slot === 0 ? 'auto' : 'none'};
+  pointer-events: ${p => p.$slot === 0 ? 'auto' : (p.$isMobile ? 'none' : 'auto')};
   cursor: ${p => p.$slot === 0 ? 'default' : 'pointer'};
 
-  /* Ensure the inner ReviewCard fills the wrapper */
   & > div {
     width: 100%;
     height: 100%;
@@ -195,7 +221,11 @@ const CardWrapper = styled.div.attrs({ className: 'testimonials-CardWrapper' })`
 
   @media (max-width: 768px) {
     width: calc(100vw - 48px);
-    height: auto; /* Or set a specific height for mobile */
-    min-height: 380px;
+    max-width: 480px;
+    height: auto;
+    position: relative;
+    transform: none !important;
+    visibility: ${p => p.$slot === 0 ? 'visible' : 'hidden'};
+    display: ${p => p.$slot === 0 ? 'block' : 'none'};
   }
 `;

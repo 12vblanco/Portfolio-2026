@@ -80,7 +80,6 @@ const ArrowButton = styled.button`
     ${props => props.$position}: 0.5rem;
   }
 
-  @media (max-width: 768px) {
-    display: none;
+@media (max-width: 968px) {    display: none;
   }
 `;

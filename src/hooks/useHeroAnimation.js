@@ -99,17 +99,27 @@ export const useHeroAnimation = () => {
 
       tl
         .fromTo(line1Ref.current,
-          { y: 100, opacity: 0 },
-          { y: 0,   opacity: 1, duration: 0.8 }
+          { y: 0 },
+          { y: 0, duration: 0.001 }
         )
         .fromTo(line2Ref.current,
-          { y: 100, opacity: 0 },
-          { y: 0,   opacity: 1, duration: 0.8 },
+          { y: 0 },
+          { y: 0, duration: 0.001 },
           '-=0.6'
         )
         .fromTo(line3Ref.current,
-          { y: 100, opacity: 0 },
-          { y: 0,   opacity: 1, duration: 0.8 },
+          { y: 0 },
+          { y: 0, duration: 0.001 },
+          '-=0.6'
+        )
+        .fromTo(line2Ref.current,
+          { y: 0 },
+          { y: 0, duration: 0.001 },
+          '-=0.6'
+        )
+        .fromTo(line3Ref.current,
+          { y: 0 },
+          { y: 0, duration: 0.001 },
           '-=0.6'
         )
         .add(popStarBig(star1Ref),                           '-=0.4')

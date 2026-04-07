@@ -28,7 +28,7 @@ const useHoverRotation = (refs) => {
     });
 
     return () => cleanups.forEach((fn) => fn());
-  }, []);
+  }, );
 };
 
 export const HeroTitle = ({ line1Ref, line2Ref, star1Ref, star2Ref, star3Ref }) => {
@@ -76,6 +76,10 @@ const Title = styled.h1.attrs({ className: 'heroTitle-Title' })`
   position: relative;
   z-index: 1;
 
+@media (max-width: 968px) {   
+   /* font-size: 60px; */
+  }
+
   span {
     color: #FF3863;
     display: block;
@@ -89,6 +93,7 @@ const TitleLine = styled.span.attrs({ className: 'heroTitle-TitleLine' })`
 
 const TitleText = styled.span.attrs({ className: 'heroTitle-TitleText' })`
   display: inline-block;
+  transform: translateY(105%);
 `;
 
 const StarsContainer = styled.div.attrs({ className: 'heroTitle-StarsContainer' })`

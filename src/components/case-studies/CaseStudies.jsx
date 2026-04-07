@@ -1,4 +1,4 @@
-// src/components/case-studies/CaseStudies.js
+// src/components/case-studies/CaseStudies.jsx
 import gsap from 'gsap';
 import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -10,12 +10,12 @@ gsap.registerPlugin(ScrambleTextPlugin);
 
 /* ─── Lazy Video Card ─────────────────────────────────────────────────────── */
 
-const LazyVideoCard = ({ study, index, hasAnimated, containerRef }) => {
-  const cardRef = useRef(null);
-  const videoRef = useRef(null);
+const LazyVideoCard = ({ study, index, hasAnimated, containerRef, isTablet, isClicked, onToggleClick }) => {
+  const cardRef   = useRef(null);
+  const videoRef  = useRef(null);
   const srcSetRef = useRef(false);
   const [videoSrcSet, setVideoSrcSet] = useState(false);
-  const [videoReady, setVideoReady] = useState(false);
+  const [videoReady, setVideoReady]   = useState(false);
 
   useEffect(() => {
     if (!study.video) return;
@@ -59,8 +59,22 @@ const LazyVideoCard = ({ study, index, hasAnimated, containerRef }) => {
     setVideoReady(false);
   }, []);
 
+  const handleCardClick = useCallback((e) => {
+    if (isTablet) {
+      e.stopPropagation();
+      onToggleClick();
+    }
+  }, [isTablet, onToggleClick]);
+
   return (
-    <Card ref={cardRef} $index={index} $hasAnimated={hasAnimated}>
+    <Card
+      ref={cardRef}
+      $index={index}
+      $hasAnimated={hasAnimated}
+      data-clicked={isClicked ? 'true' : undefined}
+      onClick={handleCardClick}
+      style={{ cursor: isTablet ? 'pointer' : 'default' }}
+    >
       <MediaContainer>
         <Image src={study.image} alt={study.title} $hidden={videoReady} />
         {study.video && (
@@ -103,34 +117,70 @@ const LazyVideoCard = ({ study, index, hasAnimated, containerRef }) => {
 /* ─── CaseStudies ─────────────────────────────────────────────────────────── */
 
 const CaseStudies = () => {
-  const containerRef  = useRef(null);
-  const sectionRef    = useRef(null);
-  const labelRef      = useRef(null);
+  const containerRef   = useRef(null);
+  const sectionRef     = useRef(null);
+  const labelRef       = useRef(null);
   const hasAnimatedRef = useRef(false);
+
   const [currentIndex, setCurrentIndex]   = useState(0);
+  const [clickedIndex, setClickedIndex]   = useState(null);
   const [hasAnimated, setHasAnimated]     = useState(false);
   const [animationDone, setAnimationDone] = useState(false);
+  const [isTablet, setIsTablet]           = useState(false);
 
+  useEffect(() => {
+    const check = () => setIsTablet(window.innerWidth <= 968);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  // ── Desktop scroll constants ──────────────────────────────────────────────
   const CARD_WIDTH = 480;
   const GAP        = 64;
 
+  // ── Desktop: sync currentIndex with scroll position ───────────────────────
   const updateCurrentIndex = useCallback(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || isTablet) return;
     const { scrollLeft } = containerRef.current;
     const newIndex = Math.round(scrollLeft / (CARD_WIDTH + GAP));
     setCurrentIndex(Math.min(Math.max(newIndex, 0), caseStudies.length - 1));
-  }, [CARD_WIDTH, GAP]);
+  }, [CARD_WIDTH, GAP, isTablet]);
 
-  const scrollToCard = (index) => {
-    if (!containerRef.current) return;
-    containerRef.current.scrollTo({ left: (CARD_WIDTH + GAP) * index, behavior: 'smooth' });
-    setCurrentIndex(index);
-  };
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    container.addEventListener('scroll', updateCurrentIndex);
+    return () => container.removeEventListener('scroll', updateCurrentIndex);
+  }, [updateCurrentIndex]);
 
-  const scrollToPrev = () => { if (currentIndex > 0) scrollToCard(currentIndex - 1); };
-  const scrollToNext = () => { if (currentIndex < caseStudies.length - 1) scrollToCard(currentIndex + 1); };
+  // ── Navigate to a card ────────────────────────────────────────────────────
+  const scrollToCard = useCallback((index) => {
+    const clamped = Math.min(Math.max(index, 0), caseStudies.length - 1);
+    setCurrentIndex(clamped);
+    setClickedIndex(null); // close any open overlay on navigation
+    if (!isTablet && containerRef.current) {
+      containerRef.current.scrollTo({
+        left: (CARD_WIDTH + GAP) * clamped,
+        behavior: 'smooth',
+      });
+    }
+  }, [isTablet, CARD_WIDTH, GAP]);
 
-  // ── Section enter: animations fire only once ──────────────────────────────
+  const scrollToPrev = useCallback(() => {
+    if (currentIndex > 0) scrollToCard(currentIndex - 1);
+  }, [currentIndex, scrollToCard]);
+
+  const scrollToNext = useCallback(() => {
+    if (currentIndex < caseStudies.length - 1) scrollToCard(currentIndex + 1);
+  }, [currentIndex, scrollToCard]);
+
+  // ── Toggle overlay (tap on mobile/tablet) ─────────────────────────────────
+  const handleToggleClick = useCallback((index) => {
+    setClickedIndex(prev => prev === index ? null : index);
+  }, []);
+
+  // ── Section enter animation (fires once) ─────────────────────────────────
   useEffect(() => {
     if (hasAnimatedRef.current) return;
 
@@ -141,7 +191,6 @@ const CaseStudies = () => {
           setHasAnimated(true);
 
           if (labelRef.current) labelRef.current.textContent = '';
-
           gsap.to(labelRef.current, {
             duration: 1.6,
             delay: 0.2,
@@ -164,7 +213,7 @@ const CaseStudies = () => {
     return () => observer.disconnect();
   }, []);
 
-  // ── After track animation finishes, lock scroll snap ────────────────────
+  // ── Lock desktop scroll snap after entry animation ────────────────────────
   useEffect(() => {
     if (!hasAnimated) return;
     const timer = setTimeout(() => {
@@ -177,12 +226,34 @@ const CaseStudies = () => {
     return () => clearTimeout(timer);
   }, [hasAnimated]);
 
-  useEffect(() => {
+  // ── Desktop drag-to-scroll ────────────────────────────────────────────────
+  const dragRef = useRef({ isDragging: false, startX: 0, scrollLeft: 0 });
+
+  const handlePointerDown = useCallback((e) => {
+    if (isTablet) return;
     const container = containerRef.current;
     if (!container) return;
-    container.addEventListener('scroll', updateCurrentIndex);
-    return () => container.removeEventListener('scroll', updateCurrentIndex);
-  }, [updateCurrentIndex]);
+    dragRef.current = { isDragging: true, startX: e.clientX, scrollLeft: container.scrollLeft };
+    container.style.cursor = 'grabbing';
+    container.style.userSelect = 'none';
+  }, [isTablet]);
+
+  const handlePointerMove = useCallback((e) => {
+    if (isTablet || !dragRef.current.isDragging) return;
+    const container = containerRef.current;
+    if (!container) return;
+    const dx = e.clientX - dragRef.current.startX;
+    container.scrollLeft = dragRef.current.scrollLeft - dx;
+  }, [isTablet]);
+
+  const handlePointerUp = useCallback(() => {
+    if (isTablet) return;
+    const container = containerRef.current;
+    if (!container) return;
+    dragRef.current.isDragging = false;
+    container.style.cursor = 'grab';
+    container.style.userSelect = 'none';
+  }, [isTablet]);
 
   return (
     <Section ref={sectionRef} id="works">
@@ -193,21 +264,31 @@ const CaseStudies = () => {
             <Title $hasAnimated={hasAnimated}>Case Studies</Title>
           </HeaderLeft>
           <Subtitle $hasAnimated={hasAnimated}>
-            Hand-picked projects including web development, design, and Pendo consulting.
+            <strong>Hand-picked projects</strong> including web development, design, and Pendo consulting.
           </Subtitle>
         </Header>
 
         <CarouselWrapper>
-          <ControlsWrapper $hasAnimated={hasAnimated}>
+
+          {/* Desktop controls — hidden on tablet/mobile */}
+          <DesktopControlsWrapper $hasAnimated={hasAnimated}>
             <CarouselControls
               onPrev={scrollToPrev}
               onNext={scrollToNext}
               canScrollLeft={currentIndex > 0}
               canScrollRight={currentIndex < caseStudies.length - 3}
             />
-          </ControlsWrapper>
+          </DesktopControlsWrapper>
 
-          <CardsContainer ref={containerRef} $animationDone={animationDone}>
+          {/* Desktop scroll carousel — hidden on tablet/mobile */}
+          <CardsContainer
+            ref={containerRef}
+            $animationDone={animationDone}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerLeave={handlePointerUp}
+          >
             <CardsTrack $hasAnimated={hasAnimated}>
               {hasAnimated && caseStudies.map((study, index) => (
                 <LazyVideoCard
@@ -216,11 +297,45 @@ const CaseStudies = () => {
                   index={index}
                   hasAnimated={hasAnimated}
                   containerRef={containerRef}
+                  isTablet={isTablet}
+                  isClicked={clickedIndex === index}
+                  onToggleClick={() => handleToggleClick(index)}
                 />
               ))}
               <Placeholder />
             </CardsTrack>
           </CardsContainer>
+
+          {/* Mobile/tablet CSS-transform carousel — hidden on desktop */}
+          {hasAnimated && (
+            <MobileCarousel>
+              <MobileControlsWrapper>
+                <CarouselControls
+                  onPrev={scrollToPrev}
+                  onNext={scrollToNext}
+                  canScrollLeft={currentIndex > 0}
+                  canScrollRight={currentIndex < caseStudies.length - 1}
+                />
+              </MobileControlsWrapper>
+              <MobileTrackViewport>
+                <MobileTrack $currentIndex={currentIndex}>
+                  {caseStudies.map((study, index) => (
+                    <LazyVideoCard
+                      key={study.id}
+                      study={study}
+                      index={index}
+                      hasAnimated={hasAnimated}
+                      containerRef={null}
+                      isTablet={isTablet}
+                      isClicked={clickedIndex === index}
+                      onToggleClick={() => handleToggleClick(index)}
+                    />
+                  ))}
+                </MobileTrack>
+              </MobileTrackViewport>
+            </MobileCarousel>
+          )}
+
         </CarouselWrapper>
       </Container>
     </Section>
@@ -232,17 +347,20 @@ export default CaseStudies;
 // ─── Styled Components ────────────────────────────────────────────────────────
 
 const Section = styled.section.attrs({ className: 'caseStudies-Section' })`
-  padding: 0 0 48px 0;
   height: 100vh;
   overflow: hidden;
   position: relative;
+
+  @media (max-width: 968px) {
+    height: auto;
+    overflow: visible;
+  }
 `;
 
 const Container = styled.div.attrs({ className: 'caseStudies-Container' })`
   max-width: 1805px;
   width: 100%;
   margin: 0 auto;
-  padding: 40px 80px 20px 136px;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -250,11 +368,11 @@ const Container = styled.div.attrs({ className: 'caseStudies-Container' })`
 
   @media (max-width: 1415px) {
     height: auto;
-    padding: 40px 32px;
+    padding: 40px 0;
   }
 
-  @media (max-width: 768px) {
-    padding: 20px;
+  @media (max-width: 968px) {
+    padding: 32px 0 48px;
   }
 `;
 
@@ -266,10 +384,17 @@ const Header = styled.div.attrs({ className: 'caseStudies-Header' })`
   align-items: center;
   flex-wrap: wrap;
   gap: 20px;
+  padding-left: 136px;
+  padding-right: 120px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 968px) {
     flex-direction: column;
     align-items: flex-start;
+    padding: 0 2rem 0 6rem;
+  }
+
+  @media (max-width: 426px) {
+    padding: 0 2rem;
   }
 `;
 
@@ -285,7 +410,6 @@ const Label = styled.span.attrs({ className: 'caseStudies-Label' })`
 `;
 
 const Title = styled.h2.attrs({ className: 'caseStudies-Title' })`
-  font-size: clamp(48px, 8vw, 61px);
   font-weight: 700;
   color: #FF3863;
   margin-bottom: 16px;
@@ -294,27 +418,27 @@ const Title = styled.h2.attrs({ className: 'caseStudies-Title' })`
   animation: caseStudiesTitleIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
 
   @keyframes caseStudiesTitleIn {
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
+    to { opacity: 1; transform: translateX(0); }
   }
 `;
 
 const Subtitle = styled.p.attrs({ className: 'caseStudies-Subtitle' })`
   font-size: 20px;
   color: #282828;
-  max-width: 560px;
+  max-width: 460px;
   margin-top: 2rem;
   opacity: 0;
   transform: translateX(50px);
   animation: caseStudiesSubtitleIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
 
+  @media (max-width: 968px) {
+    font-size: 18px;
+    max-width: 400px;
+    margin-top: 0;
+  }
+
   @keyframes caseStudiesSubtitleIn {
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
+    to { opacity: 1; transform: translateX(0); }
   }
 `;
 
@@ -326,7 +450,8 @@ const CarouselWrapper = styled.div.attrs({ className: 'caseStudies-CarouselWrapp
   min-height: 0;
 `;
 
-const ControlsWrapper = styled.div.attrs({ className: 'caseStudies-ControlsWrapper' })`
+/* ── Desktop controls — hidden on tablet/mobile ── */
+const DesktopControlsWrapper = styled.div.attrs({ className: 'caseStudies-DesktopControlsWrapper' })`
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
@@ -335,14 +460,16 @@ const ControlsWrapper = styled.div.attrs({ className: 'caseStudies-ControlsWrapp
   transform: translateY(-30px);
   animation: caseStudiesControlsIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
 
+  @media (max-width: 968px) {
+    display: none;
+  }
+
   @keyframes caseStudiesControlsIn {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    to { opacity: 1; transform: translateY(0); }
   }
 `;
 
+/* ── Desktop scroll carousel — hidden on tablet/mobile ── */
 const CardsContainer = styled.div.attrs({ className: 'caseStudies-CardsContainer' })`
   width: 100%;
   overflow-x: auto;
@@ -351,10 +478,15 @@ const CardsContainer = styled.div.attrs({ className: 'caseStudies-CardsContainer
   -webkit-overflow-scrolling: touch;
   padding: 20px 0 40px 130px;
   flex: 1;
+  cursor: grab;
   &::-webkit-scrollbar { display: none; }
   -ms-overflow-style: none;
   scrollbar-width: none;
   scroll-snap-type: ${p => p.$animationDone ? 'x mandatory' : 'none'};
+
+  @media (max-width: 968px) {
+    display: none;
+  }
 `;
 
 const CardsTrack = styled.div.attrs({ className: 'caseStudies-CardsTrack' })`
@@ -367,6 +499,46 @@ const CardsTrack = styled.div.attrs({ className: 'caseStudies-CardsTrack' })`
   will-change: transform;
 `;
 
+/* ── Mobile/tablet carousel — hidden on desktop ── */
+const MobileCarousel = styled.div.attrs({ className: 'caseStudies-MobileCarousel' })`
+  display: none;
+
+  @media (max-width: 968px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    padding: 16px 0 32px;
+  }
+`;
+
+const MobileControlsWrapper = styled.div.attrs({ className: 'caseStudies-MobileControlsWrapper' })`
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+`;
+
+const MobileTrackViewport = styled.div.attrs({ className: 'caseStudies-MobileTrackViewport' })`
+  width: 100%;
+  overflow: hidden;
+`;
+
+const MobileTrack = styled.div.attrs({ className: 'caseStudies-MobileTrack' })`
+  display: flex;
+  gap: 24px;
+  /* card = 80vw, centre offset = 50vw - 40vw = 10vw */
+  transform: translateX(calc(10vw - ${p => p.$currentIndex} * (80vw + 24px)));
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+
+  @media (max-width: 426px) {
+    /* card = 88vw, centre offset = 50vw - 44vw = 6vw */
+    transform: translateX(calc(6vw - ${p => p.$currentIndex} * (88vw + 24px)));
+  }
+`;
+
+/* ── Shared card ── */
 const Card = styled.div.attrs({ className: 'caseStudies-Card' })`
   flex: 0 0 480px;
   height: 500px;
@@ -390,6 +562,18 @@ const Card = styled.div.attrs({ className: 'caseStudies-Card' })`
   transition:
     opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${p => p.$hasAnimated ? `${0.5 + p.$index * 0.1}s` : '0s'},
     transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${p => p.$hasAnimated ? `${0.5 + p.$index * 0.1}s` : '0s'};
+
+  @media (max-width: 968px) {
+    flex: 0 0 80vw;
+    height: auto;
+    min-height: 520px;
+    &:hover { transform: none; }
+  }
+
+  @media (max-width: 426px) {
+    flex: 0 0 88vw;
+    min-height: 500px;
+  }
 `;
 
 const MediaContainer = styled.div.attrs({ className: 'caseStudies-MediaContainer' })`
@@ -399,6 +583,13 @@ const MediaContainer = styled.div.attrs({ className: 'caseStudies-MediaContainer
   background: #f5f5f5;
   flex-shrink: 0;
   position: relative;
+
+  @media (max-width: 968px) {
+    height: 340px;
+  }
+  @media (max-width: 426px) {
+    height: 380px;
+  }
 `;
 
 const Image = styled.img.attrs({ className: 'caseStudies-Image' })`
@@ -522,7 +713,8 @@ const OverlayCard = styled.div.attrs({ className: 'caseStudies-OverlayCard' })`
   border-radius: 12px;
   z-index: 5;
   clip-path: circle(0% at 50% 150%);
-  ${Card}:hover & { clip-path: circle(150% at 50% 0%); }
+  ${Card}:hover &,
+  ${Card}[data-clicked="true"] & { clip-path: circle(150% at 50% 0%); }
 `;
 
 const OverlayContent = styled.div.attrs({ className: 'caseStudies-OverlayContent' })`
@@ -533,7 +725,8 @@ const OverlayContent = styled.div.attrs({ className: 'caseStudies-OverlayContent
   transform: scale(0.9);
   transition: all 1.2s ease 0.3s;
   width: 100%;
-  ${Card}:hover & { opacity: 1; transform: scale(1); }
+  ${Card}:hover &,
+  ${Card}[data-clicked="true"] & { opacity: 1; transform: scale(1); }
 `;
 
 const OverlayTagsButton = styled.div.attrs({ className: 'caseStudies-OverlayTagsButton' })`
@@ -542,7 +735,8 @@ const OverlayTagsButton = styled.div.attrs({ className: 'caseStudies-OverlayTags
   transform: scale(0.9);
   transition: all 1.2s ease 0.3s;
   width: 100%;
-  ${Card}:hover & { opacity: 1; transform: scale(1); }
+  ${Card}:hover &,
+  ${Card}[data-clicked="true"] & { opacity: 1; transform: scale(1); }
 `;
 
 const OverlayTitle = styled.h3.attrs({ className: 'caseStudies-OverlayTitle' })`
@@ -556,31 +750,38 @@ const OverlayTitle = styled.h3.attrs({ className: 'caseStudies-OverlayTitle' })`
 const OverlayDescription = styled.p.attrs({ className: 'caseStudies-OverlayDescription' })`
   font-size: 16px;
   min-height: 210px;
-  color: rgba(255, 255, 255, .9);
-  margin: 10px 0 10px 0;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 5px;
   line-height: 1.6;
   white-space: pre-line;
+  @media (max-width: 426px) {
+  font-size: 15px;
+  letter-spacing: -.2px;
+  }
 `;
 
+// const OverlayTags = styled.div.attrs({ className: 'caseStudies-OverlayTags' })`
+//   text-align: center;
+//   font-size: 16px;
+//   font-weight: 500;
+//   font-family: monospace;
+//   margin-bottom: 24px;
+//    @media (max-width: 426px) {
+//   font-size: 15px;
+//   letter-spacing: -.2px;
+//   }
+// `;
 const OverlayTags = styled.div.attrs({ className: 'caseStudies-OverlayTags' })`
-  text-align: center;
-  font-size: 16px;
-  font-weight: 500;
-  font-family: monospace;
-  margin-bottom: 24px;
-`;
-
-const ViewButton = styled.button.attrs({ className: 'caseStudies-ViewButton' })`
-  background: transparent;
-  border: 2px solid #FF3863;
-  color: #FF3863;
-  font-size: 16px;
+font-size: 16px;
+  color: #fff;
   font-weight: 700;
-  padding: 12px 24px;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  &:hover { background: #FF3863; color: #FFFEFA; transform: scale(1.05); }
+  font-family: monospace;
+  margin-top: auto;
+  text-align: center;
+   @media (max-width: 426px) {
+  font-size: 15px;
+  letter-spacing: -.2px;
+  }
 `;
 
 const Placeholder = styled.div.attrs({ className: 'caseStudies-Placeholder' })`
