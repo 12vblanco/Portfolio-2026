@@ -53,10 +53,12 @@ export const Hero = () => {
           ref={badgeRef}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          role="status"
+          aria-label="Availability status"
         >
-          <Dot ref={dotRef} />
+          <Dot ref={dotRef} aria-hidden="true" />
           Available for work
-          <BorderTrail ref={trailRef} />
+          <BorderTrail ref={trailRef} aria-hidden="true" />
         </Badge>
 
         <HeroTitle

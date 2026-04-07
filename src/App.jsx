@@ -18,7 +18,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <Navigation />
-      <main style={{ position: 'relative', zIndex: 2 }}>
+      <main style={{ position: 'relative', zIndex: 2 }} role="main">
         <Hero />
         <ConsentBanner />
         <CaseStudies />

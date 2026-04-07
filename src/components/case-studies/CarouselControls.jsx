@@ -9,7 +9,7 @@ const CarouselControls = ({ onPrev, onNext, canScrollLeft, canScrollRight }) => 
         disabled={!canScrollLeft}
         aria-label="Previous case study"
       >
-        <svg width="34" height="40" viewBox="0 0 24 24" fill="none">
+        <svg width="34" height="40" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </ArrowButton>
@@ -19,7 +19,7 @@ const CarouselControls = ({ onPrev, onNext, canScrollLeft, canScrollRight }) => 
         disabled={!canScrollRight}
         aria-label="Next case study"
       >
-        <svg width="34" height="40" viewBox="0 0 24 24" fill="none">
+        <svg width="34" height="40" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </ArrowButton>

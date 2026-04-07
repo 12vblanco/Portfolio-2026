@@ -181,30 +181,34 @@ export const Contact = () => {
             href="https://github.com/victorblanco" 
             target="_blank" 
             rel="noopener noreferrer"
+            aria-label="GitHub profile"
           >
-            <Github size={24} />
+            <Github size={24} aria-hidden="true" />
           </SocialLink>
 
           <SocialLink 
             href="https://www.upwork.com/freelancers/~victorblanco" 
             target="_blank" 
             rel="noopener noreferrer"
+            aria-label="Upwork profile"
           >
-            <UpworkIcon size={24} />
+            <UpworkIcon size={24} aria-hidden="true" />
           </SocialLink>
           
           <SocialLink 
             href="https://dribbble.com/victorblanco" 
             target="_blank" 
             rel="noopener noreferrer"
+            aria-label="Dribbble profile"
           >
-            <Dribbble size={24} />
+            <Dribbble size={24} aria-hidden="true" />
           </SocialLink>
           
           <SocialLink 
             href="mailto:victor@victorblanco.com"
+            aria-label="Email Victor"
           >
-            <Mail size={24} />
+            <Mail size={24} aria-hidden="true" />
           </SocialLink>
         </SocialLinks>
         

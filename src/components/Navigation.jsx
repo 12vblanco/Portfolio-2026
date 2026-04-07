@@ -22,15 +22,22 @@ export const Navigation = () => {
           <CTA href="#contact">Let's Talk</CTA>
           
           <MobileMenuButton aria-label="Open menu" onClick={() => setMobileOpen(true)}>
-            <Menu size={34} />
+            <Menu size={34} aria-hidden="true" />
           </MobileMenuButton>
         </NavContainer>
       </NavWrapper>
       
-      <MobileNavOverlay $isOpen={mobileOpen} aria-label="Open overlay" onClick={() => setMobileOpen(false)} />
-      <MobileNav $isOpen={mobileOpen}>
-        <CloseButton aria-label="close menu" onClick={() => setMobileOpen(false)}>
-          <X size={24} />
+      <MobileNavOverlay 
+        $isOpen={mobileOpen} 
+        role="button"
+        aria-label="Close menu"
+        tabIndex={0}
+        onClick={() => setMobileOpen(false)}
+        onKeyDown={(e) => e.key === 'Escape' && setMobileOpen(false)} 
+      />
+      <MobileNav $isOpen={mobileOpen} role="navigation" aria-label="Mobile navigation">
+        <CloseButton aria-label="Close menu" onClick={() => setMobileOpen(false)}>
+          <X size={24} aria-hidden="true" />
         </CloseButton>
         <MobileNavLink href="#works" aria-label="navigate to works" onClick={() => setMobileOpen(false)}>Works</MobileNavLink>
         <MobileNavLink href="#pendo" aria-label="navigate to pendo" onClick={() => setMobileOpen(false)}>Pendo</MobileNavLink>
