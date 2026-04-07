@@ -13,11 +13,11 @@ export const caseStudies = [
   id: 1,
   title: "Design and Perspective",
   client: "Sujin Kim",
-  shortDescription: "Graphic designer's portfolio, built using React 19 & showcasing complex animations (GSAP) and innovative navigation",
+  shortDescription: "Graphic designer's portfolio, built using React 19 & showcasing GSAP animations and innovative navigation",
   description: "Sujin had a clear vision for her portfolio. It reflected her sensibility, letting her work take center stage. She sent me a polished Figma design and precise requirements, removing much of the guessing from the development.\n\nHer designs translated into a custom React application that respects her vision while adding interactive depth. Complex animations and unconventional navigation patterns create an experience that feels as considered as her design work.\n\nThe result does exactly what Sujin needed and gets out of the way while making her work look its best. Clean execution of a clear vision",
   image: sujinImage,
   video: sujinVideo,
-  tags: ["React", "Animations", "Web Development"],
+  tags: ["React", "GSAP", "Web Development"],
   year: "2024",
 },
   {

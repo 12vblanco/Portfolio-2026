@@ -136,7 +136,7 @@ useEffect(() => {
               </CardHeader>
               <Tags>
                 React.js | 
-                Animations |
+                GSAP |
                 Figma |
                 GitHub
               </Tags>
@@ -156,7 +156,7 @@ useEffect(() => {
             <BackSubtitle>{study.title}</BackSubtitle>
             <BackDescription>{study.description}</BackDescription>
             <BackTags>
-              {study.tags?.join(' | ') || 'React.js | Animations | Figma | GitHub'}
+              {study.tags?.join(' | ') || 'React.js | GSAP | Figma | GitHub'}
             </BackTags>
           </BackContent>
         </CardBack>
