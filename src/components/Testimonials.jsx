@@ -120,12 +120,16 @@ export default Testimonials;
 const Section = styled.section.attrs({ className: 'testimonials-Section' })`
   width: 100%;
   background: #282828;
-  padding: 4rem 0 ;
+  padding: 4rem 0;
   height: 70vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 
   @media (max-width: 768px) {
     height: auto;
     padding: 3rem 0 4rem;
+    overflow: visible;
   }
 `;
 
@@ -135,6 +139,13 @@ const Container = styled.div.attrs({ className: 'testimonials-Container' })`
   flex-direction: column;
   position: relative;
   z-index: 1;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    overflow: visible;
+  }
 `;
 
 const Header = styled.div.attrs({ className: 'testimonials-Header' })`
@@ -142,7 +153,8 @@ const Header = styled.div.attrs({ className: 'testimonials-Header' })`
   margin-bottom: 1.5rem;
   opacity: 0;
   transform: translateY(30px);
-    width: 100%; 
+  width: 100%;
+  flex-shrink: 0;
 `;
 
 const Eyebrow = styled.h2.attrs({ className: 'testimonials-Eyebrow' })`
@@ -160,6 +172,7 @@ const DotsRow = styled.div.attrs({ className: 'testimonials-DotsRow' })`
   justify-content: center;
   gap: 8px;
   margin-bottom: 2.5rem;
+  flex-shrink: 0;
 `;
 
 const Dot = styled.button.attrs({ className: 'testimonials-Dot' })`
@@ -180,6 +193,12 @@ const Dot = styled.button.attrs({ className: 'testimonials-Dot' })`
 const Scene = styled.div.attrs({ className: 'testimonials-Scene' })`
   perspective: 1200px;
   perspective-origin: 50% 50%;
+  flex: 1;
+  min-height: 0;
+
+  @media (max-width: 768px) {
+    flex: none;
+  }
 `;
 
 const CardsContainer = styled.div.attrs({ className: 'testimonials-CardsContainer' })`
@@ -189,9 +208,7 @@ const CardsContainer = styled.div.attrs({ className: 'testimonials-CardsContaine
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
-  height: 400px;
-
-  @media (max-width: 968px) { height: 480px; }
+  height: 100%;
 
   @media (max-width: 768px) {
     height: auto;
@@ -203,7 +220,8 @@ const CardsContainer = styled.div.attrs({ className: 'testimonials-CardsContaine
 const CardWrapper = styled.div.attrs({ className: 'testimonials-CardWrapper' })`
   position: absolute;
   width: 480px;
-  height: 380px;
+  height: 88%;
+  max-height: 380px;
   transform-style: preserve-3d;
   transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1),
               opacity   0.9s cubic-bezier(0.4, 0, 0.2, 1);
@@ -222,6 +240,7 @@ const CardWrapper = styled.div.attrs({ className: 'testimonials-CardWrapper' })`
     width: calc(100vw - 48px);
     max-width: 480px;
     height: auto;
+    max-height: none;
     position: relative;
     transform: none !important;
     visibility: ${p => p.$slot === 0 ? 'visible' : 'hidden'};
