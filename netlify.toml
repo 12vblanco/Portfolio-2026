@@ -1,9 +1,17 @@
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Content-Type = "text/javascript"
+[build]
+  command = "npm run build"
+  publish = "dist"
 
+# Only set specific headers for specific files
 [[headers]]
   for = "/src/*.jsx"
   [headers.values]
     Content-Type = "text/javascript"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Content-Type = "application/javascript"
+
+# Don't override the favicon
+# Let Netlify handle it automatically
