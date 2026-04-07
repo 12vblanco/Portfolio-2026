@@ -30,7 +30,7 @@ export default ReviewCard;
 const Card = styled.div.attrs({ className: 'reviewCard-Card' })`
   background: ${p => p.$isCenter ? '#FFFEFA' : 'rgba(255,255,255,0.06)'};
   border-radius: 24px;
-  padding: 28px 32px;
+  padding: 24px 28px;
   box-shadow: ${p => p.$isCenter
     ? '0 24px 48px rgba(0,0,0,0.3)'
     : '0 8px 24px rgba(0,0,0,0.15)'};
@@ -45,11 +45,11 @@ const Card = styled.div.attrs({ className: 'reviewCard-Card' })`
 `;
 
 const ReviewText = styled.p.attrs({ className: 'reviewCard-ReviewText' })`
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 500;
   color: ${p => p.$isCenter ? '#282828' : 'rgba(255,255,255,0.4)'};
   line-height: 1.8;
-  margin: 16px 0;
+  margin: 14px 0;
   flex: 1;
   display: flex;
   align-items: center;
