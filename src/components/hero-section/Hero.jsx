@@ -96,7 +96,7 @@ const HeroSection = styled.section.attrs({ className: 'hero-HeroSection' })`
   margin-top: -4rem;
       @media (max-width: 968px) {
       margin-top: -2rem;
-      min-height: 80vh;
+      min-height: 84vh;
         padding: 1rem;
 
   }
