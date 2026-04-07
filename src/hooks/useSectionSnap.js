@@ -16,6 +16,8 @@ const MOBILE_BP      = 768;
  
 export function useSectionSnap(lenisRef) {
   useEffect(() => {
+    if (window.innerWidth <= MOBILE_BP) return;
+    
     const sectionIds = Object.keys(SNAP_OFFSETS);
     let debounceTimer = null;
     let isSnapping    = false;

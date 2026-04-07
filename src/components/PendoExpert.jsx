@@ -235,11 +235,12 @@ export const PendoExpert = () => {
 
 const Section = styled.section.attrs({ className: 'pendoExpert-Section' })`
   height: 90vh;
-  /* padding: 24px 0 48px; */
   margin-bottom: 5rem;
+  
   @media (max-width: 968px) {
-    height: fit-content;
-    margin-bottom: 1rem;
+    height: auto !important;
+    min-height: auto;
+    margin-bottom: 2rem;
   }
 `;
 

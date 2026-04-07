@@ -352,8 +352,10 @@ const Section = styled.section.attrs({ className: 'caseStudies-Section' })`
   position: relative;
 
   @media (max-width: 968px) {
-    height: auto;
-    overflow: visible;
+    height: auto !important;  // Force override
+    min-height: auto;
+    overflow: visible !important;
+    overflow-x: hidden;
   }
 `;
 

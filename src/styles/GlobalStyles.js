@@ -63,8 +63,6 @@ export const GlobalStyles = createGlobalStyle`
   html {
     font-size: 16px;
     scroll-behavior: smooth;
-    overflow-x: hidden;
-    overscroll-behavior: none;
     text-rendering: optimizeLegibility;
   }
 
@@ -82,17 +80,13 @@ export const GlobalStyles = createGlobalStyle`
     background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    min-width: 320px;
     min-height: 100vh;
-    width: 100vw;
+    width: 100%;
     overflow-x: hidden;
-    overscroll-behavior: none;
-    touch-action: manipulation;
   }
 
   #root {
     width: 100%;
-    overflow-x: clip;
   }
 
   h1 {
@@ -158,13 +152,11 @@ export const GlobalStyles = createGlobalStyle`
   a {
     color: inherit;
     text-decoration: none;
-    touch-action: manipulation;
   }
 
   button {
     font-family: 'Switzer', sans-serif;
     cursor: pointer;
-    touch-action: manipulation;
   }
 
   img, svg {
@@ -202,4 +194,31 @@ export const GlobalStyles = createGlobalStyle`
     h6 { font-size: 16px; }
     p  { font-size: 16px; }
   }
+
+
+/* Ensure smooth native scrolling on mobile */
+@media (max-width: 768px) {
+  html, body {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    height: auto !important;
+  }
+  
+  #root {
+    min-height: 100vh;
+    height: auto !important;
+  }
+  
+  main {
+    overflow: visible !important;
+    height: auto !important;
+  }
+  
+  section {
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+  }
+}
+
 `;
