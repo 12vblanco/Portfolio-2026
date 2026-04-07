@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Dribbble, Github, Linkedin, Mail } from 'lucide-react';
+import { Dribbble, Github, Mail } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Heart } from '../assets/icons/Heart';
@@ -177,15 +177,6 @@ export const Contact = () => {
             className="contact-socialLink"
           >
             <Github size={24} />
-          </SocialLink>
-          
-          <SocialLink 
-            href="https://linkedin.com/in/victorblanco" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="contact-socialLink"
-          >
-            <Linkedin size={24} />
           </SocialLink>
 
           <SocialLink 
