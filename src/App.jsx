@@ -1,5 +1,5 @@
 import { ThemeProvider } from 'styled-components';
-// import CaseStudies from './components/case-studies';
+import CaseStudies from './components/case-studies/CaseStudies.jsx';
 import { ConsentBanner } from './components/ConsentBanner';
 import { Contact } from './components/Contact';
 import { Experience } from './components/Experience';
