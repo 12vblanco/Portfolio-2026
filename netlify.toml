@@ -1,0 +1,9 @@
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Type = "text/javascript"
+
+[[headers]]
+  for = "/src/*.jsx"
+  [headers.values]
+    Content-Type = "text/javascript"
