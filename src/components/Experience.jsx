@@ -346,26 +346,7 @@ const TimelineLine = styled.div`
   }
 @media (max-width: 426px) {    left: 28px;
   }
-
-
-.TimelineLine::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 100%; /* or specific length */
-  background: linear-gradient(to bottom, #FF3863, #ff00cc);
-}
-
-/* For mobile adjustments */
-@media (max-width: 768px) {
-  .TimelineLine::before {
-    left: 76px; /* or 28px for smaller */
-    transform: none;
-  }
-}`;
-
+`;
 
 const TimelineItem = styled.div`
   position: relative;
