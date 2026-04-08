@@ -347,15 +347,14 @@ export default CaseStudies;
 // ─── Styled Components ────────────────────────────────────────────────────────
 
 const Section = styled.section.attrs({ className: 'caseStudies-Section' })`
-  min-height: 90vh;
-  height: auto;
+  height: 90vh;
   overflow: hidden;
   position: relative;
-
+ 
   @media (max-width: 968px) {
+    height: auto;
     min-height: auto;
-    overflow: visible !important;
-    overflow-x: hidden;
+    overflow: visible;
   }
 `;
 
@@ -523,7 +522,7 @@ const MobileControlsWrapper = styled.div.attrs({ className: 'caseStudies-MobileC
 
 const MobileTrackViewport = styled.div.attrs({ className: 'caseStudies-MobileTrackViewport' })`
   width: 100%;
-  overflow: hidden;
+  clip-path: inset(0);
 `;
 
 const MobileTrack = styled.div.attrs({ className: 'caseStudies-MobileTrack' })`
@@ -533,12 +532,14 @@ const MobileTrack = styled.div.attrs({ className: 'caseStudies-MobileTrack' })`
   transform: translateX(calc(10vw - ${p => p.$currentIndex} * (80vw + 24px)));
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
-
+  touch-action: pan-y;
+ 
   @media (max-width: 426px) {
     /* card = 88vw, centre offset = 50vw - 44vw = 6vw */
     transform: translateX(calc(6vw - ${p => p.$currentIndex} * (88vw + 24px)));
   }
 `;
+ 
 
 /* ── Shared card ── */
 const Card = styled.div.attrs({ className: 'caseStudies-Card' })`
