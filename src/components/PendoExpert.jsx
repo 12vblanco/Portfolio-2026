@@ -234,11 +234,10 @@ export const PendoExpert = () => {
 // ─── Styled Components ────────────────────────────────────────────────────────
 
 const Section = styled.section.attrs({ className: 'pendoExpert-Section' })`
-  height: 90vh;
+  min-height: 90vh;
   margin-bottom: 5rem;
-  
+   
   @media (max-width: 968px) {
-    height: auto !important;
     min-height: auto;
     margin-bottom: 2rem;
   }
@@ -345,7 +344,7 @@ const FeatureList = styled.div.attrs({ className: 'pendoExpert-FeatureList' })`
   flex-direction: column;
   gap: 28px;
   flex: 1;
-  max-width: 60%;
+  max-width: 50%;
 
   @media (max-width: 968px) {
     max-width: 100%;
@@ -400,6 +399,7 @@ const FeatureText = styled.p.attrs({ className: 'pendoExpert-FeatureText' })`
   color: #555;
   margin: 0;
   opacity: 0;
+  max-width: 682px;
 
 @media (max-width: 968px) {    font-size: 18px;
   }

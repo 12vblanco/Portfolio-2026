@@ -218,6 +218,7 @@ export const GlobalStyles = createGlobalStyle`
     height: auto !important;
     min-height: auto !important;
     overflow: visible !important;
+    min-height: fit-content;
   }
 }
 

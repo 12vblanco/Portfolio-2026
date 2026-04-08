@@ -27,32 +27,35 @@ const SNAP_OFFSETS = {
   contact:     40,
 };
 
-const DEBOUNCE_MS    = 600;   // ms after scroll stops before snap fires
+const DEBOUNCE_MS    = 400;   // reduced from 600ms — snaps feel more responsive
 const MAX_NUDGE_PX   = 600;   // won't snap if target is further than this
 const THRESHOLD      = 0.25;  // section must fill this fraction of viewport
 const LENIS_DURATION = 1.2;   // snap animation duration (seconds)
 const MOBILE_BP      = 768;
 // ─────────────────────────────────────────────────────────────────────────────
- 
+
 export function useSectionSnap(lenisRef) {
   useEffect(() => {
     const sectionIds = Object.keys(SNAP_OFFSETS);
     let debounceTimer = null;
     let isSnapping    = false;
- 
+
+    // ⚠️ Reduced from 300ms to 50ms. The original 300ms init delay combined
+    // with the 600ms debounce meant the page felt frozen for ~900ms on load.
+    // 50ms is enough to ensure Lenis has initialised before we hook in.
     const initTimer = setTimeout(() => {
       const lenis = lenisRef?.current;
       if (!lenis) return;
- 
+
       const sections = sectionIds
         .map(id => document.getElementById(id))
         .filter(Boolean);
- 
+
       const getMostVisibleSection = () => {
         const vh = window.innerHeight;
         let best         = null;
         let bestCoverage = 0;
- 
+
         sections.forEach(section => {
           const rect     = section.getBoundingClientRect();
           const visible  = Math.min(rect.bottom, vh) - Math.max(rect.top, 0);
@@ -62,29 +65,29 @@ export function useSectionSnap(lenisRef) {
             best = section;
           }
         });
- 
+
         return bestCoverage >= THRESHOLD ? best : null;
       };
- 
+
       const nudge = () => {
         if (isSnapping) return;
         if (window.innerWidth <= MOBILE_BP) return;
- 
+
         const section = getMostVisibleSection();
         if (!section) return;
- 
+
         const id     = section.id;
         const offset = SNAP_OFFSETS[id] ?? 0;
         const rect   = section.getBoundingClientRect();
- 
+
         // We want rect.top to equal -offset
         const delta  = rect.top - (-offset);
- 
+
         if (Math.abs(delta) < 8)            return;
         if (Math.abs(delta) > MAX_NUDGE_PX) return;
- 
+
         const target = window.scrollY + delta;
- 
+
         isSnapping = true;
         lenis.scrollTo(target, {
           duration: LENIS_DURATION,
@@ -93,26 +96,26 @@ export function useSectionSnap(lenisRef) {
             : 1 - Math.pow(-2 * t + 2, 3) / 2,
           onComplete: () => { isSnapping = false; },
         });
- 
+
         setTimeout(() => { isSnapping = false; }, LENIS_DURATION * 1000 + 400);
       };
- 
+
       // Hook into Lenis scroll event — fires reliably during Lenis-driven scrolling
       const onLenisScroll = () => {
         if (isSnapping) return;
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(nudge, DEBOUNCE_MS);
       };
- 
+
       lenis.on('scroll', onLenisScroll);
- 
+
       // Cleanup stored on closure
       initTimer._cleanup = () => {
         lenis.off('scroll', onLenisScroll);
         clearTimeout(debounceTimer);
       };
-    }, 300);
- 
+    }, 50);
+
     return () => {
       clearTimeout(initTimer);
       initTimer._cleanup?.();

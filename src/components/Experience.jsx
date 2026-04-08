@@ -218,6 +218,7 @@ const blip = keyframes`
 `;
 
 const Section = styled.section`
+  min-height: 80vh;
 `;
 
 const Container = styled.div.attrs({ className: 'experience-Container' })`

@@ -122,13 +122,14 @@ const Section = styled.section.attrs({ className: 'testimonials-Section' })`
   width: 100%;
   background: #282828;
   padding: 4rem 0;
-  height: 70vh;
+  min-height: 70vh;
+  height: auto;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 
   @media (max-width: 768px) {
-    height: auto;
+    min-height: auto;
     padding: 3rem 0 4rem;
     overflow: visible;
   }

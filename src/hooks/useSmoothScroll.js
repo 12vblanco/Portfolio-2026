@@ -28,11 +28,18 @@ export const useSmoothScroll = () => {
 
     const tickerFn = (time) => lenis.raf(time * 1000);
     gsap.ticker.add(tickerFn);
+
+    // ⚠️ Only disable lag smoothing on desktop where Lenis is active.
+    // On mobile, lag smoothing should remain enabled — disabling it
+    // globally caused scroll freezes when the browser tab briefly lost
+    // focus (common on mobile) because nothing was driving lenis.raf.
     gsap.ticker.lagSmoothing(0);
 
     return () => {
       lenis.destroy();
       gsap.ticker.remove(tickerFn);
+      // Restore lag smoothing default when Lenis is torn down
+      gsap.ticker.lagSmoothing(500, 33);
     };
   }, []);
 

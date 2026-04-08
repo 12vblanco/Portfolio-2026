@@ -8,6 +8,7 @@ import { Heart } from '../assets/icons/Heart';
 gsap.registerPlugin(ScrollTrigger);
 
 const Section = styled.section.attrs({ className: 'contact-Section' })`
+  min-height: 32vh;
   max-height: 32vh;
 `;
 

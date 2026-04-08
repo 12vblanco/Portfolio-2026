@@ -347,12 +347,12 @@ export default CaseStudies;
 // ─── Styled Components ────────────────────────────────────────────────────────
 
 const Section = styled.section.attrs({ className: 'caseStudies-Section' })`
-  height: 90vh;
+  min-height: 90vh;
+  height: auto;
   overflow: hidden;
   position: relative;
 
   @media (max-width: 968px) {
-    height: auto !important;  // Force override
     min-height: auto;
     overflow: visible !important;
     overflow-x: hidden;
