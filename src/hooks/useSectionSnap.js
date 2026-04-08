@@ -19,12 +19,22 @@ import { useEffect } from 'react';
  */
 
 // ─── YOUR TUNING ZONE ────────────────────────────────────────────────────────
-const SNAP_OFFSETS = {
+// Desktop offsets (original)
+const DESKTOP_SNAP_OFFSETS = {
   home:       -80,   // nav height clearance
   works:      -96,
   pendo:      -60,
   experience: -36,
   contact:    40,
+};
+
+// Mobile offsets - adjust these values for better mobile experience
+const MOBILE_SNAP_OFFSETS = {
+  home:       -60,   // less clearance on mobile (nav is smaller)
+  works:      -50,   // reduced offset for mobile
+  pendo:      -40,
+  experience: -20,
+  contact:    60,    // more space at bottom on mobile
 };
 
 const DEBOUNCE_MS    = 400;   // reduced from 600ms — snaps feel more responsive
@@ -36,10 +46,15 @@ const MOBILE_BP      = 768;
 
 export function useSectionSnap(lenisRef) {
   useEffect(() => {
-    const sectionIds = Object.keys(SNAP_OFFSETS);
+    const sectionIds = Object.keys(DESKTOP_SNAP_OFFSETS);
     let debounceTimer = null;
     let isSnapping    = false;
     let isMobile = window.innerWidth <= MOBILE_BP;
+
+    // Helper to get current offsets based on device
+    const getSnapOffsets = () => {
+      return isMobile ? MOBILE_SNAP_OFFSETS : DESKTOP_SNAP_OFFSETS;
+    };
 
     // Handle resize to detect mobile/desktop changes
     const handleResize = () => {
@@ -78,13 +93,12 @@ export function useSectionSnap(lenisRef) {
       const nudge = () => {
         if (isSnapping) return;
         
-        // On mobile, we still want snap but need to use native scroll
-        // instead of Lenis (which is disabled on mobile)
         const section = getMostVisibleSection();
         if (!section) return;
 
         const id     = section.id;
-        const offset = SNAP_OFFSETS[id] ?? 0;
+        const offsets = getSnapOffsets();
+        const offset = offsets[id] ?? (isMobile ? 0 : 0);
         const rect   = section.getBoundingClientRect();
 
         // We want rect.top to equal -offset
