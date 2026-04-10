@@ -19,7 +19,8 @@ export const Navigation = () => {
             <NavLink href="#experience">Experience</NavLink>
           </NavLinks>
           
-          <CTA href="#contact">Let's Talk</CTA>
+          <CTA  href="https://calendly.com/12vblanco/30min"
+          target="_blank">Let's Talk</CTA>
           
           <MobileMenuButton aria-label="Open menu" onClick={() => setMobileOpen(true)}>
             <Menu size={34} aria-hidden="true" />
@@ -42,7 +43,7 @@ export const Navigation = () => {
         <MobileNavLink href="#works" aria-label="navigate to works" onClick={() => setMobileOpen(false)}>Works</MobileNavLink>
         <MobileNavLink href="#pendo" aria-label="navigate to pendo" onClick={() => setMobileOpen(false)}>Pendo</MobileNavLink>
         <MobileNavLink href="#experience" aria-label="navigate to experience" onClick={() => setMobileOpen(false)}>Experience</MobileNavLink>
-        <MobileCTA href="#contact" aria-label="navigate to contact" onClick={() => setMobileOpen(false)}>Let's Talk</MobileCTA>
+        <MobileCTA href="https://calendly.com/12vblanco/30min" aria-label="navigate to contact" onClick={() => setMobileOpen(false)}>Let's Talk</MobileCTA>
       </MobileNav>
     </>
   );
@@ -53,11 +54,11 @@ export const Navigation = () => {
 const NavWrapper = styled.div.attrs({ className: 'navigation-NavWrapper' })`
   position: relative;
   z-index: 1000;
-  padding: 2px;
+  /* padding: 2px; */
   width: 100%;
   max-width: 900px;
   margin: 37px auto 0;
-  padding-right: 2px;
+  /* padding-right: 2px; */
   background: #FFFEFA;
   border-radius: 50px;
   box-shadow: 0 4px 20px rgba(40, 40, 40, 0.1);
@@ -104,6 +105,7 @@ const Logo = styled.a.attrs({ className: 'navigation-Logo' })`
 const NavLinks = styled.div.attrs({ className: 'navigation-NavLinks' })`
   display: flex;
   gap: 40px;
+  padding-top: 1px;
   align-items: center;
   @media (max-width: 968px) {
     display: none;
@@ -124,14 +126,14 @@ const NavLink = styled.a.attrs({ className: 'navigation-NavLink' })`
 `;
 
 const CTA = styled.a.attrs({ className: 'navigation-CTA' })`
-  padding: 10px 14px;
+  padding: 12px 14px;
   background: #282828;
   color: #FFFFFF;
   border-radius: 50px;
   font-size: 18px;
   font-weight: 600;
   text-decoration: none;
-  margin-right: 1px;
+  /* margin-right: 1px; */
   transition: all 0.4s ease, box-shadow 0.2s ease;
   border: 2px solid #282828;
   animation: pulseScale 1.5s ease-in-out 6;

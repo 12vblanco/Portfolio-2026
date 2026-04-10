@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import styled from 'styled-components';
 import { useHeroAnimation } from '../../hooks/useHeroAnimation';
 import { HeroCTA } from './HeroCTA';
+import { HeroStamp } from './HeroStamp';
 import { HeroTitle } from './HeroTitle';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -49,7 +50,15 @@ export const Hero = () => {
   return (
     <HeroSection id="home" ref={heroRef}>
       <Container>
-        <Badge
+        <HeroStamp />
+          <a 
+           href="https://calendly.com/12vblanco/30min"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: 'none' }}
+        >
+          
+          <Badge
           ref={badgeRef}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
@@ -59,7 +68,7 @@ export const Hero = () => {
           <Dot ref={dotRef} aria-hidden="true" />
           Available for work
           <BorderTrail ref={trailRef} aria-hidden="true" />
-        </Badge>
+        </Badge></a>
 
         <HeroTitle
           line1Ref={line1Ref}
