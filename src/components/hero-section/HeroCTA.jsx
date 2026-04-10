@@ -163,7 +163,7 @@ export const HeroCTA = () => {
         </PrimaryButton>
 
         <SecondaryButton
-          href="https://calendly.com"
+          href="https://calendly.com/12vblanco/30min"
           target="_blank"
           rel="noopener noreferrer"
           onMouseEnter={handleSecondaryEnter}

@@ -38,9 +38,9 @@ const Card = styled.div.attrs({ className: 'reviewCard-Card' })`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  min-height: 370px;
   border: ${p => p.$isCenter ? '1px solid #e5e5e5' : '1px solid rgba(255,255,255,0.08)'};
   @media (max-width: 426px) {
-    min-height: 396px;
   }
 `;
 

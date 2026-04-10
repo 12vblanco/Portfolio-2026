@@ -188,7 +188,7 @@ export const Contact = () => {
           </SocialLink>
 
           <SocialLink 
-            href="https://www.upwork.com/freelancers/~victorblanco" 
+            href="https://www.upwork.com/freelancers/~01141c20a0de332c1a" 
             target="_blank" 
             rel="noopener noreferrer"
             aria-label="Upwork profile"
@@ -197,7 +197,7 @@ export const Contact = () => {
           </SocialLink>
           
           <SocialLink 
-            href="https://dribbble.com/victorblanco" 
+            href="https://dribbble.com/Victor-Blanco" 
             target="_blank" 
             rel="noopener noreferrer"
             aria-label="Dribbble profile"
@@ -206,7 +206,7 @@ export const Contact = () => {
           </SocialLink>
           
           <SocialLink 
-            href="mailto:victor@victorblanco.com"
+            href="mailto:info@victorblancoweb.com"
             aria-label="Email Victor"
           >
             <Mail size={24} aria-hidden="true" />
