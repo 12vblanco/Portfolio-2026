@@ -179,7 +179,7 @@ export const Contact = () => {
         
         <SocialLinks>
           <SocialLink 
-            href="https://github.com/victorblanco" 
+            href="https://github.com/12vblanco" 
             target="_blank" 
             rel="noopener noreferrer"
             aria-label="GitHub profile"
