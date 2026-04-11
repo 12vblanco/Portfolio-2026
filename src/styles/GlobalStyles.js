@@ -196,16 +196,17 @@ export const GlobalStyles = createGlobalStyle`
   }
 
 
+/* Ensure smooth native scrolling on mobile */
 @media (max-width: 768px) {
   html, body {
-    /* overflow-y: auto !important; */
+    overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
-    /* height: auto !important; */
+    height: auto !important;
   }
   
   #root {
     min-height: 100vh;
-    /* height: auto !important; */
+    height: auto !important;
   }
   
   main {
@@ -220,4 +221,5 @@ export const GlobalStyles = createGlobalStyle`
     min-height: fit-content;
   }
 }
+
 `;
