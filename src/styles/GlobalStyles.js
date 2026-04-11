@@ -194,8 +194,9 @@ export const GlobalStyles = createGlobalStyle`
     h6 { font-size: 16px; }
     p  { font-size: 16px; }
   }
-/* 
 
+
+/* Ensure smooth native scrolling on mobile */
 @media (max-width: 768px) {
   html, body {
     overflow-y: auto !important;
@@ -219,8 +220,6 @@ export const GlobalStyles = createGlobalStyle`
     overflow: visible !important;
     min-height: fit-content;
   }
-  
-} */
-
+}
 
 `;
