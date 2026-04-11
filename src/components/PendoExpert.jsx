@@ -183,6 +183,19 @@ export const PendoExpert = () => {
     return () => ctx.revert();
   }, []);
 
+
+  // Add this useEffect inside the Experience component
+useEffect(() => {
+  // On mobile, kill any ScrollTriggers that might be capturing scroll events
+  if (window.innerWidth <= 768 && window.ScrollTrigger) {
+    window.ScrollTrigger.getAll().forEach(trigger => {
+      if (trigger.vars?.once !== true) {
+        trigger.kill();
+      }
+    });
+  }
+}, []);
+
   return (
     <Section id="pendo" ref={sectionRef}>
       <Container>

@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useHeroAnimation } from '../../hooks/useHeroAnimation';
 import { HeroCTA } from './HeroCTA';
@@ -40,12 +40,26 @@ export const Hero = () => {
     });
   };
 
+  // Add this useEffect inside the Experience component
+useEffect(() => {
+  // On mobile, kill any ScrollTriggers that might be capturing scroll events
+  if (window.innerWidth <= 768 && window.ScrollTrigger) {
+    window.ScrollTrigger.getAll().forEach(trigger => {
+      if (trigger.vars?.once !== true) {
+        trigger.kill();
+      }
+    });
+  }
+}, []);
+
   const handleMouseLeave = () => {
     const trail = trailRef.current;
     trail.classList.remove('active');
     if (animationRef.current) animationRef.current.kill();
     trail.style.background = 'conic-gradient(from 0deg, transparent 0deg, #282828 0deg, #282828 360deg, transparent 360deg)';
   };
+
+  
 
   return (
     <HeroSection id="home" ref={heroRef}>
