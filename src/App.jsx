@@ -9,14 +9,16 @@ import { PendoExpert } from './components/PendoExpert';
 import Testimonials from './components/Testimonials';
 import { useSectionSnap } from './hooks/useSectionSnap';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
-import { GlobalStyles, theme } from './styles/GlobalStyles';
+// import { GlobalStyles, theme } from './styles/GlobalStyles';
 
 function App() {
   const lenisRef = useSmoothScroll();
   useSectionSnap(lenisRef);
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
+    <ThemeProvider 
+    // theme={theme}
+    >
+      {/* <GlobalStyles /> */}
       <Navigation />
       <main style={{ position: 'relative', zIndex: 2 }} role="main">
         <Hero />
