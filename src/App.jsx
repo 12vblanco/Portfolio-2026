@@ -1,4 +1,4 @@
-import { ThemeProvider } from 'styled-components';
+// import { ThemeProvider } from 'styled-components';
 import CaseStudies from './components/case-studies/CaseStudies.jsx';
 import { ConsentBanner } from './components/ConsentBanner';
 import { Contact } from './components/Contact';
@@ -15,9 +15,7 @@ function App() {
   const lenisRef = useSmoothScroll();
   useSectionSnap(lenisRef);
   return (
-    <ThemeProvider 
-    // theme={theme}
-    >
+    <>
       {/* <GlobalStyles /> */}
       <Navigation />
       <main style={{ position: 'relative', zIndex: 2 }} role="main">
@@ -29,7 +27,7 @@ function App() {
         <Testimonials />
         <Contact />
       </main>
-    </ThemeProvider>
+    </>
   );
 }
 
