@@ -198,26 +198,26 @@ export const GlobalStyles = createGlobalStyle`
 
 /* Ensure smooth native scrolling on mobile */
 @media (max-width: 768px) {
-  html, body {
-    /* overflow-y: auto !important; */
-   
+  /* html, body {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
     height: auto !important;
   }
   
   #root {
     min-height: 100vh;
     height: auto !important;
-  }
+  } */
   
   main {
-    /* overflow: visible !important; */
+    overflow: visible !important;
     height: auto !important;
   }
   
   section {
     height: auto !important;
     min-height: auto !important;
-    /* overflow: visible !important; */
+    overflow: visible !important;
     min-height: fit-content;
   }
 }
