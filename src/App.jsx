@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
 import CaseStudies from './components/case-studies/CaseStudies.jsx';
 import { ConsentBanner } from './components/ConsentBanner';
@@ -7,15 +8,14 @@ import { Hero } from './components/hero-section/Hero';
 import { Navigation } from './components/Navigation';
 import { PendoExpert } from './components/PendoExpert';
 import Testimonials from './components/Testimonials';
-// import { useSectionSnap } from './hooks/useSectionSnap';
-// import { useSmoothScroll } from './hooks/useSmoothScroll';
-import { useEffect } from 'react';
+import { useSectionSnap } from './hooks/useSectionSnap';
+import { useSmoothScroll } from './hooks/useSmoothScroll';
 import { GlobalStyles, theme } from './styles/GlobalStyles';
 
 function App() {
   
-  // const lenisRef = useSmoothScroll();
-  // useSectionSnap(lenisRef);
+  const lenisRef = useSmoothScroll();
+  useSectionSnap(lenisRef);
 
   // Simple mobile scroll fix
   useEffect(() => {
