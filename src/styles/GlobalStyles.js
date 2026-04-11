@@ -199,7 +199,7 @@ export const GlobalStyles = createGlobalStyle`
 /* Ensure smooth native scrolling on mobile */
 @media (max-width: 768px) {
   html, body {
-    overflow-y: auto !important;
+    /* overflow-y: auto !important; */
    
     height: auto !important;
   }
@@ -210,14 +210,14 @@ export const GlobalStyles = createGlobalStyle`
   }
   
   main {
-    overflow: visible !important;
+    /* overflow: visible !important; */
     height: auto !important;
   }
   
   section {
     height: auto !important;
     min-height: auto !important;
-    overflow: visible !important;
+    /* overflow: visible !important; */
     min-height: fit-content;
   }
 }
