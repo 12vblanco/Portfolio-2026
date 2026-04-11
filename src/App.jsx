@@ -1,4 +1,4 @@
-// import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import CaseStudies from './components/case-studies/CaseStudies.jsx';
 import { ConsentBanner } from './components/ConsentBanner';
 import { Contact } from './components/Contact';
@@ -9,14 +9,14 @@ import { PendoExpert } from './components/PendoExpert';
 import Testimonials from './components/Testimonials';
 import { useSectionSnap } from './hooks/useSectionSnap';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
-// import { GlobalStyles, theme } from './styles/GlobalStyles';
+import { GlobalStyles, theme } from './styles/GlobalStyles';
 
 function App() {
   const lenisRef = useSmoothScroll();
   useSectionSnap(lenisRef);
   return (
-    <>
-      {/* <GlobalStyles /> */}
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
       <Navigation />
       <main style={{ position: 'relative', zIndex: 2 }} role="main">
         <Hero />
@@ -27,7 +27,7 @@ function App() {
         <Testimonials />
         <Contact />
       </main>
-    </>
+    </ThemeProvider>
   );
 }
 
