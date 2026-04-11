@@ -16,6 +16,18 @@ const LazyVideoCard = ({ study, index, hasAnimated, containerRef, isTablet, isCl
   const srcSetRef = useRef(false);
   const [videoSrcSet, setVideoSrcSet] = useState(false);
   const [videoReady, setVideoReady]   = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if on mobile/tablet for responsive images
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 968);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Determine which image to show (mobile image if available and on mobile, otherwise default)
+  const displayImage = (isMobile && study.mobileImage) ? study.mobileImage : study.image;
 
   useEffect(() => {
     if (!study.video) return;
@@ -76,7 +88,7 @@ const LazyVideoCard = ({ study, index, hasAnimated, containerRef, isTablet, isCl
       style={{ cursor: isTablet ? 'pointer' : 'default' }}
     >
       <MediaContainer>
-        <Image src={study.image} alt={study.title} $hidden={videoReady} />
+        <Image src={displayImage} alt={study.title} $hidden={videoReady} />
         {study.video && (
           <Video
             ref={videoRef}
