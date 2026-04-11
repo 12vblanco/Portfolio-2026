@@ -35,7 +35,7 @@ export const HeroStamp = ({ href = 'https://calendly.com/12vblanco/30min' }) => 
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Book a free 30 minute discovery call"
-      onMouseEnter={() => { speedRef.current = 1.4; }}
+      onMouseEnter={() => { speedRef.current = 1; }}
       onMouseLeave={() => { speedRef.current = 0.25; }}
     >
       <Ring ref={ringRef} viewBox="0 0 120 120" width="120" height="120">
@@ -45,7 +45,7 @@ export const HeroStamp = ({ href = 'https://calendly.com/12vblanco/30min' }) => 
             d="M60,60 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"
           />
         </defs>
-        <text fontSize="9.6" fontWeight="600" fill="#282828" letterSpacing="3.05" fontFamily="inherit">
+        <text fontSize="10" fontWeight="600" fill="#282828" letterSpacing="3" fontFamily="inherit">
           <textPath href="#stamp-circle-path">
             BOOK A FREE 30 MINUTES CALL  •
           </textPath>
@@ -61,16 +61,18 @@ export const HeroStamp = ({ href = 'https://calendly.com/12vblanco/30min' }) => 
 };
 
 const CalIcon = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
     <rect x="3" y="4" width="18" height="17" rx="2" stroke="#FFFEFA" strokeWidth="2" />
     <path d="M16 2v4M8 2v4M3 9h18" stroke="#FFFEFA" strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
 
 const Wrapper = styled.a`
+ 
   position: absolute;
-  top: 27%;
-  right: 29%;
+  top: -20%;
+  right: 20px;
+  transform: translateY(-50%);
   width: 120px;
   height: 120px;
   display: block;
@@ -79,7 +81,8 @@ const Wrapper = styled.a`
   opacity: 0;
 
   @media (max-width: 968px) {
-    display: none;
+    top: -52%;
+  right: -39px;
   }
 `;
 

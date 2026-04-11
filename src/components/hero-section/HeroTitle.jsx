@@ -1,6 +1,7 @@
 import gsap from 'gsap';
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import { HeroStamp } from './HeroStamp';
 import { Star4Svg } from './StarIcons';
 
 const STAR_HOVER = [
@@ -56,6 +57,7 @@ export const HeroTitle = ({ line1Ref, line2Ref, star1Ref, star2Ref, star3Ref }) 
           <TitleText ref={line2Ref} style={{ color: '#FF3863' }}>Pendo Consultant</TitleText>
         </TitleLine>
       </Title>
+      <HeroStamp />
     </TitleWrapper>
   );
 };
@@ -76,8 +78,8 @@ const Title = styled.h1.attrs({ className: 'heroTitle-Title' })`
   position: relative;
   z-index: 1;
 
-@media (max-width: 968px) {   
-   /* font-size: 60px; */
+  @media (max-width: 968px) {   
+    /* font-size: 60px; */
   }
 
   span {

@@ -19,28 +19,27 @@ import { useEffect } from 'react';
  */
 
 // ─── YOUR TUNING ZONE ────────────────────────────────────────────────────────
-// Desktop offsets (original)
 const DESKTOP_SNAP_OFFSETS = {
-  home:       -80,   // nav height clearance
+  home:       -80,
   works:      -96,
   pendo:      -60,
   experience: -36,
   contact:    40,
 };
 
-// Mobile offsets - adjust these values for better mobile experience
 const MOBILE_SNAP_OFFSETS = {
-  home:       -60,   // less clearance on mobile (nav is smaller)
-  works:      -50,   // reduced offset for mobile
+  home:       -60,
+  works:      -50,
   pendo:      -40,
   experience: -20,
-  contact:    60,    // more space at bottom on mobile
+  contact:    60,
 };
 
-const DEBOUNCE_MS    = 400;   // reduced from 600ms — snaps feel more responsive
-const MAX_NUDGE_PX   = 600;   // won't snap if target is further than this
-const THRESHOLD      = 0.25;  // section must fill this fraction of viewport
-const LENIS_DURATION = 1.2;   // snap animation duration (seconds)
+const DEBOUNCE_MS    = 600;   // wait longer after scroll stops before snapping
+const MAX_NUDGE_PX   = 180;   // only snap if within 180px of target — prevents
+                               // snapping the user back from a deliberate scroll
+const THRESHOLD      = 0.55;  // section must fill >55% of viewport to be a candidate
+const LENIS_DURATION = 1.2;
 const MOBILE_BP      = 768;
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -51,23 +50,14 @@ export function useSectionSnap(lenisRef) {
     let isSnapping    = false;
     let isMobile = window.innerWidth <= MOBILE_BP;
 
-    // Helper to get current offsets based on device
-    const getSnapOffsets = () => {
-      return isMobile ? MOBILE_SNAP_OFFSETS : DESKTOP_SNAP_OFFSETS;
-    };
+    const getSnapOffsets = () => isMobile ? MOBILE_SNAP_OFFSETS : DESKTOP_SNAP_OFFSETS;
 
-    // Handle resize to detect mobile/desktop changes
-    const handleResize = () => {
-      isMobile = window.innerWidth <= MOBILE_BP;
-    };
+    const handleResize = () => { isMobile = window.innerWidth <= MOBILE_BP; };
     window.addEventListener('resize', handleResize);
 
-    // ⚠️ Reduced from 300ms to 50ms. The original 300ms init delay combined
-    // with the 600ms debounce meant the page felt frozen for ~900ms on load.
-    // 50ms is enough to ensure Lenis has initialised before we hook in.
     const initTimer = setTimeout(() => {
       const lenis = lenisRef?.current;
-      
+
       const sections = sectionIds
         .map(id => document.getElementById(id))
         .filter(Boolean);
@@ -92,27 +82,28 @@ export function useSectionSnap(lenisRef) {
 
       const nudge = () => {
         if (isSnapping) return;
-        
+
         const section = getMostVisibleSection();
         if (!section) return;
 
-        const id     = section.id;
+        const id      = section.id;
         const offsets = getSnapOffsets();
-        const offset = offsets[id] ?? (isMobile ? 0 : 0);
-        const rect   = section.getBoundingClientRect();
+        const offset  = offsets[id] ?? 0;
+        const rect    = section.getBoundingClientRect();
 
-        // We want rect.top to equal -offset
-        const delta  = rect.top - (-offset);
+        // delta = how far we need to scroll to place the section correctly
+        const delta = rect.top - (-offset);
 
+        // Only snap when the user is already close to the snap point —
+        // this prevents the hook yanking the page back from a deliberate
+        // mid-section scroll position.
         if (Math.abs(delta) < 8)            return;
         if (Math.abs(delta) > MAX_NUDGE_PX) return;
 
         const target = window.scrollY + delta;
-
         isSnapping = true;
 
         if (!isMobile && lenis) {
-          // Desktop: Use Lenis smooth scroll
           lenis.scrollTo(target, {
             duration: LENIS_DURATION,
             easing: (t) => t < 0.5
@@ -121,14 +112,11 @@ export function useSectionSnap(lenisRef) {
             onComplete: () => { isSnapping = false; },
           });
         } else {
-          // Mobile: Use native smooth scroll
-          window.scrollTo({
-            top: target,
-            behavior: 'smooth'
-          });
+          window.scrollTo({ top: target, behavior: 'smooth' });
           setTimeout(() => { isSnapping = false; }, LENIS_DURATION * 1000);
         }
 
+        // Safety release in case onComplete never fires
         setTimeout(() => { isSnapping = false; }, LENIS_DURATION * 1000 + 400);
       };
 
@@ -138,21 +126,23 @@ export function useSectionSnap(lenisRef) {
         debounceTimer = setTimeout(nudge, DEBOUNCE_MS);
       };
 
+      let cleanup;
       if (lenis && !isMobile) {
-        // Desktop: Hook into Lenis scroll event
         lenis.on('scroll', onScroll);
-        initTimer._cleanup = () => {
+        cleanup = () => {
           lenis.off('scroll', onScroll);
           clearTimeout(debounceTimer);
         };
       } else {
-        // Mobile: Use native scroll event
         window.addEventListener('scroll', onScroll);
-        initTimer._cleanup = () => {
+        cleanup = () => {
           window.removeEventListener('scroll', onScroll);
           clearTimeout(debounceTimer);
         };
       }
+
+      // Store cleanup so the outer return can call it
+      initTimer._cleanup = cleanup;
     }, 50);
 
     return () => {

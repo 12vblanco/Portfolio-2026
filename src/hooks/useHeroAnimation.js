@@ -1,14 +1,20 @@
 import gsap from 'gsap';
 import { useEffect, useRef } from 'react';
 
-export const useHeroAnimation = () => {
+export const useHeroAnimation = ({ star1Ref: extStar1, star2Ref: extStar2, star3Ref: extStar3 } = {}) => {
   const heroRef  = useRef(null);
   const line1Ref = useRef(null);
   const line2Ref = useRef(null);
   const line3Ref = useRef(null);
-  const star1Ref = useRef(null);
-  const star2Ref = useRef(null);
-  const star3Ref = useRef(null);
+
+  // Use externally-provided refs if given (so App.jsx can share them
+  // with Navigation), otherwise fall back to internal ones.
+  const internalStar1 = useRef(null);
+  const internalStar2 = useRef(null);
+  const internalStar3 = useRef(null);
+  const star1Ref = extStar1 ?? internalStar1;
+  const star2Ref = extStar2 ?? internalStar2;
+  const star3Ref = extStar3 ?? internalStar3;
 
   useEffect(() => {
     const ctx = gsap.context(() => {

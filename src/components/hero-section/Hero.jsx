@@ -4,14 +4,13 @@ import { useRef } from 'react';
 import styled from 'styled-components';
 import { useHeroAnimation } from '../../hooks/useHeroAnimation';
 import { HeroCTA } from './HeroCTA';
-import { HeroStamp } from './HeroStamp';
 import { HeroTitle } from './HeroTitle';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export const Hero = () => {
-  const { heroRef, line1Ref, line2Ref, line3Ref, star1Ref, star2Ref, star3Ref } =
-    useHeroAnimation();
+export const Hero = ({ star1Ref, star2Ref, star3Ref }) => {
+  const { heroRef, line1Ref, line2Ref, line3Ref } =
+    useHeroAnimation({ star1Ref, star2Ref, star3Ref });
   
   const badgeRef = useRef(null);
   const dotRef = useRef(null);
@@ -47,30 +46,29 @@ export const Hero = () => {
     trail.style.background = 'conic-gradient(from 0deg, transparent 0deg, #282828 0deg, #282828 360deg, transparent 360deg)';
   };
 
-  
-
   return (
     <HeroSection id="home" ref={heroRef}>
       <Container>
-        <HeroStamp />
-          <a 
-           href="https://calendly.com/12vblanco/30min"
+        {/* HeroStamp has been moved inside HeroTitle so it's
+            always positioned relative to the title text block */}
+        <a 
+          href="https://calendly.com/12vblanco/30min"
           target="_blank"
           rel="noopener noreferrer"
           style={{ textDecoration: 'none' }}
         >
-          
           <Badge
-          ref={badgeRef}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          role="status"
-          aria-label="Availability status"
-        >
-          <Dot ref={dotRef} aria-hidden="true" />
-          Available for work
-          <BorderTrail ref={trailRef} aria-hidden="true" />
-        </Badge></a>
+            ref={badgeRef}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            role="status"
+            aria-label="Availability status"
+          >
+            <Dot ref={dotRef} aria-hidden="true" />
+            Available for work
+            <BorderTrail ref={trailRef} aria-hidden="true" />
+          </Badge>
+        </a>
 
         <HeroTitle
           line1Ref={line1Ref}
@@ -145,7 +143,8 @@ const Badge = styled.div.attrs({ className: 'hero-Badge' })`
   position: relative;
   cursor: pointer;
 
-@media (max-width: 968px) {    display: none;
+  @media (max-width: 968px) {
+    display: none;
   }
 `;
 
@@ -248,6 +247,7 @@ const Subtitle = styled.p.attrs({ className: 'hero-Subtitle' })`
   max-width: 540px;
   margin-bottom: 0;
 
-@media (max-width: 968px) {    font-size: 18px;
+  @media (max-width: 968px) {
+    font-size: 18px;
   }
 `;
