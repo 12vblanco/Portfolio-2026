@@ -220,6 +220,29 @@ export const GlobalStyles = createGlobalStyle`
     overflow: visible !important;
     min-height: fit-content;
   }
+  
 }
+/* ─── Mobile scroll fix ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Prevent any hidden overflow that might block scrolling */
+  html, body {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    position: static !important;
+    height: auto !important;
+    min-height: 100vh !important;
+  }
+  
+  /* Ensure no element captures touch events unexpectedly */
+  body * {
+    touch-action: pan-y pinch-zoom !important;
+  }
+  
+  /* Temporarily disable all CSS transitions on load (re-enabled after 100ms) */
+  *, *::before, *::after {
+    transition: none !important;
+  }
+}
+
 
 `;
