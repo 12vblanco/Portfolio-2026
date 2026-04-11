@@ -200,7 +200,7 @@ export const GlobalStyles = createGlobalStyle`
 @media (max-width: 768px) {
   html, body {
     overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
+   
     height: auto !important;
   }
   
