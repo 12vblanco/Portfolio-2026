@@ -264,7 +264,7 @@ const Container = styled.div.attrs({ className: 'pendoExpert-Container' })`
 `;
 
 const Header = styled.div.attrs({ className: 'pendoExpert-Header' })`
-  margin-bottom: 24px;
+  margin-bottom: 1.2rem;
   flex-shrink: 0;
   display: flex;
   justify-content: space-between;
@@ -308,7 +308,6 @@ const Subtitle = styled.p.attrs({ className: 'pendoExpert-Subtitle' })`
   font-size: 20px;
   color: #282828;
   max-width: 460px;
-
   margin-top: 2rem;
 
 @media (max-width: 968px) {    font-size: 18px;
@@ -326,8 +325,8 @@ const MiddleRow = styled.div.attrs({ className: 'pendoExpert-MiddleRow' })`
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
-  gap: 60px;
-  padding: 3rem 0;
+  gap: 40px;
+  padding: 2rem 0;
 
   @media (max-width: 1200px) {
     gap: 40px;

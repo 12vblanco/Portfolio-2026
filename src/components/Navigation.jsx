@@ -86,6 +86,7 @@ const NavContainer = styled.nav.attrs({ className: 'navigation-NavContainer' })`
 
 const Logo = styled.a.attrs({ className: 'navigation-Logo' })`
   font-family: 'Switzer', sans-serif;
+  margin-top: 3px;
   margin-left: 1rem;
   font-size: 28px;
   font-weight: 900;
