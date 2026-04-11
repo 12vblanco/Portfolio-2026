@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import CaseStudies from './components/case-studies/CaseStudies.jsx';
 import { ConsentBanner } from './components/ConsentBanner';
@@ -13,30 +12,8 @@ import { useSmoothScroll } from './hooks/useSmoothScroll';
 import { GlobalStyles, theme } from './styles/GlobalStyles';
 
 function App() {
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 800);
-  
-  // Only use smooth scroll hooks on desktop
-  const lenisRef = isDesktop ? useSmoothScroll() : null;
-  useSectionSnap(isDesktop ? lenisRef : null);
-  
-  // Handle resize to enable/disable smooth scroll dynamically
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth > 800);
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Clean up ScrollTriggers on mobile to prevent scroll blocking
-  useEffect(() => {
-    if (!isDesktop && window.ScrollTrigger) {
-      // Kill all ScrollTriggers on mobile
-      window.ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    }
-  }, [isDesktop]);
-
+  const lenisRef = useSmoothScroll();
+  useSectionSnap(lenisRef);
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
