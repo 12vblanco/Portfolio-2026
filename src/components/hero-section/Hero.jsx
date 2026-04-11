@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import styled from 'styled-components';
 import { useHeroAnimation } from '../../hooks/useHeroAnimation';
 import { HeroCTA } from './HeroCTA';
@@ -39,18 +39,6 @@ export const Hero = () => {
       },
     });
   };
-
-  // Add this useEffect inside the Experience component
-useEffect(() => {
-  // On mobile, kill any ScrollTriggers that might be capturing scroll events
-  if (window.innerWidth <= 768 && window.ScrollTrigger) {
-    window.ScrollTrigger.getAll().forEach(trigger => {
-      if (trigger.vars?.once !== true) {
-        trigger.kill();
-      }
-    });
-  }
-}, []);
 
   const handleMouseLeave = () => {
     const trail = trailRef.current;

@@ -14,18 +14,6 @@ import { GlobalStyles, theme } from './styles/GlobalStyles';
 
 function App() {
   
-  // Add this useEffect inside the Experience component
-useEffect(() => {
-  // On mobile, kill any ScrollTriggers that might be capturing scroll events
-  if (window.innerWidth <= 768 && window.ScrollTrigger) {
-    window.ScrollTrigger.getAll().forEach(trigger => {
-      if (trigger.vars?.once !== true) {
-        trigger.kill();
-      }
-    });
-  }
-}, []);
-
   // const lenisRef = useSmoothScroll();
   // useSectionSnap(lenisRef);
 
