@@ -198,7 +198,7 @@ export const GlobalStyles = createGlobalStyle`
 
 /* Ensure smooth native scrolling on mobile */
 @media (max-width: 768px) {
-  /* html, body {
+  html, body {
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
     height: auto !important;
@@ -207,7 +207,7 @@ export const GlobalStyles = createGlobalStyle`
   #root {
     min-height: 100vh;
     height: auto !important;
-  } */
+  }
   
   main {
     overflow: visible !important;
