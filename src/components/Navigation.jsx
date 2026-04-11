@@ -121,7 +121,7 @@ export const Navigation = ({ star1Ref, star2Ref, star3Ref }) => {
               <Star4Svg size={24} />
             </StarEl>
           </StarsContainer>
-          <Logo href="#home" style={{fontSize:"36px"}}>
+          <Logo href="#home" style={{fontSize:"42px"}}>
             Victor Blanco<span>.</span>
           </Logo>
         </MobileLogoWrapper>
@@ -308,9 +308,17 @@ const MobileNav = styled.div.attrs({ className: 'navigation-MobileNav' })`
   position: fixed;
   top: 0;
   right: 0;
-  width: 100%;
-  height: 100vh;
-  background: #FFFEFA;
+  color: #282828;
+    background-color: #FAFAFA;
+    background-image:
+      linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px);
+    background-size: 3rem 3rem;
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    width: 100%;
   z-index: 9999;
   display: flex;
   flex-direction: column;
