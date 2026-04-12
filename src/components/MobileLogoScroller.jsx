@@ -48,7 +48,7 @@ const scroll = keyframes`
 
 const Wrapper = styled.div.attrs({ className: 'mobileLogoScroller-Wrapper' })`
   position: absolute;
-  bottom: 0;
+  bottom: 3rem;
   left: 0;
   right: 0;
   overflow: hidden;

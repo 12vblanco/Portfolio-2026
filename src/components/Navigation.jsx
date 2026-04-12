@@ -321,6 +321,7 @@ const MobileNav = styled.div.attrs({ className: 'navigation-MobileNav' })`
   right: 0;
   width: 100%;
   height: 100vh;
+  max-height: 100vh;
   background: #FFFEFA;
   z-index: 9999;
   display: flex;
