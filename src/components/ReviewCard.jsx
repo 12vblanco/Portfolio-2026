@@ -42,7 +42,8 @@ const Card = styled.div.attrs({ className: 'reviewCard-Card' })`
   border: ${p => p.$isCenter ? '1px solid #e5e5e5' : '1px solid rgba(255,255,255,0.08)'};
   @media (max-width: 426px) {
     width: 90%;
-    height: 320px;
+    min-height: 320px;
+    max-height: 320px;
   }
 `;
 
