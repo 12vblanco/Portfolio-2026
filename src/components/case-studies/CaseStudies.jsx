@@ -728,7 +728,12 @@ const OverlayCard = styled.div.attrs({ className: 'caseStudies-OverlayCard' })`
   border-radius: 12px;
   z-index: 5;
   clip-path: circle(0% at 50% 150%);
-  ${Card}:hover &,
+
+  /* Desktop hover only — @media (hover: hover) excludes touch devices
+     so the tap-toggle (data-clicked) works cleanly without fighting :hover */
+  @media (hover: hover) {
+    ${Card}:hover & { clip-path: circle(150% at 50% 0%); }
+  }
   ${Card}[data-clicked="true"] & { clip-path: circle(150% at 50% 0%); }
 `;
 
@@ -740,7 +745,9 @@ const OverlayContent = styled.div.attrs({ className: 'caseStudies-OverlayContent
   transform: scale(0.9);
   transition: all 1.2s ease 0.3s;
   width: 100%;
-  ${Card}:hover &,
+  @media (hover: hover) {
+    ${Card}:hover & { opacity: 1; transform: scale(1); }
+  }
   ${Card}[data-clicked="true"] & { opacity: 1; transform: scale(1); }
 `;
 
@@ -750,7 +757,9 @@ const OverlayTagsButton = styled.div.attrs({ className: 'caseStudies-OverlayTags
   transform: scale(0.9);
   transition: all 1.2s ease 0.3s;
   width: 100%;
-  ${Card}:hover &,
+  @media (hover: hover) {
+    ${Card}:hover & { opacity: 1; transform: scale(1); }
+  }
   ${Card}[data-clicked="true"] & { opacity: 1; transform: scale(1); }
 `;
 
