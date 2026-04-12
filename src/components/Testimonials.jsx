@@ -9,9 +9,15 @@ gsap.registerPlugin(ScrollTrigger);
 
 const slotTransform = (slot, isMobile) => {
   if (isMobile) {
-    if (slot === 0) return 'translateX(0%) scale(1)';
-    if (slot > 0)   return 'translateX(150%) scale(0.9)';
-    return                  'translateX(-150%) scale(0.9)';
+    // Same drag feel as desktop but compressed for narrow screens.
+    // slot 0  = centre stage
+    // slot ±1 = peeking in from the sides (mostly off-screen)
+    // slot ±2+ = fully hidden off-screen
+    if (slot === 0)  return 'translateX(0%)   scale(1)';
+    if (slot === 1)  return 'translateX(105%) scale(0.9)';
+    if (slot === -1) return 'translateX(-105%) scale(0.9)';
+    if (slot > 1)    return 'translateX(210%) scale(0.8)';
+    return                  'translateX(-210%) scale(0.8)';
   }
   if (slot === 0)  return 'translateX(0%)    translateY(-12px) scale(1.08)';
   if (slot === 1)  return 'translateX(108%)  translateY(0px)   scale(0.92)';
@@ -21,13 +27,15 @@ const slotTransform = (slot, isMobile) => {
 };
 
 const slotOpacity = (slot, isMobile) => {
-  if (isMobile)  return slot === 0 ? 1 : 0;
+  if (isMobile) {
+    if (slot === 0)                return 1;
+    if (slot === 1 || slot === -1) return 0;   // hidden but still animates through
+    return 0;
+  }
   if (slot === 0)                return 1;
   if (slot === 1 || slot === -1) return 0.4;
   return 0;
 };
-
-
 
 const Testimonials = () => {
   const sectionRef = useRef(null);
@@ -41,21 +49,21 @@ const Testimonials = () => {
     return () => clearInterval(interval);
   }, []);
 
-    useEffect(() => {
-      const ctx = gsap.context(() => {
-        gsap.to(headerRef.current, {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%',
-            once: true,
-          },
-        });
-      }, sectionRef);
-      return () => ctx.revert();
-    }, []);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.to(headerRef.current, {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          once: true,
+        },
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
 
   const getSlot = (cardIndex) => {
     const total = reviewsData.length;
@@ -67,12 +75,12 @@ const Testimonials = () => {
 
   const [isMobile, setIsMobile] = useState(false);
 
-useEffect(() => {
-  const check = () => setIsMobile(window.innerWidth <= 768);
-  check();
-  window.addEventListener('resize', check);
-  return () => window.removeEventListener('resize', check);
-}, []);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   return (
     <Section ref={sectionRef}>
@@ -86,14 +94,14 @@ useEffect(() => {
             <Dot
               key={i}
               $active={i === currentIndex}
-                aria-label={`Go to testimonial ${i + 1}`}  
+              aria-label={`Go to testimonial ${i + 1}`}
               onClick={() => setCurrentIndex(i)}
             />
           ))}
         </DotsRow>
 
-        <Scene>
-          <CardsContainer>
+        <Scene $isMobile={isMobile}>
+          <CardsContainer $isMobile={isMobile}>
             {reviewsData.map((review, i) => {
               const slot = getSlot(i);
               return (
@@ -131,7 +139,7 @@ const Section = styled.section.attrs({ className: 'testimonials-Section' })`
   @media (max-width: 768px) {
     min-height: auto;
     padding: 3rem 0 4rem;
-    overflow: visible;
+    overflow: hidden;
   }
 `;
 
@@ -143,10 +151,6 @@ const Container = styled.div.attrs({ className: 'testimonials-Container' })`
   z-index: 1;
   flex: 1;
   min-height: 0;
-
-  @media (max-width: 768px) {
-    overflow: visible;
-  }
 `;
 
 const Header = styled.div.attrs({ className: 'testimonials-Header' })`
@@ -198,6 +202,8 @@ const Scene = styled.div.attrs({ className: 'testimonials-Scene' })`
   min-height: 0;
 
   @media (max-width: 768px) {
+    /* Fixed height so the absolutely-positioned cards have something to fill */
+    height: 360px;
     flex: none;
   }
 `;
@@ -214,9 +220,8 @@ const CardsContainer = styled.div.attrs({ className: 'testimonials-CardsContaine
   box-sizing: border-box;
 
   @media (max-width: 768px) {
-    height: auto;
-    min-height: 320px;
-    padding: 0 24px;
+    height: 100%;
+    padding: 0;
   }
 `;
 
@@ -231,7 +236,7 @@ const CardWrapper = styled.div.attrs({ className: 'testimonials-CardWrapper' })`
   transform: ${p => slotTransform(p.$slot, p.$isMobile)};
   opacity:   ${p => slotOpacity(p.$slot, p.$isMobile)};
   z-index:   ${p => p.$slot === 0 ? 10 : (p.$slot === 1 || p.$slot === -1) ? 5 : 0};
-  pointer-events: ${p => p.$slot === 0 ? 'auto' : (p.$isMobile ? 'none' : 'auto')};
+  pointer-events: ${p => p.$slot === 0 ? 'auto' : 'none'};
   cursor: ${p => p.$slot === 0 ? 'default' : 'pointer'};
 
   & > div {
@@ -241,12 +246,8 @@ const CardWrapper = styled.div.attrs({ className: 'testimonials-CardWrapper' })`
 
   @media (max-width: 768px) {
     width: calc(100vw - 48px);
-    max-width: 480px;
-    height: auto;
+    max-width: 420px;
+    height: 320px;
     max-height: none;
-    position: relative;
-    transform: none !important;
-    visibility: ${p => p.$slot === 0 ? 'visible' : 'hidden'};
-    display: ${p => p.$slot === 0 ? 'block' : 'none'};
   }
 `;
