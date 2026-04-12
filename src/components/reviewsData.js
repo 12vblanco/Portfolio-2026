@@ -4,7 +4,7 @@ export const reviewsData = [
     name: 'Zoe M.',
     company: 'Scottish CIC',
     rating: 5,
-    text: 'Victor has been amazing to work with. I knew exactly what I wanted and he delivered everything I asked for, followed all brand guidelines, included subtle animations on the site and the site looks better than I could have even imagined. I couldn\'t recommend him enough!',
+    text: 'It\'s been amazing to work with Victor. I knew what I wanted and he delivered everything I asked for, followed all brand guidelines, included subtle animations on the site and the site looks better than I could have even imagined. I couldn\'t recommend him enough!',
   },
   {
     id: 2,
