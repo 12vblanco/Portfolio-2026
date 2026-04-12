@@ -300,6 +300,7 @@ const Title = styled.h2.attrs({ className: 'pendoExpert-Title' })`
   color: #FF3863;
   margin-bottom: 0;
   line-height: 1.1;
+  letter-spacing: 0;
 
 
 `;

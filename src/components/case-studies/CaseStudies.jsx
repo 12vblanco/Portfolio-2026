@@ -427,6 +427,7 @@ const Title = styled.h2.attrs({ className: 'caseStudies-Title' })`
   color: #FF3863;
   margin-bottom: 16px;
   opacity: 0;
+    letter-spacing: 0;
   transform: translateX(-50px);
   animation: caseStudiesTitleIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
 

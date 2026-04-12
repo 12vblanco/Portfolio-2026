@@ -107,7 +107,7 @@ export const Navigation = ({ star1Ref, star2Ref, star3Ref }) => {
       />
       <MobileNav $isOpen={mobileOpen} role="navigation" aria-label="Mobile navigation">
         <CloseButton aria-label="Close menu" onClick={() => setMobileOpen(false)}>
-          <X size={24} aria-hidden="true" />
+          <X size={34} aria-hidden="true" />
         </CloseButton>
         <MobileLogoWrapper>
           <StarsContainer>
