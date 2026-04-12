@@ -1,23 +1,5 @@
 import { useEffect } from 'react';
 
-/**
- * useSectionSnap
- *
- * Magnetic snap that drives through Lenis (your smooth-scroll instance),
- * so it works in harmony with Lenis rather than fighting it.
- *
- * Pass the lenisRef returned by useSmoothScroll:
- *   const lenisRef = useSmoothScroll();
- *   useSectionSnap(lenisRef);
- *
- * ── Per-section offsets ───────────────────────────────────────────────────
- * SNAP_OFFSETS[id] = px from the section's top edge you want sitting at
- * the very top of the viewport when snapped.
- * 0   = section top flush with viewport top
- * 80  = snap 80px into the section (section top is 80px above viewport top)
- * -60 = leave 60px of space above the section top (e.g. for a sticky nav)
- */
-
 // ─── YOUR TUNING ZONE ────────────────────────────────────────────────────────
 const DESKTOP_SNAP_OFFSETS = {
   home:       -80,
@@ -32,7 +14,7 @@ const MOBILE_SNAP_OFFSETS = {
   works:      -50,
   pendo:      -40,
   experience: -20,
-  contact:    60,
+  contact:    180,
 };
 
 const DEBOUNCE_MS    = 600;   // wait longer after scroll stops before snapping
@@ -93,10 +75,6 @@ export function useSectionSnap(lenisRef) {
 
         // delta = how far we need to scroll to place the section correctly
         const delta = rect.top - (-offset);
-
-        // Only snap when the user is already close to the snap point —
-        // this prevents the hook yanking the page back from a deliberate
-        // mid-section scroll position.
         if (Math.abs(delta) < 8)            return;
         if (Math.abs(delta) > MAX_NUDGE_PX) return;
 
