@@ -2,8 +2,22 @@ import gsap from 'gsap';
 import { Menu, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { MobileLogoScroller } from './MobileLogoScroller';
 import { Star4Svg } from './hero-section/StarIcons';
 
+const r = (min, max) => min + Math.random() * (max - min);
+
+const startFloat = (el) => {
+  if (!el) return;
+  gsap.to(el, {
+    y: r(-4, -8),
+    rotation: r(-65, 75),
+    duration: r(1.6, 2.4),
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true,
+  });
+};
 
 const STAR_HOVER = [
   { enter: 135, leave: -12 },
@@ -32,13 +46,11 @@ const useHoverRotation = (refs) => {
 
     return () => cleanups.forEach((fn) => fn());
   }, );
-};  
+};
 
 export const Navigation = ({ star1Ref, star2Ref, star3Ref }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Separate refs for the mobile menu stars — a ref can only
-  // point to one DOM node, so mobile needs its own set.
   const mStar1Ref = useRef(null);
   const mStar2Ref = useRef(null);
   const mStar3Ref = useRef(null);
@@ -46,16 +58,24 @@ export const Navigation = ({ star1Ref, star2Ref, star3Ref }) => {
   useHoverRotation([star1Ref, star2Ref, star3Ref]);
   useHoverRotation([mStar1Ref, mStar2Ref, mStar3Ref]);
 
-  // Pop the mobile stars in when the menu opens
   useEffect(() => {
     if (mobileOpen) {
       [mStar1Ref, mStar2Ref, mStar3Ref].forEach((ref, i) => {
         if (!ref.current) return;
+        gsap.killTweensOf(ref.current);
         gsap.fromTo(
           ref.current,
           { scale: 0, opacity: 0, rotation: -25 },
-          { scale: 1, opacity: 1, rotation: 0, duration: 0.5, delay: 0.15 + i * 0.07, ease: 'back.out(2)' }
+          {
+            scale: 1, opacity: 1, rotation: 0,
+            duration: 0.5, delay: 0.15 + i * 0.07, ease: 'back.out(2)',
+            onComplete: () => startFloat(ref.current),
+          }
         );
+      });
+    } else {
+      [mStar1Ref, mStar2Ref, mStar3Ref].forEach((ref) => {
+        if (ref.current) gsap.killTweensOf(ref.current);
       });
     }
   }, [mobileOpen]);
@@ -64,8 +84,6 @@ export const Navigation = ({ star1Ref, star2Ref, star3Ref }) => {
     <>
       <NavWrapper>
         <NavContainer>
-          {/* LogoWrapper is position:relative so StarsContainer
-              is always anchored to the top-left of the logo */}
           <LogoWrapper>
             <StarsContainer>
               <StarEl ref={star1Ref} style={{ top: 0, left: 0 }}>
@@ -82,33 +100,34 @@ export const Navigation = ({ star1Ref, star2Ref, star3Ref }) => {
               Victor Blanco<span>.</span>
             </Logo>
           </LogoWrapper>
-          
+
           <NavLinks>
             <NavLink href="#works">Works</NavLink>
             <NavLink href="#pendo">Pendo</NavLink>
             <NavLink href="#experience">Experience</NavLink>
           </NavLinks>
-          
+
           <CTA href="https://calendly.com/12vblanco/30min" target="_blank">Let's Talk</CTA>
-          
+
           <MobileMenuButton aria-label="Open menu" onClick={() => setMobileOpen(true)}>
             <Menu size={34} aria-hidden="true" />
           </MobileMenuButton>
         </NavContainer>
       </NavWrapper>
-      
-      <MobileNavOverlay 
-        $isOpen={mobileOpen} 
+
+      <MobileNavOverlay
+        $isOpen={mobileOpen}
         role="button"
         aria-label="Close menu"
         tabIndex={0}
         onClick={() => setMobileOpen(false)}
-        onKeyDown={(e) => e.key === 'Escape' && setMobileOpen(false)} 
+        onKeyDown={(e) => e.key === 'Escape' && setMobileOpen(false)}
       />
       <MobileNav $isOpen={mobileOpen} role="navigation" aria-label="Mobile navigation">
         <CloseButton aria-label="Close menu" onClick={() => setMobileOpen(false)}>
-          <X size={34} aria-hidden="true" />
+          <X size={31} aria-hidden="true" />
         </CloseButton>
+
         <MobileLogoWrapper>
           <StarsContainer>
             <StarEl ref={mStar1Ref} style={{ top: 0, left: 0 }}>
@@ -121,14 +140,18 @@ export const Navigation = ({ star1Ref, star2Ref, star3Ref }) => {
               <Star4Svg size={24} />
             </StarEl>
           </StarsContainer>
-          <Logo href="#home" style={{fontSize:"42px"}}>
+          <Logo href="#home" style={{ fontSize: '48px', letterSpacing: '-2px', lineHeight: '1.1' }}>
             Victor Blanco<span>.</span>
           </Logo>
         </MobileLogoWrapper>
+
         <MobileNavLink href="#works" aria-label="navigate to works" onClick={() => setMobileOpen(false)}>Works</MobileNavLink>
         <MobileNavLink href="#pendo" aria-label="navigate to pendo" onClick={() => setMobileOpen(false)}>Pendo</MobileNavLink>
         <MobileNavLink href="#experience" aria-label="navigate to experience" onClick={() => setMobileOpen(false)}>Experience</MobileNavLink>
         <MobileCTA href="https://calendly.com/12vblanco/30min" aria-label="navigate to contact" onClick={() => setMobileOpen(false)}>Let's Talk</MobileCTA>
+
+        {/* Logo scroller pinned to the bottom of the mobile menu */}
+        <MobileLogoScroller />
       </MobileNav>
     </>
   );
@@ -146,7 +169,7 @@ const NavWrapper = styled.div.attrs({ className: 'navigation-NavWrapper' })`
   border-radius: 50px;
   box-shadow: 0 4px 20px rgba(40, 40, 40, 0.1);
   border: .4px solid #282828;
-  
+
   @media (max-width: 968px) {
     width: 50%;
     margin: 24px auto 0;
@@ -167,8 +190,6 @@ const NavContainer = styled.nav.attrs({ className: 'navigation-NavContainer' })`
   background: transparent;
 `;
 
-/* Wraps Logo + StarsContainer so stars are always anchored
-   to the top-left of the logo text, not the whole nav */
 const LogoWrapper = styled.div.attrs({ className: 'navigation-LogoWrapper' })`
   position: relative;
   display: flex;
@@ -177,8 +198,8 @@ const LogoWrapper = styled.div.attrs({ className: 'navigation-LogoWrapper' })`
 
 const StarsContainer = styled.div.attrs({ className: 'navigation-StarsContainer' })`
   position: absolute;
-  top: -18px;
-  left: -16px;
+  top: -26px;
+  left: -22px;
   width: 80px;
   height: 60px;
   z-index: 2;
@@ -198,7 +219,7 @@ const Logo = styled.a.attrs({ className: 'navigation-Logo' })`
   font-family: 'Switzer', sans-serif;
   margin-top: 5px;
   margin-left: 1rem;
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 900;
   letter-spacing: -2%;
   color: #282828;
@@ -206,7 +227,7 @@ const Logo = styled.a.attrs({ className: 'navigation-Logo' })`
   display: flex;
   align-items: center;
   gap: 4px;
-  
+
   span {
     color: #FF3863;
     border-radius: 250px;
@@ -230,7 +251,7 @@ const NavLink = styled.a.attrs({ className: 'navigation-NavLink' })`
   transition: color 0.2s ease;
   font-weight: 500;
   margin-top: 2px;
-  
+
   &:hover {
     color: #FF3863;
   }
@@ -249,21 +270,11 @@ const CTA = styled.a.attrs({ className: 'navigation-CTA' })`
   animation: pulseScale 1.5s ease-in-out 6;
 
   @keyframes pulseScale {
-    0% {
-      transform: scale(1);
-      border-color: #ff0037;
-    }
-    50% {
-      transform: scale(1.02);
-      border-color: #f40035;
-      box-shadow: 0 0 15px rgba(255, 56, 99, 0.5);
-    }
-    100% {
-      transform: scale(1);
-      border-color: #ff0037;
-    }
+    0%   { transform: scale(1);    border-color: #ff0037; }
+    50%  { transform: scale(1.02); border-color: #f40035; box-shadow: 0 0 15px rgba(255,56,99,0.5); }
+    100% { transform: scale(1);    border-color: #ff0037; }
   }
-  
+
   &:hover {
     box-shadow: 0 4px 15px rgba(255, 56, 99, 0.3);
     background: transparent;
@@ -285,7 +296,7 @@ const MobileMenuButton = styled.button.attrs({ className: 'navigation-MobileMenu
   color: #282828;
   margin: 6px 4px 2px 4px;
   padding-right: 4px;
-  
+
   @media (max-width: 968px) {
     display: block;
   }
@@ -308,17 +319,9 @@ const MobileNav = styled.div.attrs({ className: 'navigation-MobileNav' })`
   position: fixed;
   top: 0;
   right: 0;
-  color: #282828;
-    background-color: #FAFAFA;
-    background-image:
-      linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px);
-    background-size: 3rem 3rem;
-    background-attachment: fixed;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    min-height: 100vh;
-    width: 100%;
+  width: 100%;
+  height: 100vh;
+  background: #FFFEFA;
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -328,6 +331,8 @@ const MobileNav = styled.div.attrs({ className: 'navigation-MobileNav' })`
   transform: translateX(${p => p.$isOpen ? '0' : '100%'});
   transition: transform 0.3s ease;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+  /* Padding so the centred links don't overlap the bottom scroller */
+  padding-bottom: 88px;
 `;
 
 const CloseButton = styled.button.attrs({ className: 'navigation-CloseButton' })`
@@ -342,12 +347,14 @@ const CloseButton = styled.button.attrs({ className: 'navigation-CloseButton' })
 `;
 
 const MobileNavLink = styled.a.attrs({ className: 'navigation-MobileNavLink' })`
-  font-size: 24px;
+  font-size: 31.25px;
   color: #282828;
   text-decoration: none;
   font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -1px;
   transition: color 0.2s ease;
-  
+
   &:hover {
     color: #FF3863;
   }
@@ -357,6 +364,8 @@ const MobileLogoWrapper = styled.div.attrs({ className: 'navigation-MobileLogoWr
   position: relative;
   display: flex;
   align-items: center;
+  margin-top: -2rem;
+  margin-bottom: 0.5rem;
 `;
 
 const MobileCTA = styled.a.attrs({ className: 'navigation-MobileCTA' })`

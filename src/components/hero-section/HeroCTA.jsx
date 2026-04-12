@@ -169,9 +169,11 @@ export const HeroCTA = () => {
           onMouseEnter={handleSecondaryEnter}
           onMouseLeave={handleSecondaryLeave}
         >
-          <Calendar size={18} />
           Book a Call
+                    <Calendar size={18} style={{marginTop:'-3px'}}/>
+
           <BorderTrail ref={secondaryTrailRef} />
+
         </SecondaryButton>
       </ButtonGroup>
 
@@ -223,16 +225,19 @@ const PrimaryButton = styled.a`
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 8px 16px;
+  padding: 10px 16px 8px;
   background: #282828;
   color: #FFFEFA;
   border-radius: 50px;
   font-size: 16px;
+  line-height: 1;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
   border: 2px solid transparent;
   position: relative;
+
+  svg { flex-shrink: 0; }
 
   &:hover {
     transform: translateY(-2px);
@@ -252,17 +257,20 @@ const SecondaryButton = styled.a`
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 8px 16px;
+  padding: 10px 16px 8px;
   background: #FFFEFA;
   color: #282828;
   border-radius: 50px;
   font-size: 16px;
+  line-height: 1;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
   min-width: 176px;
   border: 2px solid #242424;
   position: relative;
+
+  svg { flex-shrink: 0; }
 
   &:hover {
     transform: translateY(-2px);
