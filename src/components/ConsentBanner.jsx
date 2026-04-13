@@ -59,7 +59,21 @@ const Button = styled.button.attrs({ className: 'consentBanner-Button' })`
   }
 `;
 
-export const ConsentBanner = () => {
+const TermsLink = styled.button`
+  background: none;
+  border: none;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+
+  &:hover { color: #FFFEFA; }
+`;
+
+export const ConsentBanner = ({ onOpenTerms }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -81,7 +95,7 @@ export const ConsentBanner = () => {
   return (
     <Banner $visible={visible}>
       <Text>
-        We use cookies & <strong>Pendo</strong> to monitor traffic anonymously, improve experience, and understand usage.
+        We use cookies & <strong>Pendo</strong> to monitor traffic anonymously, improve experience, and understand usage. <TermsLink onClick={onOpenTerms}>Terms & Conditions</TermsLink>
       </Text>
       <Button onClick={handleAccept}>I understand</Button>
     </Banner>

@@ -68,7 +68,6 @@ export const PendoExpert = () => {
             { y: 0, opacity: 1, duration: 0.8, delay: 0.15 }
           );
 
-          // Scramble only the "Certified" label word
           gsap.to(certifiedRef.current, {
             duration: 1.2,
             scrambleText: {
@@ -194,7 +193,7 @@ export const PendoExpert = () => {
             <Title>Pendo Consultant</Title>
           </HeaderLeft>
           <Subtitle>
-            <strong>Certified Pendo developer</strong>  and consultant with over two years hands-on experience.
+            <strong>Certified Pendo developer</strong> and consultant with over two years hands-on experience.
           </Subtitle>
         </Header>
 
@@ -210,8 +209,7 @@ export const PendoExpert = () => {
               </Feature>
             ))}
           </FeatureList>
-
-          <GraphContainer>
+            <GraphContainer>
             <GraphImage src={pendoGraph} alt="Pendo Analytics Graph" />
             <p style={{ fontStyle: 'italic', fontSize: '18px', marginTop: '1rem', fontWeight: '600' }}>
               "Get measurable results faster"
@@ -222,11 +220,19 @@ export const PendoExpert = () => {
         <BadgesContainer ref={badgesRef}>
           {certImages.map((cert, i) => (
             <Badge key={i} ref={el => badgeRefs.current[i] = el}>
-              <BadgeImg src={cert} alt={`Pendo Certification ${i + 1}`} />
-            </Badge>
+      <a 
+        href="https://www.credly.com/users/victor-blanco.4783f91c"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ display: 'block', textDecoration: 'none' }}
+      >
+        <BadgeImg src={cert} alt={`Pendo Certification ${i + 1}`} />
+      </a>            </Badge>
           ))}
         </BadgesContainer>
+
       </Container>
+
     </Section>
   );
 };
@@ -236,7 +242,7 @@ export const PendoExpert = () => {
 const Section = styled.section.attrs({ className: 'pendoExpert-Section' })`
   min-height: 90vh;
   margin-bottom: 5rem;
-   
+
   @media (max-width: 968px) {
     min-height: auto;
     margin-bottom: 2rem;
@@ -260,7 +266,6 @@ const Container = styled.div.attrs({ className: 'pendoExpert-Container' })`
   @media (max-width: 968px) {
     padding: 32px 0 48px;
   }
-  
 `;
 
 const Header = styled.div.attrs({ className: 'pendoExpert-Header' })`
@@ -301,8 +306,6 @@ const Title = styled.h2.attrs({ className: 'pendoExpert-Title' })`
   margin-bottom: 0;
   line-height: 1.1;
   letter-spacing: 0;
-
-
 `;
 
 const Subtitle = styled.p.attrs({ className: 'pendoExpert-Subtitle' })`
@@ -311,9 +314,11 @@ const Subtitle = styled.p.attrs({ className: 'pendoExpert-Subtitle' })`
   max-width: 460px;
   margin-top: 2rem;
 
-@media (max-width: 968px) {    font-size: 18px;
+  @media (max-width: 968px) {
+    font-size: 18px;
   }
-@media (max-width: 426px) {    margin-top: 0;
+  @media (max-width: 426px) {
+    margin-top: 0;
   }
 
   strong {
@@ -324,7 +329,7 @@ const Subtitle = styled.p.attrs({ className: 'pendoExpert-Subtitle' })`
 const MiddleRow = styled.div.attrs({ className: 'pendoExpert-MiddleRow' })`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-evenly;
   gap: 40px;
   padding: 2rem 0;
@@ -334,8 +339,8 @@ const MiddleRow = styled.div.attrs({ className: 'pendoExpert-MiddleRow' })`
   }
 
   @media (max-width: 968px) {
-    flex-direction: column-reverse;
-    gap: 60px;
+    flex-direction: column;
+    gap: 40px;
   }
 `;
 
@@ -348,7 +353,7 @@ const FeatureList = styled.div.attrs({ className: 'pendoExpert-FeatureList' })`
 
   @media (max-width: 968px) {
     max-width: 100%;
-    padding: 0 1rem 3rem 1rem;
+    padding: 0 1rem;
   }
 `;
 
@@ -370,6 +375,7 @@ const FeatureNumber = styled.span.attrs({ className: 'pendoExpert-FeatureNumber'
   letter-spacing: -2px;
   padding-top: 2px;
   font-size: 64px;
+
   @media (max-width: 968px) {
     width: 42px;
   }
@@ -401,9 +407,8 @@ const FeatureText = styled.p.attrs({ className: 'pendoExpert-FeatureText' })`
   opacity: 0;
   max-width: 682px;
 
-@media (max-width: 968px) {    font-size: 18px;
-  }
-`;
+  @media (max-width: 968px) {
+    font-size: 18px;}`;
 
 const GraphContainer = styled.div.attrs({ className: 'pendoExpert-GraphContainer' })`
   flex: 1;
@@ -420,13 +425,13 @@ const GraphContainer = styled.div.attrs({ className: 'pendoExpert-GraphContainer
 `;
 
 const GraphImage = styled.img.attrs({ className: 'pendoExpert-GraphImage' })`
-  aspect-ratio: 800 / 450;
+  aspect-ratio: 800 / 500;
   width: 100%;
   height: auto;
   max-height: 400px;
   object-fit: contain;
   border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(40, 40, 40, 0.15);
+  box-shadow: 0 20px 40px rgba(40, 40, 40, 0.05);
   transition: transform 0.3s ease;
 
   &:hover {
@@ -448,7 +453,7 @@ const BadgesContainer = styled.div.attrs({ className: 'pendoExpert-BadgesContain
   justify-content: center;
   gap: 32px;
   width: 100%;
-  margin-top: 2rem;
+  margin-top: 4rem;
 
   @media (max-width: 1415px) {
     gap: 10px;
@@ -472,13 +477,15 @@ const Badge = styled.div.attrs({ className: 'pendoExpert-Badge' })`
   flex-shrink: 0;
   opacity: 0;
   transform: scale(0.8);
+  
 
   @media (max-width: 1331px) {
     width: 100px;
     height: 100px;
   }
 
-@media (max-width: 968px) {    width: 90px;
+  @media (max-width: 968px) {
+    width: 90px;
     height: 90px;
   }
 `;
@@ -487,4 +494,5 @@ const BadgeImg = styled.img.attrs({ className: 'pendoExpert-BadgeImg' })`
   width: 100%;
   height: 100%;
   object-fit: cover;
+    transition: all 0.4s ease;
 `;
