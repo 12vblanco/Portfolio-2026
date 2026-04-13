@@ -188,6 +188,7 @@ const NavContainer = styled.nav.attrs({ className: 'navigation-NavContainer' })`
   align-items: center;
   justify-content: space-between;
   background: transparent;
+  height: fit-content;
 `;
 
 const LogoWrapper = styled.div.attrs({ className: 'navigation-LogoWrapper' })`
@@ -217,7 +218,7 @@ const StarEl = styled.div.attrs({ className: 'navigation-StarEl' })`
 
 const Logo = styled.a.attrs({ className: 'navigation-Logo' })`
   font-family: 'Switzer', sans-serif;
-  margin-top: 5px;
+  margin-top: 3px;
   margin-left: 1rem;
   font-size: 32px;
   font-weight: 900;
