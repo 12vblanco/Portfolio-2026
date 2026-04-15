@@ -129,12 +129,13 @@ export default Testimonials;
 const Section = styled.section.attrs({ className: 'testimonials-Section' })`
   width: 100%;
   background: #282828;
-  padding: 4rem 0;
+  padding: 3rem 0 5rem 0;
   min-height: 70vh;
   height: auto;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  min-height: 638px;
 
   @media (max-width: 768px) {
     min-height: auto;
