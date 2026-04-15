@@ -48,7 +48,7 @@ const Card = styled.div.attrs({ className: 'reviewCard-Card' })`
 `;
 
 const ReviewText = styled.p.attrs({ className: 'reviewCard-ReviewText' })`
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 500;
   color: ${p => p.$isCenter ? '#282828' : 'rgba(255,255,255,0.4)'};
   line-height: 1.8;
