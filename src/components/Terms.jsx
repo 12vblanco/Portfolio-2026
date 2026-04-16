@@ -15,8 +15,8 @@ export const Terms = ({ open, onClose }) => {
   useEffect(() => {
     if (open && panelRef.current) {
       setTimeout(() => {
-        panelRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 50);
+        panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150); // increased from 50ms — mobile needs more time after paint
     }
   }, [open]);
 
@@ -207,12 +207,16 @@ const Section = styled.section`
   width: 100%;
   background: transparent;
   border-top: 1px solid #e5e5e5;
-  animation: ${expandDown} 0.35s ease;
+  animation: ${expandDown} 0.35s ease forwards;
   scroll-margin-top: 2rem;
+  will-change: transform, opacity;
+  /* Ensure the element is never hidden by a stacking/overflow ancestor */
+  position: relative;
+  z-index: 1;
 `;
 
 const Container = styled.div`
-max-width: 1240px;
+  max-width: 1240px;
   margin: 0 auto;
   padding: 3rem 2rem 4rem;
 
