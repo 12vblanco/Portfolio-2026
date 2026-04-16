@@ -16,6 +16,7 @@
     </script> -->
 
     <!-- Pendo Agent with Anonymous User Support -->
+<!-- Pendo Agent with Anonymous User Support - Ready Check -->
 <script>
 (function(apiKey){
     // Helper to get/set anonymous ID
@@ -35,15 +36,27 @@
         y=e.createElement(n);y.async=!0;y.src='https://cdn.eu.pendo.io/agent/static/'+apiKey+'/pendo.js';
         z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);})(window,document,'script','pendo');
     
-    // Initialize with anonymous user
-    pendo.initialize({
-        visitor: {
-            id: getAnonymousId()
-        },
-        account: {
-            id: "victor-blanco-portfolio"
+    // Wait for Pendo to be fully loaded before initializing
+    function waitForPendo() {
+        if (window.pendo && typeof window.pendo.isReady === 'function' && window.pendo.isReady()) {
+            // Pendo is ready, now initialize
+            window.pendo.initialize({
+                visitor: {
+                    id: getAnonymousId()
+                },
+                account: {
+                    id: "victor-blanco-portfolio"
+                }
+            });
+            console.log('Pendo initialized successfully');
+        } else {
+            // Check again in 200ms
+            setTimeout(waitForPendo, 200);
         }
-    });
+    }
+    
+    // Start waiting for Pendo
+    waitForPendo();
 })('d9b3f220-ae26-4432-baf6-253841dfa6a9');
 </script>
 
