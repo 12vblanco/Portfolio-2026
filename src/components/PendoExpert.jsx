@@ -375,6 +375,8 @@ const FeatureNumber = styled.span.attrs({ className: 'pendoExpert-FeatureNumber'
   letter-spacing: -2px;
   padding-top: 2px;
   font-size: 64px;
+  min-width: 48px;
+  text-align: center;
 
   @media (max-width: 968px) {
     width: 42px;
