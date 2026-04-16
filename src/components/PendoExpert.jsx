@@ -455,7 +455,7 @@ const BadgesContainer = styled.div.attrs({ className: 'pendoExpert-BadgesContain
   justify-content: center;
   gap: 32px;
   width: 100%;
-  margin-top: 4rem;
+  margin-top: 2rem;
 
   @media (max-width: 1415px) {
     gap: 10px;
