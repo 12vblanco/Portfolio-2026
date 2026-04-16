@@ -4,7 +4,7 @@ import { Dribbble, Github, Mail } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Heart } from '../assets/icons/Heart';
-import { UpworkIcon } from '../assets/icons/UpworkIcon';
+import { UpworkIcon } from '../assets/icons/Upwork';
 
 gsap.registerPlugin(ScrollTrigger);
 
