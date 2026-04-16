@@ -362,6 +362,7 @@ const Section = styled.section.attrs({ className: 'caseStudies-Section' })`
   height: 90vh;
   overflow: hidden;
   position: relative;
+  min-height: 880px;
  
   @media (max-width: 968px) {
     height: auto;
