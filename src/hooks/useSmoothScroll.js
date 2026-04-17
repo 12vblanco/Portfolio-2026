@@ -1,7 +1,8 @@
+import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,9 +11,9 @@ const MOBILE_BP = 768;
 export const useSmoothScroll = () => {
   const lenisRef = useRef(null);
 
-  useEffect(() => {
+  useGSAP(() => {
     // Only use Lenis on desktop/tablet (not mobile)
-    if (window.innerWidth <= MOBILE_BP) {
+    if (typeof window !== 'undefined' && window.innerWidth <= MOBILE_BP) {
       return;
     }
 
@@ -28,18 +29,26 @@ export const useSmoothScroll = () => {
 
     const tickerFn = (time) => lenis.raf(time * 1000);
     gsap.ticker.add(tickerFn);
-
-    // ⚠️ Only disable lag smoothing on desktop where Lenis is active.
-    // On mobile, lag smoothing should remain enabled — disabling it
-    // globally caused scroll freezes when the browser tab briefly lost
-    // focus (common on mobile) because nothing was driving lenis.raf.
-    gsap.ticker.lagSmoothing(0);
+    
+    // Safely set lag smoothing
+    try {
+      gsap.ticker.lagSmoothing(0);
+    } 
+    catch (error) {
+      // Ignore in React strict mode
+    }
 
     return () => {
-      lenis.destroy();
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+        lenisRef.current = null;
+      }
       gsap.ticker.remove(tickerFn);
-      // Restore lag smoothing default when Lenis is torn down
-      gsap.ticker.lagSmoothing(500, 33);
+      try {
+        gsap.ticker.lagSmoothing(500, 33);
+      } catch (error) {
+        // Ignore cleanup errors
+      }
     };
   }, []);
 
