@@ -46,7 +46,7 @@ export const useSmoothScroll = () => {
       gsap.ticker.remove(tickerFn);
       try {
         gsap.ticker.lagSmoothing(500, 33);
-      } catch (error) {
+      } catch  {
         // Ignore cleanup errors
       }
     };
