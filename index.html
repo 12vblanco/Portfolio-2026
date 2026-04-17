@@ -4,59 +4,14 @@
     <!-- AHREFS Analytics -->
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="auJjS5Pd49QV3lfCMRQwuA" async></script>
 
-    <!-- Pendo Agent -->
-    <!-- <script>
-    (function(apiKey){
-        (function(p,e,n,d,o){var v,w,x,y,z;o=p[d]=p[d]||{};o._q=o._q||[];
-        v=['initialize','identify','updateOptions','pageLoad','track','trackAgent'];for(w=0,x=v.length;w<x;++w)(function(m){
-            o[m]=o[m]||function(){o._q[m===v[0]?'unshift':'push']([m].concat([].slice.call(arguments,0)));};})(v[w]);
-            y=e.createElement(n);y.async=!0;y.src='https://cdn.eu.pendo.io/agent/static/'+apiKey+'/pendo.js';
-            z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);})(window,document,'script','pendo');
-    })('d9b3f220-ae26-4432-baf6-253841dfa6a9');
-    </script> -->
-
-    <!-- Pendo Agent with Anonymous User Support -->
-<!-- Pendo Agent with Anonymous User Support - Ready Check -->
+<!-- Pendo Agent Loader Only -->
 <script>
 (function(apiKey){
-    // Helper to get/set anonymous ID
-    function getAnonymousId() {
-        let id = localStorage.getItem('pendo_anonymous_id');
-        if (!id) {
-            id = 'anon_' + Math.random().toString(36).substring(2, 15);
-            localStorage.setItem('pendo_anonymous_id', id);
-        }
-        return id;
-    }
-    
-    // Pendo agent loader
     (function(p,e,n,d,o){var v,w,x,y,z;o=p[d]=p[d]||{};o._q=o._q||[];
     v=['initialize','identify','updateOptions','pageLoad','track','trackAgent'];for(w=0,x=v.length;w<x;++w)(function(m){
         o[m]=o[m]||function(){o._q[m===v[0]?'unshift':'push']([m].concat([].slice.call(arguments,0)));};})(v[w]);
         y=e.createElement(n);y.async=!0;y.src='https://cdn.eu.pendo.io/agent/static/'+apiKey+'/pendo.js';
         z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);})(window,document,'script','pendo');
-    
-    // Wait for Pendo to be fully loaded before initializing
-    function waitForPendo() {
-        if (window.pendo && typeof window.pendo.isReady === 'function' && window.pendo.isReady()) {
-            // Pendo is ready, now initialize
-            window.pendo.initialize({
-                visitor: {
-                    id: getAnonymousId()
-                },
-                account: {
-                    id: "victor-blanco-portfolio"
-                }
-            });
-            console.log('Pendo initialized successfully');
-        } else {
-            // Check again in 200ms
-            setTimeout(waitForPendo, 200);
-        }
-    }
-    
-    // Start waiting for Pendo
-    waitForPendo();
 })('d9b3f220-ae26-4432-baf6-253841dfa6a9');
 </script>
 

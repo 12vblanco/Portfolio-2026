@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import CaseStudies from './components/case-studies/CaseStudies.jsx';
 import { ConsentBanner } from './components/ConsentBanner';
@@ -22,6 +22,35 @@ function App() {
   const star3Ref = useRef(null);
 
   const [termsOpen, setTermsOpen] = useState(false);
+
+  useEffect(() => {
+        // Wait for the component to mount and stabilize
+        const timer = setTimeout(() => {
+            const getAnonymousId = () => {
+                let id = localStorage.getItem('pendo_anonymous_id');
+                if (!id) {
+                    id = 'anon_' + Math.random().toString(36).substring(2, 15);
+                    localStorage.setItem('pendo_anonymous_id', id);
+                }
+                return id;
+            };
+
+            if (window.pendo && window.pendo.initialize) {
+                try {
+                    window.pendo.initialize({
+                        visitor: { id: getAnonymousId() },
+                        account: { id: "victor-blanco-portfolio" },
+                        disableDomMutationTracking: true  // Prevents React conflicts
+                    });
+                    console.log('Pendo initialized from React');
+                } catch (error) {
+                    console.warn('Pendo initialization error:', error);
+                }
+            }
+        }, 1000); // Delay 1 second to ensure React is stable
+        
+        return () => clearTimeout(timer);
+    }, []);
 
   return (
     <ThemeProvider theme={theme}>
