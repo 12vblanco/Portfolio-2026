@@ -1,75 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- AHREFS Analytics -->
-    <script src="https://analytics.ahrefs.com/analytics.js" data-key="auJjS5Pd49QV3lfCMRQwuA" async></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<!-- Pendo Agent for Anonymous Tracking -->
-<script>
-(function(publicAppId){
-    // Helper to get/set anonymous ID
+  <!-- Primary Meta Tags -->
+  <title>Freelance Pendo Consultant & Web Developer | Victor Blanco</title>
+  <meta name="title" content="Freelance Pendo Consultant & Web Developer | Victor Blanco" />
+  <meta name="description" content="Freelance Pendo consultant and React developer based in Edinburgh. I help SaaS teams set up analytics, improve onboarding, and build fast modern websites." />
+  <meta name="author" content="Victor Blanco" />
+  <meta name="keywords" content="Pendo consultant, freelance Pendo expert, Edinburgh web developer, React developer UK, GSAP animation developer" />
+
+  <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://victorblancoweb.com" />
+  <meta property="og:title" content="Freelance Pendo Consultant & Web Developer | Victor Blanco" />
+  <meta property="og:description" content="Edinburgh-based freelance web developer specializing in React, GSAP animations, and Pendo consulting. I build fast, modern websites that convert." />
+  <meta property="og:image" content="https://victorblancoweb.com/og-image.jpg" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://victorblancoweb.com" />
+  <meta property="twitter:title" content="Freelance Pendo Consultant & Web Developer | Victor Blanco" />
+  <meta property="twitter:description" content="Freelance Pendo consultant and React developer based in Edinburgh. I help SaaS teams set up analytics, improve onboarding, and build fast modern websites." />
+  <meta property="twitter:image" content="https://victorblancoweb.com/og-image.jpg" />
+
+  <link rel="canonical" href="https://victorblancoweb.com" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/blanco.png" />
+
+  <!-- Preconnect & DNS Prefetch -->
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link rel="dns-prefetch" href="https://api.fontshare.com" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Victor Blanco",
+    "url": "https://victorblancoweb.com",
+    "jobTitle": "Freelance Pendo Consultant & Web Developer",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Edinburgh",
+      "addressCountry": "GB"
+    },
+    "sameAs": [
+      "https://github.com/12vblanco",
+      "https://www.upwork.com/freelancers/~01141c20a0de332c1a",
+      "https://dribbble.com/Victor-Blanco"
+    ]
+  }
+  </script>
+
+  <!-- AHREFS Analytics -->
+  <script src="https://analytics.ahrefs.com/analytics.js" data-key="auJjS5Pd49QV3lfCMRQwuA" async></script>
+
+  <!-- Pendo Agent for Anonymous Tracking -->
+  <script>
+  (function(publicAppId){
     function getAnonymousId() {
-        let id = localStorage.getItem('pendo_visitor_id');
-        if (!id) {
-            id = 'anon_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
-            localStorage.setItem('pendo_visitor_id', id);
-        }
-        return id;
+      let id = localStorage.getItem('pendo_visitor_id');
+      if (!id) {
+        id = 'anon_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+        localStorage.setItem('pendo_visitor_id', id);
+      }
+      return id;
     }
 
     (function(p,e,n,d,o){var v,w,x,y,z;o=p[d]=p[d]||{};o._q=o._q||[];
     v=['initialize','identify','updateOptions','pageLoad','track','trackAgent'];for(w=0,x=v.length;w<x;++w)(function(m){
-        o[m]=o[m]||function(){o._q[m===v[0]?'unshift':'push']([m].concat([].slice.call(arguments,0)));};})(v[w]);
-        y=e.createElement(n);y.async=!0;y.src='https://cdn.eu.pendo.io/agent/static/'+publicAppId+'/pendo.js';
-        z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);})(window,document,'script','pendo');
+      o[m]=o[m]||function(){o._q[m===v[0]?'unshift':'push']([m].concat([].slice.call(arguments,0)));};})(v[w]);
+      y=e.createElement(n);y.async=!0;y.src='https://cdn.eu.pendo.io/agent/static/'+publicAppId+'/pendo.js';
+      z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);})(window,document,'script','pendo');
 
-    // Initialize Pendo with anonymous visitor
     pendo.initialize({
-        visitor: {
-            id: getAnonymousId()  // ← Now this is a string, not a placeholder
-        },
-        account: {
-            id: "victor-blanco-portfolio"  // ← String, not placeholder
-        }
+      visitor: { id: getAnonymousId() },
+      account: { id: "victor-blanco-portfolio" }
     });
-    
-    console.log('✅ Pendo initialized with ID:', getAnonymousId());
-})('d9b3f220-ae26-4432-baf6-253841dfa6a9');
-</script>
+  })('d9b3f220-ae26-4432-baf6-253841dfa6a9');
+  </script>
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Primary Meta Tags -->
-    <title>Freelance Pendo Consultant & Web Developer | Victor Blanco</title>
-<meta name="title" content="Freelance Pendo Consultant & Web Developer | Victor Blanco" />    <meta name="description" content="Freelance Pendo consultant and React developer based in Edinburgh. I help SaaS teams set up analytics, improve onboarding, and build fast modern websites." />    <meta name="author" content="Victor Blanco" />
-<meta name="keywords" content="Pendo consultant, freelance Pendo expert, Edinburgh web developer, React developer UK, GSAP animation developer" />
-    <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://victorblancoweb.com" />
-<meta property="og:title" content="Freelance Pendo Consultant & Web Developer | Victor Blanco" />    <meta property="og:description" content="Edinburgh-based freelance web developer specializing in React, GSAP animations, and Pendo consulting. I build fast, modern websites that convert." />
-    <meta property="og:image" content="https://victorblancoweb.com/og-image.jpg" />
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://victorblancoweb.com" />
-    <meta property="twitter:title" content="Victor Blanco — Freelance Web Developer & Designer" />
-    <meta property="twitter:description" content="Edinburgh-based freelance web developer and designer. React, GSAP, styled-components, and Pendo consulting." />
-    <meta property="twitter:image" content="https://victorblancoweb.com/og-image.jpg" />
-
-    <link rel="canonical" href="https://victorblancoweb.com" />
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/blanco.png" />
-
-    <!-- Preconnect & DNS Prefetch -->
-    <link rel="preconnect" href="https://api.fontshare.com" />
-    <link rel="dns-prefetch" href="https://api.fontshare.com" />
-
-    <!-- Main Script (Module) -->
-    <script type="module" src="/src/main.jsx"></script>
+  <!-- Main Script (Module) -->
+  <script type="module" src="/src/main.jsx"></script>
 </head>
 <body>
-    <div id="root"></div>
+  <!-- SEO fallback: readable by Googlebot before JS executes -->
+  <div aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;">
+    <h1>Freelance Pendo Consultant &amp; Web Developer</h1>
+    <p>Edinburgh-based freelance web developer and Pendo consultant. I help SaaS teams set up product analytics, improve user onboarding, and build fast modern websites using React, GSAP, and styled-components.</p>
+    <h2>Case Studies</h2>
+    <p>Projects include Loka Care, Orders Made Simple, LM Douglas, and Sujin Beauty — delivered across SaaS, e-commerce, and marketing platforms.</p>
+    <h2>Pendo Expertise</h2>
+    <p>Certified Pendo consultant with experience across product analytics, NPS surveys, feature adoption, and in-app guides for B2B SaaS clients.</p>
+    <h2>Experience</h2>
+    <p>Previously Web Developer at N-able Inc. First Class Honours in Web Development from Edinburgh Napier University.</p>
+    <h2>Contact</h2>
+    <p>Available for freelance projects worldwide. Based in Edinburgh, Scotland, UK. Contact via info@victorblancoweb.com or Upwork.</p>
+  </div>
+  <div id="root"></div>
 </body>
 </html>
