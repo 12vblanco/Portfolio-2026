@@ -1,7 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
 // Major Third Scale (1.25 ratio) - Base 16px
-// 16, 20, 25, 31.25, 39.06, 48.83, 61.04, 76.29
 export const theme = {
   colors: {
     bgPage: '#FAFAFA',
@@ -12,7 +11,6 @@ export const theme = {
     actionPrimary: '#FF3863',
     border: '#e5e5e5',
   },
-  // 8px Grid System
   spacing: {
     '0': '0px',
     '1': '8px',
@@ -31,7 +29,6 @@ export const theme = {
     '20': '160px',
     '24': '192px',
   },
-  // Major Third Typography Scale (1.25)
   typography: {
     xs: '12.8px',
     sm: '16px',
@@ -53,7 +50,6 @@ export const theme = {
 };
 
 export const GlobalStyles = createGlobalStyle`
-
   *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -87,6 +83,7 @@ export const GlobalStyles = createGlobalStyle`
 
   #root {
     width: 100%;
+    min-height: 100vh;
   }
 
   h1 {
@@ -142,7 +139,7 @@ export const GlobalStyles = createGlobalStyle`
   p {
     font-size: 20px;
     line-height: 1.6;
-      letter-spacing: -.2px;
+    letter-spacing: -.2px;
   }
 
   small {
@@ -165,7 +162,6 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   /* ── Responsive Typography ── */
-
   @media (max-width: 1024px) {
     h1 { font-size: 76.29px; }
     h2 { font-size: 48.83px; }
@@ -195,31 +191,30 @@ export const GlobalStyles = createGlobalStyle`
     p  { font-size: 16px; }
   }
 
-
-/* Ensure smooth native scrolling on mobile */
-@media (max-width: 768px) {
-  html, body {
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
-    height: auto !important;
+  /* ── Mobile Scrolling Fixes ── */
+  @media (max-width: 768px) {
+    html, body {
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch;
+      height: auto !important;
+      position: static !important;
+    }
+    
+    body {
+      background-attachment: scroll; /* Fixed background causes jank on mobile */
+    }
+    
+    #root {
+      min-height: 100vh;
+      height: auto !important;
+      position: static !important;
+    }
+    
+    /* Remove any forced heights on sections */
+    section, main, article, div {
+      height: auto !important;
+      min-height: auto !important;
+      overflow: visible !important;
+    }
   }
-  
-  #root {
-    min-height: 100vh;
-    height: auto !important;
-  }
-  
-  main {
-    overflow: visible !important;
-    height: auto !important;
-  }
-  
-  section {
-    height: auto !important;
-    min-height: auto !important;
-    overflow: visible !important;
-    min-height: fit-content;
-  }
-}
-
 `;
