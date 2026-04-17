@@ -34,7 +34,7 @@ export const useSmoothScroll = () => {
     try {
       gsap.ticker.lagSmoothing(0);
     } 
-    catch (error) {
+    catch  {
       // Ignore in React strict mode
     }
 
