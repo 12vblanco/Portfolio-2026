@@ -6,8 +6,8 @@
 
 <!-- Pendo Agent for Anonymous Tracking -->
 <script>
-(function(apiKey){
-    // Helper to get/set anonymous ID (persists across sessions)
+(function(publicAppId){
+    // Helper to get/set anonymous ID
     function getAnonymousId() {
         let id = localStorage.getItem('pendo_visitor_id');
         if (!id) {
@@ -16,39 +16,24 @@
         }
         return id;
     }
-    
-    // Pendo agent loader
+
     (function(p,e,n,d,o){var v,w,x,y,z;o=p[d]=p[d]||{};o._q=o._q||[];
     v=['initialize','identify','updateOptions','pageLoad','track','trackAgent'];for(w=0,x=v.length;w<x;++w)(function(m){
         o[m]=o[m]||function(){o._q[m===v[0]?'unshift':'push']([m].concat([].slice.call(arguments,0)));};})(v[w]);
-        y=e.createElement(n);y.async=!0;y.src='https://cdn.eu.pendo.io/agent/static/'+apiKey+'/pendo.js';
+        y=e.createElement(n);y.async=!0;y.src='https://cdn.eu.pendo.io/agent/static/'+publicAppId+'/pendo.js';
         z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);})(window,document,'script','pendo');
-    
-    // Wait for Pendo to be ready (check every 200ms)
-    function waitForPendo() {
-        if (window.pendo && typeof window.pendo.isReady === 'function' && window.pendo.isReady()) {
-            // Pendo is ready, initialize with anonymous visitor
-            window.pendo.initialize({
-                visitor: {
-                    id: getAnonymousId(),
-                    type: "anonymous"
-                },
-                account: {
-                    id: "victor-blanco-portfolio",
-                    name: "Personal Portfolio"
-                },
-                // Prevent React conflicts
-                disableDomMutationTracking: true,
-                disableAutoPageLoad: false
-            });
-            console.log('✅ Pendo initialized for anonymous visitor');
-        } else {
-            setTimeout(waitForPendo, 200);
+
+    // Initialize Pendo with anonymous visitor
+    pendo.initialize({
+        visitor: {
+            id: getAnonymousId()  // ← Now this is a string, not a placeholder
+        },
+        account: {
+            id: "victor-blanco-portfolio"  // ← String, not placeholder
         }
-    }
+    });
     
-    // Start waiting for Pendo
-    waitForPendo();
+    console.log('✅ Pendo initialized with ID:', getAnonymousId());
 })('d9b3f220-ae26-4432-baf6-253841dfa6a9');
 </script>
 
