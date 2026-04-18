@@ -60,3 +60,12 @@
   to = "/:splat.ico"
   status = 200
   force = true
+
+  [[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Force longer cache for external scripts (requires Netlify Edge)
+[[edge_handlers]]
+  function = "cache-optimizer"
