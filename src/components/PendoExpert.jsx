@@ -2,7 +2,6 @@ import gsap from 'gsap';
 import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import cert2 from '..//assets/pendoCert/cert2.png';
 import cert3 from '..//assets/pendoCert/cert3.png';
@@ -58,6 +57,10 @@ export const PendoExpert = () => {
   const badgesRef    = useRef(null);
   const badgeRefs    = useRef([]);
   const certifiedRef = useRef(null);
+
+  const handleCalendlyClick = () => {
+    window.open('https://calendly.com/12vblanco/30min', '_blank', 'noopener,noreferrer');
+  };
 
   useEffect(() => {
     badgeRefs.current = badgeRefs.current.slice(0, certImages.length);
@@ -204,10 +207,10 @@ export const PendoExpert = () => {
             <Title>Pendo Consultant</Title>
           </HeaderLeft>
           <Subtitle>
-            <strong>Certified Pendo developer</strong> and consultant with over two years hands-on experience. { }
-            <HireCTA to="/pendo-consultant">
+            <strong>Certified Pendo developer</strong> and consultant with over two years hands-on experience.{' '}
+            <HireButton onClick={handleCalendlyClick}>
               Hire me as your Pendo consultant
-            </HireCTA>
+            </HireButton>
           </Subtitle>
         </Header>
 
@@ -220,7 +223,7 @@ export const PendoExpert = () => {
                   <FeatureTitle data-feature-title>{feature.title}</FeatureTitle>
                   <FeatureText data-feature-text>
                     {feature.before}
-                    <FeatureLink to="/pendo-consultant">{feature.link}</FeatureLink>
+                    <DisabledLink>{feature.link}</DisabledLink>
                     {feature.after}
                   </FeatureText>
                 </FeatureContent>
@@ -433,24 +436,22 @@ const FeatureText = styled.p.attrs({ className: 'pendoExpert-FeatureText' })`
   }
 `;
 
-const FeatureLink = styled(Link)`
-  text-decoration: none;
+// Disabled link (not clickable, just styled text)
+const DisabledLink = styled.span`
   font-weight: 700;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease;
-
-  &:hover {
-    border-bottom-color: #FF3863;
-  }
+  color: #FF3863;
+  cursor: default;
 `;
 
-const HireCTA = styled(Link)`
+// Calendly button that opens the link
+const HireButton = styled.button`
   font-size: 20px;
   font-weight: 600;
   color: #FF3863;
-  text-decoration: none;
-  max-width: 100%;
-  padding-top: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s ease, opacity 0.2s ease;
 
