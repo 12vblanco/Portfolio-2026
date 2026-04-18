@@ -2,6 +2,7 @@ import gsap from 'gsap';
 import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import cert2 from '..//assets/pendoCert/cert2.png';
 import cert3 from '..//assets/pendoCert/cert3.png';
@@ -15,26 +16,36 @@ import pendoGraph from '../assets/pendoCert/pendo-graph-2.jpg';
 
 gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin);
 
+// Each feature has an optional inlineLink: { text, before, after }
+// which splits the feature text around a Link to /pendo-consultant
 const features = [
   {
     number: '01',
     title: 'Installation & Setup',
-    text: 'Pendo Admin certified and experienced in full installations. I set up your account the right way so everything downstream is reliable.',
+    before: 'Pendo Admin certified and experienced in ',
+    link: 'full Pendo installations',
+    after: '. I set up your account the right way so everything downstream is reliable.',
   },
   {
     number: '02',
     title: 'Audit & Optimisation',
-    text: 'Audits of existing installations, identify gaps in tracking coverage, flag redundant or broken tags, and deliver a clear prioritised list of improvements.',
+    before: '',
+    link: 'Audits of existing installations',
+    after: ' identifying gaps in tracking coverage, flag redundant or broken tags, and deliver a clear prioritised list of improvements.',
   },
   {
     number: '03',
     title: 'Guides, Onboarding & User Flows',
-    text: 'From tooltips to multi-step onboarding flows and announcements, I build fully customised guides that match your brand and move users toward key actions.',
+    before: 'From tooltips to multi-step onboarding flows and announcements, I build ',
+    link: 'fully customised guides',
+    after: ' that match your brand and move users toward key actions.',
   },
   {
     number: '04',
     title: 'Analytics & Reporting',
-    text: 'Dashboards, funnels, and reports that surface what actually matters. Data you can act on, not just admire.',
+    before: 'Dashboards, funnels, and reports that surface what actually matters. ',
+    link: 'Data you can act on',
+    after: ' to build effective products.',
   },
 ];
 
@@ -193,7 +204,10 @@ export const PendoExpert = () => {
             <Title>Pendo Consultant</Title>
           </HeaderLeft>
           <Subtitle>
-            <strong>Certified Pendo developer</strong> and consultant with over two years hands-on experience.
+            <strong>Certified Pendo developer</strong> and consultant with over two years hands-on experience. { }
+            <HireCTA to="/pendo-consultant">
+              Hire me as your Pendo consultant
+            </HireCTA>
           </Subtitle>
         </Header>
 
@@ -204,12 +218,17 @@ export const PendoExpert = () => {
                 <FeatureNumber data-feature-number>{feature.number}</FeatureNumber>
                 <FeatureContent>
                   <FeatureTitle data-feature-title>{feature.title}</FeatureTitle>
-                  <FeatureText data-feature-text>{feature.text}</FeatureText>
+                  <FeatureText data-feature-text>
+                    {feature.before}
+                    <FeatureLink to="/pendo-consultant">{feature.link}</FeatureLink>
+                    {feature.after}
+                  </FeatureText>
                 </FeatureContent>
               </Feature>
-            ))}
+            ))}            
           </FeatureList>
-            <GraphContainer>
+
+          <GraphContainer>
             <GraphImage src={pendoGraph} alt="Pendo Analytics Graph" />
             <p style={{ fontStyle: 'italic', fontSize: '18px', marginTop: '1rem', fontWeight: '600' }}>
               "Get measurable results faster"
@@ -220,19 +239,19 @@ export const PendoExpert = () => {
         <BadgesContainer ref={badgesRef}>
           {certImages.map((cert, i) => (
             <Badge key={i} ref={el => badgeRefs.current[i] = el}>
-      <a 
-        href="https://www.credly.com/users/victor-blanco.4783f91c"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ display: 'block', textDecoration: 'none' }}
-      >
-        <BadgeImg src={cert} alt={`Pendo Certification ${i + 1}`} />
-      </a>            </Badge>
+              <a
+                href="https://www.credly.com/users/victor-blanco.4783f91c"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'block', textDecoration: 'none' }}
+              >
+                <BadgeImg src={cert} alt={`Pendo Certification ${i + 1}`} />
+              </a>
+            </Badge>
           ))}
         </BadgesContainer>
 
       </Container>
-
     </Section>
   );
 };
@@ -410,7 +429,36 @@ const FeatureText = styled.p.attrs({ className: 'pendoExpert-FeatureText' })`
   max-width: 682px;
 
   @media (max-width: 968px) {
-    font-size: 18px;}`;
+    font-size: 18px;
+  }
+`;
+
+const FeatureLink = styled(Link)`
+  text-decoration: none;
+  font-weight: 700;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+
+  &:hover {
+    border-bottom-color: #FF3863;
+  }
+`;
+
+const HireCTA = styled(Link)`
+  font-size: 20px;
+  font-weight: 600;
+  color: #FF3863;
+  text-decoration: none;
+  max-width: 100%;
+  padding-top: 0.5rem;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease, opacity 0.2s ease;
+
+  &:hover {
+    border-bottom-color: #FF3863;
+    opacity: 0.8;
+  }
+`;
 
 const GraphContainer = styled.div.attrs({ className: 'pendoExpert-GraphContainer' })`
   flex: 1;
@@ -479,7 +527,6 @@ const Badge = styled.div.attrs({ className: 'pendoExpert-Badge' })`
   flex-shrink: 0;
   opacity: 0;
   transform: scale(0.8);
-  
 
   @media (max-width: 1331px) {
     width: 100px;
@@ -496,5 +543,5 @@ const BadgeImg = styled.img.attrs({ className: 'pendoExpert-BadgeImg' })`
   width: 100%;
   height: 100%;
   object-fit: cover;
-    transition: all 0.4s ease;
+  transition: all 0.4s ease;
 `;

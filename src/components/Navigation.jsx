@@ -1,6 +1,7 @@
 import gsap from 'gsap';
 import { Menu, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { MobileLogoScroller } from './MobileLogoScroller';
 import { Star4Svg } from './hero-section/StarIcons';
@@ -148,6 +149,16 @@ export const Navigation = ({ star1Ref, star2Ref, star3Ref }) => {
         <MobileNavLink href="#works" aria-label="navigate to works" onClick={() => setMobileOpen(false)}>Works</MobileNavLink>
         <MobileNavLink href="#pendo" aria-label="navigate to pendo" onClick={() => setMobileOpen(false)}>Pendo</MobileNavLink>
         <MobileNavLink href="#experience" aria-label="navigate to experience" onClick={() => setMobileOpen(false)}>Experience</MobileNavLink>
+
+        {/* Pendo Consultant page link — mobile only */}
+        <MobileRouterLink
+          to="/pendo-consultant"
+          aria-label="navigate to Pendo Consultant page"
+          onClick={() => setMobileOpen(false)}
+        >
+          Hire Pendo Consultant
+        </MobileRouterLink>
+
         <MobileCTA href="https://calendly.com/12vblanco/30min" aria-label="navigate to contact" onClick={() => setMobileOpen(false)}>Let's Talk</MobileCTA>
 
         {/* Logo scroller pinned to the bottom of the mobile menu */}
@@ -333,7 +344,6 @@ const MobileNav = styled.div.attrs({ className: 'navigation-MobileNav' })`
   transform: translateX(${p => p.$isOpen ? '0' : '100%'});
   transition: transform 0.3s ease;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
-  /* Padding so the centred links don't overlap the bottom scroller */
   padding-bottom: 88px;
 `;
 
@@ -359,6 +369,22 @@ const MobileNavLink = styled.a.attrs({ className: 'navigation-MobileNavLink' })`
 
   &:hover {
     color: #FF3863;
+  }
+`;
+
+// React Router Link styled to match MobileNavLink but with accent colour
+// to signal it navigates to a separate page rather than scrolling
+const MobileRouterLink = styled(Link)`
+  font-size: 31.25px;
+  color: #FF3863;
+  text-decoration: none;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.75;
   }
 `;
 
