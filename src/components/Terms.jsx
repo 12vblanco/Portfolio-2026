@@ -16,7 +16,7 @@ export const Terms = ({ open, onClose }) => {
     if (open && panelRef.current) {
       setTimeout(() => {
         panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 150); // increased from 50ms — mobile needs more time after paint
+      }, 150);
     }
   }, [open]);
 
@@ -68,26 +68,108 @@ export const Terms = ({ open, onClose }) => {
         <TermsSection>
           <SectionTitle>3. Data Collection &amp; Privacy</SectionTitle>
           <Highlight>
-            This Website does not collect, store, or process any personal data through forms,
-            databases, or tracking systems operated by Victor Blanco.
+            This Website does not collect, store, or process any personally identifiable
+            information through forms, databases, or tracking systems directly operated by
+            Victor Blanco. No names, email addresses, or contact details are collected
+            automatically by this Website.
           </Highlight>
           <Body>
-            <strong>Pendo analytics</strong> is used solely for anonymous traffic monitoring.
-            No personally identifiable information is collected — data is used only to
-            understand general usage patterns and improve the Website experience. Pendo's own
-            privacy policy governs how that data is handled on their end.
+            However, this Website uses third-party analytics and tracking tools that may
+            collect anonymous or pseudonymous data about your visit. Full details are
+            provided in Section 4 below.
           </Body>
           <Body>
-            Any communication you initiate via email or third-party platforms is subject to
-            those platforms' own privacy policies. Contact information you share is used only
-            to respond to your enquiry and manage any resulting engagement.
+            Any communication you initiate via email or third-party platforms (e.g. Upwork,
+            LinkedIn) is subject to those platforms' own privacy policies. Contact information
+            you share voluntarily is used only to respond to your enquiry and manage any
+            resulting engagement.
           </Body>
         </TermsSection>
 
         <Divider />
 
         <TermsSection>
-          <SectionTitle>4. Intellectual Property</SectionTitle>
+          <SectionTitle>4. Analytics &amp; Tracking Tools</SectionTitle>
+          <Body>
+            This Website uses the following third-party tools for anonymous traffic monitoring
+            and usage analysis. No personally identifiable information is knowingly collected
+            through these tools. Data collected is used solely to understand general usage
+            patterns and improve the Website experience.
+          </Body>
+
+          <SubSectionTitle>4.1 Pendo Analytics</SubSectionTitle>
+          <Body>
+            This Website uses <strong>Pendo</strong>, a product analytics platform operated
+            by Pendo.io, Inc. (USA). Pendo collects anonymous behavioural data including page
+            views, session duration, and feature interactions. Visitors are assigned a
+            randomly generated anonymous identifier stored in your browser's local storage —
+            no name, email, or personally identifiable information is associated with this ID.
+          </Body>
+          <Body>
+            Pendo may transfer data to servers located in the United States. Such transfers
+            are governed by Pendo's own data processing agreements and privacy policy. For
+            more information, visit{' '}
+            <ExternalLink href="https://www.pendo.io/legal/privacy-policy/" target="_blank" rel="noopener noreferrer">
+              pendo.io/legal/privacy-policy
+            </ExternalLink>.
+          </Body>
+
+          <SubSectionTitle>4.2 Ahrefs Analytics</SubSectionTitle>
+          <Body>
+            This Website uses <strong>Ahrefs Analytics</strong>, a web analytics service
+            operated by Ahrefs Pte. Ltd. (Singapore). Ahrefs Analytics collects anonymous
+            traffic data including page views, referral sources, and general geographic
+            region. It is designed to be privacy-friendly and does not use cookies or collect
+            personally identifiable information.
+          </Body>
+          <Body>
+            For more information, visit{' '}
+            <ExternalLink href="https://ahrefs.com/privacy" target="_blank" rel="noopener noreferrer">
+              ahrefs.com/privacy
+            </ExternalLink>.
+          </Body>
+
+          <SubSectionTitle>4.3 Legal Basis for Processing (UK &amp; EU GDPR)</SubSectionTitle>
+          <Body>
+            Where UK GDPR or EU GDPR applies, the legal basis for using these analytics tools
+            is <strong>legitimate interests</strong> (Article 6(1)(f)) — specifically, the
+            interest in understanding how visitors use the Website in order to improve its
+            content and performance. No sensitive personal data is processed. You may object
+            to this processing at any time by contacting info@victorblancoweb.com.
+          </Body>
+
+          <SubSectionTitle>4.4 California Residents (CCPA)</SubSectionTitle>
+          <Body>
+            If you are a California resident, you have rights under the California Consumer
+            Privacy Act (CCPA) including the right to know what data is collected about you
+            and the right to opt out of the sale of personal information. This Website does
+            not sell personal information. As only anonymous data is collected via third-party
+            tools, no personally identifiable information about California residents is held
+            by Victor Blanco. For enquiries, contact info@victorblancoweb.com.
+          </Body>
+        </TermsSection>
+
+        <Divider />
+
+        <TermsSection>
+          <SectionTitle>5. Cookies &amp; Local Storage</SectionTitle>
+          <Body>
+            This Website does not use cookies directly. However, Pendo Analytics uses
+            your browser's <strong>local storage</strong> to store a randomly generated
+            anonymous visitor ID. This is used solely to distinguish unique visits and is not
+            linked to any personal information. It persists across sessions until your browser
+            data is cleared.
+          </Body>
+          <Body>
+            You can clear this data at any time through your browser settings under
+            "Site Data" or "Local Storage" for victorblancoweb.com.
+          </Body>
+        </TermsSection>
+
+        <Divider />
+
+        <TermsSection>
+          <SectionTitle>6. Intellectual Property</SectionTitle>
           <Body>
             All content on this Website — including text, design, graphics, code, case
             studies, and project descriptions — is the intellectual property of Victor Blanco
@@ -103,7 +185,7 @@ export const Terms = ({ open, onClose }) => {
         <Divider />
 
         <TermsSection>
-          <SectionTitle>5. Acceptable Use</SectionTitle>
+          <SectionTitle>7. Acceptable Use</SectionTitle>
           <Body>You agree not to:</Body>
           <List>
             <li>Transmit unsolicited advertising or promotional material</li>
@@ -116,7 +198,7 @@ export const Terms = ({ open, onClose }) => {
         <Divider />
 
         <TermsSection>
-          <SectionTitle>6. Disclaimer &amp; Limitation of Liability</SectionTitle>
+          <SectionTitle>8. Disclaimer &amp; Limitation of Liability</SectionTitle>
           <Body>
             This Website and its content are provided on an "as is" basis. While every
             reasonable effort is made to keep information accurate, no warranty is given that
@@ -133,7 +215,7 @@ export const Terms = ({ open, onClose }) => {
         <Divider />
 
         <TermsSection>
-          <SectionTitle>7. Third-Party Links</SectionTitle>
+          <SectionTitle>9. Third-Party Links</SectionTitle>
           <Body>
             This Website may link to third-party sites (e.g. Upwork, LinkedIn, GitHub).
             These are provided for convenience only. Victor Blanco has no control over and
@@ -144,7 +226,7 @@ export const Terms = ({ open, onClose }) => {
         <Divider />
 
         <TermsSection>
-          <SectionTitle>8. Professional Services</SectionTitle>
+          <SectionTitle>10. Professional Services</SectionTitle>
           <Body>
             Any freelance or consulting services are governed by separate agreements with
             each client. Enquiries made via the contact details on this Website do not
@@ -156,7 +238,7 @@ export const Terms = ({ open, onClose }) => {
         <Divider />
 
         <TermsSection>
-          <SectionTitle>9. Governing Law</SectionTitle>
+          <SectionTitle>11. Governing Law</SectionTitle>
           <Body>
             These Terms are governed by the laws of England and Wales. If you access this
             Website from outside the UK, you are responsible for compliance with your
@@ -167,7 +249,7 @@ export const Terms = ({ open, onClose }) => {
         <Divider />
 
         <TermsSection>
-          <SectionTitle>10. Changes to These Terms</SectionTitle>
+          <SectionTitle>12. Changes to These Terms</SectionTitle>
           <Body>
             Victor Blanco reserves the right to update these Terms at any time. Changes take
             effect immediately upon publication. Continued use of the Website constitutes
@@ -178,7 +260,11 @@ export const Terms = ({ open, onClose }) => {
         <Divider />
 
         <TermsSection>
-          <SectionTitle>11. Contact</SectionTitle>
+          <SectionTitle>13. Contact &amp; Data Requests</SectionTitle>
+          <Body>
+            For any privacy-related enquiries, data subject requests (access, erasure,
+            objection), or general questions about these Terms, please contact:
+          </Body>
           <ContactBlock>
             <p><strong>Website:</strong> victorblancoweb.com</p>
             <p><strong>Email:</strong> info@victorblancoweb.com</p>
@@ -210,7 +296,6 @@ const Section = styled.section`
   animation: ${expandDown} 0.35s ease forwards;
   scroll-margin-top: 2rem;
   will-change: transform, opacity;
-  /* Ensure the element is never hidden by a stacking/overflow ancestor */
   position: relative;
   z-index: 1;
 `;
@@ -294,6 +379,12 @@ const SectionTitle = styled.h5`
   margin: 0 0 0.6rem 0 !important;
 `;
 
+const SubSectionTitle = styled.h6`
+  margin: 1rem 0 0.4rem 0 !important;
+  font-weight: 600 !important;
+  color: #282828 !important;
+`;
+
 const Body = styled.p`
   margin: 0 0 0.75rem 0 !important;
 
@@ -340,6 +431,17 @@ const ContactBlock = styled.div`
       color: #282828;
       font-weight: 600;
     }
+  }
+`;
+
+const ExternalLink = styled.a`
+  color: #FF3863;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    text-decoration: underline;
+    opacity: 0.8;
   }
 `;
 
