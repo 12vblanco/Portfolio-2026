@@ -2,22 +2,61 @@
   command = "npm run build"
   publish = "dist"
 
-# SPA redirect — all routes serve index.html
+# SPA redirect — but EXCLUDE static assets
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = false
+  # Don't redirect files with extensions
+  condition = "Path not in /*.*"
 
-# Only set specific headers for specific files
-[[headers]]
-  for = "/src/*.jsx"
-  [headers.values]
-    Content-Type = "text/javascript"
+# Alternative: More explicit approach (recommended)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  # Exclude common asset extensions
+  force = false
 
-[[headers]]
-  for = "/*.js"
-  [headers.values]
-    Content-Type = "application/javascript"
+[[redirects]]
+  from = "/assets/*"
+  to = "/assets/:splat"
+  status = 200
+  force = true
 
-# Don't override the favicon
-# Let Netlify handle it automatically
+[[redirects]]
+  from = "/*.js"
+  to = "/:splat.js"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*.css"
+  to = "/:splat.css"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*.png"
+  to = "/:splat.png"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*.jpg"
+  to = "/:splat.jpg"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*.svg"
+  to = "/:splat.svg"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*.ico"
+  to = "/:splat.ico"
+  status = 200
+  force = true
