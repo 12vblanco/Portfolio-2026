@@ -208,12 +208,12 @@ export const PendoExpert = () => {
           </HeaderLeft>
           <Subtitle>
             <strong>Certified Pendo developer</strong> and consultant with over two years hands-on experience.{' '}
-            <HireButton onClick={handleCalendlyClick}>
+           {/* <HireButton onClick={handleCalendlyClick}>
               Hire me as your Pendo consultant
-            </HireButton>
+            </HireButton>*/}
           </Subtitle>
         </Header>
-
+  
         <MiddleRow ref={middleRef}>
           <FeatureList>
             {features.map((feature, index) => (
@@ -444,22 +444,22 @@ const DisabledLink = styled.span`
 `;
 
 // Calendly button that opens the link
-const HireButton = styled.button`
-  font-size: 20px;
-  font-weight: 600;
-  color: #FF3863;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease, opacity 0.2s ease;
+// const HireButton = styled.button`
+//   font-size: 20px;
+//   font-weight: 600;
+//   color: #FF3863;
+//   background: none;
+//   border: none;
+//   cursor: pointer;
+//   padding: 0;
+//   border-bottom: 1px solid transparent;
+//   transition: border-color 0.2s ease, opacity 0.2s ease;
 
-  &:hover {
-    border-bottom-color: #FF3863;
-    opacity: 0.8;
-  }
-`;
+//   &:hover {
+//     border-bottom-color: #FF3863;
+//     opacity: 0.8;
+//   }
+// `;
 
 const GraphContainer = styled.div.attrs({ className: 'pendoExpert-GraphContainer' })`
   flex: 1;

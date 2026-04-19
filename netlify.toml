@@ -61,3 +61,7 @@
   status = 200
   force = true
 
+[[headers]]
+  for = "/analytics.js"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
