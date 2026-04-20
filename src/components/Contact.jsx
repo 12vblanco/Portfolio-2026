@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Dribbble, Github, Mail } from 'lucide-react';
+import { Dribbble, Github, PhoneCall } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Heart } from '../assets/icons/Heart';
@@ -72,8 +72,8 @@ export const Contact = ({ onOpenTerms }) => {
             <Dribbble size={24} aria-hidden="true" />
           </SocialLink>
 
-          <SocialLink href="mailto:info@victorblancoweb.com" aria-label="Email Victor">
-            <Mail size={24} aria-hidden="true" />
+          <SocialLink href="https://calendly.com/12vblanco/30min" target="_blank" aria-label="Call Victor">
+            <PhoneCall size={24} aria-hidden="true" />
           </SocialLink>
         </SocialLinks>
 

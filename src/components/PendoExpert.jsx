@@ -58,9 +58,9 @@ export const PendoExpert = () => {
   const badgeRefs    = useRef([]);
   const certifiedRef = useRef(null);
 
-  const handleCalendlyClick = () => {
-    window.open('https://calendly.com/12vblanco/30min', '_blank', 'noopener,noreferrer');
-  };
+  // const handleCalendlyClick = () => {
+  //   window.open('https://calendly.com/12vblanco/30min', '_blank', 'noopener,noreferrer');
+  // };
 
   useEffect(() => {
     badgeRefs.current = badgeRefs.current.slice(0, certImages.length);
@@ -116,7 +116,7 @@ export const PendoExpert = () => {
 
             gsap.fromTo(number,
               { y: 12, opacity: 0 },
-              { y: 0, opacity: 0.18, duration: itemDuration, delay: cursor, ease: 'power2.out' }
+              { y: 0, opacity: .5, duration: itemDuration, delay: cursor, ease: 'power2.out' }
             );
             cursor += itemDuration + itemGap;
 
@@ -393,7 +393,7 @@ const FeatureNumber = styled.span.attrs({ className: 'pendoExpert-FeatureNumber'
   line-height: 1;
   flex-shrink: 0;
   width: 64px;
-  opacity: 0;
+  opacity: 1;
   letter-spacing: -2px;
   padding-top: 2px;
   font-size: 64px;
@@ -439,7 +439,7 @@ const FeatureText = styled.p.attrs({ className: 'pendoExpert-FeatureText' })`
 // Disabled link (not clickable, just styled text)
 const DisabledLink = styled.span`
   font-weight: 700;
-  color: #FF3863;
+  color: #F63962;
   cursor: default;
 `;
 
