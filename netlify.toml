@@ -2,65 +2,19 @@
   command = "npm run build"
   publish = "dist"
 
-# SPA redirect — but EXCLUDE static assets
+# 301 redirects for old/removed pages
+[[redirects]]
+  from = "/VarunaCase"
+  to = "/"
+  status = 301
+
+# SPA catch-all — Netlify serves real files first, this only fires for unknown paths
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  force = false
-  # Don't redirect files with extensions
-  condition = "Path not in /*.*"
 
-# Alternative: More explicit approach (recommended)
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  # Exclude common asset extensions
-  force = false
-
-[[redirects]]
-  from = "/assets/*"
-  to = "/assets/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/*.js"
-  to = "/:splat.js"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/*.css"
-  to = "/:splat.css"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/*.png"
-  to = "/:splat.png"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/*.jpg"
-  to = "/:splat.jpg"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/*.svg"
-  to = "/:splat.svg"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/*.ico"
-  to = "/:splat.ico"
-  status = 200
-  force = true
-
+# Cache headers
 [[headers]]
   for = "/analytics.js"
   [headers.values]
