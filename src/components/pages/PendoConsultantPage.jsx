@@ -3,6 +3,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { usePageTitle } from '../../hooks/usePageTitle.js';
 import { ConsentBanner } from '../ConsentBanner.jsx';
 import { Contact } from '../Contact';
 
@@ -128,6 +129,12 @@ export const PendoConsultantPage = ({ onOpenTerms }) => {
 
     return () => ctx.revert();
   }, []);
+
+
+usePageTitle(
+  'Pendo Consultant | Installation, Audit, Guides & Analytics | Victor Blanco',
+  'Certified Pendo consultant expert on installation, audit, creating custom guides, and analytics reporting. Based in Edinburgh, working with B2B SaaS teams globally.'
+);
 
   return (
     <>
