@@ -7,12 +7,13 @@ import { reviewsData } from './reviewsData';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Transition duration must match the CSS transition on CardWrapper (0.9s)
+const TRANSITION_MS = 900;
+// How far into the transition the style swap fires (roughly the midpoint)
+const STYLE_SWAP_DELAY_MS = TRANSITION_MS / 2;
+
 const slotTransform = (slot, isMobile) => {
   if (isMobile) {
-    // Same drag feel as desktop but compressed for narrow screens.
-    // slot 0  = centre stage
-    // slot ±1 = peeking in from the sides (mostly off-screen)
-    // slot ±2+ = fully hidden off-screen
     if (slot === 0)  return 'translateX(0%)   scale(1)';
     if (slot === 1)  return 'translateX(105%) scale(0.9)';
     if (slot === -1) return 'translateX(-105%) scale(0.9)';
@@ -29,7 +30,7 @@ const slotTransform = (slot, isMobile) => {
 const slotOpacity = (slot, isMobile) => {
   if (isMobile) {
     if (slot === 0)                return 1;
-    if (slot === 1 || slot === -1) return 0;   // hidden but still animates through
+    if (slot === 1 || slot === -1) return 0;
     return 0;
   }
   if (slot === 0)                return 1;
@@ -39,16 +40,34 @@ const slotOpacity = (slot, isMobile) => {
 
 const Testimonials = () => {
   const sectionRef = useRef(null);
-  const headerRef = useRef(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const headerRef  = useRef(null);
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+  // centreId follows currentIndex but with a delay so the white-card style
+  // cross-fades at the midpoint of the slide animation rather than snapping.
+  const [centreId, setCentreId] = useState(reviewsData[0]?.id);
+
+  const advanceTo = (nextIndex) => {
+    setCurrentIndex(nextIndex);
+    // Schedule the style swap to fire at the midpoint of the CSS transition
+    setTimeout(() => {
+      setCentreId(reviewsData[nextIndex].id);
+    }, STYLE_SWAP_DELAY_MS);
+  };
+
+  // Auto-advance
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex(prev => (prev + 1) % reviewsData.length);
+      setCurrentIndex(prev => {
+        const next = (prev + 1) % reviewsData.length;
+        setTimeout(() => setCentreId(reviewsData[next].id), STYLE_SWAP_DELAY_MS);
+        return next;
+      });
     }, 4000);
     return () => clearInterval(interval);
   }, []);
 
+  // Header scroll animation
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.to(headerRef.current, {
@@ -68,13 +87,12 @@ const Testimonials = () => {
   const getSlot = (cardIndex) => {
     const total = reviewsData.length;
     let slot = cardIndex - currentIndex;
-    if (slot > Math.floor(total / 2))  slot -= total;
+    if (slot >  Math.floor(total / 2)) slot -= total;
     if (slot < -Math.floor(total / 2)) slot += total;
     return slot;
   };
 
   const [isMobile, setIsMobile] = useState(false);
-
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 768);
     check();
@@ -95,7 +113,7 @@ const Testimonials = () => {
               key={i}
               $active={i === currentIndex}
               aria-label={`Go to testimonial ${i + 1}`}
-              onClick={() => setCurrentIndex(i)}
+              onClick={() => advanceTo(i)}
             />
           ))}
         </DotsRow>
@@ -109,9 +127,10 @@ const Testimonials = () => {
                   key={review.id}
                   $slot={slot}
                   $isMobile={isMobile}
-                  onClick={() => slot !== 0 && setCurrentIndex(i)}
+                  onClick={() => slot !== 0 && advanceTo(i)}
                 >
-                  <ReviewCard review={review} isCenter={slot === 0} />
+                  {/* isCenter now driven by centreId, not the live slot */}
+                  <ReviewCard review={review} isCenter={review.id === centreId} />
                 </CardWrapper>
               );
             })}
@@ -203,7 +222,6 @@ const Scene = styled.div.attrs({ className: 'testimonials-Scene' })`
   min-height: 0;
 
   @media (max-width: 768px) {
-    /* Fixed height so the absolutely-positioned cards have something to fill */
     height: 360px;
     flex: none;
   }

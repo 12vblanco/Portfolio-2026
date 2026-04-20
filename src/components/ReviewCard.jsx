@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+const COLOUR_TRANSITION = 'background 0.45s ease, color 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease';
+
 const StarIcon = ({ size = 16 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="#FF3863">
     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
@@ -40,6 +42,8 @@ const Card = styled.div.attrs({ className: 'reviewCard-Card' })`
   height: 100%;
   min-height: 320px;
   border: ${p => p.$isCenter ? '1px solid #e5e5e5' : '1px solid rgba(255,255,255,0.08)'};
+  transition: ${COLOUR_TRANSITION};
+
   @media (max-width: 426px) {
     width: 90%;
     min-height: 360px;
@@ -59,6 +63,7 @@ const ReviewText = styled.p.attrs({ className: 'reviewCard-ReviewText' })`
   justify-content: center;
   text-align: left;
   font-style: italic;
+  transition: color 0.45s ease;
 
   @media (max-width: 968px) { font-size: 18px; }
 `;
@@ -85,10 +90,12 @@ const ClientName = styled.span.attrs({ className: 'reviewCard-ClientName' })`
   font-size: 18px;
   font-weight: 600;
   color: ${p => p.$isCenter ? '#282828' : 'rgba(255,255,255,0.4)'};
+  transition: color 0.45s ease;
 `;
 
 const ClientMeta = styled.span.attrs({ className: 'reviewCard-ClientMeta' })`
   font-size: 18px;
   color: ${p => p.$isCenter ? '#282828' : 'rgba(255,255,255,0.4)'};
   font-weight: 600;
+  transition: color 0.45s ease;
 `;
