@@ -8,6 +8,26 @@
   to = "/"
   status = 301
 
+[[redirects]]
+  from = "/home"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/UXCase"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/OrchardCase"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/terms"
+  to = "/"
+  status = 301
+
 # SPA catch-all — Netlify serves real files first, this only fires for unknown paths
 [[redirects]]
   from = "/*"
