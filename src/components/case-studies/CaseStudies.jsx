@@ -88,8 +88,12 @@ const LazyVideoCard = ({ study, index, hasAnimated, containerRef, isTablet, isCl
       style={{ cursor: isTablet ? 'pointer' : 'default' }}
     >
       <MediaContainer>
-        <Image src={displayImage} alt={study.title} $hidden={videoReady} />
-        {study.video && (
+            <Image 
+              src={displayImage} 
+              alt={(isMobile && study.mobileAlt) ? study.mobileAlt : (study.alt || `${study.client} ${study.title} project screenshot`)} 
+              $hidden={videoReady} 
+            />
+              {study.video && (
           <Video
             ref={videoRef}
             src={videoSrcSet ? study.video : undefined}
