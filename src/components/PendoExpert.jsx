@@ -206,12 +206,20 @@ export const PendoExpert = () => {
             </Label>
             <Title>Pendo Consultant</Title>
           </HeaderLeft>
-          <Subtitle>
-            <strong>Certified Pendo developer</strong> and consultant with over two years hands-on experience.{' '}
-           {/* <HireButton onClick={handleCalendlyClick}>
-              Hire me as your Pendo consultant
-            </HireButton>*/}
-          </Subtitle>
+        <Subtitle>
+          <strong>Certified Pendo developer</strong> and consultant with over two years hands-on experience.{' '}
+          <CallLink 
+            href="https://calendly.com/12vblanco/30min" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              e.preventDefault();
+              window.open('https://calendly.com/12vblanco/30min', '_blank', 'noopener,noreferrer');
+            }}
+          >
+            Book a call
+          </CallLink>
+        </Subtitle>
         </Header>
   
         <MiddleRow ref={middleRef}>
@@ -348,6 +356,19 @@ const Subtitle = styled.p.attrs({ className: 'pendoExpert-Subtitle' })`
   }
 `;
 
+const CallLink = styled.a`
+  color: #FF3863;
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid transparent;
+  
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
 const MiddleRow = styled.div.attrs({ className: 'pendoExpert-MiddleRow' })`
   display: flex;
   flex-direction: row;
@@ -438,8 +459,8 @@ const FeatureText = styled.p.attrs({ className: 'pendoExpert-FeatureText' })`
 
 // Disabled link (not clickable, just styled text)
 const DisabledLink = styled.span`
-  font-weight: 700;
-  color: #F63962;
+  font-weight: 600;
+  color: #333;
   cursor: default;
 `;
 
