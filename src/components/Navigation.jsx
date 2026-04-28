@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { MobileLogoScroller } from './MobileLogoScroller';
-import { Star4Svg } from './hero-section/StarIcons';
+import { Star4Svg } from './common/StarIcons';
 
 const r = (min, max) => min + Math.random() * (max - min);
 

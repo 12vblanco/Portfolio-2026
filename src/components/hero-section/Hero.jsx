@@ -3,8 +3,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useRef } from 'react';
 import styled from 'styled-components';
 import { useHeroAnimation } from '../../hooks/useHeroAnimation';
-import { HeroCTA } from './HeroCTA';
-import { HeroTitle } from './HeroTitle';
+import { HeroCTA } from '../common/HeroCTA';
+import { HeroTitle } from '../common/HeroTitle';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -49,8 +49,6 @@ export const Hero = ({ star1Ref, star2Ref, star3Ref }) => {
   return (
     <HeroSection id="home" ref={heroRef}>
       <Container>
-        {/* HeroStamp has been moved inside HeroTitle so it's
-            always positioned relative to the title text block */}
         <a 
           href="https://calendly.com/12vblanco/30min"
           target="_blank"
@@ -76,6 +74,8 @@ export const Hero = ({ star1Ref, star2Ref, star3Ref }) => {
           star1Ref={star1Ref}
           star2Ref={star2Ref}
           star3Ref={star3Ref}
+          line1Text="Web Developer &"
+          line2Text="Pendo Consultant"
         />
 
         <ContentWrapper>
@@ -87,7 +87,11 @@ export const Hero = ({ star1Ref, star2Ref, star3Ref }) => {
           </LeftColumn>
 
           <RightColumn>
-            <HeroCTA />
+            <HeroCTA 
+              primaryButtonText="View Works"
+              primaryButtonLink="#works"
+              secondaryButtonText="Book a Call"
+            />
           </RightColumn>
         </ContentWrapper>
       </Container>

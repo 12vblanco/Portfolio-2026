@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { Navigation } from './components/Navigation';
 import { Terms } from './components/Terms.jsx';
 import { HomePage } from './components/pages/HomePage.jsx';
-import { PendoConsultantPage } from './components/pages/PendoConsultantPage.jsx';
+import { PendoConsultantPage } from './components/pendo-consultant/PendoConsultantPage.jsx';
 import { GlobalStyles, theme } from './styles/GlobalStyles';
 
 function App() {

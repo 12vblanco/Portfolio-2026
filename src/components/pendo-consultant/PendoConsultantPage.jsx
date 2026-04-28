@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { usePageTitle } from '../../hooks/usePageTitle.js';
 import { ConsentBanner } from '../ConsentBanner.jsx';
-import { Contact } from '../Contact';
+import { Contact } from '../Contact.jsx';
+import { HeroCTA } from '../common/HeroCTA.jsx';
+import { HeroTitle } from '../common/HeroTitle.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -68,21 +70,40 @@ const faqs = [
 // ─── Component ─────────────────────────────────────────────────────────────────
 
 export const PendoConsultantPage = ({ onOpenTerms }) => {
-  const heroRef     = useRef(null);
+  const heroRef = useRef(null);
+  const line1Ref = useRef(null);
+  const line2Ref = useRef(null);
+  const star1Ref = useRef(null);
+  const star2Ref = useRef(null);
+  const star3Ref = useRef(null);
   const servicesRef = useRef(null);
-  const faqRef      = useRef(null);
-  const ctaRef      = useRef(null);
+  const faqRef = useRef(null);
+  const ctaRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
     const ctx = gsap.context(() => {
-
-      // Hero fade in
+      // Hero fade in animation
       gsap.fromTo(heroRef.current,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out', delay: 0.1 }
+        { opacity: 0 },
+        { opacity: 1, duration: 0.01 }
       );
+
+      // Animate the title lines
+      gsap.to(line1Ref.current, {
+        y: 0,
+        duration: 0.6,
+        delay: 0.2,
+        ease: 'power3.out',
+      });
+      
+      gsap.to(line2Ref.current, {
+        y: 0,
+        duration: 0.6,
+        delay: 0.35,
+        ease: 'power3.out',
+      });
 
       // Services stagger
       ScrollTrigger.create({
@@ -130,59 +151,52 @@ export const PendoConsultantPage = ({ onOpenTerms }) => {
     return () => ctx.revert();
   }, []);
 
-
-usePageTitle(
-  'Pendo Consultant | Installation, Audit, Guides & Analytics | Victor Blanco',
-  'Certified Pendo consultant expert on installation, audit, creating custom guides, and analytics reporting. Based in Edinburgh, working with B2B SaaS teams globally.'
-);
+  usePageTitle(
+    'Pendo Consultant | Installation, Audit, Guides & Analytics | Victor Blanco',
+    'Certified Pendo consultant expert on installation, audit, creating custom guides, and analytics reporting. Based in Edinburgh, working with B2B SaaS teams globally.'
+  );
 
   return (
     <>
       {/* ── Hero ── */}
-      <PageSection ref={heroRef}>
-        <PageContainer>
+      <HeroSection ref={heroRef}>
+        <HeroContainer>
           <Breadcrumb>
             <Link to="/">Home</Link>
             <span aria-hidden="true"> / </span>
             <span>Pendo Consultant</span>
           </Breadcrumb>
 
-          <HeroLabel>Freelance Pendo Consultant</HeroLabel>
-          <PageTitle>
-            Hire a certified<br />
-            <AccentSpan>Pendo expert</AccentSpan>
-          </PageTitle>
-          <PageSubtitle>
-            I'm Victor Blanco — a <strong>freelance Pendo consultant</strong> and certified Pendo Admin
-            based in Edinburgh, UK. I help SaaS teams install Pendo correctly, audit broken setups,
-            build in-app guides that convert, and create analytics that inform real product decisions.
-          </PageSubtitle>
+          <HeroTitle
+            line1Ref={line1Ref}
+            line2Ref={line2Ref}
+            star1Ref={star1Ref}
+            star2Ref={star2Ref}
+            star3Ref={star3Ref}
+            line1Text="Freelance Pendo"
+            line2Text="Consultant"
+          />
 
-          <HeroCTARow>
-            <CTAPrimary
-              href="https://calendly.com/12vblanco/30min"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Book a free discovery call
-            </CTAPrimary>
-            <CTASecondary
-              href="https://www.upwork.com/freelancers/~01141c20a0de332c1a"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View Upwork profile
-            </CTASecondary>
-          </HeroCTARow>
 
-          <TrustRow>
-            <TrustPill>✓ Pendo Admin certified</TrustPill>
-            <TrustPill>✓ Multiple Pendo certifications</TrustPill>
-            <TrustPill>✓ B2B SaaS experience</TrustPill>
-            <TrustPill>✓ Available worldwide</TrustPill>
-          </TrustRow>
-        </PageContainer>
-      </PageSection>
+
+          <ContentWrapper>
+            <LeftColumn>
+              <Subtitle>
+                I'm a <strong>certified Pendo consultant </strong>
+                based in Edinburgh, UK. I help teams install Pendo, audit setups, and 
+                design and implement roadmaps to create analytics that inform product decisions.
+              </Subtitle>
+            </LeftColumn>
+            <RightColumn>
+            <HeroCTA 
+              primaryButtonText="View Services"
+              primaryButtonLink="#services"
+              secondaryButtonText="Book a Call"
+            />          
+           </RightColumn>
+          </ContentWrapper>
+        </HeroContainer>
+      </HeroSection>
 
       {/* ── Services ── */}
       <ServicesSection ref={servicesRef}>
@@ -299,14 +313,36 @@ usePageTitle(
 
 // ─── Styled Components ────────────────────────────────────────────────────────
 
-const PageSection = styled.section`
-  padding: 6rem 2rem 4rem;
-  @media (max-width: 768px) { padding: 5rem 1.25rem 3rem; }
+// Hero Section
+const HeroSection = styled.section`
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 80px 32px;
+  margin-top: -4rem;
+
+  @media (max-width: 968px) {
+    margin-top: -2rem;
+    min-height: 84vh !important;
+    padding: 1rem;
+  }
 `;
 
-const PageContainer = styled.div`
-  max-width: 1080px;
+const HeroContainer = styled.div`
+  max-width: 920px;
   margin: 0 auto;
+  padding: 0 32px;
+  width: 100%;
+
+  @media (max-width: 968px) {
+    padding: 4rem 1rem 0 1rem;
+    width: fit-content;
+  }
+  @media (max-width: 426px) {
+    width: 100%;
+  }
 `;
 
 const Breadcrumb = styled.nav`
@@ -324,109 +360,64 @@ const Breadcrumb = styled.nav`
   span { color: #282828; }
 `;
 
-const HeroLabel = styled.span`
-  display: block;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #FF3863;
-  margin-bottom: 1rem;
-`;
+const ContentWrapper = styled.div`
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-top: 1.5rem;
 
-const PageTitle = styled.h1`
-  font-family: 'Switzer', sans-serif;
-  font-weight: 700;
-  letter-spacing: -2px;
-  color: #282828;
-  line-height: 1.05;
-  margin: 0 0 1.5rem 0;
-
-  @media (max-width: 768px) {
-    font-size: 2.8rem;
-    letter-spacing: -1px;
+  @media (max-width: 968px) {
+    flex-direction: column;
+    gap: 32px;
   }
 `;
 
-const AccentSpan = styled.span`
-  color: #FF3863;
+const LeftColumn = styled.div`
+  max-width: 420px;
 `;
 
-const PageSubtitle = styled.p`
+const RightColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  width: 480px;
+
+  @media (max-width: 968px) {
+    align-items: flex-start;
+    width: 100%;
+  }
+  @media (max-width: 432px) {
+    align-items: flex-start;
+    width: 100%;
+  }
+`;
+
+const Subtitle = styled.p`
   font-size: 20px;
-  line-height: 1.7;
-  color: #555;
-  max-width: 680px;
-  margin: 0 0 2.5rem 0;
-
-  strong { color: #282828; font-weight: 700; }
-
-  @media (max-width: 768px) { font-size: 18px; }
-`;
-
-const HeroCTARow = styled.div`
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
-`;
-
-const CTAPrimary = styled.a`
-  display: inline-flex;
-  align-items: center;
-  padding: 0.85rem 1.75rem;
-  background: #FF3863;
-  color: #FFFEFA;
-  border-radius: 50px;
-  font-size: 16px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  border: 2px solid #FF3863;
-
-  &:hover {
-    background: #e02d56;
-    border-color: #e02d56;
-    transform: translateY(-2px);
-  }
-`;
-
-const CTASecondary = styled.a`
-  display: inline-flex;
-  align-items: center;
-  padding: 0.85rem 1.75rem;
-  background: transparent;
+  line-height: 1.6;
   color: #282828;
-  border-radius: 50px;
-  font-size: 16px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  border: 2px solid #282828;
+  max-width: 540px;
+  margin-bottom: 0;
 
-  &:hover {
-    background: #282828;
-    color: #FFFEFA;
-    transform: translateY(-2px);
+  strong {
+    font-weight: 700;
+    color: #282828;
+  }
+
+  @media (max-width: 968px) {
+    font-size: 18px;
   }
 `;
 
-const TrustRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
+// Shared Components
+const PageContainer = styled.div`
+  max-width: 1080px;
+  margin: 0 auto;
 `;
 
-const TrustPill = styled.span`
-  font-size: 14px;
-  font-weight: 500;
-  color: #555;
-  background: rgba(40, 40, 40, 0.05);
-  border: 1px solid #e5e5e5;
-  border-radius: 50px;
-  padding: 0.3rem 0.9rem;
-`;
-
+// Services Section
 const ServicesSection = styled.section`
   padding: 5rem 2rem;
   background: rgba(40, 40, 40, 0.02);
@@ -452,6 +443,7 @@ const SectionTitle = styled.h2`
   color: #282828;
   margin: 0 0 0.75rem 0;
   line-height: 1.15;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
 `;
 
 const SectionSubtitle = styled.p`
@@ -475,9 +467,13 @@ const ServiceCard = styled.div`
   border: 1px solid #e5e5e5;
   border-radius: 12px;
   padding: 2rem;
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  opacity: 0;
 
-  &:hover { box-shadow: 0 8px 24px rgba(40, 40, 40, 0.08); }
+  &:hover { 
+    box-shadow: 0 8px 24px rgba(40, 40, 40, 0.08);
+    transform: translateY(-4px);
+  }
 `;
 
 const ServiceNumber = styled.span`
@@ -503,6 +499,7 @@ const ServiceText = styled.p`
   margin: 0;
 `;
 
+// Why Section
 const WhySection = styled.section`
   padding: 5rem 2rem;
   @media (max-width: 768px) { padding: 3rem 1.25rem; }
@@ -522,6 +519,11 @@ const WhyCard = styled.div`
   border-left: 3px solid #FF3863;
   background: rgba(255, 56, 99, 0.02);
   border-radius: 0 8px 8px 0;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateX(4px);
+  }
 `;
 
 const WhyTitle = styled.h3`
@@ -538,6 +540,7 @@ const WhyText = styled.p`
   margin: 0;
 `;
 
+// FAQ Section
 const FAQSection = styled.section`
   padding: 5rem 2rem;
   background: rgba(40, 40, 40, 0.02);
@@ -558,6 +561,12 @@ const FAQItem = styled.div`
   background: #FFFEFA;
   border: 1px solid #e5e5e5;
   border-radius: 10px;
+  transition: box-shadow 0.2s ease;
+  opacity: 0;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(40, 40, 40, 0.06);
+  }
 `;
 
 const FAQQuestion = styled.h3`
@@ -574,6 +583,7 @@ const FAQAnswer = styled.p`
   margin: 0;
 `;
 
+// CTA Section
 const CTASection = styled.section`
   padding: 5rem 2rem;
   @media (max-width: 768px) { padding: 3rem 1.25rem; }
@@ -584,6 +594,7 @@ const CTABox = styled.div`
   border-radius: 16px;
   padding: 3.5rem;
   text-align: center;
+  opacity: 0;
 
   @media (max-width: 768px) { padding: 2.5rem 1.5rem; }
 `;
@@ -594,6 +605,7 @@ const CTATitle = styled.h2`
   letter-spacing: -1px;
   color: #FFFEFA;
   margin: 0 0 1rem 0;
+  font-size: clamp(1.5rem, 4vw, 2rem);
 `;
 
 const CTASubtitle = styled.p`
@@ -609,4 +621,48 @@ const CTAButtonRow = styled.div`
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
+`;
+
+const CTAPrimary = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0.85rem 1.75rem;
+  background: #FF3863;
+  color: #FFFEFA;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 2px solid #FF3863;
+
+  &:hover {
+    background: #e02d56;
+    border-color: #e02d56;
+    transform: translateY(-2px);
+  }
+`;
+
+const CTASecondary = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0.85rem 1.75rem;
+  background: transparent;
+  color: #FFFEFA;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 2px solid #FFFEFA;
+
+  &:hover {
+    background: #FFFEFA;
+    color: #282828;
+    transform: translateY(-2px);
+  }
 `;
