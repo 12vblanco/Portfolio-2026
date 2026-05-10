@@ -229,7 +229,6 @@ export const GlobalStyles = createGlobalStyle`
   width: 1px;
   height: 1px;
   overflow: hidden;
-  /* No opacity:0 – that hides it from Google */
 }
 
 `;

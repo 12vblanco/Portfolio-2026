@@ -3,15 +3,15 @@ import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import cert2 from '..//assets/pendoCert/cert2.png';
-import cert3 from '..//assets/pendoCert/cert3.png';
-import cert4 from '..//assets/pendoCert/cert4.png';
-import cert5 from '..//assets/pendoCert/cert5.png';
-import cert6 from '..//assets/pendoCert/cert6.png';
-import cert7 from '..//assets/pendoCert/cert7.png';
-import cert8 from '..//assets/pendoCert/cert8.png';
-import cert1 from '../assets/pendoCert/cert1.png';
-import pendoGraph from '../assets/pendoCert/pendo-graph-2.jpg';
+import cert1 from '../../assets/pendoCert/cert1.png';
+import cert2 from '../../assets/pendoCert/cert2.png';
+import cert3 from '../../assets/pendoCert/cert3.png';
+import cert4 from '../../assets/pendoCert/cert4.png';
+import cert5 from '../../assets/pendoCert/cert5.png';
+import cert6 from '../../assets/pendoCert/cert6.png';
+import cert7 from '../../assets/pendoCert/cert7.png';
+import cert8 from '../../assets/pendoCert/cert8.png';
+import pendoGraph from '../../assets/pendoCert/pendo-graph-2.jpg';
 
 gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin);
 
@@ -201,7 +201,7 @@ export const PendoExpert = () => {
       <Container>
         <Header>
           <HeaderLeft ref={headerRef}>
-            <Label>
+            <Label >
               <span ref={certifiedRef}>Certified</span>
             </Label>
             <Title>Pendo Consultant</Title>

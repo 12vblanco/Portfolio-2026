@@ -227,7 +227,7 @@ const PrimaryButton = styled.a`
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 10px 16px 8px;
+  padding: 16px 20px 12px;
   background: #282828;
   color: #FFFEFA;
   border-radius: 50px;
@@ -238,6 +238,7 @@ const PrimaryButton = styled.a`
   transition: all 0.3s ease;
   border: 2px solid transparent;
   position: relative;
+
 
   svg { flex-shrink: 0; }
 

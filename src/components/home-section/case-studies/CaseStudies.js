@@ -1,16 +1,16 @@
-import lmdouglasMobile from '../../assets/case-studies/lmdouglas-M.png';
-import lmdVideo from '../../assets/case-studies/lmdouglas.mp4';
-import lmdouglas from '../../assets/case-studies/lmdouglas.png';
-import lokaMobile from '../../assets/case-studies/loka-M.png';
-import lokaVideo from '../../assets/case-studies/loka.mp4';
-import lokaImage from '../../assets/case-studies/loka1.png';
-import omsMobile from '../../assets/case-studies/oms-M.png';
-import omsImage from '../../assets/case-studies/oms1.png';
-import pendoPushMobile from '../../assets/case-studies/pendo-push-M.png';
-import pendoPush from '../../assets/case-studies/pendo-push.png';
-import sujinVideo from '../../assets/case-studies/sujik.mp4';
-import sujinMobile from '../../assets/case-studies/sujin-M.png';
-import sujinImage from '../../assets/case-studies/sujin.jpg';
+import lmdouglasMobile from '../../../assets/case-studies/lmdouglas-M.png';
+import lmdVideo from '../../../assets/case-studies/lmdouglas.mp4';
+import lmdouglas from '../../../assets/case-studies/lmdouglas.png';
+import lokaMobile from '../../../assets/case-studies/loka-M.png';
+import lokaVideo from '../../../assets/case-studies/loka.mp4';
+import lokaImage from '../../../assets/case-studies/loka1.png';
+import omsMobile from '../../../assets/case-studies/oms-M.png';
+import omsImage from '../../../assets/case-studies/oms1.png';
+import pendoPushMobile from '../../../assets/case-studies/pendo-push-M.png';
+import pendoPush from '../../../assets/case-studies/pendo-push.png';
+import sujinVideo from '../../../assets/case-studies/sujik.mp4';
+import sujinMobile from '../../../assets/case-studies/sujin-M.png';
+import sujinImage from '../../../assets/case-studies/sujin.jpg';
 
 export const caseStudies = [
   {

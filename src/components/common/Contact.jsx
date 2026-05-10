@@ -3,8 +3,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Dribbble, Github, PhoneCall } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Heart } from '../assets/icons/Heart';
-import { UpworkIcon } from '../assets/icons/Upwork';
+import { Heart } from '../../assets/icons/Heart';
+import { UpworkIcon } from '../../assets/icons/Upwork';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -64,7 +64,7 @@ export const Contact = ({ onOpenTerms }) => {
             <Github size={24} aria-hidden="true" />
           </SocialLink>
 
-          <SocialLink href="https://www.upwork.com/freelancers/~01141c20a0de332c1a" target="_blank" rel="noopener noreferrer" aria-label="Upwork profile">
+          <SocialLink href="https://www.upwork.com/freelancers/victorblanco" target="_blank" rel="noopener noreferrer" aria-label="Upwork profile">
             <UpworkIcon />
           </SocialLink>
 
@@ -91,7 +91,7 @@ export const Contact = ({ onOpenTerms }) => {
           <FooterRow>
             <Heart />
             <ExternalLink
-              href="https://www.upwork.com/freelancers/~01141c20a0de332c1a"
+              href="https://www.upwork.com/freelancers/victorblanco"
               target="_blank"
               rel="noopener noreferrer"
             >

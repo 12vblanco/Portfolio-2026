@@ -104,33 +104,34 @@ export const useHeroAnimation = ({ star1Ref: extStar1, star2Ref: extStar2, star3
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
       tl
-        .fromTo(line1Ref.current,
-          { y: 0 },
-          { y: 0, duration: 0.001 }
-        )
-        .fromTo(line2Ref.current,
-          { y: 0 },
-          { y: 0, duration: 0.001 },
-          '-=0.6'
-        )
-        .fromTo(line3Ref.current,
-          { y: 0 },
-          { y: 0, duration: 0.001 },
-          '-=0.6'
-        )
-        .fromTo(line2Ref.current,
-          { y: 0 },
-          { y: 0, duration: 0.001 },
-          '-=0.6'
-        )
-        .fromTo(line3Ref.current,
-          { y: 0 },
-          { y: 0, duration: 0.001 },
-          '-=0.6'
-        )
+        // Slide line 1 up from translateY(105%) to 0
+        .to(line1Ref.current, {
+          y: 0,
+          duration: 0.6,
+          delay: 0.2,
+          ease: 'power3.out',
+        })
+        // Slide line 2 up, slightly offset
+        .to(line2Ref.current, {
+          y: 0,
+          duration: 0.6,
+          ease: 'power3.out',
+        }, '-=0.4')
+        // Stars pop in after lines
         .add(popStarBig(star1Ref),                           '-=0.4')
         .add(popStar(star2Ref, { peakScale: r(1.1, 1.2) }), '-=0.85')
         .add(popStar(star3Ref, { delay: 0.05 }),              '-=0.80');
+
+      // Animate subtitle (line3) separately with a simple fade+slide
+      if (line3Ref.current) {
+        gsap.to(line3Ref.current, {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          delay: 0.55,
+          ease: 'power3.out',
+        });
+      }
     }, heroRef);
 
     return () => ctx.revert();

@@ -1,17 +1,10 @@
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useRef } from 'react';
 import styled from 'styled-components';
-import { useHeroAnimation } from '../../hooks/useHeroAnimation';
 import { HeroCTA } from '../common/HeroCTA';
 import { HeroTitle } from '../common/HeroTitle';
 
-gsap.registerPlugin(ScrollTrigger);
-
-export const Hero = ({ star1Ref, star2Ref, star3Ref }) => {
-  const { heroRef, line1Ref, line2Ref, line3Ref } =
-    useHeroAnimation({ star1Ref, star2Ref, star3Ref });
-  
+export const PendoHero = ({ heroRef, line1Ref, line2Ref, star1Ref, star2Ref, star3Ref }) => {
   const badgeRef = useRef(null);
   const dotRef = useRef(null);
   const trailRef = useRef(null);
@@ -47,25 +40,25 @@ export const Hero = ({ star1Ref, star2Ref, star3Ref }) => {
   };
 
   return (
-    <HeroSection id="home" ref={heroRef}>
-      <Container>
+    <PendoHeroSection ref={heroRef}>
+      <PendoHeroContainer>
         <a 
           href="https://calendly.com/12vblanco/30min"
           target="_blank"
           rel="noopener noreferrer"
           style={{ textDecoration: 'none' }}
         >
-          <Badge
+          <PendoBadge
             ref={badgeRef}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             role="status"
             aria-label="Availability status"
           >
-            <Dot ref={dotRef} aria-hidden="true" />
+            <PendoDot ref={dotRef} aria-hidden="true" />
             Available for work
-            <BorderTrail ref={trailRef} aria-hidden="true" />
-          </Badge>
+            <PendoBorderTrail ref={trailRef} aria-hidden="true" />
+          </PendoBadge>
         </a>
 
         <HeroTitle
@@ -74,34 +67,35 @@ export const Hero = ({ star1Ref, star2Ref, star3Ref }) => {
           star1Ref={star1Ref}
           star2Ref={star2Ref}
           star3Ref={star3Ref}
-          line1Text="Web Developer &"
-          line2Text="Pendo Consultant"
+          line1Text="Content Developer"
+          line2Text="& Pendo Consultant"
         />
 
-        <ContentWrapper>
-          <LeftColumn>
-            <Subtitle ref={line3Ref}>
-              I specialize in <strong>designing and building websites</strong> using modern technologies.
-              I provide <strong>expert Pendo services</strong>, from audit and setup to expert custom guides, analytics & reporting.
-            </Subtitle>
-          </LeftColumn>
+        <PendoContentWrapper>
+          <PendoLeftColumn>
+            <PendoSubtitle>
+              I'm a <strong>Certified Pendo Developer</strong> based in Edinburgh, UK. 
+              I help teams install Pendo, audit setups, and design and implement roadmaps 
+              to create analytics that inform product decisions.
+            </PendoSubtitle>
+          </PendoLeftColumn>
 
-          <RightColumn>
+          <PendoRightColumn>
             <HeroCTA 
-              primaryButtonText="View Works"
-              primaryButtonLink="#works"
+              primaryButtonText="View Services"
+              primaryButtonLink="#pendo"
               secondaryButtonText="Book a Call"
             />
-          </RightColumn>
-        </ContentWrapper>
-      </Container>
-    </HeroSection>
+          </PendoRightColumn>
+        </PendoContentWrapper>
+      </PendoHeroContainer>
+    </PendoHeroSection>
   );
 };
 
 // ─── Styled Components ────────────────────────────────────────────────────────
 
-const HeroSection = styled.section.attrs({ className: 'hero-HeroSection' })`
+const PendoHeroSection = styled.section`
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -117,8 +111,9 @@ const HeroSection = styled.section.attrs({ className: 'hero-HeroSection' })`
   }
 `;
 
-const Container = styled.div.attrs({ className: 'hero-Container' })`
+const PendoHeroContainer = styled.div`
   max-width: 920px;
+    min-height: 426px;;
   margin: 0 auto;
   padding: 0 32px;
   width: 100%;
@@ -132,7 +127,7 @@ const Container = styled.div.attrs({ className: 'hero-Container' })`
   }
 `;
 
-const Badge = styled.div.attrs({ className: 'hero-Badge' })`
+const PendoBadge = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -152,7 +147,7 @@ const Badge = styled.div.attrs({ className: 'hero-Badge' })`
   }
 `;
 
-const BorderTrail = styled.div.attrs({ className: 'hero-BorderTrail' })`
+const PendoBorderTrail = styled.div`
   position: absolute;
   inset: -2.5px;
   border-radius: 51.5px;
@@ -182,7 +177,7 @@ const BorderTrail = styled.div.attrs({ className: 'hero-BorderTrail' })`
   }
 `;
 
-const Dot = styled.span.attrs({ className: 'hero-Dot' })`
+const PendoDot = styled.span`
   width: 8px;
   height: 8px;
   background: #FF3863;
@@ -211,11 +206,12 @@ const Dot = styled.span.attrs({ className: 'hero-Dot' })`
   }
 `;
 
-const ContentWrapper = styled.div.attrs({ className: 'hero-ContentWrapper' })`
+const PendoContentWrapper = styled.div`
   display: flex;
   gap: 40px;
   align-items: flex-start;
   justify-content: flex-start;
+  margin-top: 1.5rem;
 
   @media (max-width: 968px) {
     flex-direction: column;
@@ -223,11 +219,11 @@ const ContentWrapper = styled.div.attrs({ className: 'hero-ContentWrapper' })`
   }
 `;
 
-const LeftColumn = styled.div.attrs({ className: 'hero-LeftColumn' })`
+const PendoLeftColumn = styled.div`
   max-width: 420px;
 `;
 
-const RightColumn = styled.div.attrs({ className: 'hero-RightColumn' })`
+const PendoRightColumn = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -244,12 +240,17 @@ const RightColumn = styled.div.attrs({ className: 'hero-RightColumn' })`
   }
 `;
 
-const Subtitle = styled.p.attrs({ className: 'hero-Subtitle' })`
+const PendoSubtitle = styled.p`
   font-size: 20px;
   line-height: 1.6;
   color: #282828;
   max-width: 540px;
   margin-bottom: 0;
+
+  strong {
+    font-weight: 700;
+    color: #282828;
+  }
 
   @media (max-width: 968px) {
     font-size: 18px;

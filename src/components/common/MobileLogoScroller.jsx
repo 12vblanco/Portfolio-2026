@@ -1,12 +1,12 @@
 import styled, { keyframes } from 'styled-components';
-import { IconAWS } from '../assets/icons/IconAWS';
-import { IconFigma } from '../assets/icons/IconFigma';
-import { IconGSAP } from '../assets/icons/IconGSAP';
-import { IconGit } from '../assets/icons/IconGit';
-import { IconPendo } from '../assets/icons/IconPendo';
-import { IconReact } from '../assets/icons/IconReact';
-import { IconVB } from '../assets/icons/IconVB';
-import { IconVue } from '../assets/icons/IconVue';
+import { IconAWS } from '../../assets/icons/IconAWS';
+import { IconFigma } from '../../assets/icons/IconFigma';
+import { IconGSAP } from '../../assets/icons/IconGSAP';
+import { IconGit } from '../../assets/icons/IconGit';
+import { IconPendo } from '../../assets/icons/IconPendo';
+import { IconReact } from '../../assets/icons/IconReact';
+import { IconVB } from '../../assets/icons/IconVB';
+import { IconVue } from '../../assets/icons/IconVue';
 
 // Order: VB → tool → tech → tool → tech → tool → tech → tool → tech → tool
 const LOGOS = [
