@@ -79,7 +79,7 @@ export const PendoInsights = () => {
   };
 
   return (
-    <InsightsSection ref={sectionRef}>
+    <InsightsSection ref={sectionRef} id='insights'>
       <InsightsContainer>
 
         <InsightsHeader ref={headerRef}>
