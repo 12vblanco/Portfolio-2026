@@ -223,11 +223,11 @@ const ButtonGroup = styled.div`
 `;
 
 const PrimaryButton = styled.a`
-  display: inline-flex;
+    display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 16px 20px 12px;
+  padding: 10px 16px 8px;
   background: #282828;
   color: #FFFEFA;
   border-radius: 50px;
@@ -251,7 +251,10 @@ const PrimaryButton = styled.a`
   }
 
   @media (max-width: 432px) {
-    min-width: 140px;
+    max-width: 152px;
+      padding: 12px 9px 10px 9px;
+    gap: 4px;
+    letter-spacing: -.1px;
   }
 `;
 

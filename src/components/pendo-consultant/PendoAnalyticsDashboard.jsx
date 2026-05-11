@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { CTAButton } from '../common/CTAButton';
 
 // ---------------------------------------------------------------------------
 // Chart.js is loaded dynamically so it doesn't bloat your main bundle.
@@ -331,12 +332,12 @@ export const PendoAnalyticsDashboard = () => {
             <CTASub>Customise your own data dashboard pulling data directly from Pendo</CTASub>
           </CTAText>
           <CTAActions>
-            <CTAPrimary href="https://calendly.com/12vblanco/30min" target="_blank" rel="noopener noreferrer">
+            <CTAButton href="https://calendly.com/12vblanco/30min" target="_blank">
               Book a free call
-            </CTAPrimary>
-            <CTASecondary href="https://www.upwork.com/freelancers/victorblanco" target="_blank" rel="noopener noreferrer">
+            </CTAButton>
+            <CTAButton variant="secondary" href="https://upwork.com/..." target="_blank">
               Upwork profile
-            </CTASecondary>
+            </CTAButton>
           </CTAActions>
         </CTAStrip>
 
@@ -467,43 +468,6 @@ const CTAActions = styled.div`
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-`;
-
-const CTAPrimary = styled.a`
-  display: inline-flex;
-  align-items: center;
-  padding: 8px 18px;
-  background: #FF3863;
-  color: #FFFEFA;
-  border: 2px solid #FF3863;
-  border-radius: 100px;
-  font-family: 'Switzer', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: all 0.2s ease;
-
-  &:hover { background: #e02d56; border-color: #e02d56; transform: translateY(-1px); }
-  @media (max-width: 468px) { 
-        margin-bottom: 1rem;
-   }
-`;
-
-const CTASecondary = styled.a`
-  display: inline-flex;
-  align-items: center;
-  padding: 8px 18px;
-  background: transparent;
-  color: #FFFEFA;
-  border: 2px solid rgba(255,254,250,0.5);
-  border-radius: 100px;
-  font-family: 'Switzer', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: all 0.2s ease;
-
-  &:hover { background: #FFFEFA; color: #282828; border-color: #FFFEFA; transform: translateY(-1px); }
 `;
 
 const MetricsGrid = styled.div`
