@@ -364,6 +364,9 @@ export const PendoAnalyticsDashboard = () => {
 const DashSection = styled.div`
   background: #FAFAFA;
     padding: 1rem 3rem;
+    @media (max-width: 468px) { 
+        padding: .6rem;
+   }
 `;
 
 const DashInner = styled.div`
@@ -439,7 +442,7 @@ const CTAStrip = styled.div`
   gap: 16px;
   margin-bottom: 2rem;
 
-  @media (max-width: 768px) { flex-direction: column; align-items: flex-start; }
+  @media (max-width: 768px) { flex-direction: column; align-items: flex-start; padding: 3rem 2rem; gap: 2rem}
 `;
 
 const CTAText = styled.div``;
@@ -481,6 +484,9 @@ const CTAPrimary = styled.a`
   transition: all 0.2s ease;
 
   &:hover { background: #e02d56; border-color: #e02d56; transform: translateY(-1px); }
+  @media (max-width: 468px) { 
+        margin-bottom: 1rem;
+   }
 `;
 
 const CTASecondary = styled.a`
@@ -505,6 +511,9 @@ const MetricsGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 10px;
   margin-bottom: 16px;
+  @media (max-width: 468px) { 
+        gap: 1rem;
+   }
 `;
 
 const MetricBox = styled.div`
@@ -513,6 +522,9 @@ const MetricBox = styled.div`
   border-radius: 12px;
   padding: 14px 16px;
   position: relative;
+  @media (max-width: 468px) { 
+        padding: .8rem;
+   }
 `;
 
 const MetricAccent = styled.div`
@@ -532,6 +544,10 @@ const MetricNum = styled.div`
   letter-spacing: -1px;
   color: #282828;
   line-height: 1;
+  @media (max-width: 468px) { 
+          font-size: 22px;
+;
+   }
 `;
 
 const MetricLabel = styled.div`
