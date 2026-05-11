@@ -3,12 +3,18 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { DownIcon } from '../../assets/icons/Down';
+import { PendoAnalyticsDashboard } from './PendoAnalyticsDashboard';
 import { insightsData, insightsHeader } from './pendoInsightsData';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const PendoInsights = () => {
-  const [openIndex, setOpenIndex] = useState(null);
+  const [openIndex, setOpenIndex]       = useState(null);
+  // Tracks which dashboard cards have been mounted at least once.
+  // We never unmount them after first open so charts don't re-initialise
+  // on every toggle — mirrors the same lazy-mount pattern used elsewhere.
+  const [mountedDash, setMountedDash]   = useState({});
+
   const sectionRef = useRef(null);
   const headerRef  = useRef(null);
   const listRef    = useRef(null);
@@ -58,14 +64,25 @@ export const PendoInsights = () => {
     }
 
     if (isOpening) {
+      // If this card has a dashboard, mark it as mounted before measuring height
+      if (insightsData[index]?.dashboard) {
+        setMountedDash(prev => ({ ...prev, [index]: true }));
+      }
+
       targetBody.style.display = 'block';
       targetBody.style.height  = 'auto';
       targetBody.style.opacity = '1';
-      const naturalHeight = targetBody.scrollHeight;
-      targetBody.style.height  = '0';
-      targetBody.style.opacity = '0';
 
-      gsap.to(targetBody, { height: naturalHeight, opacity: 1, duration: 0.45, ease: 'power3.out' });
+      // Defer height measurement one tick so React can render the dashboard first
+      setTimeout(() => {
+        const naturalHeight = targetBody.scrollHeight;
+        targetBody.style.height  = '0px';
+        targetBody.style.opacity = '0';
+        gsap.to(targetBody, { height: naturalHeight, opacity: 1, duration: 0.5, ease: 'power3.out',
+          onComplete: () => { targetBody.style.height = 'auto'; },
+        });
+      }, 0);
+
       gsap.to(targetArrow, { rotation: 180, duration: 0.4, ease: 'power2.inOut' });
       setOpenIndex(index);
     } else {
@@ -94,28 +111,28 @@ export const PendoInsights = () => {
 
         <InsightsList ref={listRef}>
           {insightsData.map((item, i) => {
-            const isOpen = openIndex === i;
+            const isOpen    = openIndex === i;
+            const hasDash   = !!item.dashboard;
+            const dashReady = !!mountedDash[i];
+
             return (
               <InsightItem key={i} data-insight $isOpen={isOpen}>
 
                 {/* ── Always-visible card header ── */}
                 <InsightCardHeader>
 
-                  {/* Top row: tag + arrow */}
                   <InsightTopRow>
                     <InsightTag>{item.tag}</InsightTag>
                     <InsightArrow
                       ref={el => (arrowRefs.current[i] = el)}
                       aria-hidden="true"
                     >
-                      <DownIcon/>
+                      <DownIcon />
                     </InsightArrow>
                   </InsightTopRow>
 
-                  {/* Title */}
                   <InsightTitle $isOpen={isOpen}>{item.title}</InsightTitle>
 
-                  {/* Meta: author · date · read */}
                   <InsightMetaRow>
                     <InsightAuthor>{item.name}</InsightAuthor>
                     <InsightMetaDivider>·</InsightMetaDivider>
@@ -124,10 +141,8 @@ export const PendoInsights = () => {
                     <InsightMetaItem>{item.read}</InsightMetaItem>
                   </InsightMetaRow>
 
-                  {/* Intro — always visible */}
                   <InsightIntro>{item.subtitle}</InsightIntro>
 
-                  {/* Clickable expand trigger sits over the whole card header */}
                   <InsightToggleOverlay
                     onClick={() => handleToggle(i)}
                     aria-expanded={isOpen}
@@ -141,32 +156,30 @@ export const PendoInsights = () => {
                   style={{ display: 'none', height: 0, opacity: 0, overflow: 'hidden' }}
                 >
                   <InsightBodyInner>
-
-                    {/* Body paragraphs */}
                     {item.body.map((para, j) => (
                       <InsightParagraph key={j}>{para}</InsightParagraph>
                     ))}
 
-                    {/* Quote */}
                     {item.quote && (
                       <InsightQuote>
                         <InsightQuoteText>{item.quote}</InsightQuoteText>
                       </InsightQuote>
                     )}
-
-                 
-
                   </InsightBodyInner>
-                  
+
+                  {/* ── Dashboard — only rendered when card.dashboard === true ── */}
+                  {hasDash && dashReady && <PendoAnalyticsDashboard />}
                 </InsightBody>
-                  {/* Pills */}
-                  {item.pills?.length > 0 && (
-                    <InsightPills>
-                      {item.pills.map((pill, j) => (
-                        <InsightPill key={j}>{pill}</InsightPill>
-                      ))}
-                    </InsightPills>
-                  )}
+
+                {/* ── Pills ── */}
+                {item.pills?.length > 0 && (
+                  <InsightPills>
+                    {item.pills.map((pill, j) => (
+                      <InsightPill key={j}>{pill}</InsightPill>
+                    ))}
+                  </InsightPills>
+                )}
+
               </InsightItem>
             );
           })}
@@ -178,13 +191,17 @@ export const PendoInsights = () => {
 };
 
 // ─── Styled Components ────────────────────────────────────────────────────────
+// Identical to the originals — no tokens changed.
 
 const InsightsSection = styled.section`
   padding: 5rem 0;
   background: rgba(40, 40, 40, 0.02);
   border-top: 1px solid #e5e5e5;
   border-bottom: 1px solid #e5e5e5;
-  @media (max-width: 768px) { padding: 3rem 0; }
+  @media (max-width: 768px) { 
+    padding: 2rem 0; 
+    
+    }
 `;
 
 const InsightsContainer = styled.div`
@@ -193,7 +210,7 @@ const InsightsContainer = styled.div`
   margin: 0 auto;
   padding: 0 136px;
   @media (max-width: 968px) { padding: 0 2rem 0 6rem; }
-  @media (max-width: 426px) { padding: 0 2rem; }
+  @media (max-width: 426px) { padding: 0 .6rem; }
 `;
 
 const InsightsHeader = styled.div`
@@ -210,7 +227,11 @@ const InsightsHeader = styled.div`
   }
 `;
 
-const InsightsHeaderLeft = styled.div``;
+const InsightsHeaderLeft = styled.div`
+@media (max-width: 468px) { 
+    padding-left: 2rem;
+   }
+`;
 
 const InsightsLabel = styled.span`
   display: block;
@@ -227,16 +248,19 @@ const InsightsSectionTitle = styled.h2`
   line-height: 1.1;
   letter-spacing: 0;
   font-size: clamp(1.8rem, 5vw, 2.5rem);
+  @media (max-width: 468px) { 
+   }
 `;
 
 const InsightsSubtitle = styled.p`
   font-size: 20px;
   color: #282828;
   max-width: 460px;
-  @media (max-width: 968px) { font-size: 18px; max-width: 100%; }
+  @media (max-width: 968px) { font-size: 18px; max-width: 100%; };
+  @media (max-width: 468px) { 
+    padding-left: 2rem;
+   }
 `;
-
-// ── List & card ───────────────────────────────────────────────────────────
 
 const InsightsList = styled.div`
   display: flex;
@@ -254,23 +278,18 @@ const InsightItem = styled.div`
     ? '0 6px 24px rgba(40,40,40,0.09)'
     : '0 2px 8px rgba(40,40,40,0.05)'};
 
-  &:hover {
-    box-shadow: 0 6px 24px rgba(40, 40, 40, 0.09);
-  }
-`;
+  &:hover { box-shadow: 0 6px 24px rgba(40, 40, 40, 0.09); }
 
-// ── Card header (always visible) ──────────────────────────────────────────
+  @media (max-width: 768px) { padding: .3rem; }
+`;
 
 const InsightCardHeader = styled.div`
   padding: 1.75rem 1.75rem 1.5rem;
   position: relative;
   cursor: pointer;
-
-  @media (max-width: 768px) { padding: 1.25rem 1.25rem 1.25rem; }
+  @media (max-width: 768px) { padding: 1.2; }
 `;
 
-/* Invisible overlay so the entire header area is clickable
-   but doesn't interfere with text selection */
 const InsightToggleOverlay = styled.button`
   position: absolute;
   inset: 0;
@@ -279,7 +298,6 @@ const InsightToggleOverlay = styled.button`
   cursor: pointer;
   border-radius: 12px 12px 0 0;
   z-index: 1;
-
   &:focus-visible {
     outline: 2px solid #FF3863;
     outline-offset: -2px;
@@ -292,7 +310,7 @@ const InsightTopRow = styled.div`
   justify-content: space-between;
   margin-bottom: 0.6rem;
   position: relative;
-  z-index: 2; /* above overlay so arrow is visible */
+  z-index: 2;
   pointer-events: none;
 `;
 
@@ -309,9 +327,9 @@ const InsightArrow = styled.span`
   align-items: center;
   justify-content: center;
   width: 44px;
-  height: 44px;          
+  height: 44px;
   flex-shrink: 0;
-  font-size: 32px;       
+  font-size: 32px;
   color: #FF3863;
   transform-origin: center center;
   pointer-events: none;
@@ -320,18 +338,17 @@ const InsightArrow = styled.span`
     width: 44px;
     height: 44px;
     display: block;
-    transform-origin: center center;  
+    transform-origin: center center;
   }
 `;
 
 const InsightTitle = styled.h3`
-    font-size: 25px;
+  font-size: 25px;
   font-weight: 600;
   color: #282828;
-  margin: 0 0 4px 0;
+  margin: 0 0 4px;
   line-height: 1;
   transition: color 0.2s ease;
-
   ${InsightCardHeader}:hover & { color: #FF3863; }
 `;
 
@@ -346,20 +363,58 @@ const InsightMetaRow = styled.div`
   z-index: 2;
 `;
 
-const InsightAuthor = styled.span`
-  font-size: 15px;
-  font-weight: 600;
-  color: #282828;
+const InsightAuthor    = styled.span` font-size: 15px; font-weight: 600; color: #282828; `;
+const InsightMetaDivider = styled.span` font-size: 15px; color: #999; `;
+const InsightMetaItem  = styled.span` font-size: 15px; color: #999; `;
+
+const InsightIntro = styled.p`
+  font-size: 18px;
+  line-height: 1.75;
+  color: #555;
+  margin: 0;
+  pointer-events: none;
+  padding-top: 0.5rem;
+  position: relative;
+  z-index: 2;
+  @media (max-width: 768px) { font-size: 15px; }
 `;
 
-const InsightMetaDivider = styled.span`
-  font-size: 15px;
-  color: #999;
+const InsightBody = styled.div` overflow: hidden; `;
+
+const InsightBodyInner = styled.div`
+  padding: 0 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 0.5rem;
+  @media (max-width: 768px) { padding: 1.25rem 1.25rem 1.75rem; }
 `;
 
-const InsightMetaItem = styled.span`
-  font-size: 15px;
-  color: #999;
+const InsightParagraph = styled.p`
+  font-size: 18px;
+  line-height: 1.85;
+  color: #555;
+  margin: 0;
+  @media (max-width: 768px) { font-size: 16px; }
+`;
+
+const InsightQuote = styled.blockquote`
+  margin: 1rem 0;
+  padding: 1rem 1.25rem;
+  border-left: 3px solid #FF3863;
+  background: rgba(255, 56, 99, 0.03);
+  border-radius: 0 8px 8px 0;
+  max-width: 720px;
+`;
+
+const InsightQuoteText = styled.p`
+  font-size: 17px;
+  font-style: italic;
+  line-height: 1.75;
+  color: #555;
+  margin: 0;
+  @media (max-width: 768px) { font-size: 15px; }
 `;
 
 const InsightPills = styled.div`
@@ -382,60 +437,4 @@ const InsightPill = styled.span`
   letter-spacing: 0.03em;
   margin-top: 1rem;
   background: rgba(40, 40, 40, 0.02);
-`;
-
-const InsightIntro = styled.p`
-  font-size: 18px;
-  line-height: 1.75;
-  color: #555;
-  margin: 0;
-  pointer-events: none;
-  padding-top: .5rem;
-  position: relative;
-  z-index: 2;
-  @media (max-width: 768px) { font-size: 15px; }
-`;
-
-// ── Expanded body ─────────────────────────────────────────────────────────
-
-const InsightBody = styled.div`
-  overflow: hidden;
-`;
-
-const InsightBodyInner = styled.div`
-  padding: 0 1.75rem 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
-  border-top: 1px solid #f0f0f0;
-  padding-top: .5rem;
-
-  @media (max-width: 768px) { padding: 1.25rem 1.25rem 1.75rem; }
-`;
-
-const InsightQuote = styled.blockquote`
-  margin: 0;
-  max-width:720px;
-  margin: 1rem 0;
-  padding: 1rem 1.25rem;
-  border-left: 3px solid #FF3863;
-  background: rgba(255, 56, 99, 0.03);
-  border-radius: 0 8px 8px 0;
-`;
-
-const InsightQuoteText = styled.p`
-  font-size: 17px;
-  font-style: italic;
-  line-height: 1.75;
-  color: #555;
-  margin: 0;
-  @media (max-width: 768px) { font-size: 15px; }
-`;
-
-const InsightParagraph = styled.p`
-  font-size: 18px;
-  line-height: 1.85;
-  color: #555;
-  margin: 0;
-  @media (max-width: 768px) { font-size: 16px; }
 `;

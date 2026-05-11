@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { MobileLogoScroller } from '../common/MobileLogoScroller';
 import { AnimatedStars } from './AnimatedStars';
 import { NavLogo } from './NavLogo';
-import { startFloat, useHoverRotation } from './navigationUtils'; // see below
+import { startFloat, useHoverRotation } from './navigationUtils';
 
 export const MobileNav = ({ isOpen, onClose, navItems, isHomePage, onHashClick }) => {
   const mStar1Ref = useRef(null);
@@ -69,9 +69,9 @@ export const MobileNav = ({ isOpen, onClose, navItems, isHomePage, onHashClick }
         )}
 
         {isHomePage && (
-          <MobileRouterLink to="/pendo-consultant" onClick={onClose}>
+          <MobilePendoLink to="/pendo-consultant" onClick={onClose}>
             Hire Pendo Consultant
-          </MobileRouterLink>
+          </MobilePendoLink>
         )}
 
         <MobileCTA href="https://calendly.com/12vblanco/30min" onClick={onClose}>
@@ -84,7 +84,6 @@ export const MobileNav = ({ isOpen, onClose, navItems, isHomePage, onHashClick }
   );
 };
 
-// Styled components (same as before, moved here)
 const MobileNavOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -129,7 +128,7 @@ const CloseButton = styled.button`
   padding: 4px;
 `;
 
-const MobileNavLink = styled.a`
+const sharedNavLinkStyles = `
   font-size: 31.25px;
   color: #282828;
   text-decoration: none;
@@ -142,7 +141,15 @@ const MobileNavLink = styled.a`
   }
 `;
 
+const MobileNavLink = styled.a`
+  ${sharedNavLinkStyles}
+`;
+
 const MobileRouterLink = styled(Link)`
+  ${sharedNavLinkStyles}
+`;
+
+const MobilePendoLink = styled(Link)`
   font-size: 31.25px;
   color: #ff3863;
   text-decoration: none;
