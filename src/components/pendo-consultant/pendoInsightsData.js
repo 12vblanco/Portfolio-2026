@@ -15,7 +15,7 @@ export const insightsData = [
     tag: 'Pendo Audit',
     title: 'Pendo installation audit: what it covers and what you get',
     name: 'Victor Blanco - Pendo consultant',
-    date: 'June 2026',
+    date: 'April 2026',
     read: '5 min read',
     pills: ['Pendo audit', 'Pendo installation', 'Event Tracking', 'SaaS onboarding', 'Product analytics', 'Page Tracking'],
     subtitle: "Most SaaS teams install Pendo once and consider it done. A structured audit finds if there is something broken, before you build anything on top of it and the data does not add up.",
