@@ -1,16 +1,124 @@
-# React + Vite
+# victorblancoweb.com
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal portfolio and freelance consulting site for **Victor Blanco** — Edinburgh-based frontend developer, designer, and Pendo consultant.
 
-Currently, two official plugins are available:
+Built with React 19, Vite, and a focus on smooth, animated user experiences.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🌐 [victorblancoweb.com](https://victorblancoweb.com)
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Pages
 
-## Expanding the ESLint configuration
+| Route | Description |
+|---|---|
+| `/` | Homepage — intro, skills, case studies, testimonials, contact |
+| `/pendo-consultant` | Dedicated landing page for Pendo consulting services |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | React 19 |
+| Bundler | Vite |
+| Styling | styled-components |
+| Animation | GSAP |
+| Smooth Scroll | Lenis |
+| Routing | React Router |
+| Deployment | — |
+
+---
+
+## Features
+
+- Smooth scroll with section snapping via Lenis + custom hooks
+- GSAP-powered animations and scroll-triggered transitions
+- Animated components: testimonials carousel, horizontal case studies carousel, hero stamp, PendoDiscoveryCTA with looping animated border
+- Dedicated `/pendo-consultant` page optimised for Pendo-related search traffic
+- JSON-LD structured data for SEO
+- Static SEO fallback div for Googlebot rendering
+- `sitemap.xml` submitted to Google Search Console
+- Fully responsive layout
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18+)
+- npm or yarn
+
+### Install & Run
+
+```bash
+# Clone the repo
+git clone https://github.com/victorblanco/victorblancoweb.git
+cd victorblancoweb
+
+# Install dependencies
+npm install
+
+# Start dev server
+npm run dev
+```
+
+The site will be available at `http://localhost:5173`.
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+Output goes to the `/dist` folder, ready to deploy.
+
+---
+
+## Project Structure
+
+```
+victorblancoweb/
+├── public/
+│   └── sitemap.xml
+├── src/
+│   ├── components/       # Reusable UI components
+│   ├── pages/            # Route-level page components
+│   │   ├── Home.jsx
+│   │   └── PendoConsultant.jsx
+│   ├── data/             # Case studies and content data
+│   ├── hooks/            # Custom React hooks (scroll, snap, etc.)
+│   ├── styles/           # Global styles and theme tokens
+│   └── main.jsx          # App entry point
+├── index.html
+├── vite.config.js
+└── package.json
+```
+
+---
+
+## SEO
+
+- XML sitemap at `/sitemap.xml`, submitted to Google Search Console
+- JSON-LD structured data (Person + WebSite schema)
+- Static SEO fallback content for Googlebot (React hydration workaround)
+- Keyword strategy targeting Pendo consulting and frontend development terms
+
+---
+
+## Contact
+
+**Victor Blanco**
+Edinburgh, Scotland
+
+- 🌐 [victorblancoweb.com](https://victorblancoweb.com)
+- 💼 [LinkedIn](https://linkedin.com/in/victorblanco)
+- 📧 Available via the contact form on-site
+
+---
+
+## Licence
+
+This project is personal and not open for redistribution. Feel free to take inspiration, but please don't clone or repurpose the design or content directly.
