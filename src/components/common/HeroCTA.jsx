@@ -98,8 +98,10 @@ const AVATARS = [
 export const HeroCTA = ({ 
   primaryButtonText = "View Works",
   primaryButtonLink = "#works",
+  primaryButtonId,
   secondaryButtonText = "Book a Call",
-  secondaryButtonLink = "https://calendly.com/12vblanco/30min"
+  secondaryButtonLink = "https://calendly.com/12vblanco/30min",
+  secondaryButtonId,
 }) => {
   const primaryTrailRef = useRef(null);
   const primaryAnimRef = useRef(null);
@@ -157,7 +159,8 @@ export const HeroCTA = ({
   return (
     <RightContent>
       <ButtonGroup>
-        <PrimaryButton id="works-heroCTA" 
+        <PrimaryButton
+          id={primaryButtonId}
           href={primaryButtonLink}
           onMouseEnter={handlePrimaryEnter}
           onMouseLeave={handlePrimaryLeave}
@@ -167,7 +170,8 @@ export const HeroCTA = ({
           <BorderTrail ref={primaryTrailRef} />
         </PrimaryButton>
 
-        <SecondaryButton id="calend-pendo-heroCTA" 
+        <SecondaryButton
+          id={secondaryButtonId}
           href={secondaryButtonLink}
           target="_blank"
           rel="noopener noreferrer"

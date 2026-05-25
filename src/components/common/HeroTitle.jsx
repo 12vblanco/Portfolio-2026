@@ -40,7 +40,8 @@ export const HeroTitle = ({
   star3Ref, 
   line1Text = "Web Developer &",
   line2Text = "Pendo Consultant",
-  line2Color = "#FF3863"
+  line2Color = "#FF3863",
+  stampId,
 }) => {
   useHoverRotation([star1Ref, star2Ref, star3Ref]);
 
@@ -97,7 +98,7 @@ export const HeroTitle = ({
           <TitleText ref={line2Ref} style={{ color: line2Color }}>{line2Text}</TitleText>
         </TitleLine>
       </Title>
-      <HeroStamp id="hero-stamp-home"/>
+      <HeroStamp id={stampId} />
     </TitleWrapper>
   );
 };

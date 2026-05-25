@@ -1,8 +1,8 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useRef } from 'react';
 import styled from 'styled-components';
 import { useHeroAnimation } from '../../hooks/useHeroAnimation';
+import { AvailabilityBadge } from '../common/AvailabilityBadge';
 import { HeroCTA } from '../common/HeroCTA';
 import { HeroTitle } from '../common/HeroTitle';
 
@@ -11,62 +11,11 @@ gsap.registerPlugin(ScrollTrigger);
 export const Hero = ({ star1Ref, star2Ref, star3Ref }) => {
   const { heroRef, line1Ref, line2Ref, line3Ref } =
     useHeroAnimation({ star1Ref, star2Ref, star3Ref });
-  
-  const badgeRef = useRef(null);
-  const dotRef = useRef(null);
-  const trailRef = useRef(null);
-  const animationRef = useRef(null);
-
-  const handleMouseEnter = () => {
-    const trail = trailRef.current;
-    if (animationRef.current) animationRef.current.kill();
-    trail.style.background = 'conic-gradient(from 0deg, transparent 0deg, #282828 0deg, #282828 360deg, transparent 360deg)';
-    trail.classList.add('active');
-    animationRef.current = gsap.to({}, {
-      duration: 1.8,
-      ease: 'power2.inOut',
-      onUpdate: function() {
-        const startAngle = this.progress() * 360;
-        const segmentSize = 50;
-        trail.style.background = `conic-gradient(
-          from 0deg,
-          transparent ${startAngle}deg,
-          #282828 ${startAngle}deg,
-          #282828 ${startAngle + segmentSize}deg,
-          transparent ${startAngle + segmentSize}deg
-        )`;
-      },
-    });
-  };
-
-  const handleMouseLeave = () => {
-    const trail = trailRef.current;
-    trail.classList.remove('active');
-    if (animationRef.current) animationRef.current.kill();
-    trail.style.background = 'conic-gradient(from 0deg, transparent 0deg, #282828 0deg, #282828 360deg, transparent 360deg)';
-  };
 
   return (
     <HeroSection id="home" ref={heroRef}>
       <Container>
-        <a id="calend-hero-available" 
-          href="https://calendly.com/12vblanco/30min"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ textDecoration: 'none' }}
-        >
-          <Badge
-            ref={badgeRef}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            role="status"
-            aria-label="Availability status"
-          >
-            <Dot ref={dotRef} aria-hidden="true" />
-            Available for work
-            <BorderTrail ref={trailRef} aria-hidden="true" />
-          </Badge>
-        </a>
+        <AvailabilityBadge id="calend-hero-available" />
 
         <HeroTitle
           line1Ref={line1Ref}
@@ -76,21 +25,24 @@ export const Hero = ({ star1Ref, star2Ref, star3Ref }) => {
           star3Ref={star3Ref}
           line1Text="Web Developer &"
           line2Text="Pendo Consultant"
+          stampId="calend-stamp-home"
         />
 
         <ContentWrapper>
           <LeftColumn>
             <Subtitle ref={line3Ref}>
               I specialize in <strong>designing and building websites</strong> using modern technologies.
-              I provide <strong>expert Pendo services</strong>, from audit and setup to expert custom guides, analytics & reporting.
+              I provide <strong>expert Pendo services</strong>, from audit and setup to expert custom guides, analytics &amp; reporting.
             </Subtitle>
           </LeftColumn>
 
           <RightColumn>
-            <HeroCTA 
+            <HeroCTA
               primaryButtonText="View Works"
               primaryButtonLink="#works"
+              primaryButtonId="works-heroCTA-home"
               secondaryButtonText="Book a Call"
+              secondaryButtonId="calend-heroCTA-home"
             />
           </RightColumn>
         </ContentWrapper>
@@ -119,7 +71,7 @@ const HeroSection = styled.section.attrs({ className: 'hero-HeroSection' })`
 
 const Container = styled.div.attrs({ className: 'hero-Container' })`
   max-width: 920px;
-    min-height: 426px;;
+  min-height: 426px;
   margin: 0 auto;
   padding: 0 32px;
   width: 100%;
@@ -130,85 +82,6 @@ const Container = styled.div.attrs({ className: 'hero-Container' })`
   }
   @media (max-width: 426px) {
     width: 100%;
-  }
-`;
-
-const Badge = styled.div.attrs({ className: 'hero-Badge' })`
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: #FFFEFA;
-  border-radius: 50px;
-  border: 2px solid #282828;
-  font-size: 16px;
-  color: #282828;
-  margin-bottom: 40px;
-  font-weight: 600;
-  position: relative;
-  cursor: pointer;
-
-  @media (max-width: 968px) {
-    display: none;
-  }
-`;
-
-const BorderTrail = styled.div.attrs({ className: 'hero-BorderTrail' })`
-  position: absolute;
-  inset: -2.5px;
-  border-radius: 51.5px;
-  padding: 2.5px;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    #282828 0deg,
-    #282828 360deg,
-    transparent 360deg
-  );
-  mask: 
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  filter: drop-shadow(0 0 3px rgba(40, 40, 40, 0.25));
-  
-  &.active {
-    opacity: 0.9;
-  }
-`;
-
-const Dot = styled.span.attrs({ className: 'hero-Dot' })`
-  width: 8px;
-  height: 8px;
-  background: #FF3863;
-  border-radius: 50%;
-  animation: breathe 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  box-shadow: 0 0 0 0 rgba(255, 56, 99, 0.4);
-  position: relative;
-  z-index: 1;
-
-  @keyframes breathe {
-    0% {
-      transform: scale(0.95);
-      opacity: 0.8;
-      box-shadow: 0 0 0 0 rgba(255, 56, 99, 0.4);
-    }
-    50% {
-      transform: scale(1.2);
-      opacity: 1;
-      box-shadow: 0 0 0 6px rgba(255, 56, 99, 0);
-    }
-    100% {
-      transform: scale(0.95);
-      opacity: 0.8;
-      box-shadow: 0 0 0 0 rgba(255, 56, 99, 0);
-    }
   }
 `;
 
@@ -251,6 +124,11 @@ const Subtitle = styled.p.attrs({ className: 'hero-Subtitle' })`
   color: #282828;
   max-width: 540px;
   margin-bottom: 0;
+
+  strong {
+    font-weight: 700;
+    color: #282828;
+  }
 
   @media (max-width: 968px) {
     font-size: 18px;

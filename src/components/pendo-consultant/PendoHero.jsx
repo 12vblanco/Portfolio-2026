@@ -1,67 +1,20 @@
-import gsap from 'gsap';
-import { useRef } from 'react';
 import styled from 'styled-components';
+import { usePendoHeroAnimation } from '../../hooks/usePendoHeroAnimation';
+import { AvailabilityBadge } from '../common/AvailabilityBadge';
 import { HeroCTA } from '../common/HeroCTA';
 import { HeroTitle } from '../common/HeroTitle';
 
-export const PendoHero = ({ heroRef, line1Ref, line2Ref, star1Ref, star2Ref, star3Ref }) => {
-  const badgeRef = useRef(null);
-  const dotRef = useRef(null);
-  const trailRef = useRef(null);
-  const animationRef = useRef(null);
-
-  const handleMouseEnter = () => {
-    const trail = trailRef.current;
-    if (animationRef.current) animationRef.current.kill();
-    trail.style.background = 'conic-gradient(from 0deg, transparent 0deg, #282828 0deg, #282828 360deg, transparent 360deg)';
-    trail.classList.add('active');
-    animationRef.current = gsap.to({}, {
-      duration: 1.8,
-      ease: 'power2.inOut',
-      onUpdate: function() {
-        const startAngle = this.progress() * 360;
-        const segmentSize = 50;
-        trail.style.background = `conic-gradient(
-          from 0deg,
-          transparent ${startAngle}deg,
-          #282828 ${startAngle}deg,
-          #282828 ${startAngle + segmentSize}deg,
-          transparent ${startAngle + segmentSize}deg
-        )`;
-      },
-    });
-  };
-
-  const handleMouseLeave = () => {
-    const trail = trailRef.current;
-    trail.classList.remove('active');
-    if (animationRef.current) animationRef.current.kill();
-    trail.style.background = 'conic-gradient(from 0deg, transparent 0deg, #282828 0deg, #282828 360deg, transparent 360deg)';
-  };
+export const PendoHero = ({ star1Ref, star2Ref, star3Ref }) => {
+  const { heroRef, line1Ref, line2Ref } =
+    usePendoHeroAnimation({ star1Ref, star2Ref, star3Ref });
 
   return (
-    <PendoHeroSection ref={heroRef}>
-      <PendoHeroContainer>
-        <a id="calend-pendo-hero" 
-          href="https://calendly.com/12vblanco/30min"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ textDecoration: 'none' }}
-        >
-          <PendoBadge
-            ref={badgeRef}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            role="status"
-            aria-label="Availability status"
-          >
-            <PendoDot ref={dotRef} aria-hidden="true" />
-            Available for work
-            <PendoBorderTrail ref={trailRef} aria-hidden="true" />
-          </PendoBadge>
-        </a>
+    <PendoHeroSection id="pendo-home" ref={heroRef}>
+      <Container>
+        <AvailabilityBadge id="calend-pendo-hero" />
 
-        <HeroTitle id="hero-title-pendo"
+        <HeroTitle
+          id="hero-title-pendo"
           line1Ref={line1Ref}
           line2Ref={line2Ref}
           star1Ref={star1Ref}
@@ -69,33 +22,36 @@ export const PendoHero = ({ heroRef, line1Ref, line2Ref, star1Ref, star2Ref, sta
           star3Ref={star3Ref}
           line1Text="Content Developer"
           line2Text="& Pendo Consultant"
+          stampId="calend-stamp-pendo"
         />
 
-        <PendoContentWrapper>
-          <PendoLeftColumn>
-            <PendoSubtitle>
-              I'm a <strong>Certified Pendo Developer</strong> based in Edinburgh, UK. 
-              I help teams install Pendo, audit setups, and design and implement roadmaps 
+        <ContentWrapper>
+          <LeftColumn>
+            <Subtitle>
+              I'm a <strong>Certified Pendo Developer</strong> based in Edinburgh, UK.
+              I help teams install Pendo, audit setups, and design and implement roadmaps
               to create analytics that inform product decisions.
-            </PendoSubtitle>
-          </PendoLeftColumn>
+            </Subtitle>
+          </LeftColumn>
 
-          <PendoRightColumn>
-            <HeroCTA 
+          <RightColumn>
+            <HeroCTA
               primaryButtonText="View Services"
               primaryButtonLink="#pendo"
+              primaryButtonId="services-heroCTA-pendo"
               secondaryButtonText="Book a Call"
+              secondaryButtonId="calend-heroCTA-pendo"
             />
-          </PendoRightColumn>
-        </PendoContentWrapper>
-      </PendoHeroContainer>
+          </RightColumn>
+        </ContentWrapper>
+      </Container>
     </PendoHeroSection>
   );
 };
 
 // ─── Styled Components ────────────────────────────────────────────────────────
 
-const PendoHeroSection = styled.section`
+const PendoHeroSection = styled.section.attrs({ className: 'pendoHero-PendoHeroSection' })`
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -111,9 +67,9 @@ const PendoHeroSection = styled.section`
   }
 `;
 
-const PendoHeroContainer = styled.div`
+const Container = styled.div.attrs({ className: 'pendoHero-Container' })`
   max-width: 920px;
-    min-height: 426px;;
+  min-height: 426px;
   margin: 0 auto;
   padding: 0 32px;
   width: 100%;
@@ -127,91 +83,11 @@ const PendoHeroContainer = styled.div`
   }
 `;
 
-const PendoBadge = styled.div`
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: #FFFEFA;
-  border-radius: 50px;
-  border: 2px solid #282828;
-  font-size: 16px;
-  color: #282828;
-  margin-bottom: 40px;
-  font-weight: 600;
-  position: relative;
-  cursor: pointer;
-
-  @media (max-width: 968px) {
-    display: none;
-  }
-`;
-
-const PendoBorderTrail = styled.div`
-  position: absolute;
-  inset: -2.5px;
-  border-radius: 51.5px;
-  padding: 2.5px;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    #282828 0deg,
-    #282828 360deg,
-    transparent 360deg
-  );
-  mask: 
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  filter: drop-shadow(0 0 3px rgba(40, 40, 40, 0.25));
-  
-  &.active {
-    opacity: 0.9;
-  }
-`;
-
-const PendoDot = styled.span`
-  width: 8px;
-  height: 8px;
-  background: #FF3863;
-  border-radius: 50%;
-  animation: breathe 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  box-shadow: 0 0 0 0 rgba(255, 56, 99, 0.4);
-  position: relative;
-  z-index: 1;
-
-  @keyframes breathe {
-    0% {
-      transform: scale(0.95);
-      opacity: 0.8;
-      box-shadow: 0 0 0 0 rgba(255, 56, 99, 0.4);
-    }
-    50% {
-      transform: scale(1.2);
-      opacity: 1;
-      box-shadow: 0 0 0 6px rgba(255, 56, 99, 0);
-    }
-    100% {
-      transform: scale(0.95);
-      opacity: 0.8;
-      box-shadow: 0 0 0 0 rgba(255, 56, 99, 0);
-    }
-  }
-`;
-
-const PendoContentWrapper = styled.div`
+const ContentWrapper = styled.div.attrs({ className: 'pendoHero-ContentWrapper' })`
   display: flex;
   gap: 40px;
   align-items: flex-start;
   justify-content: flex-start;
-  margin-top: 1.5rem;
 
   @media (max-width: 968px) {
     flex-direction: column;
@@ -219,11 +95,11 @@ const PendoContentWrapper = styled.div`
   }
 `;
 
-const PendoLeftColumn = styled.div`
+const LeftColumn = styled.div.attrs({ className: 'pendoHero-LeftColumn' })`
   max-width: 420px;
 `;
 
-const PendoRightColumn = styled.div`
+const RightColumn = styled.div.attrs({ className: 'pendoHero-RightColumn' })`
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -240,7 +116,7 @@ const PendoRightColumn = styled.div`
   }
 `;
 
-const PendoSubtitle = styled.p`
+const Subtitle = styled.p.attrs({ className: 'pendoHero-Subtitle' })`
   font-size: 20px;
   line-height: 1.6;
   color: #282828;

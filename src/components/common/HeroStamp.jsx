@@ -2,7 +2,7 @@ import gsap from 'gsap';
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-export const HeroStamp = ({ href = 'https://calendly.com/12vblanco/30min' }) => {
+export const HeroStamp = ({ id, href = 'https://calendly.com/12vblanco/30min' }) => {
   const wrapperRef = useRef(null);
   const ringRef = useRef(null);
   const rotRef = useRef(0);
@@ -30,6 +30,7 @@ export const HeroStamp = ({ href = 'https://calendly.com/12vblanco/30min' }) => 
 
   return (
     <Wrapper
+      id={id}
       ref={wrapperRef}
       href={href}
       target="_blank"
