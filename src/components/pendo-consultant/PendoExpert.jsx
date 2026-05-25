@@ -208,7 +208,7 @@ export const PendoExpert = () => {
           </HeaderLeft>
         <Subtitle>
           <strong>Certified Pendo developer</strong> and consultant with over two years hands-on experience.{' '}
-          <CallLink 
+          <CallLink id="calend-pendo-expertCTA" 
             href="https://calendly.com/12vblanco/30min" 
             target="_blank" 
             rel="noopener noreferrer"

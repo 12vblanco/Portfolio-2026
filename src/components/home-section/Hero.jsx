@@ -49,7 +49,7 @@ export const Hero = ({ star1Ref, star2Ref, star3Ref }) => {
   return (
     <HeroSection id="home" ref={heroRef}>
       <Container>
-        <a 
+        <a id="calend-hero-available" 
           href="https://calendly.com/12vblanco/30min"
           target="_blank"
           rel="noopener noreferrer"

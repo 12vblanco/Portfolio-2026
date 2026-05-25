@@ -42,7 +42,7 @@ export const PendoHero = ({ heroRef, line1Ref, line2Ref, star1Ref, star2Ref, sta
   return (
     <PendoHeroSection ref={heroRef}>
       <PendoHeroContainer>
-        <a 
+        <a id="calend-pendo-hero" 
           href="https://calendly.com/12vblanco/30min"
           target="_blank"
           rel="noopener noreferrer"

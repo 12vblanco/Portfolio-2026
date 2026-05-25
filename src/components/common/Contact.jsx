@@ -72,7 +72,7 @@ export const Contact = ({ onOpenTerms }) => {
             <Dribbble size={24} aria-hidden="true" />
           </SocialLink>
 
-          <SocialLink href="https://calendly.com/12vblanco/30min" target="_blank" aria-label="Call Victor">
+          <SocialLink id="calend-contact" href="https://calendly.com/12vblanco/30min" target="_blank" aria-label="Call Victor">
             <PhoneCall size={24} aria-hidden="true" />
           </SocialLink>
         </SocialLinks>

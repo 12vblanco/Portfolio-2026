@@ -74,7 +74,7 @@ export const MobileNav = ({ isOpen, onClose, navItems, isHomePage, onHashClick }
           </MobilePendoLink>
         )}
 
-        <MobileCTA href="https://calendly.com/12vblanco/30min" onClick={onClose}>
+        <MobileCTA id="calend-mobileCTA" href="https://calendly.com/12vblanco/30min" onClick={onClose}>
           Let's Talk
         </MobileCTA>
 

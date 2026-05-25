@@ -60,7 +60,7 @@ export const Navigation = ({ star1Ref, star2Ref, star3Ref }) => {
 
           <DesktopNav navItems={navItems} onHashClick={handleHashClick} />
 
-          <CTA href="https://calendly.com/12vblanco/30min" target="_blank">
+          <CTA id="calend-navCTA" href="https://calendly.com/12vblanco/30min" target="_blank">
             Let's Talk
           </CTA>
 

@@ -157,7 +157,7 @@ export const HeroCTA = ({
   return (
     <RightContent>
       <ButtonGroup>
-        <PrimaryButton
+        <PrimaryButton id="works-heroCTA" 
           href={primaryButtonLink}
           onMouseEnter={handlePrimaryEnter}
           onMouseLeave={handlePrimaryLeave}
@@ -167,7 +167,7 @@ export const HeroCTA = ({
           <BorderTrail ref={primaryTrailRef} />
         </PrimaryButton>
 
-        <SecondaryButton
+        <SecondaryButton id="calend-heroCTA" 
           href={secondaryButtonLink}
           target="_blank"
           rel="noopener noreferrer"
