@@ -97,7 +97,7 @@ export const HeroTitle = ({
           <TitleText ref={line2Ref} style={{ color: line2Color }}>{line2Text}</TitleText>
         </TitleLine>
       </Title>
-      <HeroStamp />
+      <HeroStamp id="hero-stamp-home"/>
     </TitleWrapper>
   );
 };

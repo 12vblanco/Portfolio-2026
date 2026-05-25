@@ -61,7 +61,7 @@ export const PendoHero = ({ heroRef, line1Ref, line2Ref, star1Ref, star2Ref, sta
           </PendoBadge>
         </a>
 
-        <HeroTitle
+        <HeroTitle id="hero-title-pendo"
           line1Ref={line1Ref}
           line2Ref={line2Ref}
           star1Ref={star1Ref}
