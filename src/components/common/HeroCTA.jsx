@@ -167,7 +167,7 @@ export const HeroCTA = ({
           <BorderTrail ref={primaryTrailRef} />
         </PrimaryButton>
 
-        <SecondaryButton id="calend-heroCTA" 
+        <SecondaryButton id="calend-pendo-heroCTA" 
           href={secondaryButtonLink}
           target="_blank"
           rel="noopener noreferrer"
