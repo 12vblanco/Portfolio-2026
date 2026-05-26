@@ -178,7 +178,7 @@ export const PendoExpert = () => {
           <strong>Certified Pendo developer</strong> and consultant with over two years hands-on experience.{' '}
           <CallLink id="calend-pendo-expertCTA" 
             href="https://calendly.com/12vblanco/30min" 
-            target="_blank" rel="noopener noreferrer" 
+            target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => {
               e.preventDefault();
@@ -220,7 +220,7 @@ export const PendoExpert = () => {
             <Badge key={i} ref={el => badgeRefs.current[i] = el}>
               <a
                 href="https://www.credly.com/users/victor-blanco.4783f91c"
-                target="_blank" rel="noopener noreferrer"
+                target="_blank"
                 rel="noopener noreferrer"
                 style={{ display: 'block', textDecoration: 'none' }}
               >
