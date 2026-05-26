@@ -1,12 +1,9 @@
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styled from 'styled-components';
 import { useHeroAnimation } from '../../hooks/useHeroAnimation';
 import { AvailabilityBadge } from '../common/AvailabilityBadge';
 import { HeroCTA } from '../common/HeroCTA';
 import { HeroTitle } from '../common/HeroTitle';
 
-gsap.registerPlugin(ScrollTrigger);
 
 export const Hero = ({ star1Ref, star2Ref, star3Ref }) => {
   const { heroRef, line1Ref, line2Ref, line3Ref } =
@@ -32,7 +29,7 @@ export const Hero = ({ star1Ref, star2Ref, star3Ref }) => {
           <LeftColumn>
             <Subtitle ref={line3Ref}>
               Edinburgh-based web developer <strong>designing and building websites</strong> that work for your business.
-              I provide <strong>expert Pendo services</strong>, installation audits, custom guides, analytics.
+              I provide <strong>expert Pendo services</strong> — installation, audits, and improving SaaS product adoption. 
             </Subtitle>
           </LeftColumn>
 
