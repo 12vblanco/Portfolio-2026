@@ -88,22 +88,5 @@ export const pendoStructuredData = {
         }
       }
     ]
-  },
-  "review": {
-    "@type": "Review",
-    "reviewRating": {
-      "@type": "Rating",
-      "ratingValue": "5",
-      "bestRating": "5"
-    },
-    "author": {
-      "@type": "Person",
-      "name": "Renee C."
-    },
-    "reviewBody": "Victor has been working on our Pendo account for a month, and he did a full audit of our initial installation and got us up to speed. We are now working on creating guides and a reporting dashboard, and are excited to see the analytics behind the improvements.",
-    "publisher": {
-      "@type": "Organization",
-      "name": "The PUSH Agency"
-    }
   }
 };
