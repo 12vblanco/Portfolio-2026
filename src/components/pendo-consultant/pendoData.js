@@ -18,8 +18,10 @@ export const ctaData = {
 
 export const pageMetadata = {
   title: 'Pendo Consultant | Installation, Audit, Guides & Analytics | Victor Blanco',
-  description: 'Certified Pendo consultant helping SaaS teams get more from their subscription. Installation, audits, custom guides, and analytics reporting.',
+  description: 'Certified freelance Pendo consultant helping SaaS teams with Pendo installation, audits, in-app guides, and product analytics reporting. Based in Edinburgh, available worldwide.',
   canonical: 'https://victorblancoweb.com/pendo-consultant',
+  ogTitle: 'Pendo Consultant | Victor Blanco',
+  ogDescription: 'Certified Pendo consultant helping SaaS teams install Pendo correctly, fix broken setups, build in-app guides, and create product analytics dashboards that actually get used.',
 };
 
 export const pendoStructuredData = {

@@ -115,12 +115,14 @@ export const PendoConsultantPage = ({ onOpenTerms }) => {
 
   return (
     <>
-   <SEO
-  title={pageMetadata.title}
-  description={pageMetadata.description}
-  canonical={pageMetadata.canonical}
-  structuredData={pendoStructuredData}
-/>
+      <SEO
+        title={pageMetadata.title}
+        description={pageMetadata.description}
+        canonical={pageMetadata.canonical}
+        ogTitle={pageMetadata.ogTitle}
+        ogDescription={pageMetadata.ogDescription}
+        structuredData={pendoStructuredData}
+      />
 
       <PendoHero
         heroRef={heroRef}
