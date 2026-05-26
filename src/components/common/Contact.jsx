@@ -93,7 +93,6 @@ export const Contact = ({ onOpenTerms }) => {
             <ExternalLink
               href="https://www.upwork.com/freelancers/victorblanco"
               target="_blank" rel="noopener noreferrer"
-              rel="noopener noreferrer"
             >
               VICTOR BLANCO
             </ExternalLink>

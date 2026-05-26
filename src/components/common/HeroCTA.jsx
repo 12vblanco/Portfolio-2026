@@ -174,7 +174,6 @@ primaryButtonText="Pendo Solutions",
           id={secondaryButtonId}
           href={secondaryButtonLink}
           target="_blank" rel="noopener noreferrer"
-          rel="noopener noreferrer"
           onMouseEnter={handleSecondaryEnter}
           onMouseLeave={handleSecondaryLeave}
         >

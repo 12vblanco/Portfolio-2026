@@ -35,8 +35,6 @@ export const Hero = ({ star1Ref, star2Ref, star3Ref }) => {
 
           <RightColumn>
             <HeroCTA
-              primaryButtonText="Pendo Solutions"
-              primaryButtonLink="/pendo-consultant"
               primaryButtonId="works-heroCTA-home"
               secondaryButtonText="Book a Call"
               secondaryButtonId="calend-heroCTA-home"

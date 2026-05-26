@@ -42,7 +42,6 @@ export const AvailabilityBadge = ({ id, href = 'https://calendly.com/12vblanco/3
       id={id}
       href={href}
       target="_blank" rel="noopener noreferrer"
-      rel="noopener noreferrer"
     >
       <Badge
         onMouseEnter={handleMouseEnter}

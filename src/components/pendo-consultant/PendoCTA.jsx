@@ -14,7 +14,6 @@ export const PendoCTA = forwardRef((props, ref) => {
             <CTAButton
               href={ctaData.primaryButtonLink}
               target="_blank" rel="noopener noreferrer"
-              rel="noopener noreferrer"
             >
               {ctaData.primaryButtonText}
             </CTAButton>
