@@ -4,30 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- GOOGLE ANALYTICS -->
-   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-G3WPB51996"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- GOOGLE ANALYTICS -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-G3WPB51996"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-G3WPB51996');
+  </script>
 
-  gtag('config', 'G-G3WPB51996');
-</script>
+  <!-- Primary Meta Tags — managed per-page by SEO component via react-helmet -->
+  <!-- title, description, canonical, og:*, twitter:* are intentionally omitted here -->
+  <!-- They are injected by the SEO component on each route -->
 
-  <!-- Primary Meta Tags -->
   <meta name="author" content="Victor Blanco" />
   <meta name="keywords" content="Web developer, freelance web developer, Pendo consultant, Edinburgh web developer, React developer UK, GSAP animation developer" />
 
-  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-
-  <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
+  <!-- Shared OG fallback image (overridden per page if needed) -->
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://victorblancoweb.com/og-image.jpg" />
-
-  <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:image" content="https://victorblancoweb.com/og-image.jpg" />
+
+  <!-- Sitemap -->
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="./blanco.png" />
@@ -37,7 +37,7 @@
   <link rel="dns-prefetch" href="https://api.fontshare.com" />
 
   <!-- Pendo Agent for Anonymous Tracking -->
- <script>
+  <script>
   (function(publicAppId){
 
     function getCookie(name) {
@@ -65,14 +65,15 @@
     });
 
   })('d9b3f220-ae26-4432-baf6-253841dfa6a9');
-</script>
+  </script>
+
   <!-- Main Script (Module) -->
   <script type="module" src="/src/main.jsx"></script>
 </head>
 <body>
   <!-- SEO fallback: readable by Googlebot before JS executes -->
-<div class="seo-fallback" style="position:absolute; left:-9999px;">
-        <h1>Freelance Web Developer &amp; Pendo Consultant</h1>
+  <div class="seo-fallback" style="position:absolute; left:-9999px;">
+    <h1>Freelance Web Developer &amp; Pendo Consultant</h1>
     <p>Edinburgh-based freelance Web Developer and Pendo Consultant. I build fast modern websites using React, GSAP, and styled-components, and help SaaS teams set up product analytics and improve user onboarding.</p>
     <h2>Case Studies</h2>
     <p>Projects include Loka Care, Orders Made Simple, LM Douglas, and Sujin Beauty — delivered across SaaS, e-commerce, and marketing platforms.</p>
@@ -83,8 +84,8 @@
     <h2>Contact</h2>
     <p>Available for freelance projects worldwide. Based in Edinburgh, Scotland, UK. Contact via info@victorblancoweb.com or Upwork.</p>
     <a href="https://github.com/12vblanco">GitHub</a>
-<a href="https://www.upwork.com/freelancers/victorblanco">Upwork</a>
-<a href="mailto:info@victorblancoweb.com">Email Victor Blanco</a>
+    <a href="https://www.upwork.com/freelancers/~01141c20a0de332c1a">Upwork</a>
+    <a href="mailto:info@victorblancoweb.com">Email Victor Blanco</a>
   </div>
   <div id="root"></div>
 </body>
