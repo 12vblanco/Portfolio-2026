@@ -13,11 +13,28 @@ export const HomePage = ({ star1Ref, star2Ref, star3Ref, onOpenTerms }) => {
 
   return (
     <>
-    <SEO
+      <SEO
         title="Freelance Web Developer & Pendo Consultant | Victor Blanco"
-        description="Freelance Web Developer and Pendo Consultant based in Edinburgh. I build fast modern websites and help clients manage their Pendo subscription, set up analytics and improve onboarding."
+        description="Freelance Web Developer and Pendo Consultant based in Edinburgh..."
         canonical="https://victorblancoweb.com"
-        ogDescription="Edinburgh-based freelance Web Developer specializing in React, GSAP animations, and Pendo Consultant. I build fast, modern websites that convert."
+        ogDescription="Edinburgh-based freelance Web Developer specializing in React, GSAP animations, and Pendo Consultant..."
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Victor Blanco",
+          "url": "https://victorblancoweb.com",
+          "jobTitle": "Freelance Web Developer & Pendo Consultant",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Edinburgh",
+            "addressCountry": "GB"
+          },
+          "sameAs": [
+            "https://github.com/12vblanco",
+            "https://www.upwork.com/freelancers/victorblanco",
+            "https://dribbble.com/Victor-Blanco"
+          ]
+        }}
       />
 
       <Hero star1Ref={star1Ref} star2Ref={star2Ref} star3Ref={star3Ref} />
