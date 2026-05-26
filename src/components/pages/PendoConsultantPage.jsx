@@ -71,27 +71,6 @@ export const PendoConsultantPage = ({ onOpenTerms }) => {
         });
       }
 
-      // FAQ stagger - DISABLED since FAQ now has its own scroll animation
-      // Comment out or remove this section
-      /*
-      if (faqRef.current) {
-        ScrollTrigger.create({
-          trigger: faqRef.current,
-          start: 'top 80%',
-          once: true,
-          onEnter: () => {
-            if (faqRef.current) {
-              gsap.fromTo(
-                faqRef.current.querySelectorAll('[data-faq]'),
-                { y: 16, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.4, stagger: 0.08, ease: 'power2.out' }
-              );
-            }
-          },
-        });
-      }
-      */
-
       // CTA
       if (ctaRef.current) {
         ScrollTrigger.create({
@@ -115,14 +94,15 @@ export const PendoConsultantPage = ({ onOpenTerms }) => {
 
   return (
     <>
-      <SEO
-        title={pageMetadata.title}
-        description={pageMetadata.description}
-        canonical={pageMetadata.canonical}
-        ogTitle={pageMetadata.ogTitle}
-        ogDescription={pageMetadata.ogDescription}
-        structuredData={pendoStructuredData}
-      />
+        <SEO
+          title={pageMetadata.title}
+          description={pageMetadata.description}
+          canonical={pageMetadata.canonical}
+          ogTitle={pageMetadata.ogTitle}
+          ogDescription={pageMetadata.ogDescription}
+          ogImage={pageMetadata.ogImage}
+          structuredData={pendoStructuredData}
+        />
 
       <PendoHero
         heroRef={heroRef}

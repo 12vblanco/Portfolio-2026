@@ -16,7 +16,16 @@ import { featuresData } from './pendoData';
 
 gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin);
 
-const certImages = [cert1, cert2, cert3, cert4, cert5, cert6, cert7, cert8];
+const certImages = [
+  { src: cert1, alt: 'Pendo Admin Certification' },
+  { src: cert2, alt: 'Pendo for Product Certification' },
+  { src: cert3, alt: 'Pendo NPS Certification' },
+  { src: cert4, alt: 'Pendo Mobile Certification' },
+  { src: cert5, alt: 'Pendo Data & Analytics Certification' },
+  { src: cert6, alt: 'Pendo Integrations Certification' },
+  { src: cert7, alt: 'Pendo Onboarding Certification' },
+  { src: cert8, alt: 'Pendo for Marketing Certification' },
+];
 
 export const PendoExpert = () => {
   const sectionRef   = useRef(null);
@@ -215,20 +224,20 @@ export const PendoExpert = () => {
           </GraphContainer>
         </MiddleRow>
 
-        <BadgesContainer ref={badgesRef}>
-          {certImages.map((cert, i) => (
-            <Badge key={i} ref={el => badgeRefs.current[i] = el}>
-              <a
-                href="https://www.credly.com/users/victor-blanco.4783f91c"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ display: 'block', textDecoration: 'none' }}
-              >
-                <BadgeImg src={cert} alt={`Pendo Certification ${i + 1}`} />
-              </a>
-            </Badge>
-          ))}
-        </BadgesContainer>
+       <BadgesContainer ref={badgesRef}>
+  {certImages.map((cert, i) => (
+    <Badge key={i} ref={el => badgeRefs.current[i] = el}>
+      <a
+        href="https://www.credly.com/users/victor-blanco.4783f91c"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ display: 'block', textDecoration: 'none' }}
+      >
+        <BadgeImg src={cert.src} alt={cert.alt} />
+      </a>
+    </Badge>
+  ))}
+</BadgesContainer>
 
       </Container>
     </Section>

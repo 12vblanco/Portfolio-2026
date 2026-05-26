@@ -53,6 +53,7 @@ export const pageMetadata = {
   canonical: 'https://victorblancoweb.com/pendo-consultant',
   ogTitle: 'Pendo Consultant | Victor Blanco',
   ogDescription: 'Certified Pendo consultant helping SaaS teams install Pendo correctly, fix broken setups, build in-app guides, and create product analytics dashboards that actually get used.',
+  ogImage: 'https://victorblancoweb.com/og-image-pendo.png',
 };
 
 export const pendoStructuredData = {
