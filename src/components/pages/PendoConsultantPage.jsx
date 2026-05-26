@@ -5,7 +5,7 @@ import { ConsentBanner } from '../common/ConsentBanner.jsx';
 import { Contact } from '../common/Contact.jsx';
 import { SEO } from '../common/SEO.jsx';
 import { PendoCTA } from '../pendo-consultant/PendoCTA.jsx';
-import { pageMetadata } from '../pendo-consultant/pendoData.js';
+import { pageMetadata, pendoStructuredData } from '../pendo-consultant/pendoData.js';
 import { PendoExpert } from '../pendo-consultant/PendoExpert.jsx';
 import { PendoHero } from '../pendo-consultant/PendoHero.jsx';
 import { PendoInsights } from '../pendo-consultant/PendoInsights.jsx';
@@ -115,11 +115,12 @@ export const PendoConsultantPage = ({ onOpenTerms }) => {
 
   return (
     <>
-    <SEO
-      title={pageMetadata.title}
-      description={pageMetadata.description}
-      canonical={pageMetadata.canonical}
-    />
+   <SEO
+  title={pageMetadata.title}
+  description={pageMetadata.description}
+  canonical={pageMetadata.canonical}
+  structuredData={pendoStructuredData}
+/>
 
       <PendoHero
         heroRef={heroRef}
