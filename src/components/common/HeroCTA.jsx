@@ -96,8 +96,8 @@ const AVATARS = [
 ];
 
 export const HeroCTA = ({ 
-  primaryButtonText = "View Works",
-  primaryButtonLink = "#works",
+primaryButtonText="Pendo Solutions",
+  primaryButtonLink="/pendo-consultant",
   primaryButtonId,
   secondaryButtonText = "Book a Call",
   secondaryButtonLink = "https://calendly.com/12vblanco/30min",
