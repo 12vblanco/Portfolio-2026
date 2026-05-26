@@ -105,11 +105,5 @@ export const pendoStructuredData = {
       "@type": "Organization",
       "name": "The PUSH Agency"
     }
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "5",
-    "reviewCount": "5",
-    "bestRating": "5"
   }
 };
