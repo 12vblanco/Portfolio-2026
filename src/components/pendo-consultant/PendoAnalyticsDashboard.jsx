@@ -332,10 +332,10 @@ export const PendoAnalyticsDashboard = () => {
             <CTASub>Customise your own data dashboard pulling data directly from Pendo</CTASub>
           </CTAText>
           <CTAActions>
-            <CTAButton id="calend-pendo-analyticsCTA" href="https://calendly.com/12vblanco/30min" target="_blank">
+            <CTAButton id="calend-pendo-analyticsCTA" href="https://calendly.com/12vblanco/30min" target="_blank" rel="noopener noreferrer">
               Book a free call
             </CTAButton>
-            <CTAButton variant="secondary" href="https://upwork.com/..." target="_blank">
+            <CTAButton variant="secondary" href="https://upwork.com/..." target="_blank" rel="noopener noreferrer">
               Upwork profile
             </CTAButton>
           </CTAActions>

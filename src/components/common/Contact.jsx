@@ -72,7 +72,7 @@ export const Contact = ({ onOpenTerms }) => {
             <Dribbble size={24} aria-hidden="true" />
           </SocialLink>
 
-          <SocialLink id="calend-contact" href="https://calendly.com/12vblanco/30min" target="_blank" aria-label="Call Victor">
+          <SocialLink id="calend-contact" href="https://calendly.com/12vblanco/30min" target="_blank" rel="noopener noreferrer" aria-label="Call Victor">
             <PhoneCall size={24} aria-hidden="true" />
           </SocialLink>
         </SocialLinks>
@@ -92,7 +92,7 @@ export const Contact = ({ onOpenTerms }) => {
             <Heart />
             <ExternalLink
               href="https://www.upwork.com/freelancers/victorblanco"
-              target="_blank"
+              target="_blank" rel="noopener noreferrer"
               rel="noopener noreferrer"
             >
               VICTOR BLANCO

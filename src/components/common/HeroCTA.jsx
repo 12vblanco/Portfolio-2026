@@ -173,7 +173,7 @@ export const HeroCTA = ({
         <SecondaryButton
           id={secondaryButtonId}
           href={secondaryButtonLink}
-          target="_blank"
+          target="_blank" rel="noopener noreferrer"
           rel="noopener noreferrer"
           onMouseEnter={handleSecondaryEnter}
           onMouseLeave={handleSecondaryLeave}

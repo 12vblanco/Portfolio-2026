@@ -33,7 +33,7 @@ export const HeroStamp = ({ id, href = 'https://calendly.com/12vblanco/30min' })
       id={id}
       ref={wrapperRef}
       href={href}
-      target="_blank"
+      target="_blank" rel="noopener noreferrer"
       rel="noopener noreferrer"
       aria-label="Book a free 30 minute discovery call"
       onMouseEnter={() => { speedRef.current = 1; }}
