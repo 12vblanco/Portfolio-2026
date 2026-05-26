@@ -31,8 +31,8 @@ export const Hero = ({ star1Ref, star2Ref, star3Ref }) => {
         <ContentWrapper>
           <LeftColumn>
             <Subtitle ref={line3Ref}>
-              I specialize in <strong>designing and building websites</strong> using modern technologies.
-              I provide <strong>expert Pendo services</strong>, from audit and setup to expert custom guides, analytics &amp; reporting.
+              Edinburgh-based freelance developer specialising in <strong>designing and building websites</strong> using modern technologies.
+              I provide <strong>expert Pendo services</strong>, from audit and setup to custom guides, analytics &amp; reporting.
             </Subtitle>
           </LeftColumn>
 
