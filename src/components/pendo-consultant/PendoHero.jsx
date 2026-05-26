@@ -20,8 +20,8 @@ export const PendoHero = ({ star1Ref, star2Ref, star3Ref }) => {
           star1Ref={star1Ref}
           star2Ref={star2Ref}
           star3Ref={star3Ref}
-          line1Text="Content Developer"
-          line2Text="& Pendo Consultant"
+          line1Text="Certified Pendo"
+          line2Text="Consultant"
           stampId="calend-stamp-pendo"
         />
 
@@ -68,7 +68,7 @@ const PendoHeroSection = styled.section.attrs({ className: 'pendoHero-PendoHeroS
 `;
 
 const Container = styled.div.attrs({ className: 'pendoHero-Container' })`
-  max-width: 920px;
+  max-width: 986px;
   min-height: 426px;
   margin: 0 auto;
   padding: 0 32px;
