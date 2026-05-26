@@ -6,6 +6,37 @@ export const servicesHeader = {
   subtitle: "Whether you need a full Pendo setup for a new SaaS product, an audit of an existing installation, or ongoing consulting,  I cover the full stack of Pendo services.",
 };
 
+export const featuresData = [
+  {
+    number: '01',
+    title: 'Installation & Setup',
+    before: 'Full Pendo installation for SaaS products by a ',
+    link: 'pendo certified consultant',
+    after: ' — snippet deployment, data layer configuration, and account structure set up correctly from day one so everything downstream is reliable.',
+  },
+  {
+    number: '02',
+    title: 'Audit & Gap Analysis',
+    before: 'Comprehensive audit of your existing Pendo installation. I identify ',
+    link: 'pendo tracking gaps',
+    after: ', redundant or broken tags, misconfigured funnels, and deliver a prioritised action list to get your data trustworthy again.',
+  },
+  {
+    number: '03',
+    title: 'Guides, Onboarding & User Flows',
+    before: 'From tooltips to multi-step onboarding flows and announcements, I build ',
+    link: 'fully customised guides',
+    after: ' that match your brand and move users toward key activation actions.',
+  },
+  {
+    number: '04',
+    title: 'Analytics, Dashboards & Reporting',
+    before: 'Dashboards, funnels, NPS reports, and retention analytics that surface what actually matters. ',
+    link: 'Data you can act on',
+    after: ' to build effective products.',
+  },
+];
+
 
 export const ctaData = {
   title: 'Ready to get more from Pendo?',

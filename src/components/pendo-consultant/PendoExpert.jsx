@@ -12,41 +12,9 @@ import cert6 from '../../assets/pendoCert/cert6.png';
 import cert7 from '../../assets/pendoCert/cert7.png';
 import cert8 from '../../assets/pendoCert/cert8.png';
 import pendoGraph from '../../assets/pendoCert/pendo-graph-2.jpg';
+import { featuresData } from './pendoData';
 
 gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin);
-
-// Each feature has an optional inlineLink: { text, before, after }
-// which splits the feature text around a Link to /pendo-consultant
-const features = [
-  {
-    number: '01',
-    title: 'Installation & Setup',
-    before: 'Pendo Admin certified and experienced in ',
-    link: 'full Pendo installations',
-    after: '. I set up your account the right way so everything downstream is reliable.',
-  },
-  {
-    number: '02',
-    title: 'Audit & Optimisation',
-    before: '',
-    link: 'Audits of existing installations',
-    after: ' identifying gaps in tracking coverage, flag redundant or broken tags, and deliver a clear prioritised list of improvements.',
-  },
-  {
-    number: '03',
-    title: 'Guides, Onboarding & User Flows',
-    before: 'From tooltips to multi-step onboarding flows and announcements, I build ',
-    link: 'fully customised guides',
-    after: ' that match your brand and move users toward key actions.',
-  },
-  {
-    number: '04',
-    title: 'Analytics & Reporting',
-    before: 'Dashboards, funnels, and reports that surface what actually matters. ',
-    link: 'Data you can act on',
-    after: ' to build effective products.',
-  },
-];
 
 const certImages = [cert1, cert2, cert3, cert4, cert5, cert6, cert7, cert8];
 
@@ -224,7 +192,7 @@ export const PendoExpert = () => {
   
         <MiddleRow ref={middleRef}>
           <FeatureList>
-            {features.map((feature, index) => (
+            {featuresData.map((feature, index) => (
               <Feature key={index} data-feature>
                 <FeatureNumber data-feature-number>{feature.number}</FeatureNumber>
                 <FeatureContent>
