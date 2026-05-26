@@ -15,7 +15,7 @@ export const HomePage = ({ star1Ref, star2Ref, star3Ref, onOpenTerms }) => {
     <>
       <SEO
         title="Freelance Web Developer & Pendo Consultant | Victor Blanco"
-        description="Freelance Web Developer and Pendo Consultant based in Edinburgh..."
+        description="Fast modern websites and expert Pendo consulting. Certified, 5-star rated on Upwork. Based in Edinburgh, working with clients worldwide."
         canonical="https://victorblancoweb.com"
         ogDescription="Edinburgh-based freelance Web Developer specializing in React, GSAP animations, and Pendo Consultant..."
         structuredData={{

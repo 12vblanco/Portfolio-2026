@@ -3,7 +3,7 @@
 export const servicesHeader = {
   label: 'What I do',
   title: 'Pendo consulting services',
-  subtitle: "Whether you need a full Pendo setup for a new SaaS product, an audit of an existing installation, or ongoing consulting — I cover the full stack of Pendo services.",
+  subtitle: "Whether you need a full Pendo setup for a new SaaS product, an audit of an existing installation, or ongoing consulting,  I cover the full stack of Pendo services.",
 };
 
 
@@ -18,7 +18,7 @@ export const ctaData = {
 
 export const pageMetadata = {
   title: 'Pendo Consultant | Installation, Audit, Guides & Analytics | Victor Blanco',
-  description: 'Certified Pendo consultant expert on installation, audit, creating custom guides, and analytics reporting.',
+  description: 'Certified Pendo consultant helping SaaS teams get more from their subscription. Installation, audits, custom guides, and analytics reporting.',
   canonical: 'https://victorblancoweb.com/pendo-consultant',
 };
 
@@ -26,7 +26,7 @@ export const pendoStructuredData = {
   "@context": "https://schema.org",
   "@type": "Service",
   "name": "Pendo Consulting Services",
-  "description": "Certified Pendo consultant offering installation, audit, custom guides, onboarding flows, and analytics reporting for SaaS teams.",
+  "description": "Certified Pendo consultant helping SaaS teams get more from their subscription. Installation, audits, custom guides, and analytics reporting.",
   "url": "https://victorblancoweb.com/pendo-consultant",
   "provider": {
     "@type": "Person",
