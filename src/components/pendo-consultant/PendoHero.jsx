@@ -28,9 +28,9 @@ export const PendoHero = ({ star1Ref, star2Ref, star3Ref }) => {
         <ContentWrapper>
           <LeftColumn>
             <Subtitle>
-              I'm a <strong>Certified Pendo Developer</strong> based in Edinburgh, UK.
-              I help teams install Pendo, audit setups, and design and implement roadmaps
-              to create analytics that inform product decisions.
+             I'm a <strong>Certified Pendo Developer</strong> based in Edinburgh, UK. 
+            I help SaaS teams improve product adoption, install Pendo, audit setups, 
+            and build analytics that <strong>inform product decisions.</strong>
             </Subtitle>
           </LeftColumn>
 
