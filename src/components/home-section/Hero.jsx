@@ -32,7 +32,7 @@ export const Hero = ({ star1Ref, star2Ref, star3Ref }) => {
           <LeftColumn>
             <Subtitle ref={line3Ref}>
               Edinburgh-based web developer <strong>designing and building websites</strong> that work for your business.
-              I provide <strong>expert Pendo services</strong>, installation audits, custom guides, analytics...
+              I provide <strong>expert Pendo services</strong>, installation audits, custom guides, analytics.
             </Subtitle>
           </LeftColumn>
 
