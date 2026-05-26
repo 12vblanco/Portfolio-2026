@@ -1,9 +1,9 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useRef } from 'react';
-import { usePageTitle } from '../../hooks/usePageTitle.js';
 import { ConsentBanner } from '../common/ConsentBanner.jsx';
 import { Contact } from '../common/Contact.jsx';
+import { SEO } from '../common/SEO.jsx';
 import { PendoCTA } from '../pendo-consultant/PendoCTA.jsx';
 import { pageMetadata } from '../pendo-consultant/pendoData.js';
 import { PendoExpert } from '../pendo-consultant/PendoExpert.jsx';
@@ -113,10 +113,14 @@ export const PendoConsultantPage = ({ onOpenTerms }) => {
     return () => ctx.revert();
   }, []);
 
-  usePageTitle(pageMetadata.title, pageMetadata.description);
-
   return (
     <>
+    <SEO
+      title={pageMetadata.title}
+      description={pageMetadata.description}
+      canonical={pageMetadata.canonical}
+    />
+
       <PendoHero
         heroRef={heroRef}
         line1Ref={line1Ref}

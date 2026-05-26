@@ -19,4 +19,5 @@ export const ctaData = {
 export const pageMetadata = {
   title: 'Pendo Consultant | Installation, Audit, Guides & Analytics | Victor Blanco',
   description: 'Certified Pendo consultant expert on installation, audit, creating custom guides, and analytics reporting.',
+  canonical: 'https://victorblancoweb.com/pendo-consultant',
 };
