@@ -1,8 +1,9 @@
 import gsap from 'gsap';
 import { useRef } from 'react';
 import styled from 'styled-components';
+import { LINKS } from '../../data/siteConfig';
 
-export const AvailabilityBadge = ({ id, href = 'https://calendly.com/12vblanco/30min' }) => {
+export const AvailabilityBadge = ({ id, href = LINKS.calendly }) => {
   const trailRef    = useRef(null);
   const animationRef = useRef(null);
 

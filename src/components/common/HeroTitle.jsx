@@ -1,36 +1,9 @@
 import gsap from 'gsap';
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import { startFloat, useHoverRotation } from '../navigation/navigationUtils';
 import { HeroStamp } from './HeroStamp';
 import { Star4Svg } from './StarIcons';
-
-const STAR_HOVER = [
-  { enter: 135, leave: -12 },
-  { enter: -45, leave: 8 },
-  { enter: 72, leave: -20 },
-];
-
-const useHoverRotation = (refs) => {
-  useEffect(() => {
-    const cleanups = refs.map((ref, i) => {
-      const el = ref.current;
-      if (!el) return () => {};
-      const { enter, leave } = STAR_HOVER[i];
-
-      const onEnter = () => gsap.to(el, { rotation: enter, scale: 1.25, duration: 0.35, ease: 'back.out(2)' });
-      const onLeave = () => gsap.to(el, { rotation: leave, scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.5)' });
-
-      el.addEventListener('mouseenter', onEnter);
-      el.addEventListener('mouseleave', onLeave);
-      return () => {
-        el.removeEventListener('mouseenter', onEnter);
-        el.removeEventListener('mouseleave', onLeave);
-      };
-    });
-
-    return () => cleanups.forEach((fn) => fn());
-  }, [refs]);
-};
 
 export const HeroTitle = ({ 
   line1Ref, 
@@ -49,9 +22,7 @@ export const HeroTitle = ({
   useEffect(() => {
     const stars = [star1Ref.current, star2Ref.current, star3Ref.current];
     const delays = [0.1, 0.2, 0.15];
-    const floatDurations = [1.5, 1.8, 1.3];
-    const floatDistances = [8, 6, 10];
-    
+
     stars.forEach((star, i) => {
       if (star) {
         gsap.set(star, { scale: 0, opacity: 0, y: 0 });
@@ -61,16 +32,7 @@ export const HeroTitle = ({
           duration: 0.5,
           delay: delays[i],
           ease: 'back.out(2)',
-          onComplete: () => {
-            gsap.to(star, {
-              y: -floatDistances[i],
-              duration: floatDurations[i],
-              repeat: -1,
-              yoyo: true,
-              ease: 'sine.inOut',
-              delay: i * 0.2,
-            });
-          }
+          onComplete: () => startFloat(star),
         });
       }
     });

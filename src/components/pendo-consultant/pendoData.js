@@ -37,14 +37,15 @@ export const featuresData = [
   },
 ];
 
+import { LINKS } from '../../data/siteConfig';
 
 export const ctaData = {
   title: 'Ready to get more from Pendo?',
   subtitle: "Book a free 30-minute call and let's talk about how I can help get the most from your Pendo subscription.",
   primaryButtonText: 'Book a free call',
   secondaryButtonText: 'My Upwork profile',
-  primaryButtonLink: 'https://calendly.com/12vblanco/30min',
-  secondaryButtonLink: 'https://www.upwork.com/freelancers/victorblanco',
+  primaryButtonLink: LINKS.calendly,
+  secondaryButtonLink: LINKS.upwork,
 };
 
 export const pageMetadata = {

@@ -3,10 +3,9 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { useRef } from 'react';
+import { MOBILE_BP } from '../utils/constants';
 
 gsap.registerPlugin(ScrollTrigger);
-
-const MOBILE_BP = 768;
 
 export const useSmoothScroll = () => {
   const lenisRef = useRef(null);

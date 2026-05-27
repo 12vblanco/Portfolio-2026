@@ -2,15 +2,9 @@ import gsap from 'gsap';
 import { ArrowRight, Calendar } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { LINKS, TRUST_TEXTS } from '../../data/siteConfig';
 
 const CHARS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,\'-&';
-
-const TRUST_TEXTS = [
-  'Trusted by clients worldwide',
-  '5-star reviews on Upwork',
-  'Pendo certified consultant',
-  'Based in Edinburgh, Scotland',
-];
 
 const MAX_LEN = Math.max(...TRUST_TEXTS.map(t => t.length));
 
@@ -95,12 +89,37 @@ const AVATARS = [
   { color: '#DBE1E8' },
 ];
 
-export const HeroCTA = ({ 
-primaryButtonText="Pendo Solutions",
-  primaryButtonLink="/pendo-consultant",
+const createTrailHandlers = (trailRef, animRef) => ({
+  onMouseEnter: () => {
+    const trail = trailRef.current;
+    if (!trail) return;
+    if (animRef.current) animRef.current.kill();
+    trail.classList.add('active');
+    animRef.current = gsap.to({}, {
+      duration: 1.8,
+      ease: 'power2.inOut',
+      onUpdate: function () {
+        const startAngle = this.progress() * 360;
+        const segmentSize = 50;
+        trail.style.background = `conic-gradient(from 0deg, transparent ${startAngle}deg, #FF3863 ${startAngle}deg, #FF3863 ${startAngle + segmentSize}deg, transparent ${startAngle + segmentSize}deg)`;
+      },
+    });
+  },
+  onMouseLeave: () => {
+    const trail = trailRef.current;
+    if (!trail) return;
+    trail.classList.remove('active');
+    if (animRef.current) animRef.current.kill();
+    trail.style.background = 'conic-gradient(from 0deg, transparent 0deg, #FF3863 0deg, #FF3863 360deg, transparent 360deg)';
+  },
+});
+
+export const HeroCTA = ({
+  primaryButtonText = "Pendo Solutions",
+  primaryButtonLink = "/pendo-consultant",
   primaryButtonId,
   secondaryButtonText = "Book a Call",
-  secondaryButtonLink = "https://calendly.com/12vblanco/30min",
+  secondaryButtonLink = LINKS.calendly,
   secondaryButtonId,
 }) => {
   const primaryTrailRef = useRef(null);
@@ -108,53 +127,8 @@ primaryButtonText="Pendo Solutions",
   const secondaryTrailRef = useRef(null);
   const secondaryAnimRef = useRef(null);
 
-  const handlePrimaryEnter = useCallback(() => {
-    const trail = primaryTrailRef.current;
-    if (!trail) return;
-    if (primaryAnimRef.current) primaryAnimRef.current.kill();
-    trail.classList.add('active');
-    primaryAnimRef.current = gsap.to({}, {
-      duration: 1.8,
-      ease: 'power2.inOut',
-      onUpdate: function () {
-        const startAngle = this.progress() * 360;
-        const segmentSize = 50;
-        trail.style.background = `conic-gradient(from 0deg, transparent ${startAngle}deg, #FF3863 ${startAngle}deg, #FF3863 ${startAngle + segmentSize}deg, transparent ${startAngle + segmentSize}deg)`;
-      },
-    });
-  }, []);
-
-  const handlePrimaryLeave = useCallback(() => {
-    const trail = primaryTrailRef.current;
-    if (!trail) return;
-    trail.classList.remove('active');
-    if (primaryAnimRef.current) primaryAnimRef.current.kill();
-    trail.style.background = 'conic-gradient(from 0deg, transparent 0deg, #FF3863 0deg, #FF3863 360deg, transparent 360deg)';
-  }, []);
-
-  const handleSecondaryEnter = useCallback(() => {
-    const trail = secondaryTrailRef.current;
-    if (!trail) return;
-    if (secondaryAnimRef.current) secondaryAnimRef.current.kill();
-    trail.classList.add('active');
-    secondaryAnimRef.current = gsap.to({}, {
-      duration: 1.8,
-      ease: 'power2.inOut',
-      onUpdate: function () {
-        const startAngle = this.progress() * 360;
-        const segmentSize = 50;
-        trail.style.background = `conic-gradient(from 0deg, transparent ${startAngle}deg, #FF3863 ${startAngle}deg, #FF3863 ${startAngle + segmentSize}deg, transparent ${startAngle + segmentSize}deg)`;
-      },
-    });
-  }, []);
-
-  const handleSecondaryLeave = useCallback(() => {
-    const trail = secondaryTrailRef.current;
-    if (!trail) return;
-    trail.classList.remove('active');
-    if (secondaryAnimRef.current) secondaryAnimRef.current.kill();
-    trail.style.background = 'conic-gradient(from 0deg, transparent 0deg, #FF3863 0deg, #FF3863 360deg, transparent 360deg)';
-  }, []);
+  const primaryHandlers   = createTrailHandlers(primaryTrailRef, primaryAnimRef);
+  const secondaryHandlers = createTrailHandlers(secondaryTrailRef, secondaryAnimRef);
 
   return (
     <RightContent>
@@ -162,8 +136,8 @@ primaryButtonText="Pendo Solutions",
         <PrimaryButton
           id={primaryButtonId}
           href={primaryButtonLink}
-          onMouseEnter={handlePrimaryEnter}
-          onMouseLeave={handlePrimaryLeave}
+          onMouseEnter={primaryHandlers.onMouseEnter}
+          onMouseLeave={primaryHandlers.onMouseLeave}
         >
           {primaryButtonText}
           <ArrowRight size={18} />
@@ -174,8 +148,8 @@ primaryButtonText="Pendo Solutions",
           id={secondaryButtonId}
           href={secondaryButtonLink}
           target="_blank" rel="noopener noreferrer"
-          onMouseEnter={handleSecondaryEnter}
-          onMouseLeave={handleSecondaryLeave}
+          onMouseEnter={secondaryHandlers.onMouseEnter}
+          onMouseLeave={secondaryHandlers.onMouseLeave}
         >
           {secondaryButtonText}
           <Calendar size={18} style={{ marginTop: '-3px' }} />

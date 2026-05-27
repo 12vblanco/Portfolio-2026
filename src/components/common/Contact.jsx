@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Heart } from '../../assets/icons/Heart';
 import { UpworkIcon } from '../../assets/icons/Upwork';
+import { LINKS } from '../../data/siteConfig';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -60,19 +61,19 @@ export const Contact = ({ onOpenTerms }) => {
         <Title>Let's connect</Title>
 
         <SocialLinks>
-          <SocialLink href="https://github.com/12vblanco" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+          <SocialLink href={LINKS.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
             <Github size={24} aria-hidden="true" />
           </SocialLink>
 
-          <SocialLink href="https://www.upwork.com/freelancers/victorblanco" target="_blank" rel="noopener noreferrer" aria-label="Upwork profile">
+          <SocialLink href={LINKS.upwork} target="_blank" rel="noopener noreferrer" aria-label="Upwork profile">
             <UpworkIcon />
           </SocialLink>
 
-          <SocialLink href="https://dribbble.com/Victor-Blanco" target="_blank" rel="noopener noreferrer" aria-label="Dribbble profile">
+          <SocialLink href={LINKS.dribbble} target="_blank" rel="noopener noreferrer" aria-label="Dribbble profile">
             <Dribbble size={24} aria-hidden="true" />
           </SocialLink>
 
-          <SocialLink id="calend-contact" href="https://calendly.com/12vblanco/30min" target="_blank" rel="noopener noreferrer" aria-label="Call Victor">
+          <SocialLink id="calend-contact" href={LINKS.calendly} target="_blank" rel="noopener noreferrer" aria-label="Call Victor">
             <PhoneCall size={24} aria-hidden="true" />
           </SocialLink>
         </SocialLinks>
@@ -91,7 +92,7 @@ export const Contact = ({ onOpenTerms }) => {
           <FooterRow>
             <Heart />
             <ExternalLink
-              href="https://www.upwork.com/freelancers/victorblanco"
+              href={LINKS.upwork}
               target="_blank" rel="noopener noreferrer"
             >
               VICTOR BLANCO

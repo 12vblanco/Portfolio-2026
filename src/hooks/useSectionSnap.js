@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { MOBILE_BP } from '../utils/constants';
 
 // ─── YOUR TUNING ZONE ────────────────────────────────────────────────────────
 const DESKTOP_SNAP_OFFSETS = {
@@ -13,7 +14,6 @@ const DEBOUNCE_MS    = 600;
 const MAX_NUDGE_PX   = 180;
 const THRESHOLD      = 0.55;
 const LENIS_DURATION = 1.2;
-const MOBILE_BP      = 768; // Anything below this gets no snapping
 // ─────────────────────────────────────────────────────────────────────────────
 
 export function useSectionSnap(lenisRef) {
