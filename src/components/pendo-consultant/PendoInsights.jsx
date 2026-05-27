@@ -286,7 +286,6 @@ const InsightItem = styled.div`
 const InsightCardHeader = styled.div`
   padding: 1.75rem 1.75rem 1.5rem;
   position: relative;
-  cursor: pointer;
   @media (max-width: 768px) { padding: 1.2; }
 `;
 
@@ -379,7 +378,7 @@ const InsightIntro = styled.p`
   @media (max-width: 768px) { font-size: 15px; }
 `;
 
-const InsightBody = styled.div` overflow: hidden; `;
+const InsightBody = styled.div``;
 
 const InsightBodyInner = styled.div`
   padding: 0 1.75rem 2rem;

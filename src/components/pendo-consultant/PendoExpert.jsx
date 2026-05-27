@@ -35,10 +35,6 @@ export const PendoExpert = () => {
   const badgeRefs    = useRef([]);
   const certifiedRef = useRef(null);
 
-  // const handleCalendlyClick = () => {
-  //   window.open('https://calendly.com/12vblanco/30min', '_blank', 'noopener,noreferrer');
-  // };
-
   useEffect(() => {
     badgeRefs.current = badgeRefs.current.slice(0, certImages.length);
 
@@ -218,9 +214,7 @@ export const PendoExpert = () => {
 
           <GraphContainer>
             <GraphImage src={pendoGraph} alt="Pendo Analytics Graph" />
-            <p style={{ fontStyle: 'italic', fontSize: '18px', marginTop: '1rem', fontWeight: '600' }}>
-              "Get measurable results faster"
-            </p>
+            <GraphCaption>"Get measurable results faster"</GraphCaption>
           </GraphContainer>
         </MiddleRow>
 
@@ -305,6 +299,7 @@ const Label = styled.span.attrs({ className: 'pendoExpert-Label' })`
   color: #282828;
   line-height: 1.2;
   font-weight: 800;
+  min-height: 1.2em;
 `;
 
 const Title = styled.h2.attrs({ className: 'pendoExpert-Title' })`
@@ -441,24 +436,6 @@ const DisabledLink = styled.span`
   cursor: default;
 `;
 
-// Calendly button that opens the link
-// const HireButton = styled.button`
-//   font-size: 20px;
-//   font-weight: 600;
-//   color: #FF3863;
-//   background: none;
-//   border: none;
-//   cursor: pointer;
-//   padding: 0;
-//   border-bottom: 1px solid transparent;
-//   transition: border-color 0.2s ease, opacity 0.2s ease;
-
-//   &:hover {
-//     border-bottom-color: #FF3863;
-//     opacity: 0.8;
-//   }
-// `;
-
 const GraphContainer = styled.div.attrs({ className: 'pendoExpert-GraphContainer' })`
   flex: 1;
   max-width: 500px;
@@ -543,4 +520,11 @@ const BadgeImg = styled.img.attrs({ className: 'pendoExpert-BadgeImg' })`
   height: 100%;
   object-fit: cover;
   transition: all 0.4s ease;
+`;
+
+const GraphCaption = styled.p.attrs({ className: 'pendoExpert-GraphCaption' })`
+  font-style: italic;
+  font-size: 18px;
+  margin-top: 1rem;
+  font-weight: 600;
 `;

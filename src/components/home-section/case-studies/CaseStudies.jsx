@@ -132,6 +132,9 @@ const LazyVideoCard = ({ study, index, hasAnimated, containerRef, isTablet, isCl
 
 /* ─── CaseStudies ─────────────────────────────────────────────────────────── */
 
+const CARD_WIDTH = 480;
+const GAP        = 64;
+
 const CaseStudies = () => {
   const containerRef   = useRef(null);
   const sectionRef     = useRef(null);
@@ -151,17 +154,13 @@ const CaseStudies = () => {
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  // ── Desktop scroll constants ──────────────────────────────────────────────
-  const CARD_WIDTH = 480;
-  const GAP        = 64;
-
   // ── Desktop: sync currentIndex with scroll position ───────────────────────
   const updateCurrentIndex = useCallback(() => {
     if (!containerRef.current || isTablet) return;
     const { scrollLeft } = containerRef.current;
     const newIndex = Math.round(scrollLeft / (CARD_WIDTH + GAP));
     setCurrentIndex(Math.min(Math.max(newIndex, 0), caseStudies.length - 1));
-  }, [CARD_WIDTH, GAP, isTablet]);
+  }, [isTablet]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -181,7 +180,7 @@ const CaseStudies = () => {
         behavior: 'smooth',
       });
     }
-  }, [isTablet, CARD_WIDTH, GAP]);
+  }, [isTablet]);
 
   const scrollToPrev = useCallback(() => {
     if (currentIndex > 0) scrollToCard(currentIndex - 1);
@@ -268,7 +267,7 @@ const CaseStudies = () => {
     if (!container) return;
     dragRef.current.isDragging = false;
     container.style.cursor = 'grab';
-    container.style.userSelect = 'none';
+    container.style.userSelect = '';
   }, [isTablet]);
 
   return (
@@ -791,17 +790,6 @@ const OverlayDescription = styled.p.attrs({ className: 'caseStudies-OverlayDescr
   }
 `;
 
-// const OverlayTags = styled.div.attrs({ className: 'caseStudies-OverlayTags' })`
-//   text-align: center;
-//   font-size: 16px;
-//   font-weight: 500;
-//   font-family: monospace;
-//   margin-bottom: 24px;
-//    @media (max-width: 426px) {
-//   font-size: 15px;
-//   letter-spacing: -.2px;
-//   }
-// `;
 const OverlayTags = styled.div.attrs({ className: 'caseStudies-OverlayTags' })`
 font-size: 16px;
   color: #fff;

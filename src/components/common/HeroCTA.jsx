@@ -254,8 +254,8 @@ const PrimaryButton = styled.a`
   }
 
   @media (max-width: 432px) {
-    max-width: 152px;
-      padding: 12px 9px 10px 9px;
+    min-width: 169px;
+    padding: 12px 9px 10px 9px;
     gap: 4px;
     letter-spacing: -.1px;
   }

@@ -1,7 +1,7 @@
 import { Menu } from 'lucide-react';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { AnimatedStars } from './AnimatedStars';
 import { DesktopNav } from './DesktopNav';
 import { MobileNav } from './MobileNav';
@@ -81,6 +81,12 @@ export const Navigation = ({ star1Ref, star2Ref, star3Ref }) => {
   );
 };
 
+const pulseScale = keyframes`
+  0%   { transform: scale(1);    border-color: #ff0037; }
+  50%  { transform: scale(1.02); border-color: #f40035; box-shadow: 0 0 15px rgba(255,56,99,0.5); }
+  100% { transform: scale(1);    border-color: #ff0037; }
+`;
+
 // Styled components (only those not already defined in subcomponents)
 const NavWrapper = styled.div`
   position: relative;
@@ -128,18 +134,13 @@ const CTA = styled.a`
   text-decoration: none;
   transition: all 0.4s ease, box-shadow 0.2s ease;
   border: 2px solid #282828;
-  animation: pulseScale 1.5s ease-in-out 6;
-  @keyframes pulseScale {
-    0% { transform: scale(1); border-color: #ff0037; }
-    50% { transform: scale(1.02); border-color: #f40035; box-shadow: 0 0 15px rgba(255,56,99,0.5); }
-    100% { transform: scale(1); border-color: #ff0037; }
-  }
+  animation: ${pulseScale} 1.5s ease-in-out 6;
   &:hover {
     box-shadow: 0 4px 15px rgba(255, 56, 99, 0.3);
     background: transparent;
     color: #ff3863;
     border: 2px solid #ff3863;
-    animation: pulseScale 1.5s ease-in-out 3;
+    animation: ${pulseScale} 1.5s ease-in-out 3;
   }
   @media (max-width: 968px) {
     display: none;

@@ -45,13 +45,12 @@ const PendoCTAContainer = styled.div`
 const PendoCTABox = styled.div`
   background: #282828;
   border-radius: 6px;
-  padding: 5cap 3rem;
+  padding: 4rem 3rem;
   text-align: center;
   @media (max-width: 768px) { padding: 2.5rem 1.5rem; }
 `;
 
 const PendoCTATitle = styled.h2`
-  font-family: 'Switzer', sans-serif;
   font-weight: 700;
   letter-spacing: -1px;
   color: #fffefa;
