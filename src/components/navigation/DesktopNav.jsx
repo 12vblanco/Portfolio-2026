@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const DesktopNav = ({ navItems, onHashClick }) => (
   <NavLinks>
@@ -27,26 +27,15 @@ const NavLinks = styled.div`
   }
 `;
 
-const NavLink = styled.a`
+const sharedNavLinkStyles = css`
   font-size: 20px;
   color: #282828;
   text-decoration: none;
   transition: color 0.2s ease;
   font-weight: 500;
   margin-top: 2px;
-  &:hover {
-    color: #ff3863;
-  }
+  &:hover { color: #ff3863; }
 `;
 
-const StyledNavLink = styled(Link)`
-  font-size: 20px;
-  color: #282828;
-  text-decoration: none;
-  transition: color 0.2s ease;
-  font-weight: 500;
-  margin-top: 2px;
-  &:hover {
-    color: #ff3863;
-  }
-`;
+const NavLink = styled.a`${sharedNavLinkStyles}`;
+const StyledNavLink = styled(Link)`${sharedNavLinkStyles}`;

@@ -295,7 +295,7 @@ const Subtitle = styled.p.attrs({ className: 'experience-Subtitle' })`
   margin-top: 2rem;
   opacity: 0;
   transform: translateX(50px);
-  animation: caseStudiesSubtitleIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+  animation: experienceSubtitleIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
 
   @media (max-width: 968px) {
     font-size: 18px;
@@ -303,7 +303,7 @@ const Subtitle = styled.p.attrs({ className: 'experience-Subtitle' })`
     margin-top: 0;
   }
 
-  @keyframes caseStudiesSubtitleIn {
+  @keyframes experienceSubtitleIn {
     to { opacity: 1; transform: translateX(0); }
   }
 `;
@@ -320,9 +320,8 @@ const TimelineContainer = styled.div`
   flex-direction: column;
   gap: 24px;
   max-width: 1400px;
-  margin: 0 auto;
   width: 100%;
-  margin: 4rem auto 2rem ;
+  margin: 4rem auto 2rem;
   @media (max-width: 968px) {
    
     padding: 2rem 4rem;
@@ -350,23 +349,7 @@ const TimelineLine = styled.div`
   }
 
 
-.TimelineLine::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 100%; /* or specific length */
-  background: linear-gradient(to bottom, #FF3863, #ff00cc);
-}
-
-/* For mobile adjustments */
-@media (max-width: 768px) {
-  .TimelineLine::before {
-    left: 76px; /* or 28px for smaller */
-    transform: none;
-  }
-}`;
+`;
 
 
 const TimelineItem = styled.div`

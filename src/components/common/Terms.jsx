@@ -319,10 +319,9 @@ const PanelHeader = styled.div`
 `;
 
 const PanelTitle = styled.h2`
-  font-family: 'Switzer', sans-serif !important;
-  font-weight: 700 !important;
+  font-weight: 700;
   letter-spacing: -1px !important;
-  color: #282828 !important;
+  color: #282828;
   margin: 0 !important;
   line-height: 1.2 !important;
 
@@ -381,8 +380,8 @@ const SectionTitle = styled.h5`
 
 const SubSectionTitle = styled.h6`
   margin: 1rem 0 0.4rem 0 !important;
-  font-weight: 600 !important;
-  color: #282828 !important;
+  font-weight: 600;
+  color: #282828;
 `;
 
 const Body = styled.p`

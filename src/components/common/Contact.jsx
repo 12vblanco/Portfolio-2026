@@ -178,7 +178,6 @@ const TermsTrigger = styled.button`
   border: none;
   padding: 0;
   cursor: pointer;
-  font-family: 'Switzer', sans-serif;
   font-size: 16px;
   font-weight: 500;
   color: #FF3863;

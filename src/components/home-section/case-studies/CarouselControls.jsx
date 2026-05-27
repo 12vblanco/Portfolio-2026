@@ -1,4 +1,4 @@
-// src/components/case-studies/CarouselControls.js
+// src/components/case-studies/CarouselControls.jsx
 import styled from 'styled-components';
 
 const CarouselControls = ({ onPrev, onNext, canScrollLeft, canScrollRight }) => {

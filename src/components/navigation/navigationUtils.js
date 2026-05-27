@@ -1,7 +1,7 @@
 import gsap from 'gsap';
 import { useEffect } from 'react';
 
-const r = (min, max) => min + Math.random() * (max - max);
+const r = (min, max) => min + Math.random() * (max - min);
 
 export const startFloat = (el) => {
   if (!el) return;
