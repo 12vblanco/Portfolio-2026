@@ -1,8 +1,9 @@
 import gsap from 'gsap';
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { LINKS } from '../../data/siteConfig';
 
-export const HeroStamp = ({ id, href = 'https://calendly.com/12vblanco/30min' }) => {
+export const HeroStamp = ({ id, href = LINKS.calendly }) => {
   const wrapperRef = useRef(null);
   const ringRef = useRef(null);
   const rotRef = useRef(0);

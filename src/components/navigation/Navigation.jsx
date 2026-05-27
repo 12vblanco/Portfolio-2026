@@ -1,5 +1,5 @@
 import { Menu } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { AnimatedStars } from './AnimatedStars';
@@ -7,6 +7,7 @@ import { DesktopNav } from './DesktopNav';
 import { MobileNav } from './MobileNav';
 import { scrollToElementCentered, useHoverRotation } from './navigationUtils';
 import { NavLogo } from './NavLogo';
+import { LINKS } from '../../data/siteConfig';
 
 export const Navigation = ({ star1Ref, star2Ref, star3Ref }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -15,7 +16,7 @@ export const Navigation = ({ star1Ref, star2Ref, star3Ref }) => {
   const isHomePage = location.pathname === '/';
   const isPendoPage = location.pathname === '/pendo-consultant';
 
-  const getNavItems = () => {
+  const navItems = useMemo(() => {
     if (isHomePage) {
       return [
         { label: 'Web Works', target: '#works', type: 'hash' },
@@ -35,9 +36,7 @@ export const Navigation = ({ star1Ref, star2Ref, star3Ref }) => {
       { label: 'Pendo', target: '/pendo-consultant', type: 'route' },
       { label: 'Experience', target: '/#experience', type: 'route' },
     ];
-  };
-
-  const navItems = getNavItems();
+  }, [isHomePage, isPendoPage]);
 
   const handleHashClick = (e, target) => {
     if (target.startsWith('#')) {
@@ -60,7 +59,7 @@ export const Navigation = ({ star1Ref, star2Ref, star3Ref }) => {
 
           <DesktopNav navItems={navItems} onHashClick={handleHashClick} />
 
-          <CTA id="calend-navCTA" href="https://calendly.com/12vblanco/30min" target="_blank" rel="noopener noreferrer">
+          <CTA id="calend-navCTA" href={LINKS.calendly} target="_blank" rel="noopener noreferrer">
             Let's Talk
           </CTA>
 

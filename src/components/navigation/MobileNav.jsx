@@ -7,6 +7,7 @@ import { MobileLogoScroller } from '../common/MobileLogoScroller';
 import { AnimatedStars } from './AnimatedStars';
 import { NavLogo } from './NavLogo';
 import { startFloat, useHoverRotation } from './navigationUtils';
+import { LINKS } from '../../data/siteConfig';
 
 export const MobileNav = ({ isOpen, onClose, navItems, isHomePage, onHashClick }) => {
   const mStar1Ref = useRef(null);
@@ -74,7 +75,7 @@ export const MobileNav = ({ isOpen, onClose, navItems, isHomePage, onHashClick }
           </MobilePendoLink>
         )}
 
-        <MobileCTA id="calend-mobileCTA" href="https://calendly.com/12vblanco/30min" onClick={onClose}>
+        <MobileCTA id="calend-mobileCTA" href={LINKS.calendly} onClick={onClose}>
           Let's Talk
         </MobileCTA>
 

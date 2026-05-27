@@ -3,6 +3,7 @@ import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { LINKS } from '../../data/siteConfig';
 import cert1 from '../../assets/pendoCert/cert1.png';
 import cert2 from '../../assets/pendoCert/cert2.png';
 import cert3 from '../../assets/pendoCert/cert3.png';
@@ -181,13 +182,13 @@ export const PendoExpert = () => {
           </HeaderLeft>
         <Subtitle>
           <strong>Certified Pendo developer</strong> and consultant with over two years hands-on experience.{' '}
-          <CallLink id="calend-pendo-expertCTA" 
-            href="https://calendly.com/12vblanco/30min" 
+          <CallLink id="calend-pendo-expertCTA"
+            href={LINKS.calendly}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => {
               e.preventDefault();
-              window.open('https://calendly.com/12vblanco/30min', '_blank', 'noopener,noreferrer');
+              window.open(LINKS.calendly, '_blank', 'noopener,noreferrer');
             }}
           >
             Book a call
@@ -222,7 +223,7 @@ export const PendoExpert = () => {
   {certImages.map((cert, i) => (
     <Badge key={i} ref={el => badgeRefs.current[i] = el}>
       <a
-        href="https://www.credly.com/users/victor-blanco.4783f91c"
+        href={LINKS.credly}
         target="_blank"
         rel="noopener noreferrer"
         style={{ display: 'block', textDecoration: 'none' }}

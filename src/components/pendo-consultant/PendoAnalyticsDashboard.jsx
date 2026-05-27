@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { CTAButton } from '../common/CTAButton';
+import { LINKS } from '../../data/siteConfig';
 
 // ---------------------------------------------------------------------------
 // Chart.js is loaded dynamically so it doesn't bloat your main bundle.
@@ -332,10 +333,10 @@ export const PendoAnalyticsDashboard = () => {
             <CTASub>Customise your own data dashboard pulling data directly from Pendo</CTASub>
           </CTAText>
           <CTAActions>
-            <CTAButton id="calend-pendo-analyticsCTA" href="https://calendly.com/12vblanco/30min" target="_blank" rel="noopener noreferrer">
+            <CTAButton id="calend-pendo-analyticsCTA" href={LINKS.calendly} target="_blank" rel="noopener noreferrer">
               Book a free call
             </CTAButton>
-            <CTAButton variant="secondary" href="https://www.upwork.com/freelancers/victorblanco" target="_blank" rel="noopener noreferrer">
+            <CTAButton variant="secondary" href={LINKS.upwork} target="_blank" rel="noopener noreferrer">
               Upwork profile
             </CTAButton>
           </CTAActions>

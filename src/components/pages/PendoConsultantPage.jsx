@@ -13,65 +13,15 @@ import { PendoInsights } from '../pendo-consultant/PendoInsights.jsx';
 gsap.registerPlugin(ScrollTrigger);
 
 export const PendoConsultantPage = ({ onOpenTerms }) => {
-  const heroRef = useRef(null);
-  const line1Ref = useRef(null);
-  const line2Ref = useRef(null);
   const star1Ref = useRef(null);
   const star2Ref = useRef(null);
   const star3Ref = useRef(null);
-  const servicesRef = useRef(null);
   const ctaRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
     const ctx = gsap.context(() => {
-      // Hero fade in animation
-      if (heroRef.current) {
-        gsap.fromTo(heroRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.01 }
-        );
-      }
-
-      // Animate the title lines
-      if (line1Ref.current) {
-        gsap.to(line1Ref.current, {
-          y: 0,
-          duration: 0.6,
-          delay: 0.2,
-          ease: 'power3.out',
-        });
-      }
-      
-      if (line2Ref.current) {
-        gsap.to(line2Ref.current, {
-          y: 0,
-          duration: 0.6,
-          delay: 0.35,
-          ease: 'power3.out',
-        });
-      }
-
-      // Services stagger
-      if (servicesRef.current) {
-        ScrollTrigger.create({
-          trigger: servicesRef.current,
-          start: 'top 75%',
-          once: true,
-          onEnter: () => {
-            if (servicesRef.current) {
-              gsap.fromTo(
-                servicesRef.current.querySelectorAll('[data-service]'),
-                { y: 24, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: 'power2.out' }
-              );
-            }
-          },
-        });
-      }
-
-      // CTA
       if (ctaRef.current) {
         ScrollTrigger.create({
           trigger: ctaRef.current,
@@ -105,9 +55,6 @@ export const PendoConsultantPage = ({ onOpenTerms }) => {
       />
 
       <PendoHero
-        heroRef={heroRef}
-        line1Ref={line1Ref}
-        line2Ref={line2Ref}
         star1Ref={star1Ref}
         star2Ref={star2Ref}
         star3Ref={star3Ref}

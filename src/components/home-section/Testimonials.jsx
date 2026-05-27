@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import ReviewCard from './ReviewCard';
 import { reviewsData } from './reviewsData';
@@ -46,13 +46,15 @@ const Testimonials = () => {
   // centreId follows currentIndex but with a delay so the white-card style
   // cross-fades at the midpoint of the slide animation rather than snapping.
   const [centreId, setCentreId] = useState(reviewsData[0]?.id);
+  const [isMobile, setIsMobile] = useState(false);
+
+  const scheduleStyleSwap = useCallback((nextIndex) => {
+    setTimeout(() => setCentreId(reviewsData[nextIndex].id), STYLE_SWAP_DELAY_MS);
+  }, []);
 
   const advanceTo = (nextIndex) => {
     setCurrentIndex(nextIndex);
-    // Schedule the style swap to fire at the midpoint of the CSS transition
-    setTimeout(() => {
-      setCentreId(reviewsData[nextIndex].id);
-    }, STYLE_SWAP_DELAY_MS);
+    scheduleStyleSwap(nextIndex);
   };
 
   // Auto-advance
@@ -60,12 +62,12 @@ const Testimonials = () => {
     const interval = setInterval(() => {
       setCurrentIndex(prev => {
         const next = (prev + 1) % reviewsData.length;
-        setTimeout(() => setCentreId(reviewsData[next].id), STYLE_SWAP_DELAY_MS);
+        scheduleStyleSwap(next);
         return next;
       });
     }, 4000);
     return () => clearInterval(interval);
-  }, []);
+  }, [scheduleStyleSwap]);
 
   // Header scroll animation
   useEffect(() => {
@@ -92,7 +94,6 @@ const Testimonials = () => {
     return slot;
   };
 
-  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 768);
     check();
