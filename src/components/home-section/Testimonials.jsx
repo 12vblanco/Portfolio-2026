@@ -214,6 +214,11 @@ const Dot = styled.button.attrs({ className: 'testimonials-Dot' })`
   &:hover {
     background: ${p => p.$active ? '#FF3863' : 'rgba(255,255,255,0.5)'};
   }
+
+  &:focus-visible {
+    outline: 2px solid #FF3863;
+    outline-offset: 2px;
+  }
 `;
 
 const Scene = styled.div.attrs({ className: 'testimonials-Scene' })`

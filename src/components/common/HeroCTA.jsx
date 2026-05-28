@@ -158,7 +158,7 @@ export const HeroCTA = ({
       </ButtonGroup>
 
       <TrustBadge>
-        <AvatarGroup>
+        <AvatarGroup aria-hidden="true">
           {AVATARS.map(({ color, first }, i) => (
             <AvatarRing key={i} $first={first}>
               <AvatarInner $color={color} />

@@ -228,7 +228,7 @@ export const PendoExpert = () => {
         rel="noopener noreferrer"
         style={{ display: 'block', textDecoration: 'none' }}
       >
-        <BadgeImg src={cert.src} alt={cert.alt} />
+        <BadgeImg src={cert.src} alt={cert.alt} loading="lazy" />
       </a>
     </Badge>
   ))}

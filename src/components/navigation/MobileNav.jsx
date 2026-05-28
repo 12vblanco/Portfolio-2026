@@ -9,13 +9,30 @@ import { NavCTA } from './NavCTA';
 import { NavLogo } from './NavLogo';
 import { startFloat, useHoverRotation } from './navigationUtils';
 
-export const MobileNav = ({ isOpen, onClose, navItems, isHomePage, onHashClick }) => {
+export const MobileNav = ({ isOpen, onClose, navItems, isHomePage, onHashClick, triggerRef }) => {
   const mStar1Ref = useRef(null);
   const mStar2Ref = useRef(null);
   const mStar3Ref = useRef(null);
   const mobileStarRefs = [mStar1Ref, mStar2Ref, mStar3Ref];
+  const closeButtonRef = useRef(null);
+  const wasOpen = useRef(false);
 
   useHoverRotation([mStar1Ref, mStar2Ref, mStar3Ref]);
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen) {
+      wasOpen.current = true;
+      closeButtonRef.current?.focus();
+    } else if (wasOpen.current) {
+      wasOpen.current = false;
+      triggerRef?.current?.focus();
+    }
+  }, [isOpen, triggerRef]);
 
   useEffect(() => {
     if (isOpen) {
@@ -41,7 +58,7 @@ export const MobileNav = ({ isOpen, onClose, navItems, isHomePage, onHashClick }
     <>
       <MobileNavOverlay $isOpen={isOpen} onClick={onClose} />
       <MobileNavContainer $isOpen={isOpen}>
-        <CloseButton onClick={onClose}>
+        <CloseButton ref={closeButtonRef} onClick={onClose} aria-label="Close menu">
           <X size={31} aria-hidden="true" />
         </CloseButton>
 
@@ -125,6 +142,11 @@ const CloseButton = styled.button`
   cursor: pointer;
   color: #282828;
   padding: 4px;
+  &:focus-visible {
+    outline: 2px solid #ff3863;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
 `;
 
 const sharedNavLinkStyles = `

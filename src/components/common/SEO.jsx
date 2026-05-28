@@ -14,11 +14,11 @@ export const SEO = ({ title, description, canonical, ogTitle, ogDescription, ogI
     <meta property="og:image" content={ogImage || 'https://victorblancoweb.com/og-image.jpg'} />
 
     {/* Twitter */}
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonical} />
-    <meta property="twitter:title" content={ogTitle || title} />
-    <meta property="twitter:description" content={ogDescription || description} />
-    <meta property="twitter:image" content={ogImage || 'https://victorblancoweb.com/og-image.jpg'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonical} />
+    <meta name="twitter:title" content={ogTitle || title} />
+    <meta name="twitter:description" content={ogDescription || description} />
+    <meta name="twitter:image" content={ogImage || 'https://victorblancoweb.com/og-image.jpg'} />
 
     {/* Structured data — accepts single object or array */}
     {structuredData && (

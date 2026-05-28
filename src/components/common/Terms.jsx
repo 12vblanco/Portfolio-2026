@@ -11,7 +11,6 @@ export const Terms = ({ open, onClose }) => {
     day: 'numeric', month: 'long', year: 'numeric',
   });
 
-  // Scroll into view when opened
   useEffect(() => {
     if (open && panelRef.current) {
       setTimeout(() => {
@@ -19,6 +18,13 @@ export const Terms = ({ open, onClose }) => {
       }, 150);
     }
   }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const handleKeyDown = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [open, onClose]);
 
   if (!open) return null;
 
