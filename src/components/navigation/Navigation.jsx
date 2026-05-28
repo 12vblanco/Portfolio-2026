@@ -1,11 +1,11 @@
 import { Menu } from 'lucide-react';
 import { useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
-import { LINKS } from '../../data/siteConfig';
+import styled from 'styled-components';
 import { AnimatedStars } from './AnimatedStars';
 import { DesktopNav } from './DesktopNav';
 import { MobileNav } from './MobileNav';
+import { NavCTA } from './NavCTA';
 import { scrollToElementCentered, useHoverRotation } from './navigationUtils';
 import { NavLogo } from './NavLogo';
 
@@ -61,9 +61,7 @@ export const Navigation = () => {
 
           <DesktopNav navItems={navItems} onHashClick={handleHashClick} />
 
-          <CTA id="calend-navCTA" href={LINKS.calendly} target="_blank" rel="noopener noreferrer">
-            Let's Talk
-          </CTA>
+          <NavCTA id="calend-navCTA" />
 
           <MobileMenuButton onClick={() => setMobileOpen(true)}>
             <Menu size={34} aria-hidden="true" />
@@ -82,13 +80,6 @@ export const Navigation = () => {
   );
 };
 
-const pulseScale = keyframes`
-  0%   { transform: scale(1);    border-color: #ff0037; }
-  50%  { transform: scale(1.02); border-color: #f40035; box-shadow: 0 0 15px rgba(255,56,99,0.5); }
-  100% { transform: scale(1);    border-color: #ff0037; }
-`;
-
-// Styled components (only those not already defined in subcomponents)
 const NavWrapper = styled.div`
   position: relative;
   z-index: 1000;
@@ -123,31 +114,6 @@ const LogoWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-`;
-
-const CTA = styled.a`
-  padding: 18px 28px 15px 28px;
-  background: #282828;
-  color: #ffffff;
-  border-radius: 50px;
-  line-height: 1;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 1;
-  text-decoration: none;
-  transition: all 0.4s ease, box-shadow 0.2s ease;
-  border: 2px solid #282828;
-  animation: ${pulseScale} 1.5s ease-in-out 6;
-  &:hover {
-    box-shadow: 0 4px 15px rgba(255, 56, 99, 0.3);
-    background: transparent;
-    color: #ff3863;
-    border: 2px solid #ff3863;
-    animation: ${pulseScale} 1.5s ease-in-out 3;
-  }
-  @media (max-width: 968px) {
-    display: none;
-  }
 `;
 
 const MobileMenuButton = styled.button`

@@ -6,11 +6,11 @@ const baseStyles = css`
   align-items: center;
   justify-content: center;
   min-width: 199px;
-  padding: 8px 18px;
-  border-radius: 100px;
+  padding: 10px 16px 8px;
+  border-radius: 50px;
   font-family: 'Switzer', sans-serif;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
   border: 2px solid;
   cursor: pointer;
