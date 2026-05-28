@@ -49,8 +49,8 @@ export const ctaData = {
 };
 
 export const pageMetadata = {
-  title: 'Pendo Consultant | Installation, Audit, Guides & Analytics | Victor Blanco',
-  description: 'Certified freelance Pendo consultant helping SaaS teams with Pendo installation, audits, in-app guides, and product analytics reporting. Based in Edinburgh, available worldwide.',
+  title: 'Certified Pendo Consultant Edinburgh | Victor Blanco',
+  description: 'Certified Pendo consultant for SaaS teams. Installation, audits, in-app guides and product analytics. Edinburgh-based, available worldwide. Book a free call.',
   canonical: 'https://victorblancoweb.com/pendo-consultant',
   ogTitle: 'Pendo Consultant | Victor Blanco',
   ogDescription: 'Certified Pendo consultant helping SaaS teams install Pendo correctly, fix broken setups, build in-app guides, and create product analytics dashboards that actually get used.',
@@ -124,6 +124,53 @@ export const pendoStructuredData = {
       }
     ]
   }
+};
+
+export const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does a Pendo consultant do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A Pendo consultant helps SaaS companies install, audit, and optimise their Pendo setup. This includes configuring the Pendo snippet, building in-app guides and onboarding flows, setting up analytics dashboards, and fixing broken or incomplete tracking."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you offer a free initial consultation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. I offer a free 30-minute call to discuss your Pendo setup, goals, and how I can help. You can book directly via Calendly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are you a certified Pendo expert?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. I hold multiple Pendo certifications including Pendo Admin and Pendo for Product. I have worked with SaaS teams on Pendo implementation, auditing, and optimisation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you work with clients outside Edinburgh?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. I work with SaaS companies worldwide. All consulting is done remotely, so location is no barrier. I am based in Edinburgh, Scotland, UK."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is included in a Pendo audit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A Pendo audit covers your full installation: snippet configuration, event tracking coverage, funnel setup, guide performance, data layer quality, and account structure. You will receive a prioritised action list of what to fix and how."
+      }
+    }
+  ]
 };
 
 export const insightsStructuredData = {
