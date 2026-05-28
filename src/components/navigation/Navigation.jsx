@@ -14,6 +14,7 @@ export const Navigation = () => {
   const navStar1Ref = useRef(null);
   const navStar2Ref = useRef(null);
   const navStar3Ref = useRef(null);
+  const menuButtonRef = useRef(null);
   const location = useLocation();
 
   const isHomePage = location.pathname === '/';
@@ -63,7 +64,7 @@ export const Navigation = () => {
 
           <NavCTA id="calend-navCTA" />
 
-          <MobileMenuButton onClick={() => setMobileOpen(true)}>
+          <MobileMenuButton ref={menuButtonRef} onClick={() => setMobileOpen(true)} aria-label="Open menu">
             <Menu size={34} aria-hidden="true" />
           </MobileMenuButton>
         </NavContainer>
@@ -75,6 +76,7 @@ export const Navigation = () => {
         navItems={navItems}
         isHomePage={isHomePage}
         onHashClick={handleHashClick}
+        triggerRef={menuButtonRef}
       />
     </>
   );
@@ -126,5 +128,10 @@ const MobileMenuButton = styled.button`
   padding-right: 4px;
   @media (max-width: 968px) {
     display: block;
+  }
+  &:focus-visible {
+    outline: 2px solid #ff3863;
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 `;

@@ -145,6 +145,8 @@ export const Experience = () => {
                   $expanded={isExpanded}
                   $side={exp.side}
                   onClick={() => toggle(index)}
+                  type="button"
+                  aria-expanded={isExpanded}
                 >
                   <CardHeader>
                     <TitleSection>
@@ -351,12 +353,14 @@ const Dot = styled.div`
   }
 `;
 
-const Card = styled.div`
+const Card = styled.button`
   width: calc(50% - 24px);
   background: #FFFEFA;
   border-radius: 24px;
   padding: 22px 24px;
   border: 1px solid ${p => p.$expanded ? '#FF3863' : '#e5e5e5'};
+  font-family: inherit;
+  text-align: left;
   box-shadow: ${p => p.$expanded
     ? '0 20px 40px rgba(255, 56, 99, 0.15)'
     : '0 4px 15px rgba(40, 40, 40, 0.03)'};
@@ -371,6 +375,11 @@ const Card = styled.div`
   &:hover {
     box-shadow: 0 8px 25px rgba(40, 40, 40, 0.08);
     border-color: #FF3863;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #FF3863;
+    outline-offset: 2px;
   }
 
 @media (max-width: 968px) {    width: calc(100% - 36px);
