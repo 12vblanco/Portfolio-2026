@@ -3,9 +3,9 @@ import { X } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { LINKS } from '../../data/siteConfig';
 import { MobileLogoScroller } from '../common/MobileLogoScroller';
 import { AnimatedStars } from './AnimatedStars';
+import { NavCTA } from './NavCTA';
 import { NavLogo } from './NavLogo';
 import { startFloat, useHoverRotation } from './navigationUtils';
 
@@ -75,9 +75,7 @@ export const MobileNav = ({ isOpen, onClose, navItems, isHomePage, onHashClick }
           </MobilePendoLink>
         )}
 
-        <MobileCTA id="calend-mobileCTA" href={LINKS.calendly} onClick={onClose}>
-          Let's Talk
-        </MobileCTA>
+        <NavCTA id="calend-mobileCTA" onClick={onClose} mobile />
 
         <MobileLogoScroller />
       </MobileNavContainer>
@@ -171,20 +169,3 @@ const MobileLogoWrapper = styled.div`
   margin-bottom: 0.5rem;
 `;
 
-const MobileCTA = styled.a`
-  padding: 18px 28px 15px 28px;
-  background: #282828;
-  color: #ffffff;
-  border-radius: 50px;
-  line-height: 1;
-  font-size: 18px;
-  font-weight: 600;
-  text-decoration: none;
-  border: 2px solid #282828;
-  transition: all 0.3s ease;
-  &:hover {
-    background: transparent;
-    color: #ff3863;
-    border-color: #ff3863;
-  }
-`;
