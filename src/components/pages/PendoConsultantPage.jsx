@@ -5,7 +5,7 @@ import { ConsentBanner } from '../common/ConsentBanner.jsx';
 import { Contact } from '../common/Contact.jsx';
 import { SEO } from '../common/SEO.jsx';
 import { PendoCTA } from '../pendo-consultant/PendoCTA.jsx';
-import { insightsStructuredData, pageMetadata, pendoStructuredData } from '../pendo-consultant/pendoData.js';
+import { faqStructuredData, insightsStructuredData, pageMetadata, pendoStructuredData } from '../pendo-consultant/pendoData.js';
 import { PendoExpert } from '../pendo-consultant/PendoExpert.jsx';
 import { PendoHero } from '../pendo-consultant/PendoHero.jsx';
 import { PendoInsights } from '../pendo-consultant/PendoInsights.jsx';
@@ -48,7 +48,7 @@ export const PendoConsultantPage = ({ onOpenTerms }) => {
         ogTitle={pageMetadata.ogTitle}
         ogDescription={pageMetadata.ogDescription}
         ogImage={pageMetadata.ogImage}
-        structuredData={[pendoStructuredData, insightsStructuredData]}
+        structuredData={[pendoStructuredData, insightsStructuredData, faqStructuredData]}
       />
 
       <PendoHero />
