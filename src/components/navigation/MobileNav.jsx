@@ -3,11 +3,11 @@ import { X } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { LINKS } from '../../data/siteConfig';
 import { MobileLogoScroller } from '../common/MobileLogoScroller';
 import { AnimatedStars } from './AnimatedStars';
 import { NavLogo } from './NavLogo';
 import { startFloat, useHoverRotation } from './navigationUtils';
-import { LINKS } from '../../data/siteConfig';
 
 export const MobileNav = ({ isOpen, onClose, navItems, isHomePage, onHashClick }) => {
   const mStar1Ref = useRef(null);
@@ -15,7 +15,7 @@ export const MobileNav = ({ isOpen, onClose, navItems, isHomePage, onHashClick }
   const mStar3Ref = useRef(null);
   const mobileStarRefs = [mStar1Ref, mStar2Ref, mStar3Ref];
 
-  useHoverRotation(mobileStarRefs);
+  useHoverRotation([mStar1Ref, mStar2Ref, mStar3Ref]);
 
   useEffect(() => {
     if (isOpen) {
@@ -46,7 +46,7 @@ export const MobileNav = ({ isOpen, onClose, navItems, isHomePage, onHashClick }
         </CloseButton>
 
         <MobileLogoWrapper>
-          <AnimatedStars starRefs={mobileStarRefs} />
+          <AnimatedStars star1Ref={mStar1Ref} star2Ref={mStar2Ref} star3Ref={mStar3Ref} />
           <NavLogo isHomePage={isHomePage} variant="mobile" />
         </MobileLogoWrapper>
 
@@ -172,10 +172,11 @@ const MobileLogoWrapper = styled.div`
 `;
 
 const MobileCTA = styled.a`
-  padding: 12px 28px;
+  padding: 18px 28px 15px 28px;
   background: #282828;
   color: #ffffff;
   border-radius: 50px;
+  line-height: 1;
   font-size: 18px;
   font-weight: 600;
   text-decoration: none;

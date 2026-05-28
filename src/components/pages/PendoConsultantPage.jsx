@@ -13,9 +13,6 @@ import { PendoInsights } from '../pendo-consultant/PendoInsights.jsx';
 gsap.registerPlugin(ScrollTrigger);
 
 export const PendoConsultantPage = ({ onOpenTerms }) => {
-  const star1Ref = useRef(null);
-  const star2Ref = useRef(null);
-  const star3Ref = useRef(null);
   const ctaRef = useRef(null);
 
   useEffect(() => {
@@ -54,11 +51,7 @@ export const PendoConsultantPage = ({ onOpenTerms }) => {
         structuredData={[pendoStructuredData, insightsStructuredData]}
       />
 
-      <PendoHero
-        star1Ref={star1Ref}
-        star2Ref={star2Ref}
-        star3Ref={star3Ref}
-      />
+      <PendoHero />
       <PendoExpert />
       <PendoInsights /> 
       <PendoCTA ref={ctaRef} />

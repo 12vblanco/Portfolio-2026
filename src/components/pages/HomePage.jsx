@@ -7,7 +7,7 @@ import { Hero } from '../home-section/Hero.jsx';
 import Testimonials from '../home-section/Testimonials';
 
 
-export const HomePage = ({ star1Ref, star2Ref, star3Ref, onOpenTerms }) => {
+export const HomePage = ({ onOpenTerms }) => {
 
 
 
@@ -46,7 +46,7 @@ export const HomePage = ({ star1Ref, star2Ref, star3Ref, onOpenTerms }) => {
   }}
 />
 
-      <Hero star1Ref={star1Ref} star2Ref={star2Ref} star3Ref={star3Ref} />
+      <Hero />
       <ConsentBanner onOpenTerms={onOpenTerms} />
       <CaseStudies />
       <Experience />
