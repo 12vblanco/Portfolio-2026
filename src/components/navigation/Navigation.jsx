@@ -1,16 +1,19 @@
 import { Menu } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
+import { LINKS } from '../../data/siteConfig';
 import { AnimatedStars } from './AnimatedStars';
 import { DesktopNav } from './DesktopNav';
 import { MobileNav } from './MobileNav';
 import { scrollToElementCentered, useHoverRotation } from './navigationUtils';
 import { NavLogo } from './NavLogo';
-import { LINKS } from '../../data/siteConfig';
 
-export const Navigation = ({ star1Ref, star2Ref, star3Ref }) => {
+export const Navigation = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navStar1Ref = useRef(null);
+  const navStar2Ref = useRef(null);
+  const navStar3Ref = useRef(null);
   const location = useLocation();
 
   const isHomePage = location.pathname === '/';
@@ -45,15 +48,14 @@ export const Navigation = ({ star1Ref, star2Ref, star3Ref }) => {
     }
   };
 
-  const desktopStarRefs = [star1Ref, star2Ref, star3Ref];
-  useHoverRotation(desktopStarRefs);
+  useHoverRotation([navStar1Ref, navStar2Ref, navStar3Ref]);
 
   return (
     <>
       <NavWrapper>
         <NavContainer>
           <LogoWrapper>
-            <AnimatedStars starRefs={desktopStarRefs} />
+            <AnimatedStars star1Ref={navStar1Ref} star2Ref={navStar2Ref} star3Ref={navStar3Ref} />
             <NavLogo isHomePage={isHomePage} />
           </LogoWrapper>
 
@@ -124,12 +126,14 @@ const LogoWrapper = styled.div`
 `;
 
 const CTA = styled.a`
-  padding: 12px 14px;
+  padding: 18px 28px 15px 28px;
   background: #282828;
   color: #ffffff;
   border-radius: 50px;
+  line-height: 1;
   font-size: 18px;
   font-weight: 600;
+  line-height: 1;
   text-decoration: none;
   transition: all 0.4s ease, box-shadow 0.2s ease;
   border: 2px solid #282828;
