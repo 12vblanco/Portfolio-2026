@@ -17,7 +17,7 @@ export const HeroSection = styled.section`
 `;
 
 export const HeroContainer = styled.div`
-  max-width: ${p => p.$maxWidth || '920px'};
+  max-width: ${p => p.$maxWidth || '986px'};
   min-height: 426px;
   margin: 0 auto;
   padding: 0 32px;
