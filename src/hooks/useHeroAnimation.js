@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { popStar, popStarBig, r } from '../utils/heroAnimationUtils';
 
 export const useHeroAnimation = () => {
@@ -11,8 +11,12 @@ export const useHeroAnimation = () => {
   const star2Ref = useRef(null);
   const star3Ref = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      // Set initial states here (not in CSS) so crawlers see the content
+      gsap.set([line1Ref.current, line2Ref.current], { y: '105%' });
+      if (line3Ref.current) gsap.set(line3Ref.current, { opacity: 0, y: 20 });
+
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
       tl

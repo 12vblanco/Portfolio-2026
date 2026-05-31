@@ -110,6 +110,8 @@ export const PendoExpert = () => {
       });
 
       // ── Badges ───────────────────────────────────────────────────────────
+      gsap.set(badgeRefs.current.filter(Boolean), { opacity: 0, scale: 0.8 });
+
       ScrollTrigger.create({
         trigger: badgesRef.current,
         start: 'top 90%',
@@ -414,7 +416,6 @@ const FeatureTitle = styled.h3.attrs({ className: 'pendoExpert-FeatureTitle' })`
   color: #282828;
   margin: 0;
   line-height: 1.3;
-  opacity: 0;
 `;
 
 const FeatureText = styled.p.attrs({ className: 'pendoExpert-FeatureText' })`
@@ -422,7 +423,6 @@ const FeatureText = styled.p.attrs({ className: 'pendoExpert-FeatureText' })`
   line-height: 1.6;
   color: #555;
   margin: 0;
-  opacity: 0;
   max-width: 682px;
 
   @media (max-width: 968px) {
@@ -502,8 +502,6 @@ const Badge = styled.div.attrs({ className: 'pendoExpert-Badge' })`
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(40, 40, 40, 0.2);
   flex-shrink: 0;
-  opacity: 0;
-  transform: scale(0.8);
 
   @media (max-width: 1331px) {
     width: 100px;

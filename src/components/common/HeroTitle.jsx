@@ -89,7 +89,6 @@ const TitleLine = styled.span`
 
 const TitleText = styled.span`
   display: inline-block;
-  transform: translateY(105%);
   font-size: clamp(2.5rem, 8vw, 5.5rem);
 `;
 
