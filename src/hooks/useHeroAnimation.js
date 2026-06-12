@@ -1,6 +1,7 @@
 import gsap from 'gsap';
 import { useLayoutEffect, useRef } from 'react';
 import { popStar, popStarBig, r } from '../utils/heroAnimationUtils';
+import { prefersReducedMotion } from '../utils/motion';
 
 export const useHeroAnimation = () => {
   const heroRef  = useRef(null);
@@ -12,6 +13,8 @@ export const useHeroAnimation = () => {
   const star3Ref = useRef(null);
 
   useLayoutEffect(() => {
+    if (prefersReducedMotion()) return;
+
     const ctx = gsap.context(() => {
       // Set initial states here (not in CSS) so crawlers see the content
       gsap.set([line1Ref.current, line2Ref.current], { y: '105%' });

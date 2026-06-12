@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import { trackEvent } from '../../utils/analytics';
 
 const baseStyles = css`
   display: inline-flex;
@@ -54,12 +55,20 @@ const SecondaryA = styled.a`${secondaryStyles}`;
 const SecondaryLink = styled(Link)`${secondaryStyles}`;
 
 export const CTAButton = ({ variant = 'primary', href, to, children, onClick, ...rest }) => {
+  const handleClick = (e) => {
+    trackEvent('cta_click', {
+      cta_text: typeof children === 'string' ? children : undefined,
+      cta_url: href || to,
+    });
+    onClick?.(e);
+  };
+
   if (variant === 'primary') {
     return to
-      ? <PrimaryLink to={to} onClick={onClick} {...rest}>{children}</PrimaryLink>
-      : <PrimaryA href={href} onClick={onClick} {...rest}>{children}</PrimaryA>;
+      ? <PrimaryLink to={to} onClick={handleClick} {...rest}>{children}</PrimaryLink>
+      : <PrimaryA href={href} onClick={handleClick} {...rest}>{children}</PrimaryA>;
   }
   return to
-    ? <SecondaryLink to={to} onClick={onClick} {...rest}>{children}</SecondaryLink>
-    : <SecondaryA href={href} onClick={onClick} {...rest}>{children}</SecondaryA>;
+    ? <SecondaryLink to={to} onClick={handleClick} {...rest}>{children}</SecondaryLink>
+    : <SecondaryA href={href} onClick={handleClick} {...rest}>{children}</SecondaryA>;
 };

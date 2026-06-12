@@ -1,6 +1,7 @@
 import gsap from 'gsap';
 import { useEffect, useRef } from 'react';
 import { popStar, popStarBig, r } from '../utils/heroAnimationUtils';
+import { prefersReducedMotion } from '../utils/motion';
 
 export const usePendoHeroAnimation = () => {
   const heroRef  = useRef(null);
@@ -11,6 +12,8 @@ export const usePendoHeroAnimation = () => {
   const star3Ref = useRef(null);
 
   useEffect(() => {
+    if (prefersReducedMotion()) return;
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 

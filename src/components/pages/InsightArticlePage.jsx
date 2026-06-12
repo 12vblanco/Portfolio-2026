@@ -3,6 +3,7 @@ import { Fragment, useEffect, useRef } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { LINKS } from '../../data/siteConfig';
+import { prefersReducedMotion } from '../../utils/motion';
 import { ConsentBanner } from '../common/ConsentBanner.jsx';
 import { Contact } from '../common/Contact.jsx';
 import { SEO } from '../common/SEO.jsx';
@@ -35,6 +36,8 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
 
+    if (prefersReducedMotion()) return;
+
     const ctx = gsap.context(() => {
       if (cardRef.current) {
         gsap.fromTo(
@@ -51,6 +54,7 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
   if (!article) return <Navigate to="/pendo-consultant" replace />;
 
   const canonical = `${LINKS.site}/insights/${article.slug}`;
+  const ogImage = `${LINKS.site}/og/${article.slug}.png`;
   const [authorName, authorRole] = (article.name || 'Victor Blanco').split(' - ');
 
   const articleStructuredData = {
@@ -60,7 +64,7 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
     "description": article.meta.description,
     "url": canonical,
     "mainEntityOfPage": { "@type": "WebPage", "@id": canonical },
-    "image": "https://victorblancoweb.com/og-image-pendo.png",
+    "image": ogImage,
     "datePublished": article.datePublished,
     "dateModified": article.dateModified,
     "keywords": article.pills,
@@ -99,13 +103,19 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
         canonical={canonical}
         ogType="article"
         ogTitle={article.title}
-        ogImage="https://victorblancoweb.com/og-image-pendo.png"
+        ogImage={ogImage}
         structuredData={[articleStructuredData, breadcrumbStructuredData]}
       />
 
       <ArticleSection>
         <ArticleContainer>
-          <BackLink to="/pendo-consultant#insights">← All Pendo insights</BackLink>
+          <Crumbs aria-label="Breadcrumb">
+            <CrumbLink to="/">Home</CrumbLink>
+            <CrumbDivider aria-hidden="true">/</CrumbDivider>
+            <CrumbLink to="/pendo-consultant#insights">Pendo Insights</CrumbLink>
+            <CrumbDivider aria-hidden="true">/</CrumbDivider>
+            <CrumbCurrent aria-current="page">{article.tag}</CrumbCurrent>
+          </Crumbs>
 
           <ArticleCard ref={cardRef} as="article">
 
@@ -272,15 +282,21 @@ const ArticleContainer = styled.div`
   @media (max-width: 426px) { padding: 0 0.6rem; }
 `;
 
-const BackLink = styled(Link)`
-  display: inline-block;
+const Crumbs = styled.nav`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
   font-family: ${MONO};
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #282828;
   margin-bottom: 1.5rem;
+`;
+
+const CrumbLink = styled(Link)`
+  color: #282828;
   transition: color 0.2s ease;
   &:hover { color: #FF3863; }
   &:focus-visible {
@@ -288,6 +304,14 @@ const BackLink = styled(Link)`
     outline-offset: 2px;
     border-radius: 4px;
   }
+`;
+
+const CrumbDivider = styled.span`
+  color: #ccc;
+`;
+
+const CrumbCurrent = styled.span`
+  color: #FF3863;
 `;
 
 const ArticleCard = styled.div`

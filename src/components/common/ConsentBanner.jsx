@@ -89,6 +89,8 @@ export const ConsentBanner = ({ onOpenTerms }) => {
 
   const handleAccept = () => {
     localStorage.setItem('cookiesAccepted', 'true');
+    // Analytics are consent-gated: the loader is defined in index.html
+    window.__loadAnalytics?.();
     setVisible(false);
   };
 

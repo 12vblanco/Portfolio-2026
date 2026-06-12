@@ -66,6 +66,15 @@ export const GlobalStyles = createGlobalStyle`
     text-rendering: optimizeLegibility;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
   body {
     font-family: 'Switzer', sans-serif;
     font-size: 20px;

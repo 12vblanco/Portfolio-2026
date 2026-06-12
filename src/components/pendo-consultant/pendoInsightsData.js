@@ -13,6 +13,11 @@
 //   pull:   short sentence rendered as a large editorial pull quote
 // Set dashboard: true on any entry to render the PendoAnalyticsDashboard at the
 // end of its article page.
+//
+// PUBLISHING: every article has a `published` flag. Drafts (published: false)
+// are excluded from the insights cards, the homepage strip, the prerendered
+// routes, the sitemap and the slug lookup. To launch a draft: set
+// published: true, update date/datePublished/dateModified, then build+deploy.
 
 export const insightsHeader = {
   label: "Pendo Insights",
@@ -23,6 +28,7 @@ export const insightsHeader = {
 
 export const insightsData = [
   {
+    published: true,
     slug: "pendo-installation-audit",
     tag: "Pendo Audit",
     title: "Pendo installation audit: what it covers and what you get",
@@ -143,6 +149,7 @@ export const insightsData = [
   },
 
   {
+    published: true,
     slug: "pendo-click-data-aggregation-api",
     tag: "Pendo Analytics",
     title:
@@ -271,7 +278,421 @@ x-pendo-integration-key: <your-integration-key>
     // Setting dashboard: true renders PendoAnalyticsDashboard at the end of the article page.
     dashboard: true,
   },
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // DRAFTS — set published: true (and update the dates) to launch one.
+  // ──────────────────────────────────────────────────────────────────────────
+
+  {
+    published: false,
+    slug: "exclude-internal-users-pendo",
+    tag: "Pendo Setup",
+    title: "How to exclude internal users from Pendo analytics",
+    name: "Victor Blanco - Pendo consultant",
+    date: "2026", // set on publish
+    datePublished: "2026-07-01", // set on publish
+    dateModified: "2026-07-01", // set on publish
+    read: "5 min read",
+    pills: [
+      "Pendo segments",
+      "Internal users",
+      "Data quality",
+      "Product analytics",
+      "Pendo setup",
+    ],
+    subtitle:
+      "Your own team is probably the most active user of your product. Until they are excluded from Pendo, every adoption metric, funnel and NPS score you report carries their fingerprints.",
+    meta: {
+      title: "Exclude Internal Users from Pendo Analytics | Victor Blanco",
+      description:
+        "Three reliable ways to keep your own team out of Pendo data: exclude lists, email domain segments and metadata flags, plus how to keep the segment clean over time.",
+    },
+    quote: null,
+    sections: [
+      {
+        heading: null,
+        paragraphs: [
+          "Support reproducing bugs, sales running demos, QA clicking through every flow before a release: internal sessions look exactly like engaged customers to Pendo, except they behave like power users. In smaller products they can account for a third of all events. Nothing else you do in Pendo matters much until this traffic is out of your reports.",
+        ],
+      },
+      {
+        heading: "Three ways to identify internal traffic",
+        paragraphs: [
+          "There is no single switch for this; you combine signals depending on how your authentication works. These are the three approaches I use, often together:",
+        ],
+        table: {
+          head: ["Method", "How it works", "Best for"],
+          rows: [
+            [
+              "Email domain segment",
+              "Pass the user's email as visitor metadata, then segment out anyone matching your company domain",
+              "Teams whose staff log in with company email",
+            ],
+            [
+              "Metadata flag",
+              "Send an isInternal field from your auth system as visitor or account metadata",
+              "Products with role data in the backend",
+            ],
+            [
+              "Exclude list",
+              "Add specific visitor or account IDs to Pendo's exclude list in subscription settings",
+              "Demo accounts, test tenants, contractors",
+            ],
+          ],
+        },
+        pull: "If your own team is in the data, every adoption number you report is optimistic by default.",
+      },
+      {
+        heading: "Build the segment once, apply it everywhere",
+        paragraphs: [
+          "The mistake is treating exclusion as a per-report filter someone has to remember. Make it structural instead:",
+        ],
+        steps: [
+          {
+            label: "Step 1",
+            text: "Create a saved segment such as 'Customers only' that combines your exclusion rules in one place.",
+          },
+          {
+            label: "Step 2",
+            text: "Set it as the default filter on every dashboard the product team looks at, not just the ones you built.",
+          },
+          {
+            label: "Step 3",
+            text: "Check guide targeting. Internal users seeing onboarding guides skews completion rates and wastes guide views.",
+          },
+          {
+            label: "Step 4",
+            text: "Verify in Data Explorer: compare event counts with and without the segment. The gap is how wrong your numbers have been.",
+          },
+        ],
+      },
+      {
+        heading: "Keeping it clean over time",
+        paragraphs: [
+          "Exclusion rules rot quietly. New hires join with personal emails during trials, contractors use client-side accounts, and demo tenants multiply before conferences. A quarterly review of the segment definition takes ten minutes: scan the most active visitors in your data, and question any account whose usage pattern looks like someone testing rather than working.",
+          "This is also one of the first things I check in a Pendo audit, because it is the highest-impact fix with the least effort. If you are not sure how much internal traffic is in your data right now, that is usually a sign it has never been measured.",
+        ],
+      },
+    ],
+  },
+
+  {
+    published: false,
+    slug: "pendo-guide-throttling",
+    tag: "Pendo Guides",
+    title: "Pendo guide throttling: stop spamming your users",
+    name: "Victor Blanco - Pendo consultant",
+    date: "2026", // set on publish
+    datePublished: "2026-07-15", // set on publish
+    dateModified: "2026-07-15", // set on publish
+    read: "4 min read",
+    pills: [
+      "Pendo guides",
+      "Guide throttling",
+      "User onboarding",
+      "In-app messaging",
+      "Guide fatigue",
+    ],
+    subtitle:
+      "Guides are the most visible thing Pendo does, which makes them the easiest thing to overdo. Throttling is the difference between in-app guidance and in-app noise.",
+    meta: {
+      title: "Pendo Guide Throttling Best Practices | Victor Blanco",
+      description:
+        "How to configure Pendo guide throttling so users see helpful guidance instead of popup noise: frequency caps, settings that work for SaaS, and how to measure guide fatigue.",
+    },
+    quote: null,
+    sections: [
+      {
+        heading: null,
+        paragraphs: [
+          "Every team that gets access to Pendo guides goes through the same arc: excitement, a burst of announcements and walkthroughs, then a slow realisation that users have started dismissing everything on sight. The product did not get worse. The guides trained people to ignore them.",
+        ],
+      },
+      {
+        heading: "What throttling actually controls",
+        paragraphs: [
+          "Pendo's throttling settings limit how many guides a visitor can be shown in a given window, and how those guides queue when several are eligible at once. Without it, a returning user who matches three segments gets three popups stacked on their first session back. With it, guides take turns: the most important one shows, the rest wait.",
+        ],
+      },
+      {
+        heading: "Symptoms you have a guide problem",
+        paragraphs: [
+          "You rarely need a survey to detect guide fatigue. The data shows it first:",
+        ],
+        list: [
+          {
+            term: "Rising dismiss rates",
+            text: "guides that performed well at launch now get closed within a second of appearing.",
+          },
+          {
+            term: "Falling completion",
+            text: "multi-step walkthroughs lose users at step one, not at the hard step in the middle.",
+          },
+          {
+            term: "Support tickets about popups",
+            text: "when users take time to complain about messaging, the threshold was crossed long ago.",
+          },
+          {
+            term: "NPS comments",
+            text: "the word 'popups' appearing in detractor comments is the clearest signal Pendo will ever give you.",
+          },
+        ],
+        pull: "Every guide a user dismisses makes the next one easier to dismiss.",
+      },
+      {
+        heading: "Settings that work for most SaaS products",
+        paragraphs: [
+          "Defaults depend on product type, but this configuration is the starting point I use with clients: at most one guide per session for announcements, onboarding walkthroughs exempt from throttling but limited to one active walkthrough per product area, snooze options enabled on everything, and a minimum gap of a day between non-critical guides. Then stagger launches: when three teams ship guides the same week, the queue decides what users see, not the teams.",
+        ],
+      },
+      {
+        heading: "Measure fatigue, not just views",
+        paragraphs: [
+          "Guide analytics default to counting views, which rewards exactly the wrong behaviour. The numbers worth watching are dismissal rate, time-to-dismiss, and completion by step. A guide seen by fewer users at the right moment beats one seen by everyone at the wrong one. If your guides are tagged and throttled properly, those metrics tell you which messages earn their place in the product and which are just noise with a brand colour.",
+        ],
+      },
+    ],
+  },
+
+  {
+    published: false,
+    slug: "pendo-aggregation-api-examples",
+    tag: "Pendo API",
+    title: "Five practical Pendo Aggregation API examples",
+    name: "Victor Blanco - Pendo consultant",
+    date: "2026", // set on publish
+    datePublished: "2026-08-01", // set on publish
+    dateModified: "2026-08-01", // set on publish
+    read: "7 min read",
+    pills: [
+      "Pendo API",
+      "Aggregation API",
+      "Product analytics",
+      "Custom dashboards",
+      "Feature adoption",
+      "Pendo reporting",
+    ],
+    subtitle:
+      "The Aggregation API answers questions Pendo's dashboards can't. These five pipelines cover the reports I get asked to build most often, from daily feature usage to guide funnels.",
+    meta: {
+      title: "Pendo Aggregation API: 5 Practical Examples | Victor Blanco",
+      description:
+        "Five copy-paste Pendo Aggregation API pipelines: daily active visitors per feature, monthly feature adoption by account, guide completion funnels, and more.",
+    },
+    quote: null,
+    sections: [
+      {
+        heading: null,
+        paragraphs: [
+          "This is the follow-up to my article on Pendo click data, which covers how the Aggregation API works and when to reach for it. Here I want to be purely practical: five pipelines you can adapt, each answering a question I get asked by real product teams. All of them POST to the same endpoint with your integration key.",
+        ],
+        figure: "apiFlow",
+      },
+      {
+        heading: "Daily active visitors per feature",
+        paragraphs: [
+          "The basic shape of feature analytics: who used what, day by day. Group feature events by both feature and day, counting unique visitors rather than raw clicks.",
+        ],
+        code: {
+          title: "Pipeline: daily unique visitors by feature, last 30 days",
+          content: `{
+  "response": { "mimeType": "application/json" },
+  "request": {
+    "pipeline": [
+      {
+        "source": {
+          "featureEvents": null,
+          "timeSeries": {
+            "period": "dayRange",
+            "first": "date_add(now(), -30, \\"days\\")",
+            "count": 30
+          }
+        }
+      },
+      {
+        "group": {
+          "group": ["featureId", "day"],
+          "fields": { "visitors": { "count": "visitorId" } }
+        }
+      },
+      { "sort": ["day", "-visitors"] }
+    ]
+  }
+}`,
+        },
+      },
+      {
+        heading: "Accounts that adopted a feature this month",
+        paragraphs: [
+          "Adoption questions are account questions in B2B. Swap the grouping key to accountId and filter to one feature, and the result is the list of customers actually using what you shipped.",
+        ],
+        code: {
+          title: "Pipeline: accounts using one feature, current month",
+          content: `{
+  "response": { "mimeType": "application/json" },
+  "request": {
+    "pipeline": [
+      {
+        "source": {
+          "featureEvents": { "featureId": "<your-feature-id>" },
+          "timeSeries": {
+            "period": "dayRange",
+            "first": "startOfPeriod(now(), \\"month\\")",
+            "count": 31
+          }
+        }
+      },
+      {
+        "group": {
+          "group": ["accountId"],
+          "fields": {
+            "events": { "sum": "numEvents" },
+            "visitors": { "count": "visitorId" }
+          }
+        }
+      },
+      { "sort": ["-events"] }
+    ]
+  }
+}`,
+        },
+      },
+      {
+        heading: "Guide completion funnel",
+        paragraphs: [
+          "Guide analytics in the UI show totals; the API lets you build a proper step funnel. Source guide events for one guide, group by step and event type, and the drop-off between steps falls out of the numbers.",
+        ],
+        code: {
+          title: "Pipeline: guide events by step, last 90 days",
+          content: `{
+  "response": { "mimeType": "application/json" },
+  "request": {
+    "pipeline": [
+      {
+        "source": {
+          "guideEvents": { "guideId": "<your-guide-id>" },
+          "timeSeries": {
+            "period": "dayRange",
+            "first": "date_add(now(), -90, \\"days\\")",
+            "count": 90
+          }
+        }
+      },
+      {
+        "group": {
+          "group": ["guideStepId", "type"],
+          "fields": { "visitors": { "count": "visitorId" } }
+        }
+      }
+    ]
+  }
+}`,
+        },
+        pull: "Dashboards answer the questions Pendo thought of. The Aggregation API answers yours.",
+      },
+      {
+        heading: "Two more worth knowing",
+        paragraphs: [
+          "Stickiness per feature: run the daily-visitors pipeline twice, once over a day and once over thirty, and divide. DAU over MAU per feature separates habit-forming features from occasional ones, and it is not a number any standard dashboard gives you.",
+          "Page time by account: swap the source to pageEvents and sum numMinutes grouped by accountId. Where accounts actually spend time is often embarrassingly different from where the roadmap assumes they do.",
+        ],
+      },
+      {
+        heading: "Putting it together",
+        paragraphs: [
+          "Each of these returns plain JSON, which means each can feed a chart, a scheduled report, or a wallboard without anyone exporting a CSV again. The live dashboard on my click data article is built from exactly these building blocks. If you want pipelines like these wired to your own Pendo subscription, that is a service I offer.",
+        ],
+      },
+    ],
+  },
+
+  {
+    published: false,
+    slug: "pendo-react-installation-checklist",
+    tag: "Pendo Setup",
+    title: "Pendo installation checklist for React apps",
+    name: "Victor Blanco - Pendo consultant",
+    date: "2026", // set on publish
+    datePublished: "2026-08-15", // set on publish
+    dateModified: "2026-08-15", // set on publish
+    read: "6 min read",
+    pills: [
+      "Pendo installation",
+      "React",
+      "SPA tracking",
+      "Pendo snippet",
+      "Visitor ID",
+      "Pendo setup",
+    ],
+    subtitle:
+      "Single-page apps are where most broken Pendo installations I audit come from. This is the checklist I use when installing Pendo in a React product, and what each item protects you from.",
+    meta: {
+      title: "Pendo Installation Checklist for React Apps | Victor Blanco",
+      description:
+        "A practical checklist for installing Pendo in React and SPA products: snippet placement, visitor identification timing, route tracking, environment keys and verification.",
+    },
+    quote: null,
+    sections: [
+      {
+        heading: null,
+        paragraphs: [
+          "Pendo's install instructions assume a website. React apps are not websites: routes change without page loads, users authenticate mid-session, components mount and unmount constantly, and development runs everything twice in StrictMode. None of this breaks Pendo loudly. It breaks it quietly, which is worse.",
+        ],
+        pull: "Most broken Pendo installs in React apps come down to one thing: the snippet living inside a component that does not always render.",
+      },
+      {
+        heading: "Where the snippet goes",
+        paragraphs: [
+          "The agent snippet belongs in index.html, outside the React tree entirely. The moment it lives inside a component, its loading depends on rendering logic: a layout that does not wrap every route, a conditional that skips it for some user type, a lazy-loaded shell that mounts late. Entire user journeys then never load the agent, and no error tells you so.",
+          "Initialise once. If you must initialise from React because identity lives there, do it in a module-level call or a top-level effect with a guard, never in a component that can remount.",
+        ],
+      },
+      {
+        heading: "Identify users at the right moment",
+        paragraphs: [
+          "The standard SPA flow is anonymous first, identified after login. Initialise with a stable anonymous ID, then call pendo.identify with your real user ID and account once authentication resolves. Two rules keep the data sane: visitor IDs must survive a refresh (no random IDs generated per session), and the account ID must come from your backend's tenant model, not from whatever happens to be in the URL.",
+        ],
+      },
+      {
+        heading: "The verification checklist",
+        paragraphs: [
+          "Installation is not done when events appear. It is done when every line below holds:",
+        ],
+        steps: [
+          {
+            label: "Check 1",
+            text: "The agent loads on every route, including auth pages, settings, and anything behind lazy loading. Watch the network tab while clicking through the whole app.",
+          },
+          {
+            label: "Check 2",
+            text: "Visitor ID is identical before and after a refresh, and after logout/login by the same user.",
+          },
+          {
+            label: "Check 3",
+            text: "Client-side route changes appear as page views in Pendo. If only the first page of each session registers, the agent is not seeing your router.",
+          },
+          {
+            label: "Check 4",
+            text: "Staging and production use separate subscription keys. Test traffic in production data is internal-user pollution you chose to have.",
+          },
+          {
+            label: "Check 5",
+            text: "Internal users are excluded by segment before anyone builds a dashboard on the data.",
+          },
+        ],
+      },
+      {
+        heading: "React-specific pitfalls",
+        paragraphs: [
+          "StrictMode runs effects twice in development, so an unguarded initialise call double-counts everything locally and trains you to distrust dev data. Server-side rendering needs a window guard around any Pendo call. And environment-based keys belong in your build config, not in a runtime conditional that can pick the wrong subscription silently.",
+          "Most of this takes an afternoon to get right and an audit to get wrong-then-right. If your install predates this checklist and nobody has verified it since, you can probably guess which of these checks it fails.",
+        ],
+      },
+    ],
+  },
 ];
 
+export const publishedInsights = insightsData.filter((item) => item.published);
+
 export const getInsightBySlug = (slug) =>
-  insightsData.find((item) => item.slug === slug);
+  publishedInsights.find((item) => item.slug === slug);

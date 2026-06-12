@@ -1,6 +1,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useRef } from 'react';
+import { prefersReducedMotion } from '../../utils/motion';
 import { ConsentBanner } from '../common/ConsentBanner.jsx';
 import { Contact } from '../common/Contact.jsx';
 import { SEO } from '../common/SEO.jsx';
@@ -17,6 +18,8 @@ export const PendoConsultantPage = ({ onOpenTerms }) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    if (prefersReducedMotion()) return;
 
     const ctx = gsap.context(() => {
       if (ctaRef.current) {

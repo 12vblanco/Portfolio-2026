@@ -4,6 +4,7 @@ import { SEO } from '../common/SEO.jsx';
 import CaseStudies from '../home-section/case-studies/CaseStudies.jsx';
 import { Experience } from '../home-section/Experience';
 import { Hero } from '../home-section/Hero.jsx';
+import { InsightsStrip } from '../home-section/InsightsStrip.jsx';
 import Testimonials from '../home-section/Testimonials';
 
 
@@ -73,6 +74,7 @@ export const HomePage = ({ onOpenTerms }) => {
       <CaseStudies />
       <Experience />
       <Testimonials />
+      <InsightsStrip />
       <Contact onOpenTerms={onOpenTerms} />
     </>
   );

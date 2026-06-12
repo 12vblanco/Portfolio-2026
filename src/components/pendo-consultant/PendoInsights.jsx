@@ -4,7 +4,8 @@ import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { DownIcon } from '../../assets/icons/Down';
-import { insightsData, insightsHeader } from './pendoInsightsData';
+import { prefersReducedMotion } from '../../utils/motion';
+import { insightsHeader, publishedInsights } from './pendoInsightsData';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,6 +16,8 @@ export const PendoInsights = () => {
 
   // ── Scroll-in animation ──────────────────────────────────────────────────
   useEffect(() => {
+    if (prefersReducedMotion()) return;
+
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: sectionRef.current,
@@ -53,7 +56,7 @@ export const PendoInsights = () => {
         </InsightsHeader>
 
         <InsightsList ref={listRef}>
-          {insightsData.map((item) => (
+          {publishedInsights.map((item) => (
             <InsightItem key={item.slug} data-insight>
 
               <InsightCardHeader>

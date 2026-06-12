@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [react()],
   build: {
-    sourcemap: true,
+    sourcemap: false,
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'gsap'],

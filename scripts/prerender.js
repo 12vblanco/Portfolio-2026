@@ -1,5 +1,6 @@
 // Prerenders every route to a flat static HTML file so crawlers and social
-// scrapers get full content + meta tags without executing JavaScript.
+// scrapers get full content + meta tags without executing JavaScript, and
+// generates sitemap.xml from the same route list so they can never drift.
 // Runs after `vite build` + `vite build --ssr` (see "build" in package.json).
 //
 // Flat files (pendo-consultant.html, insights/<slug>.html) are intentional:
@@ -12,9 +13,10 @@
 
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'fs';
 import { dirname } from 'path';
-import { insightsData } from '../src/components/pendo-consultant/pendoInsightsData.js';
+import { publishedInsights } from '../src/components/pendo-consultant/pendoInsightsData.js';
 import { render } from '../dist-ssr/entry-server.js';
 
+const SITE = 'https://victorblancoweb.com';
 const template = readFileSync('dist/index.html', 'utf-8');
 
 // Remove any stale directory-based output (old builds used pendo-consultant/index.html
@@ -23,15 +25,18 @@ if (existsSync('dist/pendo-consultant')) {
   rmSync('dist/pendo-consultant', { recursive: true, force: true });
 }
 
+const buildDate = new Date().toISOString().slice(0, 10);
+
 const routes = [
-  { url: '/', out: 'dist/index.html' },
-  { url: '/pendo-consultant', out: 'dist/pendo-consultant.html' },
-  ...insightsData.map((item) => ({
+  { url: '/', out: 'dist/index.html', sitemap: { lastmod: buildDate, priority: '1.0' } },
+  { url: '/pendo-consultant', out: 'dist/pendo-consultant.html', sitemap: { lastmod: buildDate, priority: '0.9' } },
+  ...publishedInsights.map((item) => ({
     url: `/insights/${item.slug}`,
     out: `dist/insights/${item.slug}.html`,
+    sitemap: { lastmod: item.dateModified || buildDate, priority: '0.7' },
   })),
   // Renders the catch-all NotFoundPage; Netlify serves dist/404.html with a
-  // real 404 status for any unknown path.
+  // real 404 status for any unknown path. Not in the sitemap.
   { url: '/__not_found__', out: 'dist/404.html' },
 ];
 
@@ -71,5 +76,22 @@ for (const { url, out } of routes) {
   const title = (head.match(/<title[^>]*>([\s\S]*?)<\/title>/) || [])[1] || '(no title!)';
   console.log(`✅ Prerendered ${url} -> ${out} [${title}]`);
 }
+
+// ── sitemap.xml, generated from the same routes ──────────────────────────────
+const sitemapEntries = routes
+  .filter((r) => r.sitemap)
+  .map((r) => `  <url>
+    <loc>${SITE}${r.url === '/' ? '' : r.url}</loc>
+    <lastmod>${r.sitemap.lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>${r.sitemap.priority}</priority>
+  </url>`)
+  .join('\n');
+
+writeFileSync(
+  'dist/sitemap.xml',
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapEntries}\n</urlset>\n`
+);
+console.log(`✅ Generated dist/sitemap.xml (${routes.filter((r) => r.sitemap).length} urls)`);
 
 rmSync('dist-ssr', { recursive: true, force: true });

@@ -1,5 +1,6 @@
 import styled, { css, keyframes } from 'styled-components';
 import { LINKS } from '../../data/siteConfig';
+import { trackEvent } from '../../utils/analytics';
 
 export const NavCTA = ({ id, onClick, mobile }) => (
   <CTALink
@@ -8,7 +9,10 @@ export const NavCTA = ({ id, onClick, mobile }) => (
     target="_blank"
     rel="noopener noreferrer"
     $mobile={mobile}
-    onClick={onClick}
+    onClick={(e) => {
+      trackEvent('cta_click', { cta_text: "Let's Talk", cta_url: LINKS.calendly });
+      onClick?.(e);
+    }}
   >
     Let's Talk
   </CTALink>
