@@ -2,6 +2,7 @@
 // included, so the image is ready the day one is published) into public/og/.
 // Run with: npm run og-images  (re-run after adding or renaming articles)
 
+import { Buffer } from 'node:buffer';
 import { mkdirSync } from 'fs';
 import sharp from 'sharp';
 import { insightsData } from '../src/components/pendo-consultant/pendoInsightsData.js';
