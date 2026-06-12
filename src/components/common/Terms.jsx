@@ -51,7 +51,7 @@ export const Terms = ({ open, onClose }) => {
           <SectionTitle>1. Introduction</SectionTitle>
           <Body>
             Welcome to victorblancoweb.com ("the Website"), the professional portfolio and
-            services website of Victor Blanco — freelance Web Developer, Designer, and Pendo
+            services website of Victor Blanco, freelance Web Developer, Designer, and Pendo
             Consultant ("I", "me", or "my"). By using this Website, you agree to these Terms
             and Conditions.
           </Body>
@@ -108,8 +108,8 @@ export const Terms = ({ open, onClose }) => {
             This Website uses <strong>Pendo</strong>, a product analytics platform operated
             by Pendo.io, Inc. (USA). Pendo collects anonymous behavioural data including page
             views, session duration, and feature interactions. Visitors are assigned a
-            randomly generated anonymous identifier stored in your browser's local storage —
-            no name, email, or personally identifiable information is associated with this ID.
+            randomly generated anonymous identifier stored in your browser's local storage.
+            No name, email, or personally identifiable information is associated with this ID.
           </Body>
           <Body>
             Pendo may transfer data to servers located in the United States. Such transfers
@@ -138,7 +138,7 @@ export const Terms = ({ open, onClose }) => {
           <SubSectionTitle>4.3 Legal Basis for Processing (UK &amp; EU GDPR)</SubSectionTitle>
           <Body>
             Where UK GDPR or EU GDPR applies, the legal basis for using these analytics tools
-            is <strong>legitimate interests</strong> (Article 6(1)(f)) — specifically, the
+            is <strong>legitimate interests</strong> (Article 6(1)(f)), specifically the
             interest in understanding how visitors use the Website in order to improve its
             content and performance. No sensitive personal data is processed. You may object
             to this processing at any time by contacting info@victorblancoweb.com.
@@ -177,8 +177,8 @@ export const Terms = ({ open, onClose }) => {
         <TermsSection>
           <SectionTitle>6. Intellectual Property</SectionTitle>
           <Body>
-            All content on this Website — including text, design, graphics, code, case
-            studies, and project descriptions — is the intellectual property of Victor Blanco
+            All content on this Website, including text, design, graphics, code, case
+            studies, and project descriptions, is the intellectual property of Victor Blanco
             unless otherwise stated. All rights reserved.
           </Body>
           <Body>

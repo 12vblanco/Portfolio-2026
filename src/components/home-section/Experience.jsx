@@ -88,7 +88,7 @@ export const Experience = () => {
       start: 'top 80%',
       once: true,
       onEnter: () => {
-        // Scramble the label — element starts empty in JSX
+        // Scramble the label; element starts empty in JSX
         gsap.to(labelRef.current, {
           duration: 1.6,
           delay: 0.2,
@@ -119,7 +119,7 @@ export const Experience = () => {
       <Container>
         <Header>
           <HeaderLeft>
-            {/* Empty — GSAP ScrambleTextPlugin writes the text in from scratch */}
+            {/* Empty: GSAP ScrambleTextPlugin writes the text in from scratch */}
             <Label ref={labelRef} aria-label="Professional & Academic" />
             <Title>Experience</Title>
           </HeaderLeft>

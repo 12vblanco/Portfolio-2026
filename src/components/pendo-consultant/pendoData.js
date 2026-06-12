@@ -12,7 +12,7 @@ export const featuresData = [
     title: 'Installation & Setup',
     before: 'Full Pendo installation for SaaS products by a ',
     link: 'pendo certified consultant',
-    after: ' — snippet deployment, data layer configuration, and account structure set up correctly from day one so everything downstream is reliable.',
+    after: ': snippet deployment, data layer configuration, and account structure set up correctly from day one so everything downstream is reliable.',
   },
   {
     number: '02',
@@ -180,46 +180,14 @@ export const insightsStructuredData = {
     {
       "@type": "ListItem",
       "position": 1,
-      "item": {
-        "@type": "Article",
-        "headline": "Pendo installation audit: what it covers and what you get",
-        "description": "Most SaaS teams install Pendo once and consider it done. A structured audit finds if there is something broken, before you build anything on top of it.",
-        "author": {
-          "@type": "Person",
-          "name": "Victor Blanco",
-          "url": "https://victorblancoweb.com"
-        },
-        "publisher": {
-          "@type": "Person",
-          "name": "Victor Blanco",
-          "url": "https://victorblancoweb.com"
-        },
-        "datePublished": "2026-04-01",
-        "url": "https://victorblancoweb.com/pendo-consultant#insights",
-        "keywords": ["Pendo audit", "Pendo installation", "SaaS onboarding", "Product analytics"]
-      }
+      "name": "Pendo installation audit: what it covers and what you get",
+      "url": "https://victorblancoweb.com/insights/pendo-installation-audit"
     },
     {
       "@type": "ListItem",
       "position": 2,
-      "item": {
-        "@type": "Article",
-        "headline": "What your Pendo click data tells you and how to utilize the Aggregation API",
-        "description": "Click events are Pendo's most granular data but raw counts without context are just noise.",
-        "author": {
-          "@type": "Person",
-          "name": "Victor Blanco",
-          "url": "https://victorblancoweb.com"
-        },
-        "publisher": {
-          "@type": "Person",
-          "name": "Victor Blanco",
-          "url": "https://victorblancoweb.com"
-        },
-        "datePublished": "2026-05-01",
-        "url": "https://victorblancoweb.com/pendo-consultant#insights",
-        "keywords": ["Pendo analytics", "Click events", "Feature adoption", "Pendo API"]
-      }
+      "name": "What your Pendo click data tells you and how to utilize the Aggregation API",
+      "url": "https://victorblancoweb.com/insights/pendo-click-data-aggregation-api"
     }
   ]
 };

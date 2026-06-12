@@ -7,6 +7,11 @@ export default defineConfig({
     sourcemap: true,
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'gsap', 'framer-motion', 'lenis'],
-  }
+    include: ['react', 'react-dom', 'gsap'],
+  },
+  ssr: {
+    // CJS packages must be bundled (not externalized) in the prerender build,
+    // otherwise their default export breaks under Node ESM
+    noExternal: ['styled-components', 'react-helmet-async'],
+  },
 });

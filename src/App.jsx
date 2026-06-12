@@ -4,6 +4,8 @@ import { ThemeProvider } from 'styled-components';
 import { Terms } from './components/common/Terms.jsx';
 import { Navigation } from './components/navigation/Navigation.jsx';
 import { HomePage } from './components/pages/HomePage.jsx';
+import { InsightArticlePage } from './components/pages/InsightArticlePage.jsx';
+import { NotFoundPage } from './components/pages/NotFoundPage.jsx';
 import { PendoConsultantPage } from './components/pages/PendoConsultantPage.jsx';
 import { GlobalStyles, theme } from './styles/GlobalStyles';
 
@@ -32,6 +34,15 @@ function App() {
               />
             }
           />
+          <Route
+            path="/insights/:slug"
+            element={
+              <InsightArticlePage
+                onOpenTerms={() => setTermsOpen(true)}
+              />
+            }
+          />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Terms open={termsOpen} onClose={() => setTermsOpen(false)} />
       </main>

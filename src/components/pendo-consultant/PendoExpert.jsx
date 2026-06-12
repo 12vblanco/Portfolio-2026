@@ -69,7 +69,7 @@ export const PendoExpert = () => {
         },
       });
 
-      // ── Feature paragraphs — sequential: number → title → text → next ───
+      // ── Feature paragraphs, sequential: number → title → text → next ───
       ScrollTrigger.create({
         trigger: middleRef.current,
         start: 'top 75%',

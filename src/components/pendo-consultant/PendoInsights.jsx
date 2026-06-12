@@ -1,25 +1,17 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { DownIcon } from '../../assets/icons/Down';
-import { PendoAnalyticsDashboard } from './PendoAnalyticsDashboard';
 import { insightsData, insightsHeader } from './pendoInsightsData';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const PendoInsights = () => {
-  const [openIndex, setOpenIndex]       = useState(null);
-  // Tracks which dashboard cards have been mounted at least once.
-  // We never unmount them after first open so charts don't re-initialise
-  // on every toggle — mirrors the same lazy-mount pattern used elsewhere.
-  const [mountedDash, setMountedDash]   = useState({});
-
   const sectionRef = useRef(null);
   const headerRef  = useRef(null);
   const listRef    = useRef(null);
-  const bodyRefs   = useRef([]);
-  const arrowRefs  = useRef([]);
 
   // ── Scroll-in animation ──────────────────────────────────────────────────
   useEffect(() => {
@@ -46,55 +38,6 @@ export const PendoInsights = () => {
     return () => ctx.revert();
   }, []);
 
-  // ── Accordion toggle ─────────────────────────────────────────────────────
-  const handleToggle = (index) => {
-    const isOpening   = openIndex !== index;
-    const targetBody  = bodyRefs.current[index];
-    const targetArrow = arrowRefs.current[index];
-
-    // Close previously open item
-    if (openIndex !== null && openIndex !== index) {
-      const prevBody  = bodyRefs.current[openIndex];
-      const prevArrow = arrowRefs.current[openIndex];
-      gsap.to(prevBody, {
-        height: 0, opacity: 0, duration: 0.35, ease: 'power2.inOut',
-        onComplete: () => { prevBody.style.display = 'none'; },
-      });
-      gsap.to(prevArrow, { rotation: 0, duration: 0.3, ease: 'power2.inOut' });
-    }
-
-    if (isOpening) {
-      // If this card has a dashboard, mark it as mounted before measuring height
-      if (insightsData[index]?.dashboard) {
-        setMountedDash(prev => ({ ...prev, [index]: true }));
-      }
-
-      targetBody.style.display = 'block';
-      targetBody.style.height  = 'auto';
-      targetBody.style.opacity = '1';
-
-      // Defer height measurement one tick so React can render the dashboard first
-      setTimeout(() => {
-        const naturalHeight = targetBody.scrollHeight;
-        targetBody.style.height  = '0px';
-        targetBody.style.opacity = '0';
-        gsap.to(targetBody, { height: naturalHeight, opacity: 1, duration: 0.5, ease: 'power3.out',
-          onComplete: () => { targetBody.style.height = 'auto'; },
-        });
-      }, 0);
-
-      gsap.to(targetArrow, { rotation: 180, duration: 0.4, ease: 'power2.inOut' });
-      setOpenIndex(index);
-    } else {
-      gsap.to(targetBody, {
-        height: 0, opacity: 0, duration: 0.35, ease: 'power2.inOut',
-        onComplete: () => { targetBody.style.display = 'none'; },
-      });
-      gsap.to(targetArrow, { rotation: 0, duration: 0.3, ease: 'power2.inOut' });
-      setOpenIndex(null);
-    }
-  };
-
   return (
     <InsightsSection ref={sectionRef} id='insights'>
       <InsightsContainer>
@@ -110,79 +53,49 @@ export const PendoInsights = () => {
         </InsightsHeader>
 
         <InsightsList ref={listRef}>
-          {insightsData.map((item, i) => {
-            const isOpen    = openIndex === i;
-            const hasDash   = !!item.dashboard;
-            const dashReady = !!mountedDash[i];
+          {insightsData.map((item) => (
+            <InsightItem key={item.slug} data-insight>
 
-            return (
-              <InsightItem key={i} data-insight $isOpen={isOpen}>
+              <InsightCardHeader>
 
-                {/* ── Always-visible card header ── */}
-                <InsightCardHeader>
+                <InsightTopRow>
+                  <InsightTag>{item.tag}</InsightTag>
+                  <InsightArrow aria-hidden="true">
+                    <DownIcon />
+                  </InsightArrow>
+                </InsightTopRow>
 
-                  <InsightTopRow>
-                    <InsightTag>{item.tag}</InsightTag>
-                    <InsightArrow
-                      ref={el => (arrowRefs.current[i] = el)}
-                      aria-hidden="true"
-                    >
-                      <DownIcon />
-                    </InsightArrow>
-                  </InsightTopRow>
+                <InsightTitle>{item.title}</InsightTitle>
 
-                  <InsightTitle $isOpen={isOpen}>{item.title}</InsightTitle>
+                <InsightMetaRow>
+                  <InsightAuthor>{item.name}</InsightAuthor>
+                  <InsightMetaDivider>·</InsightMetaDivider>
+                  <InsightMetaItem>{item.date}</InsightMetaItem>
+                  <InsightMetaDivider>·</InsightMetaDivider>
+                  <InsightMetaItem>{item.read}</InsightMetaItem>
+                </InsightMetaRow>
 
-                  <InsightMetaRow>
-                    <InsightAuthor>{item.name}</InsightAuthor>
-                    <InsightMetaDivider>·</InsightMetaDivider>
-                    <InsightMetaItem>{item.date}</InsightMetaItem>
-                    <InsightMetaDivider>·</InsightMetaDivider>
-                    <InsightMetaItem>{item.read}</InsightMetaItem>
-                  </InsightMetaRow>
+                <InsightIntro>{item.subtitle}</InsightIntro>
 
-                  <InsightIntro>{item.subtitle}</InsightIntro>
+                <InsightReadMore>Read the full article</InsightReadMore>
 
-                  <InsightToggleOverlay
-                    onClick={() => handleToggle(i)}
-                    aria-expanded={isOpen}
-                    aria-label={isOpen ? `Collapse ${item.title}` : `Expand ${item.title}`}
-                  />
-                </InsightCardHeader>
+                <InsightLinkOverlay
+                  to={`/insights/${item.slug}`}
+                  aria-label={`Read ${item.title}`}
+                />
+              </InsightCardHeader>
 
-                {/* ── Expanded body ── */}
-                <InsightBody
-                  ref={el => (bodyRefs.current[i] = el)}
-                  style={{ display: 'none', height: 0, opacity: 0, overflow: 'hidden' }}
-                >
-                  <InsightBodyInner>
-                    {item.body.map((para, j) => (
-                      <InsightParagraph key={j}>{para}</InsightParagraph>
-                    ))}
+              {/* ── Pills ── */}
+              {item.pills?.length > 0 && (
+                <InsightPills>
+                  {item.pills.map((pill, j) => (
+                    <InsightPill key={j}>{pill}</InsightPill>
+                  ))}
+                </InsightPills>
+              )}
 
-                    {item.quote && (
-                      <InsightQuote>
-                        <InsightQuoteText>{item.quote}</InsightQuoteText>
-                      </InsightQuote>
-                    )}
-                  </InsightBodyInner>
-
-                  {/* ── Dashboard — only rendered when card.dashboard === true ── */}
-                  {hasDash && dashReady && <PendoAnalyticsDashboard />}
-                </InsightBody>
-
-                {/* ── Pills ── */}
-                {item.pills?.length > 0 && (
-                  <InsightPills>
-                    {item.pills.map((pill, j) => (
-                      <InsightPill key={j}>{pill}</InsightPill>
-                    ))}
-                  </InsightPills>
-                )}
-
-              </InsightItem>
-            );
-          })}
+            </InsightItem>
+          ))}
         </InsightsList>
 
       </InsightsContainer>
@@ -191,16 +104,16 @@ export const PendoInsights = () => {
 };
 
 // ─── Styled Components ────────────────────────────────────────────────────────
-// Identical to the originals — no tokens changed.
+// Identical to the originals, no tokens changed.
 
 const InsightsSection = styled.section`
   padding: 5rem 0;
   background: rgba(40, 40, 40, 0.02);
   border-top: 1px solid #e5e5e5;
   border-bottom: 1px solid #e5e5e5;
-  @media (max-width: 768px) { 
-    padding: 2rem 0; 
-    
+  @media (max-width: 768px) {
+    padding: 2rem 0;
+
     }
 `;
 
@@ -228,7 +141,7 @@ const InsightsHeader = styled.div`
 `;
 
 const InsightsHeaderLeft = styled.div`
-@media (max-width: 468px) { 
+@media (max-width: 468px) {
     padding-left: 2rem;
    }
 `;
@@ -248,7 +161,7 @@ const InsightsSectionTitle = styled.h2`
   line-height: 1.1;
   letter-spacing: 0;
   font-size: clamp(1.8rem, 5vw, 2.5rem);
-  @media (max-width: 468px) { 
+  @media (max-width: 468px) {
    }
 `;
 
@@ -257,7 +170,7 @@ const InsightsSubtitle = styled.p`
   color: #282828;
   max-width: 460px;
   @media (max-width: 968px) { font-size: 18px; max-width: 100%; };
-  @media (max-width: 468px) { 
+  @media (max-width: 468px) {
     padding-left: 2rem;
    }
 `;
@@ -274,9 +187,7 @@ const InsightItem = styled.div`
   border-radius: 12px;
   padding: 3rem 6rem;
   transition: box-shadow 0.3s ease;
-  box-shadow: ${({ $isOpen }) => $isOpen
-    ? '0 6px 24px rgba(40,40,40,0.09)'
-    : '0 2px 8px rgba(40,40,40,0.05)'};
+  box-shadow: 0 2px 8px rgba(40,40,40,0.05);
 
   &:hover { box-shadow: 0 6px 24px rgba(40, 40, 40, 0.09); }
 
@@ -289,12 +200,9 @@ const InsightCardHeader = styled.div`
   @media (max-width: 768px) { padding: 1.2; }
 `;
 
-const InsightToggleOverlay = styled.button`
+const InsightLinkOverlay = styled(Link)`
   position: absolute;
   inset: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
   border-radius: 12px 12px 0 0;
   z-index: 1;
   &:focus-visible {
@@ -330,8 +238,12 @@ const InsightArrow = styled.span`
   flex-shrink: 0;
   font-size: 32px;
   color: #FF3863;
+  transform: rotate(-90deg);
   transform-origin: center center;
   pointer-events: none;
+  transition: transform 0.3s ease;
+
+  ${InsightCardHeader}:hover & { transform: rotate(-90deg) translateY(4px); }
 
   svg {
     width: 44px;
@@ -378,42 +290,19 @@ const InsightIntro = styled.p`
   @media (max-width: 768px) { font-size: 15px; }
 `;
 
-const InsightBody = styled.div``;
-
-const InsightBodyInner = styled.div`
-  padding: 0 1.75rem 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
-  border-top: 1px solid #f0f0f0;
-  padding-top: 0.5rem;
-  @media (max-width: 768px) { padding: 1.25rem 1.25rem 1.75rem; }
-`;
-
-const InsightParagraph = styled.p`
-  font-size: 18px;
-  line-height: 1.85;
-  color: #555;
-  margin: 0;
-  @media (max-width: 768px) { font-size: 16px; }
-`;
-
-const InsightQuote = styled.blockquote`
-  margin: 1rem 0;
-  padding: 1rem 1.25rem;
-  border-left: 3px solid #FF3863;
-  background: rgba(255, 56, 99, 0.03);
-  border-radius: 0 8px 8px 0;
-  max-width: 720px;
-`;
-
-const InsightQuoteText = styled.p`
-  font-size: 17px;
-  font-style: italic;
-  line-height: 1.75;
-  color: #555;
-  margin: 0;
-  @media (max-width: 768px) { font-size: 15px; }
+const InsightReadMore = styled.span`
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #282828;
+  border-bottom: 2px solid #FF3863;
+  padding-bottom: 1px;
+  margin-top: 1rem;
+  pointer-events: none;
+  position: relative;
+  z-index: 2;
+  transition: color 0.2s ease;
+  ${InsightCardHeader}:hover & { color: #FF3863; }
 `;
 
 const InsightPills = styled.div`

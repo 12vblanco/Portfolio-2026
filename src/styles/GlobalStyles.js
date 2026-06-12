@@ -222,13 +222,4 @@ export const GlobalStyles = createGlobalStyle`
   }
 }
 
-.seo-fallback {
-  position: absolute;
-  left: -9999px;
-  top: -9999px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
 `;

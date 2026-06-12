@@ -41,7 +41,7 @@ function generateDemoData() {
 }
 
 // ---------------------------------------------------------------------------
-// Hook — lazily loads Chart.js and creates/destroys canvas charts
+// Hook that lazily loads Chart.js and creates/destroys canvas charts
 // ---------------------------------------------------------------------------
 function useChart(canvasRef, type, getData, deps) {
   const chartRef = useRef(null);
@@ -312,7 +312,7 @@ export const PendoAnalyticsDashboard = () => {
     { value: new Set(events.map(e => e.featureId)).size, label: 'Features' },
     { value: new Set(events.map(e => e.visitorId)).size, label: 'Visitors' },
     { value: new Set(events.map(e => e.accountId)).size, label: 'Accounts' },
-    { value: topFeat ? topFeat[0].split(' ')[0] : '—', label: 'Top feature' },
+    { value: topFeat ? topFeat[0].split(' ')[0] : '-', label: 'Top feature' },
   ];
 
   return (

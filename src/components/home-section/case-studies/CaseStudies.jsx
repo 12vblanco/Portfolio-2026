@@ -286,7 +286,7 @@ const CaseStudies = () => {
 
         <CarouselWrapper>
 
-          {/* Desktop controls — hidden on tablet/mobile */}
+          {/* Desktop controls, hidden on tablet/mobile */}
           <DesktopControlsWrapper $hasAnimated={hasAnimated}>
             <CarouselControls
               onPrev={scrollToPrev}
@@ -296,7 +296,7 @@ const CaseStudies = () => {
             />
           </DesktopControlsWrapper>
 
-          {/* Desktop scroll carousel — hidden on tablet/mobile */}
+          {/* Desktop scroll carousel, hidden on tablet/mobile */}
           <CardsContainer
             ref={containerRef}
             $animationDone={animationDone}
@@ -322,7 +322,7 @@ const CaseStudies = () => {
             </CardsTrack>
           </CardsContainer>
 
-          {/* Mobile/tablet CSS-transform carousel — hidden on desktop */}
+          {/* Mobile/tablet CSS-transform carousel, hidden on desktop */}
           {hasAnimated && (
             <MobileCarousel>
               <MobileControlsWrapper>
@@ -470,7 +470,7 @@ const CarouselWrapper = styled.div.attrs({ className: 'caseStudies-CarouselWrapp
   min-height: 0;
 `;
 
-/* ── Desktop controls — hidden on tablet/mobile ── */
+/* ── Desktop controls, hidden on tablet/mobile ── */
 const DesktopControlsWrapper = styled.div.attrs({ className: 'caseStudies-DesktopControlsWrapper' })`
   display: flex;
   justify-content: center;
@@ -489,7 +489,7 @@ const DesktopControlsWrapper = styled.div.attrs({ className: 'caseStudies-Deskto
   }
 `;
 
-/* ── Desktop scroll carousel — hidden on tablet/mobile ── */
+/* ── Desktop scroll carousel, hidden on tablet/mobile ── */
 const CardsContainer = styled.div.attrs({ className: 'caseStudies-CardsContainer' })`
   width: 100%;
   overflow-x: auto;
@@ -519,7 +519,7 @@ const CardsTrack = styled.div.attrs({ className: 'caseStudies-CardsTrack' })`
   will-change: transform;
 `;
 
-/* ── Mobile/tablet carousel — hidden on desktop ── */
+/* ── Mobile/tablet carousel, hidden on desktop ── */
 const MobileCarousel = styled.div.attrs({ className: 'caseStudies-MobileCarousel' })`
   display: none;
 
@@ -736,7 +736,7 @@ const OverlayCard = styled.div.attrs({ className: 'caseStudies-OverlayCard' })`
   z-index: 5;
   clip-path: circle(0% at 50% 150%);
 
-  /* Desktop hover only — @media (hover: hover) excludes touch devices
+  /* Desktop hover only: @media (hover: hover) excludes touch devices
      so the tap-toggle (data-clicked) works cleanly without fighting :hover */
   @media (hover: hover) {
     ${Card}:hover & { clip-path: circle(150% at 50% 0%); }

@@ -35,14 +35,18 @@
   to = "/"
   status = 301
 
-# SPA catch-all — Netlify serves real files first, this only fires for unknown paths
+# /insights has no index page of its own — send it to the insights section
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+  from = "/insights"
+  to = "/pendo-consultant#insights"
+  status = 301
 
-# Cache headers
+# No SPA catch-all: every route is prerendered to a real HTML file at build
+# time (see scripts/prerender.js), so unknown paths correctly serve 404.html
+# with a real 404 status instead of soft-404ing with the homepage.
+
+# Hashed build assets are immutable — cache forever
 [[headers]]
-  for = "/analytics.js"
+  for = "/assets/*"
   [headers.values]
-    Cache-Control = "public, max-age=604800"
+    Cache-Control = "public, max-age=31536000, immutable"

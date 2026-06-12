@@ -13,24 +13,17 @@
     gtag('config', 'G-G3WPB51996');
   </script>
 
-  <!-- Primary Meta Tags — managed per-page by SEO component via react-helmet -->
-  <!-- title, description, canonical, og:*, twitter:* are intentionally omitted here -->
-  <!-- They are injected by the SEO component on each route -->
+  <!-- Primary meta tags (title, description, canonical, og:*, twitter:*) are
+       per-page: the SEO component manages them at runtime and
+       scripts/prerender.js bakes them into each page's static HTML at build time -->
 
   <meta name="author" content="Victor Blanco" />
-  <meta name="keywords" content="Web developer, freelance web developer, Pendo consultant, Edinburgh web developer, React developer UK, GSAP animation developer" />
-
-  <!-- Shared OG fallback image (overridden per page if needed) -->
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://victorblancoweb.com/og-image.jpg" />
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:image" content="https://victorblancoweb.com/og-image.jpg" />
 
   <!-- Sitemap -->
   <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="./blanco.png" />
+  <link rel="icon" type="image/png" href="/blanco.png" />
 
   <!-- Preconnect & DNS Prefetch -->
   <link rel="preconnect" href="https://api.fontshare.com" />
@@ -71,24 +64,6 @@
   <script type="module" src="/src/main.jsx"></script>
 </head>
 <body>
-  <!-- SEO fallback: readable by Googlebot before JS executes -->
-  <div class="seo-fallback" style="position:absolute; left:-9999px;">
-    <h1>Web Developer &amp; Pendo Consultant</h1>
-    <p>Edinburgh-based web developer designing and building websites that work for your business. I provide expert Pendo services, installation audits, custom guides, analytics.</p>
-    <h2>Case Studies</h2>
-    <p>Projects include Loka Care, Orders Made Simple, LM Douglas, and Sujin Beauty — delivered across SaaS, e-commerce, and marketing platforms.</p>
-    <h2>Certified Pendo Consultant</h2>
-    <p>Pendo Consultant with experience across product analytics, NPS surveys, feature adoption, and in-app guides for B2B SaaS clients.</p>
-    <h2>Pendo Cases from the Field</h2>
-    <p>Real-world notes on Pendo installation, auditing, and getting the most out of product analytics.</p>
-    <h2>Experience</h2>
-    <p>Previously Web Developer at N-able Inc. First Class Honours in Web Development from Edinburgh Napier University.</p>
-    <h2>Contact</h2>
-    <p>Available for freelance projects worldwide. Based in Edinburgh, Scotland, UK. Contact via info@victorblancoweb.com or Upwork.</p>
-    <a href="https://github.com/12vblanco">GitHub</a>
-    <a href="https://www.upwork.com/freelancers/~01141c20a0de332c1a">Upwork</a>
-    <a href="mailto:info@victorblancoweb.com">Email Victor Blanco</a>
-  </div>
   <div id="root"></div>
 </body>
 </html>
