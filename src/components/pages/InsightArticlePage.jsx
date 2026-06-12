@@ -1,21 +1,21 @@
-import gsap from 'gsap';
-import { Fragment, useEffect, useRef } from 'react';
-import { Link, Navigate, useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import { LINKS } from '../../data/siteConfig';
-import { prefersReducedMotion } from '../../utils/motion';
-import { ConsentBanner } from '../common/ConsentBanner.jsx';
-import { Contact } from '../common/Contact.jsx';
-import { SEO } from '../common/SEO.jsx';
+import gsap from "gsap";
+import { Fragment, useEffect, useRef } from "react";
+import { Link, Navigate, useParams } from "react-router-dom";
+import styled from "styled-components";
+import { LINKS } from "../../data/siteConfig";
+import { prefersReducedMotion } from "../../utils/motion";
+import { ConsentBanner } from "../common/ConsentBanner.jsx";
+import { Contact } from "../common/Contact.jsx";
+import { SEO } from "../common/SEO.jsx";
 import {
   ApiFlowFigure,
   AuditAreasFigure,
   AuditIssueBarsFigure,
   ClicksVsVisitorsFigure,
-} from '../pendo-consultant/ArticleFigures.jsx';
-import { PendoAnalyticsDashboard } from '../pendo-consultant/PendoAnalyticsDashboard';
-import { PendoCTA } from '../pendo-consultant/PendoCTA.jsx';
-import { getInsightBySlug } from '../pendo-consultant/pendoInsightsData';
+} from "../pendo-consultant/ArticleFigures.jsx";
+import { PendoAnalyticsDashboard } from "../pendo-consultant/PendoAnalyticsDashboard";
+import { PendoCTA } from "../pendo-consultant/PendoCTA.jsx";
+import { getInsightBySlug } from "../pendo-consultant/pendoInsightsData";
 
 // Maps the `figure` key used in pendoInsightsData sections to its component
 const ARTICLE_FIGURES = {
@@ -43,7 +43,7 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
         gsap.fromTo(
           cardRef.current,
           { y: 24, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }
+          { y: 0, opacity: 1, duration: 0.7, ease: "power3.out" },
         );
       }
     });
@@ -55,40 +55,52 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
 
   const canonical = `${LINKS.site}/insights/${article.slug}`;
   const ogImage = `${LINKS.site}/og/${article.slug}.png`;
-  const [authorName, authorRole] = (article.name || 'Victor Blanco').split(' - ');
+  const [authorName, authorRole] = (article.name || "Victor Blanco").split(
+    " - ",
+  );
 
   const articleStructuredData = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": article.title,
-    "description": article.meta.description,
-    "url": canonical,
-    "mainEntityOfPage": { "@type": "WebPage", "@id": canonical },
-    "image": ogImage,
-    "datePublished": article.datePublished,
-    "dateModified": article.dateModified,
-    "keywords": article.pills,
-    "author": {
+    headline: article.title,
+    description: article.meta.description,
+    url: canonical,
+    mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+    image: ogImage,
+    datePublished: article.datePublished,
+    dateModified: article.dateModified,
+    keywords: article.pills,
+    author: {
       "@type": "Person",
-      "name": "Victor Blanco",
-      "url": LINKS.site,
-      "jobTitle": "Certified Pendo Consultant",
-      "sameAs": [LINKS.github, LINKS.upwork, LINKS.credly],
+      name: "Victor Blanco",
+      url: LINKS.site,
+      jobTitle: "Certified Pendo Consultant",
+      sameAs: [LINKS.github, LINKS.upwork, LINKS.credly],
     },
-    "publisher": {
+    publisher: {
       "@type": "Person",
-      "name": "Victor Blanco",
-      "url": LINKS.site,
+      name: "Victor Blanco",
+      url: LINKS.site,
     },
   };
 
   const breadcrumbStructuredData = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": LINKS.site },
-      { "@type": "ListItem", "position": 2, "name": "Pendo Consultant", "item": `${LINKS.site}/pendo-consultant` },
-      { "@type": "ListItem", "position": 3, "name": article.title, "item": canonical },
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: LINKS.site },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Pendo Consultant",
+        item: `${LINKS.site}/pendo-consultant`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: article.title,
+        item: canonical,
+      },
     ],
   };
 
@@ -112,13 +124,14 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
           <Crumbs aria-label="Breadcrumb">
             <CrumbLink to="/">Home</CrumbLink>
             <CrumbDivider aria-hidden="true">/</CrumbDivider>
-            <CrumbLink to="/pendo-consultant#insights">Pendo Insights</CrumbLink>
+            <CrumbLink to="/pendo-consultant#insights">
+              Pendo Insights
+            </CrumbLink>
             <CrumbDivider aria-hidden="true">/</CrumbDivider>
             <CrumbCurrent aria-current="page">{article.tag}</CrumbCurrent>
           </Crumbs>
 
           <ArticleCard ref={cardRef} as="article">
-
             {/* ── Masthead ── */}
             <Masthead>
               <KickerRow>
@@ -135,7 +148,7 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
               <StandfirstRow>
                 <Standfirst>{article.subtitle}</Standfirst>
                 <BylineBlock>
-                  <BylineLabel>Words</BylineLabel>
+                  <BylineLabel>Text by</BylineLabel>
                   <BylineName>{authorName}</BylineName>
                   {authorRole && <BylineRole>{authorRole}</BylineRole>}
                 </BylineBlock>
@@ -145,14 +158,18 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
             {/* ── Editorial body grid ── */}
             <BodyGrid>
               {article.sections.map((section, i) => {
-                const Figure = section.figure ? ARTICLE_FIGURES[section.figure] : null;
+                const Figure = section.figure
+                  ? ARTICLE_FIGURES[section.figure]
+                  : null;
                 const num = section.heading ? ++sectionCounter : null;
 
                 return (
                   <Fragment key={i}>
                     {section.heading && (
                       <SectionHeader>
-                        <SectionNumber>{String(num).padStart(2, '0')}</SectionNumber>
+                        <SectionNumber>
+                          {String(num).padStart(2, "0")}
+                        </SectionNumber>
                         <SectionHeading>{section.heading}</SectionHeading>
                       </SectionHeader>
                     )}
@@ -177,20 +194,27 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
 
                     {section.code && (
                       <CodeBlock>
-                        {section.code.title && <CodeTitle>{section.code.title}</CodeTitle>}
-                        <CodePre><code>{section.code.content}</code></CodePre>
+                        {section.code.title && (
+                          <CodeTitle>{section.code.title}</CodeTitle>
+                        )}
+                        <CodePre>
+                          <code>{section.code.content}</code>
+                        </CodePre>
                       </CodeBlock>
                     )}
 
                     {section.paragraphsAfter?.map((para, j) => (
-                      <ArticleParagraph key={`after-${j}`}>{para}</ArticleParagraph>
+                      <ArticleParagraph key={`after-${j}`}>
+                        {para}
+                      </ArticleParagraph>
                     ))}
 
                     {section.list && (
                       <DefinitionList>
                         {section.list.map((item) => (
                           <DefinitionItem key={item.term}>
-                            <DefinitionTerm>{item.term}:</DefinitionTerm> {item.text}
+                            <DefinitionTerm>{item.term}:</DefinitionTerm>{" "}
+                            {item.text}
                           </DefinitionItem>
                         ))}
                       </DefinitionList>
@@ -212,13 +236,17 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
                         <FindingsTable>
                           <thead>
                             <tr>
-                              {section.table.head.map((h) => <th key={h}>{h}</th>)}
+                              {section.table.head.map((h) => (
+                                <th key={h}>{h}</th>
+                              ))}
                             </tr>
                           </thead>
                           <tbody>
                             {section.table.rows.map((row, r) => (
                               <tr key={r}>
-                                {row.map((cell, c) => <td key={c}>{cell}</td>)}
+                                {row.map((cell, c) => (
+                                  <td key={c}>{cell}</td>
+                                ))}
                               </tr>
                             ))}
                           </tbody>
@@ -233,7 +261,9 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
                 <PullQuote as="blockquote">
                   <PullQuoteText>{article.quote.text}</PullQuoteText>
                   {article.quote.attribution && (
-                    <PullAttribution>{article.quote.attribution}</PullAttribution>
+                    <PullAttribution>
+                      {article.quote.attribution}
+                    </PullAttribution>
                   )}
                 </PullQuote>
               )}
@@ -272,14 +302,21 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
 
 const ArticleSection = styled.section`
   padding: 4rem 0 2rem;
-  @media (max-width: 768px) { padding: 2.5rem 0 1rem; }
+  @media (max-width: 768px) {
+    padding: 2.5rem 0 1rem;
+  }
 `;
 
 const ArticleContainer = styled.div`
   width: 80%;
   margin: 0 auto;
-  @media (max-width: 968px) { width: 100%; padding: 0 2rem; }
-  @media (max-width: 426px) { padding: 0 0.6rem; }
+  @media (max-width: 968px) {
+    width: 100%;
+    padding: 0 2rem;
+  }
+  @media (max-width: 426px) {
+    padding: 0 0.6rem;
+  }
 `;
 
 const Crumbs = styled.nav`
@@ -298,9 +335,11 @@ const Crumbs = styled.nav`
 const CrumbLink = styled(Link)`
   color: #282828;
   transition: color 0.2s ease;
-  &:hover { color: #FF3863; }
+  &:hover {
+    color: #ff3863;
+  }
   &:focus-visible {
-    outline: 2px solid #FF3863;
+    outline: 2px solid #ff3863;
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -311,17 +350,21 @@ const CrumbDivider = styled.span`
 `;
 
 const CrumbCurrent = styled.span`
-  color: #FF3863;
+  color: #ff3863;
 `;
 
 const ArticleCard = styled.div`
-  background: #FFFEFA;
+  background: #fffefa;
   border: 1px solid #e5e5e5;
   border-radius: 12px;
   padding: 3.5rem 5rem 4rem;
   box-shadow: 0 2px 8px rgba(40, 40, 40, 0.05);
-  @media (max-width: 968px) { padding: 2.5rem 2rem 3rem; }
-  @media (max-width: 768px) { padding: 2rem 1.25rem 2.5rem; }
+  @media (max-width: 968px) {
+    padding: 2.5rem 2rem 3rem;
+  }
+  @media (max-width: 768px) {
+    padding: 2rem 1.25rem 2.5rem;
+  }
 `;
 
 // ─── Masthead ─────────────────────────────────────────────────────────────────
@@ -330,7 +373,10 @@ const Masthead = styled.header`
   border-bottom: 1px solid #e5e5e5;
   padding-bottom: 2.75rem;
   margin-bottom: 3rem;
-  @media (max-width: 768px) { padding-bottom: 2rem; margin-bottom: 2rem; }
+  @media (max-width: 768px) {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+  }
 `;
 
 const KickerRow = styled.div`
@@ -347,11 +393,13 @@ const KickerRow = styled.div`
   font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  @media (max-width: 768px) { margin-bottom: 1.75rem; }
+  @media (max-width: 768px) {
+    margin-bottom: 1.75rem;
+  }
 `;
 
 const KickerTag = styled.span`
-  color: #FF3863;
+  color: #ff3863;
   font-weight: 700;
 `;
 
@@ -370,7 +418,7 @@ const DisplayTitle = styled.h1`
 `;
 
 const TitleDot = styled.span`
-  color: #FF3863;
+  color: #ff3863;
 `;
 
 const StandfirstRow = styled.div`
@@ -393,7 +441,7 @@ const Standfirst = styled.p`
 `;
 
 const BylineBlock = styled.div`
-  border-top: 2px solid #FF3863;
+  border-top: 2px solid #ff3863;
   padding-top: 0.85rem;
 `;
 
@@ -429,7 +477,10 @@ const BylineRole = styled.span`
 
 const BodyGrid = styled.div`
   display: grid;
-  grid-template-columns: [full-start] 1fr [content-start] minmax(0, 68ch) [content-end] 1fr [full-end];
+  grid-template-columns: [full-start] 1fr [content-start] minmax(
+      0,
+      68ch
+    ) [content-end] 1fr [full-end];
   row-gap: 1.4rem;
   counter-reset: fig;
 
@@ -439,7 +490,10 @@ const BodyGrid = styled.div`
   }
 
   @media (max-width: 768px) {
-    grid-template-columns: [full-start content-start] minmax(0, 1fr) [content-end full-end];
+    grid-template-columns: [full-start content-start] minmax(
+        0,
+        1fr
+      ) [content-end full-end];
   }
 `;
 
@@ -455,11 +509,11 @@ const SectionNumber = styled.span`
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.16em;
-  color: #FF3863;
+  color: #ff3863;
   margin-bottom: 0.7rem;
 
   &::after {
-    content: '';
+    content: "";
     width: 48px;
     height: 2px;
     background: #282828;
@@ -480,9 +534,13 @@ const ArticleParagraph = styled.p`
   line-height: 1.85;
   color: #555;
   margin: 0;
-  @media (max-width: 768px) { font-size: 16px; }
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 
-  ${({ $dropCap }) => $dropCap && `
+  ${({ $dropCap }) =>
+    $dropCap &&
+    `
     &::first-letter {
       float: left;
       font-size: 4.6em;
@@ -507,16 +565,19 @@ const PullQuote = styled.div`
   border-bottom: 2px solid #282828;
 
   &::before {
-    content: '“';
+    content: "“";
     display: block;
     font-size: 4rem;
     font-weight: 800;
     line-height: 0.4;
-    color: #FF3863;
+    color: #ff3863;
     margin-bottom: 1.1rem;
   }
 
-  @media (max-width: 768px) { padding: 2rem 0.5rem; margin: 1.25rem 0; }
+  @media (max-width: 768px) {
+    padding: 2rem 0.5rem;
+    margin: 1.25rem 0;
+  }
 `;
 
 const PullQuoteText = styled.p`
@@ -547,7 +608,9 @@ const FigureSlot = styled.div`
   counter-increment: fig;
   margin: 1rem 0;
 
-  figure { margin: 0; }
+  figure {
+    margin: 0;
+  }
 
   figcaption {
     border-top: 1px solid #e5e5e5;
@@ -556,14 +619,14 @@ const FigureSlot = styled.div`
   }
 
   figcaption::before {
-    content: 'Fig. ' counter(fig, decimal-leading-zero);
+    content: "Fig. " counter(fig, decimal-leading-zero);
     display: block;
     font-family: ${MONO};
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: #FF3863;
+    color: #ff3863;
     margin-bottom: 0.35rem;
   }
 `;
@@ -606,7 +669,7 @@ const CodePre = styled.pre`
     font-family: ${MONO};
     font-size: 14px;
     line-height: 1.65;
-    color: #FFFEFA;
+    color: #fffefa;
     white-space: pre;
   }
 `;
@@ -630,17 +693,19 @@ const DefinitionItem = styled.li`
   position: relative;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 0.62em;
     width: 9px;
     height: 9px;
-    background: #FF3863;
+    background: #ff3863;
     transform: rotate(45deg);
   }
 
-  @media (max-width: 768px) { font-size: 16px; }
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 const DefinitionTerm = styled.strong`
@@ -662,7 +727,10 @@ const StepRow = styled.li`
   gap: 1.5rem;
   padding: 1.15rem 0;
   border-bottom: 1px solid #e5e5e5;
-  @media (max-width: 600px) { flex-direction: column; gap: 0.3rem; }
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
 `;
 
 const StepLabel = styled.span`
@@ -672,7 +740,7 @@ const StepLabel = styled.span`
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #FF3863;
+  color: #ff3863;
   padding-top: 0.25rem;
 `;
 
@@ -680,7 +748,9 @@ const StepText = styled.span`
   font-size: 17px;
   line-height: 1.7;
   color: #555;
-  @media (max-width: 768px) { font-size: 16px; }
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 const TableWrapper = styled.div`
@@ -720,12 +790,16 @@ const FindingsTable = styled.table`
   td:last-child {
     font-family: ${MONO};
     font-weight: 700;
-    color: #FF3863;
+    color: #ff3863;
     white-space: nowrap;
   }
 
   @media (max-width: 768px) {
-    th, td { padding: 0.7rem 0.9rem 0.7rem 0; font-size: 14px; }
+    th,
+    td {
+      padding: 0.7rem 0.9rem 0.7rem 0;
+      font-size: 14px;
+    }
   }
 `;
 
@@ -735,7 +809,7 @@ const EndMark = styled.div`
   justify-self: center;
   width: 12px;
   height: 12px;
-  background: #FF3863;
+  background: #ff3863;
   transform: rotate(45deg);
   margin: 2rem 0 0.5rem;
 `;
