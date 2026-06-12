@@ -10,6 +10,7 @@
 //   steps:  [{ label, text }] numbered process rows
 //   table:  { head: [], rows: [[]] }
 //   code:   { title, content } dark code block
+//   pull:   short sentence rendered as a large editorial pull quote
 // Set dashboard: true on any entry to render the PendoAnalyticsDashboard at the
 // end of its article page.
 
@@ -45,8 +46,10 @@ export const insightsData = [
       description:
         "What a Pendo installation audit covers: snippet health, feature tagging, segmentation and guide configuration, plus the prioritised remediation report you get at the end.",
     },
-    quote:
-      "'Victor did a full audit of our initial Pendo installation and got us up to speed. We are now working on creating guides and a reporting dashboard, and are excited to see the analytics behind the improvements.' Renee C, The PUSH Agency",
+    quote: {
+      text: "Victor did a full audit of our initial Pendo installation and got us up to speed. We are now working on creating guides and a reporting dashboard, and are excited to see the analytics behind the improvements.",
+      attribution: "Renee C, The PUSH Agency",
+    },
     sections: [
       {
         heading: null,
@@ -77,6 +80,7 @@ export const insightsData = [
           "Segments are only as good as the metadata behind them. The audit checks which visitor and account fields are actually being sent (plan tier, role, signup date, account owner) and which reports and guides depend on fields that are empty or stale. This area is where I find the most issues, by a distance.",
         ],
         figure: "auditIssueBars",
+        pull: "Internal users are not excluded from analytics, inflating every engagement metric the product team reports on.",
       },
       {
         heading: "Guide configuration",
@@ -163,7 +167,7 @@ export const insightsData = [
       description:
         "How to read Pendo click events and use the Aggregation API to build live custom dashboards: feature adoption, visitor trends, and full event logs beyond CSV exports.",
     },
-    quote: "",
+    quote: null,
     sections: [
       {
         heading: null,
@@ -184,6 +188,7 @@ export const insightsData = [
           "Three things distort raw click counts in almost every Pendo account. Internal users, your own team testing and demoing, can be a third of all events if they aren't segmented out. Power users concentrate volume: a handful of visitors often produce most of a feature's clicks, so a rising total can mean deeper usage by the same few people, not wider adoption. And repeat interactions inflate everything: a user who clicks an export button thirty times in one session is one unit of adoption, not thirty.",
           "The fix is to stop reporting totals and start reporting ratios: unique visitors per feature, the share of accounts that used a feature at least once, and how usage persists week over week. Those are exactly the kinds of questions the Aggregation API answers well.",
         ],
+        pull: "A user who clicks an export button thirty times in one session is one unit of adoption, not thirty.",
       },
       {
         heading: "Beyond dashboards and CSV exports",

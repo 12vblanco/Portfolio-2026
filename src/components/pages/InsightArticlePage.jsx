@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-import { useEffect, useRef } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { LINKS } from '../../data/siteConfig';
@@ -23,6 +23,8 @@ const ARTICLE_FIGURES = {
   clicksVsVisitors: ClicksVsVisitorsFigure,
   apiFlow: ApiFlowFigure,
 };
+
+const MONO = "'SF Mono', 'Fira Code', Menlo, Consolas, monospace";
 
 export const InsightArticlePage = ({ onOpenTerms }) => {
   const { slug } = useParams();
@@ -49,6 +51,7 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
   if (!article) return <Navigate to="/pendo-consultant" replace />;
 
   const canonical = `${LINKS.site}/insights/${article.slug}`;
+  const [authorName, authorRole] = (article.name || 'Victor Blanco').split(' - ');
 
   const articleStructuredData = {
     "@context": "https://schema.org",
@@ -85,6 +88,9 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
     ],
   };
 
+  // Numbered section headings, magazine style (intro sections have no heading)
+  let sectionCounter = 0;
+
   return (
     <>
       <SEO
@@ -102,30 +108,62 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
           <BackLink to="/pendo-consultant#insights">← All Pendo insights</BackLink>
 
           <ArticleCard ref={cardRef} as="article">
-            <ArticleHeader>
-              <ArticleTag>{article.tag}</ArticleTag>
-              <ArticleTitle>{article.title}</ArticleTitle>
-              <ArticleMetaRow>
-                <ArticleAuthor>{article.name}</ArticleAuthor>
-                <ArticleMetaDivider>·</ArticleMetaDivider>
-                <ArticleMetaItem>{article.date}</ArticleMetaItem>
-                <ArticleMetaDivider>·</ArticleMetaDivider>
-                <ArticleMetaItem>{article.read}</ArticleMetaItem>
-              </ArticleMetaRow>
-              <ArticleIntro>{article.subtitle}</ArticleIntro>
-            </ArticleHeader>
 
-            <ArticleBody>
+            {/* ── Masthead ── */}
+            <Masthead>
+              <KickerRow>
+                <KickerTag>{article.tag}</KickerTag>
+                <KickerItem>{article.date}</KickerItem>
+                <KickerItem>{article.read}</KickerItem>
+              </KickerRow>
+
+              <DisplayTitle>
+                {article.title}
+                <TitleDot>.</TitleDot>
+              </DisplayTitle>
+
+              <StandfirstRow>
+                <Standfirst>{article.subtitle}</Standfirst>
+                <BylineBlock>
+                  <BylineLabel>Words</BylineLabel>
+                  <BylineName>{authorName}</BylineName>
+                  {authorRole && <BylineRole>{authorRole}</BylineRole>}
+                </BylineBlock>
+              </StandfirstRow>
+            </Masthead>
+
+            {/* ── Editorial body grid ── */}
+            <BodyGrid>
               {article.sections.map((section, i) => {
                 const Figure = section.figure ? ARTICLE_FIGURES[section.figure] : null;
+                const num = section.heading ? ++sectionCounter : null;
+
                 return (
-                  <ArticleSectionBlock key={i}>
-                    {section.heading && <ArticleHeading>{section.heading}</ArticleHeading>}
+                  <Fragment key={i}>
+                    {section.heading && (
+                      <SectionHeader>
+                        <SectionNumber>{String(num).padStart(2, '0')}</SectionNumber>
+                        <SectionHeading>{section.heading}</SectionHeading>
+                      </SectionHeader>
+                    )}
+
                     {section.paragraphs.map((para, j) => (
-                      <ArticleParagraph key={j}>{para}</ArticleParagraph>
+                      <ArticleParagraph key={j} $dropCap={i === 0 && j === 0}>
+                        {para}
+                      </ArticleParagraph>
                     ))}
 
-                    {Figure && <Figure />}
+                    {section.pull && (
+                      <PullQuote>
+                        <PullQuoteText>{section.pull}</PullQuoteText>
+                      </PullQuote>
+                    )}
+
+                    {Figure && (
+                      <FigureSlot>
+                        <Figure />
+                      </FigureSlot>
+                    )}
 
                     {section.code && (
                       <CodeBlock>
@@ -177,26 +215,38 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
                         </FindingsTable>
                       </TableWrapper>
                     )}
-                  </ArticleSectionBlock>
+                  </Fragment>
                 );
               })}
 
-              {article.quote && (
-                <ArticleQuote>
-                  <ArticleQuoteText>{article.quote}</ArticleQuoteText>
-                </ArticleQuote>
+              {article.quote?.text && (
+                <PullQuote as="blockquote">
+                  <PullQuoteText>{article.quote.text}</PullQuoteText>
+                  {article.quote.attribution && (
+                    <PullAttribution>{article.quote.attribution}</PullAttribution>
+                  )}
+                </PullQuote>
               )}
 
-              {article.dashboard && <PendoAnalyticsDashboard />}
+              {article.dashboard && (
+                <DashboardSlot>
+                  <PendoAnalyticsDashboard />
+                </DashboardSlot>
+              )}
+
+              <EndMark aria-hidden="true" />
 
               {article.pills?.length > 0 && (
-                <ArticlePills>
-                  {article.pills.map((pill, i) => (
-                    <ArticlePill key={i}>{pill}</ArticlePill>
-                  ))}
-                </ArticlePills>
+                <FiledUnder>
+                  <FiledUnderLabel>Filed under</FiledUnderLabel>
+                  <FiledUnderPills>
+                    {article.pills.map((pill, i) => (
+                      <ArticlePill key={i}>{pill}</ArticlePill>
+                    ))}
+                  </FiledUnderPills>
+                </FiledUnder>
               )}
-            </ArticleBody>
+            </BodyGrid>
           </ArticleCard>
         </ArticleContainer>
       </ArticleSection>
@@ -208,7 +258,7 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
   );
 };
 
-// ─── Styled Components ────────────────────────────────────────────────────────
+// ─── Layout ───────────────────────────────────────────────────────────────────
 
 const ArticleSection = styled.section`
   padding: 4rem 0 2rem;
@@ -224,8 +274,11 @@ const ArticleContainer = styled.div`
 
 const BackLink = styled(Link)`
   display: inline-block;
-  font-size: 16px;
-  font-weight: 600;
+  font-family: ${MONO};
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: #282828;
   margin-bottom: 1.5rem;
   transition: color 0.2s ease;
@@ -241,77 +294,161 @@ const ArticleCard = styled.div`
   background: #FFFEFA;
   border: 1px solid #e5e5e5;
   border-radius: 12px;
-  padding: 3.5rem 5rem;
+  padding: 3.5rem 5rem 4rem;
   box-shadow: 0 2px 8px rgba(40, 40, 40, 0.05);
-  @media (max-width: 968px) { padding: 2.5rem 2rem; }
-  @media (max-width: 768px) { padding: 2rem 1.25rem; }
+  @media (max-width: 968px) { padding: 2.5rem 2rem 3rem; }
+  @media (max-width: 768px) { padding: 2rem 1.25rem 2.5rem; }
 `;
 
-const ArticleHeader = styled.header`
-  border-bottom: 1px solid #f0f0f0;
-  padding-bottom: 1.75rem;
-  margin-bottom: 1.75rem;
+// ─── Masthead ─────────────────────────────────────────────────────────────────
+
+const Masthead = styled.header`
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 2.75rem;
+  margin-bottom: 3rem;
+  @media (max-width: 768px) { padding-bottom: 2rem; margin-bottom: 2rem; }
 `;
 
-const ArticleTag = styled.span`
-  display: block;
-  font-size: 16px;
-  font-weight: 700;
-  color: #FF3863;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 0.75rem;
-`;
-
-const ArticleTitle = styled.h1`
-  font-size: clamp(1.9rem, 4.5vw, 3rem);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -1px;
-  color: #282828;
-  margin: 0 0 1rem;
-`;
-
-const ArticleMetaRow = styled.div`
+const KickerRow = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 1.25rem;
+  border-top: 3px solid #282828;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0.85rem 0;
+  margin-bottom: 2.75rem;
+  font-family: ${MONO};
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  @media (max-width: 768px) { margin-bottom: 1.75rem; }
 `;
 
-const ArticleAuthor = styled.span` font-size: 15px; font-weight: 600; color: #282828; `;
-const ArticleMetaDivider = styled.span` font-size: 15px; color: #999; `;
-const ArticleMetaItem = styled.span` font-size: 15px; color: #999; `;
+const KickerTag = styled.span`
+  color: #FF3863;
+  font-weight: 700;
+`;
 
-const ArticleIntro = styled.p`
-  font-size: 20px;
-  line-height: 1.7;
+const KickerItem = styled.span`
+  color: #999;
+`;
+
+const DisplayTitle = styled.h1`
+  font-size: clamp(2.4rem, 5.5vw, 4.3rem);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: #282828;
+  margin: 0 0 2.25rem;
+  max-width: 22ch;
+`;
+
+const TitleDot = styled.span`
+  color: #FF3863;
+`;
+
+const StandfirstRow = styled.div`
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  gap: 3rem;
+  align-items: end;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+`;
+
+const Standfirst = styled.p`
+  font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+  line-height: 1.55;
   color: #555;
   margin: 0;
-  max-width: 62rem;
-  @media (max-width: 768px) { font-size: 17px; }
+  max-width: 56ch;
 `;
 
-const ArticleBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
+const BylineBlock = styled.div`
+  border-top: 2px solid #FF3863;
+  padding-top: 0.85rem;
 `;
 
-const ArticleSectionBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
+const BylineLabel = styled.span`
+  display: block;
+  font-family: ${MONO};
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 0.35rem;
 `;
 
-const ArticleHeading = styled.h2`
-  font-size: clamp(1.4rem, 3vw, 1.8rem);
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  line-height: 1.25;
+const BylineName = styled.span`
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: #282828;
-  margin: 1.25rem 0 0;
+`;
+
+const BylineRole = styled.span`
+  display: block;
+  font-size: 13px;
+  color: #999;
+  margin-top: 0.15rem;
+`;
+
+// ─── Editorial body grid ──────────────────────────────────────────────────────
+// Prose sits in a readable centre column; figures, quotes, code and the
+// dashboard break out to the full card width, like a magazine spread.
+
+const BodyGrid = styled.div`
+  display: grid;
+  grid-template-columns: [full-start] 1fr [content-start] minmax(0, 68ch) [content-end] 1fr [full-end];
+  row-gap: 1.4rem;
+  counter-reset: fig;
+
+  > * {
+    grid-column: content;
+    min-width: 0;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: [full-start content-start] minmax(0, 1fr) [content-end full-end];
+  }
+`;
+
+const SectionHeader = styled.div`
+  margin-top: 2.25rem;
+`;
+
+const SectionNumber = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: ${MONO};
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #FF3863;
+  margin-bottom: 0.7rem;
+
+  &::after {
+    content: '';
+    width: 48px;
+    height: 2px;
+    background: #282828;
+  }
+`;
+
+const SectionHeading = styled.h2`
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  line-height: 1.15;
+  color: #282828;
+  margin: 0;
 `;
 
 const ArticleParagraph = styled.p`
@@ -319,13 +456,106 @@ const ArticleParagraph = styled.p`
   line-height: 1.85;
   color: #555;
   margin: 0;
-  max-width: 62rem;
   @media (max-width: 768px) { font-size: 16px; }
+
+  ${({ $dropCap }) => $dropCap && `
+    &::first-letter {
+      float: left;
+      font-size: 4.6em;
+      line-height: 0.78;
+      font-weight: 800;
+      color: #FF3863;
+      padding: 0.06em 0.12em 0 0;
+    }
+  `}
 `;
 
+// ─── Pull quotes ──────────────────────────────────────────────────────────────
+
+const PullQuote = styled.div`
+  grid-column: full;
+  justify-self: center;
+  width: min(100%, 56rem);
+  text-align: center;
+  margin: 2rem 0;
+  padding: 2.5rem 1.5rem;
+  border-top: 2px solid #282828;
+  border-bottom: 2px solid #282828;
+
+  &::before {
+    content: '“';
+    display: block;
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 0.4;
+    color: #FF3863;
+    margin-bottom: 1.1rem;
+  }
+
+  @media (max-width: 768px) { padding: 2rem 0.5rem; margin: 1.25rem 0; }
+`;
+
+const PullQuoteText = styled.p`
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.5px;
+  color: #282828;
+  margin: 0;
+`;
+
+const PullAttribution = styled.cite`
+  display: block;
+  font-family: ${MONO};
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #999;
+  margin-top: 1.25rem;
+`;
+
+// ─── Figures ──────────────────────────────────────────────────────────────────
+
+const FigureSlot = styled.div`
+  grid-column: full;
+  counter-increment: fig;
+  margin: 1rem 0;
+
+  figure { margin: 0; }
+
+  figcaption {
+    border-top: 1px solid #e5e5e5;
+    padding-top: 0.75rem;
+    margin-top: 1.1rem;
+  }
+
+  figcaption::before {
+    content: 'Fig. ' counter(fig, decimal-leading-zero);
+    display: block;
+    font-family: ${MONO};
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #FF3863;
+    margin-bottom: 0.35rem;
+  }
+`;
+
+const DashboardSlot = styled.div`
+  grid-column: full;
+  margin-top: 1rem;
+`;
+
+// ─── Code block ───────────────────────────────────────────────────────────────
+
 const CodeBlock = styled.div`
-  max-width: 62rem;
-  margin: 0.5rem 0;
+  grid-column: full;
+  justify-self: center;
+  width: min(100%, 64rem);
+  margin: 0.75rem 0;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid #282828;
@@ -334,9 +564,10 @@ const CodeBlock = styled.div`
 const CodeTitle = styled.div`
   background: #282828;
   color: rgba(255, 254, 250, 0.7);
-  font-size: 14px;
+  font-family: ${MONO};
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.06em;
   padding: 0.7rem 1.25rem;
   border-bottom: 1px solid rgba(255, 254, 250, 0.12);
 `;
@@ -348,13 +579,15 @@ const CodePre = styled.pre`
   overflow-x: auto;
 
   code {
-    font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
+    font-family: ${MONO};
     font-size: 14px;
     line-height: 1.65;
     color: #FFFEFA;
     white-space: pre;
   }
 `;
+
+// ─── Lists, steps, table ──────────────────────────────────────────────────────
 
 const DefinitionList = styled.ul`
   list-style: none;
@@ -363,7 +596,6 @@ const DefinitionList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  max-width: 62rem;
 `;
 
 const DefinitionItem = styled.li`
@@ -377,11 +609,11 @@ const DefinitionItem = styled.li`
     content: '';
     position: absolute;
     left: 0;
-    top: 0.65em;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
+    top: 0.62em;
+    width: 9px;
+    height: 9px;
     background: #FF3863;
+    transform: rotate(45deg);
   }
 
   @media (max-width: 768px) { font-size: 16px; }
@@ -394,30 +626,30 @@ const DefinitionTerm = styled.strong`
 
 const StepsList = styled.ol`
   list-style: none;
-  margin: 0.25rem 0 0;
+  margin: 0.5rem 0 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  max-width: 62rem;
-  border: 1px solid #e5e5e5;
-  border-radius: 12px;
-  overflow: hidden;
+  border-top: 2px solid #282828;
 `;
 
 const StepRow = styled.li`
   display: flex;
-  gap: 1.25rem;
-  padding: 1.1rem 1.5rem;
-  background: rgba(40, 40, 40, 0.02);
-  &:not(:last-child) { border-bottom: 1px solid #e5e5e5; }
-  @media (max-width: 600px) { flex-direction: column; gap: 0.25rem; }
+  gap: 1.5rem;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid #e5e5e5;
+  @media (max-width: 600px) { flex-direction: column; gap: 0.3rem; }
 `;
 
 const StepLabel = styled.span`
-  flex: 0 0 92px;
-  font-size: 16px;
+  flex: 0 0 96px;
+  font-family: ${MONO};
+  font-size: 13px;
   font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: #FF3863;
+  padding-top: 0.25rem;
 `;
 
 const StepText = styled.span`
@@ -428,79 +660,89 @@ const StepText = styled.span`
 `;
 
 const TableWrapper = styled.div`
+  grid-column: full;
+  justify-self: center;
+  width: min(100%, 64rem);
   overflow-x: auto;
-  margin: 0.5rem 0;
+  margin: 0.75rem 0;
 `;
 
 const FindingsTable = styled.table`
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid #e5e5e5;
-  border-radius: 12px;
-  overflow: hidden;
+  border-top: 2px solid #282828;
 
   th {
     text-align: left;
-    font-size: 14px;
+    font-family: ${MONO};
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #282828;
-    background: rgba(40, 40, 40, 0.04);
-    padding: 0.9rem 1.25rem;
-    border-bottom: 1px solid #e5e5e5;
+    padding: 0.9rem 1.25rem 0.9rem 0;
+    border-bottom: 1px solid #282828;
   }
 
   td {
     font-size: 16px;
     line-height: 1.6;
     color: #555;
-    padding: 0.9rem 1.25rem;
-    border-bottom: 1px solid #f0f0f0;
+    padding: 1rem 1.25rem 1rem 0;
+    border-bottom: 1px solid #e5e5e5;
     vertical-align: top;
   }
 
-  tr:last-child td { border-bottom: none; }
-
   td:last-child {
+    font-family: ${MONO};
     font-weight: 700;
     color: #FF3863;
     white-space: nowrap;
   }
 
   @media (max-width: 768px) {
-    th, td { padding: 0.7rem 0.9rem; font-size: 14px; }
+    th, td { padding: 0.7rem 0.9rem 0.7rem 0; font-size: 14px; }
   }
 `;
 
-const ArticleQuote = styled.blockquote`
-  margin: 1rem 0;
-  padding: 1rem 1.25rem;
-  border-left: 3px solid #FF3863;
-  background: rgba(255, 56, 99, 0.03);
-  border-radius: 0 8px 8px 0;
+// ─── End matter ───────────────────────────────────────────────────────────────
+
+const EndMark = styled.div`
+  justify-self: center;
+  width: 12px;
+  height: 12px;
+  background: #FF3863;
+  transform: rotate(45deg);
+  margin: 2rem 0 0.5rem;
 `;
 
-const ArticleQuoteText = styled.p`
-  font-size: 17px;
-  font-style: italic;
-  line-height: 1.75;
-  color: #555;
-  margin: 0;
-  @media (max-width: 768px) { font-size: 15px; }
+const FiledUnder = styled.div`
+  border-top: 1px solid #e5e5e5;
+  padding-top: 1.25rem;
+  margin-top: 0.5rem;
 `;
 
-const ArticlePills = styled.div`
+const FiledUnderLabel = styled.span`
+  display: block;
+  font-family: ${MONO};
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 0.75rem;
+`;
+
+const FiledUnderPills = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
-  margin-top: 1rem;
 `;
 
 const ArticlePill = styled.span`
-  font-size: 14px;
-  padding: 3px 11px;
-  border-radius: 20px;
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 4px;
   border: 1px solid #333;
   color: #333;
   letter-spacing: 0.03em;
