@@ -45,8 +45,11 @@ export const Hero = () => {
             <HeroSubtitle ref={line3Ref}>
               Edinburgh-based web developer{" "}
               <strong>designing and building websites</strong> that work for
-              you. <PendoLink to="/pendo-consultant">Expert Pendo services</PendoLink>, installation, audits,
-              and improving product adoption.
+              you.{" "}
+              <PendoLink to="/pendo-consultant">
+                Expert Pendo services
+              </PendoLink>
+              , installation, audits, and improving product adoption.
             </HeroSubtitle>
           </HeroLeftColumn>
 
@@ -67,7 +70,6 @@ export const Hero = () => {
 const PendoLink = styled(Link)`
   font-weight: 700;
   color: #282828;
-  border-bottom: 2px solid #ff3863;
   transition: color 0.2s ease;
   &:hover {
     color: #ff3863;
