@@ -35,11 +35,7 @@
   to = "/"
   status = 301
 
-# /insights has no index page of its own — send it to the insights section
-[[redirects]]
-  from = "/insights"
-  to = "/pendo-consultant#insights"
-  status = 301
+# /insights is now a real prerendered hub page (dist/insights.html), not a redirect.
 
 # No SPA catch-all: every route is prerendered to a real HTML file at build
 # time (see scripts/prerender.js), so unknown paths correctly serve 404.html

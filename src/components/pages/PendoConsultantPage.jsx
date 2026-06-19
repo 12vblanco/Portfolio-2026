@@ -51,6 +51,8 @@ export const PendoConsultantPage = ({ onOpenTerms }) => {
         ogTitle={pageMetadata.ogTitle}
         ogDescription={pageMetadata.ogDescription}
         ogImage={pageMetadata.ogImage}
+        ogImageWidth={pageMetadata.ogImageWidth}
+        ogImageHeight={pageMetadata.ogImageHeight}
         structuredData={[pendoStructuredData, insightsStructuredData, faqStructuredData]}
       />
 

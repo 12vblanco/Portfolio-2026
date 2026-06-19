@@ -38,6 +38,7 @@ export const featuresData = [
 ];
 
 import { LINKS } from '../../data/siteConfig';
+import { publishedInsights } from './pendoInsightsData';
 
 export const ctaData = {
   title: 'Ready to get more from Pendo?',
@@ -55,6 +56,8 @@ export const pageMetadata = {
   ogTitle: 'Pendo Consultant | Victor Blanco',
   ogDescription: 'Certified Pendo consultant helping SaaS teams install Pendo correctly, fix broken setups, build in-app guides, and create product analytics dashboards that actually get used.',
   ogImage: 'https://victorblancoweb.com/og-image-pendo.png',
+  ogImageWidth: 2928,
+  ogImageHeight: 1636,
 };
 
 export const pendoStructuredData = {
@@ -173,21 +176,15 @@ export const faqStructuredData = {
   ]
 };
 
+// Derived from publishedInsights so the ItemList can never drift from the
+// articles actually live on the page (and in the sitemap/prerender routes).
 export const insightsStructuredData = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Pendo installation audit: what it covers and what you get",
-      "url": "https://victorblancoweb.com/insights/pendo-installation-audit"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "What your Pendo click data tells you and how to utilize the Aggregation API",
-      "url": "https://victorblancoweb.com/insights/pendo-click-data-aggregation-api"
-    }
-  ]
+  "itemListElement": publishedInsights.map((item, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "name": item.title,
+    "url": `https://victorblancoweb.com/insights/${item.slug}`,
+  })),
 };

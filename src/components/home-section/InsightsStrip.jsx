@@ -7,7 +7,7 @@ const MONO = "'SF Mono', 'Fira Code', Menlo, Consolas, monospace";
 // Compact editorial strip on the homepage linking to the latest published
 // insights — internal links from the strongest page on the site.
 export const InsightsStrip = () => {
-  const latest = publishedInsights.slice(0, 2);
+  const latest = publishedInsights.slice(0, 3);
   if (latest.length === 0) return null;
 
   return (
@@ -18,7 +18,7 @@ export const InsightsStrip = () => {
             <StripLabel>{insightsHeader.label}</StripLabel>
             <StripTitle>Latest from the field</StripTitle>
           </StripHeading>
-          <StripAllLink to="/pendo-consultant#insights">All insights →</StripAllLink>
+          <StripAllLink to="/insights">All insights →</StripAllLink>
         </StripHeader>
 
         <StripGrid>

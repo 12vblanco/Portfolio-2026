@@ -56,6 +56,10 @@ export const HeroTitle = ({
         <TitleLine>
           <TitleText ref={line1Ref}>{line1Text}</TitleText>
         </TitleLine>
+        {/* Whitespace text node so the H1's text content reads
+            "Web Developer & Pendo Consultant" (the two block lines would
+            otherwise concatenate with no space for crawlers). */}
+        {" "}
         <TitleLine>
           <TitleText ref={line2Ref} style={{ color: line2Color }}>{line2Text}</TitleText>
         </TitleLine>

@@ -50,7 +50,7 @@ export const insightsData = [
     meta: {
       title: "Pendo Installation Audit: What It Covers | Victor Blanco",
       description:
-        "What a Pendo installation audit covers: snippet health, feature tagging, segmentation and guide configuration, plus the prioritised remediation report you get at the end.",
+        "What a Pendo installation audit covers: snippet health, feature tagging, segmentation and guides, plus the prioritised remediation report you get.",
     },
     quote: {
       text: "Victor did a full audit of our initial Pendo installation and got us up to speed. We are now working on creating guides and a reporting dashboard, and are excited to see the analytics behind the improvements.",
@@ -153,7 +153,7 @@ export const insightsData = [
     slug: "pendo-click-data-aggregation-api",
     tag: "Pendo Analytics",
     title:
-      "What your Pendo click data tells you and how to utilize the Aggregation API",
+      "What your Pendo click data tells you and how to use the Aggregation API",
     name: "Victor Blanco - Pendo consultant",
     date: "June 2026",
     datePublished: "2026-05-01",
@@ -168,11 +168,11 @@ export const insightsData = [
       "Pendo API",
     ],
     subtitle:
-      "Click events are Pendo's most granular data but raw counts without context are just noise. As well as building dashboards in Pendo and downloading CSV files with all shorts of events and click data, you can also utilize the integration API key to produce your own customized dashboard with live data",
+      "Click events are Pendo's most granular data but raw counts without context are just noise. As well as building dashboards in Pendo and downloading CSV files with all sorts of events and click data, you can also use the integration API key to produce your own customised dashboard with live data.",
     meta: {
       title: "Pendo Click Data & the Aggregation API | Victor Blanco",
       description:
-        "How to read Pendo click events and use the Aggregation API to build live custom dashboards: feature adoption, visitor trends, and full event logs beyond CSV exports.",
+        "How to read Pendo click events and use the Aggregation API to build live dashboards: feature adoption, visitor trends and event logs beyond CSV exports.",
     },
     quote: null,
     sections: [
@@ -214,34 +214,30 @@ export const insightsData = [
           content: `POST https://app.eu.pendo.io/api/v1/aggregation
 x-pendo-integration-key: <your-integration-key>
 
-{
-  "response": { "mimeType": "application/json" },
+{ "response": { "mimeType": "application/json" },
   "request": {
     "name": "clicks-by-feature-last-30-days",
     "pipeline": [
-      {
-        "source": {
+      { "source": {
           "featureEvents": null,
           "timeSeries": {
             "period": "dayRange",
             "first": "date_add(now(), -30, \\"days\\")",
-            "count": 30
-          }
-        }
-      },
-      {
-        "group": {
+            "count": 30 }}},
+      { "group": {
           "group": ["featureId"],
-          "fields": { "clicks": { "sum": "numEvents" } }
-        }
-      },
-      { "sort": ["-clicks"] }
-    ]
-  }
-}`,
+          "fields": { "clicks": { "sum": "numEvents" } }}},
+      { "sort": ["-clicks"] }]}}`,
         },
         paragraphsAfter: [
           "Reading it top to bottom: the source stage pulls feature click events day by day for the last 30 days, the group stage sums clicks per feature, and the sort stage ranks them. Swap the group key to visitorId or accountId and the same query answers a completely different question. From there the response is plain JSON. Feed it to any charting library and the report updates itself.",
+        ],
+      },
+      {
+        heading: "What the query doesn't show",
+        paragraphs: [
+          "The pipeline above is the easy part. Getting it into production is the rest: the integration key has read access to your entire subscription, so it has to be stored and rotated like any other secret and never shipped to the browser. Large accounts page their responses, so a naive query silently truncates. And a feature ID on its own means nothing until you join it to the visitor and account metadata that says who these people actually are.",
+          "Then it has to keep running: a scheduled refresh, somewhere to host it, a chart layer, and an alert for when a pipeline quietly starts returning zero because a tag broke upstream. None of it is especially hard, but it is the difference between a query you ran once and a report a team can trust every week. That part is what I build.",
         ],
       },
       {
@@ -455,14 +451,14 @@ x-pendo-integration-key: <your-integration-key>
   },
 
   {
-    published: false,
+    published: true,
     slug: "pendo-aggregation-api-examples",
     tag: "Pendo API",
     title: "Five practical Pendo Aggregation API examples",
     name: "Victor Blanco - Pendo consultant",
-    date: "2026", // set on publish
-    datePublished: "2026-08-01", // set on publish
-    dateModified: "2026-08-01", // set on publish
+    date: "June 2026",
+    datePublished: "2026-06-19",
+    dateModified: "2026-06-19",
     read: "7 min read",
     pills: [
       "Pendo API",
@@ -495,30 +491,18 @@ x-pendo-integration-key: <your-integration-key>
         ],
         code: {
           title: "Pipeline: daily unique visitors by feature, last 30 days",
-          content: `{
-  "response": { "mimeType": "application/json" },
+          content: `{ "response": { "mimeType": "application/json" },
   "request": {
     "pipeline": [
-      {
-        "source": {
+      { "source": {
           "featureEvents": null,
           "timeSeries": {
             "period": "dayRange",
             "first": "date_add(now(), -30, \\"days\\")",
-            "count": 30
-          }
-        }
-      },
-      {
-        "group": {
-          "group": ["featureId", "day"],
-          "fields": { "visitors": { "count": "visitorId" } }
-        }
-      },
-      { "sort": ["day", "-visitors"] }
-    ]
-  }
-}`,
+            "count": 30}}},
+      { "group": { "group": ["featureId", "day"],
+          "fields": { "visitors": { "count": "visitorId" } }}},
+      { "sort": ["day", "-visitors"] }]}}`,
         },
       },
       {
@@ -528,33 +512,21 @@ x-pendo-integration-key: <your-integration-key>
         ],
         code: {
           title: "Pipeline: accounts using one feature, current month",
-          content: `{
-  "response": { "mimeType": "application/json" },
+          content: `{ "response": { "mimeType": "application/json" },
   "request": {
     "pipeline": [
-      {
-        "source": {
+      { "source": {
           "featureEvents": { "featureId": "<your-feature-id>" },
           "timeSeries": {
             "period": "dayRange",
             "first": "startOfPeriod(now(), \\"month\\")",
-            "count": 31
-          }
-        }
-      },
-      {
-        "group": {
+            "count": 31}}},
+      { "group": {
           "group": ["accountId"],
           "fields": {
             "events": { "sum": "numEvents" },
-            "visitors": { "count": "visitorId" }
-          }
-        }
-      },
-      { "sort": ["-events"] }
-    ]
-  }
-}`,
+            "visitors": { "count": "visitorId" }}}},
+      { "sort": ["-events"] }]}}`,
         },
       },
       {
@@ -564,29 +536,18 @@ x-pendo-integration-key: <your-integration-key>
         ],
         code: {
           title: "Pipeline: guide events by step, last 90 days",
-          content: `{
-  "response": { "mimeType": "application/json" },
+          content: `{ "response": { "mimeType": "application/json" },
   "request": {
     "pipeline": [
-      {
-        "source": {
+      { "source": {
           "guideEvents": { "guideId": "<your-guide-id>" },
           "timeSeries": {
             "period": "dayRange",
             "first": "date_add(now(), -90, \\"days\\")",
-            "count": 90
-          }
-        }
-      },
-      {
-        "group": {
+            "count": 90}}},
+      { "group": {
           "group": ["guideStepId", "type"],
-          "fields": { "visitors": { "count": "visitorId" } }
-        }
-      }
-    ]
-  }
-}`,
+          "fields": { "visitors": { "count": "visitorId" } }}}]}}`,
         },
         pull: "Dashboards answer the questions Pendo thought of. The Aggregation API answers yours.",
       },
@@ -596,6 +557,14 @@ x-pendo-integration-key: <your-integration-key>
           "Stickiness per feature: run the daily-visitors pipeline twice, once over a day and once over thirty, and divide. DAU over MAU per feature separates habit-forming features from occasional ones, and it is not a number any standard dashboard gives you.",
           "Page time by account: swap the source to pageEvents and sum numMinutes grouped by accountId. Where accounts actually spend time is often embarrassingly different from where the roadmap assumes they do.",
         ],
+      },
+      {
+        heading: "What these pipelines leave out",
+        paragraphs: [
+          "Every example here is the query, not the system around it. In a real deployment the integration key has to be secured and rotated (it can read your whole subscription), responses from large accounts have to be paginated, and raw IDs have to be joined to the visitor and account metadata that makes them readable. Then the whole thing needs scheduling, hosting, a chart layer, and an alert for when a pipeline starts returning zero because a tag broke upstream.",
+          "That gap, between a query that runs once and a report a team checks every Monday, is most of the actual work.",
+        ],
+        pull: "The query is the easy part. The system around it is the job.",
       },
       {
         heading: "Putting it together",

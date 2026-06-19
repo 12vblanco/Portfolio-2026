@@ -306,7 +306,10 @@ const CaseStudies = () => {
             onPointerLeave={handlePointerUp}
           >
             <CardsTrack $hasAnimated={hasAnimated}>
-              {hasAnimated && caseStudies.map((study, index) => (
+              {/* Cards render server-side (the $hasAnimated prop drives the
+                  entrance animation via CSS) so crawlers and social scrapers
+                  see the full portfolio in the static HTML, not an empty shell. */}
+              {caseStudies.map((study, index) => (
                 <LazyVideoCard
                   key={study.id}
                   study={study}
@@ -322,9 +325,9 @@ const CaseStudies = () => {
             </CardsTrack>
           </CardsContainer>
 
-          {/* Mobile/tablet CSS-transform carousel, hidden on desktop */}
-          {hasAnimated && (
-            <MobileCarousel>
+          {/* Mobile/tablet CSS-transform carousel, hidden on desktop.
+              Rendered server-side too; CSS media queries show the right one. */}
+          <MobileCarousel>
               <MobileControlsWrapper>
                 <CarouselControls
                   onPrev={scrollToPrev}
@@ -350,7 +353,6 @@ const CaseStudies = () => {
                 </MobileTrack>
               </MobileTrackViewport>
             </MobileCarousel>
-          )}
 
         </CarouselWrapper>
       </Container>

@@ -27,9 +27,21 @@ if (existsSync('dist/pendo-consultant')) {
 
 const buildDate = new Date().toISOString().slice(0, 10);
 
+// lastmod for the evergreen pages is pinned to the last meaningful content
+// change (bump by hand when you edit them) rather than buildDate, so a routine
+// rebuild doesn't churn the sitemap and tell crawlers nothing changed actually did.
+const HOME_LASTMOD = '2026-06-19';
+const PENDO_LASTMOD = '2026-06-19';
+// The insights hub's freshness tracks the most recently updated article.
+const INSIGHTS_LASTMOD = publishedInsights
+  .map((i) => i.dateModified || buildDate)
+  .sort()
+  .at(-1) || buildDate;
+
 const routes = [
-  { url: '/', out: 'dist/index.html', sitemap: { lastmod: buildDate, priority: '1.0' } },
-  { url: '/pendo-consultant', out: 'dist/pendo-consultant.html', sitemap: { lastmod: buildDate, priority: '0.9' } },
+  { url: '/', out: 'dist/index.html', sitemap: { lastmod: HOME_LASTMOD, priority: '1.0' } },
+  { url: '/pendo-consultant', out: 'dist/pendo-consultant.html', sitemap: { lastmod: PENDO_LASTMOD, priority: '0.9' } },
+  { url: '/insights', out: 'dist/insights.html', sitemap: { lastmod: INSIGHTS_LASTMOD, priority: '0.8' } },
   ...publishedInsights.map((item) => ({
     url: `/insights/${item.slug}`,
     out: `dist/insights/${item.slug}.html`,

@@ -22,6 +22,13 @@ export const HomePage = ({ onOpenTerms }) => {
   structuredData={[
     {
       "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Victor Blanco",
+      "url": "https://victorblancoweb.com",
+      "inLanguage": "en-GB"
+    },
+    {
+      "@context": "https://schema.org",
       "@type": "Person",
       "name": "Victor Blanco",
       "url": "https://victorblancoweb.com",

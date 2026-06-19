@@ -15,7 +15,10 @@ import {
 } from "../pendo-consultant/ArticleFigures.jsx";
 import { PendoAnalyticsDashboard } from "../pendo-consultant/PendoAnalyticsDashboard";
 import { PendoCTA } from "../pendo-consultant/PendoCTA.jsx";
-import { getInsightBySlug } from "../pendo-consultant/pendoInsightsData";
+import {
+  getInsightBySlug,
+  publishedInsights,
+} from "../pendo-consultant/pendoInsightsData";
 
 // Maps the `figure` key used in pendoInsightsData sections to its component
 const ARTICLE_FIGURES = {
@@ -55,6 +58,9 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
 
   const canonical = `${LINKS.site}/insights/${article.slug}`;
   const ogImage = `${LINKS.site}/og/${article.slug}.png`;
+  const related = publishedInsights
+    .filter((item) => item.slug !== article.slug)
+    .slice(0, 2);
   const [authorName, authorRole] = (article.name || "Victor Blanco").split(
     " - ",
   );
@@ -67,6 +73,7 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
     url: canonical,
     mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
     image: ogImage,
+    inLanguage: "en-GB",
     datePublished: article.datePublished,
     dateModified: article.dateModified,
     keywords: article.pills,
@@ -92,8 +99,8 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
       {
         "@type": "ListItem",
         position: 2,
-        name: "Pendo Consultant",
-        item: `${LINKS.site}/pendo-consultant`,
+        name: "Insights",
+        item: `${LINKS.site}/insights`,
       },
       {
         "@type": "ListItem",
@@ -124,9 +131,7 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
           <Crumbs aria-label="Breadcrumb">
             <CrumbLink to="/">Home</CrumbLink>
             <CrumbDivider aria-hidden="true">/</CrumbDivider>
-            <CrumbLink to="/pendo-consultant#insights">
-              Pendo Insights
-            </CrumbLink>
+            <CrumbLink to="/insights">Insights</CrumbLink>
             <CrumbDivider aria-hidden="true">/</CrumbDivider>
             <CrumbCurrent aria-current="page">{article.tag}</CrumbCurrent>
           </Crumbs>
@@ -290,6 +295,25 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
           </ArticleCard>
         </ArticleContainer>
       </ArticleSection>
+
+      {related.length > 0 && (
+        <RelatedSection aria-label="Related insights">
+          <ArticleContainer>
+            <RelatedHeading>Related insights</RelatedHeading>
+            <RelatedGrid>
+              {related.map((item) => (
+                <RelatedCard key={item.slug} to={`/insights/${item.slug}`}>
+                  <RelatedTag>{item.tag}</RelatedTag>
+                  <RelatedTitle>{item.title}</RelatedTitle>
+                  <RelatedMeta>
+                    {item.date} · {item.read}
+                  </RelatedMeta>
+                </RelatedCard>
+              ))}
+            </RelatedGrid>
+          </ArticleContainer>
+        </RelatedSection>
+      )}
 
       <PendoCTA />
       <ConsentBanner onOpenTerms={onOpenTerms} />
@@ -605,6 +629,8 @@ const PullAttribution = styled.cite`
 
 const FigureSlot = styled.div`
   grid-column: full;
+  justify-self: center;
+  width: min(100%, 46rem);
   counter-increment: fig;
   margin: 1rem 0;
 
@@ -641,7 +667,7 @@ const DashboardSlot = styled.div`
 const CodeBlock = styled.div`
   grid-column: full;
   justify-self: center;
-  width: min(100%, 64rem);
+  width: min(100%, 46rem);
   margin: 0.75rem 0;
   border-radius: 12px;
   overflow: hidden;
@@ -652,25 +678,33 @@ const CodeTitle = styled.div`
   background: #282828;
   color: rgba(255, 254, 250, 0.7);
   font-family: ${MONO};
-  font-size: 13px;
+  font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  padding: 0.7rem 1.25rem;
+  padding: 0.55rem 1rem;
   border-bottom: 1px solid rgba(255, 254, 250, 0.12);
 `;
 
 const CodePre = styled.pre`
   background: #282828;
   margin: 0;
-  padding: 1.25rem;
+  padding: 0.9rem 1rem;
   overflow-x: auto;
 
   code {
     font-family: ${MONO};
-    font-size: 14px;
-    line-height: 1.65;
+    font-size: 12px;
+    line-height: 1.45;
     color: #fffefa;
     white-space: pre;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.8rem 0.85rem;
+    code {
+      font-size: 11px;
+      line-height: 1.4;
+    }
   }
 `;
 
@@ -845,4 +879,74 @@ const ArticlePill = styled.span`
   color: #333;
   letter-spacing: 0.03em;
   background: rgba(40, 40, 40, 0.02);
+`;
+
+// ─── Related insights ─────────────────────────────────────────────────────────
+
+const RelatedSection = styled.section`
+  padding: 1rem 0 3rem;
+`;
+
+const RelatedHeading = styled.h2`
+  font-family: ${MONO};
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ff3863;
+  margin: 0 0 1.25rem;
+`;
+
+const RelatedGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+`;
+
+const RelatedCard = styled(Link)`
+  display: block;
+  background: #fffefa;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  box-shadow: 0 2px 8px rgba(40, 40, 40, 0.05);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 6px 24px rgba(40, 40, 40, 0.09);
+  }
+  &:focus-visible {
+    outline: 2px solid #ff3863;
+    outline-offset: 2px;
+  }
+`;
+
+const RelatedTag = styled.span`
+  display: block;
+  font-family: ${MONO};
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ff3863;
+  margin-bottom: 0.5rem;
+`;
+
+const RelatedTitle = styled.h3`
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  line-height: 1.3;
+  color: #282828;
+  margin: 0 0 0.6rem;
+  transition: color 0.2s ease;
+
+  ${RelatedCard}:hover & {
+    color: #ff3863;
+  }
+`;
+
+const RelatedMeta = styled.span`
+  font-size: 14px;
+  color: #999;
 `;

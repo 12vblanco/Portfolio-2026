@@ -5,6 +5,7 @@ import { Terms } from './components/common/Terms.jsx';
 import { Navigation } from './components/navigation/Navigation.jsx';
 import { HomePage } from './components/pages/HomePage.jsx';
 import { InsightArticlePage } from './components/pages/InsightArticlePage.jsx';
+import { InsightsIndexPage } from './components/pages/InsightsIndexPage.jsx';
 import { NotFoundPage } from './components/pages/NotFoundPage.jsx';
 import { PendoConsultantPage } from './components/pages/PendoConsultantPage.jsx';
 import { GlobalStyles, theme } from './styles/GlobalStyles';
@@ -30,6 +31,14 @@ function App() {
             path="/pendo-consultant"
             element={
               <PendoConsultantPage
+                onOpenTerms={() => setTermsOpen(true)}
+              />
+            }
+          />
+          <Route
+            path="/insights"
+            element={
+              <InsightsIndexPage
                 onOpenTerms={() => setTermsOpen(true)}
               />
             }

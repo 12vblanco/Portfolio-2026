@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 import { useHeroAnimation } from "../../hooks/useHeroAnimation";
 import { AvailabilityBadge } from "../common/AvailabilityBadge";
 import { HeroCTA } from "../common/HeroCTA";
@@ -43,7 +45,7 @@ export const Hero = () => {
             <HeroSubtitle ref={line3Ref}>
               Edinburgh-based web developer{" "}
               <strong>designing and building websites</strong> that work for
-              you. <strong>Expert Pendo services</strong>, installation, audits,
+              you. <PendoLink to="/pendo-consultant">Expert Pendo services</PendoLink>, installation, audits,
               and improving product adoption.
             </HeroSubtitle>
           </HeroLeftColumn>
@@ -60,3 +62,19 @@ export const Hero = () => {
     </HeroSection>
   );
 };
+
+// Contextual internal link funnelling homepage authority to the priority page.
+const PendoLink = styled(Link)`
+  font-weight: 700;
+  color: #282828;
+  border-bottom: 2px solid #ff3863;
+  transition: color 0.2s ease;
+  &:hover {
+    color: #ff3863;
+  }
+  &:focus-visible {
+    outline: 2px solid #ff3863;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+`;
