@@ -30,7 +30,7 @@ No CSS framework and no UI library — every component and animation is bespoke.
 
 ## Features
 
-- **Build-time prerendering (SSG):** every route is rendered to a real static HTML file at build time, so crawlers and social scrapers get full content and meta tags with zero JavaScript required.
+- **Build-time prerendering (SSG):** Every route is rendered to a real static HTML file at build time, so crawlers and social scrapers get full content and meta tags with zero JavaScript required.
 - **Data-driven content engine:** new `/insights` articles are added as a single object in one data file and automatically become a card, a full article page, a sitemap entry, an Open Graph card and JSON-LD — with support for figures, code blocks, tables, step lists, pull quotes and an interactive analytics dashboard.
 - **Rich structured data:** JSON-LD for `Person`, `ProfessionalService`, `Service`, `FAQPage`, `BlogPosting`, `BreadcrumbList`, `ItemList`, `CollectionPage` and `WebSite`.
 - **Auto-generated `sitemap.xml`** built from the same route list as the prerenderer, so the two can never drift.
@@ -147,8 +147,14 @@ npm run dev          # http://localhost:5173
 **Victor Blanco** — Edinburgh, Scotland
 
 - 🌐 [victorblancoweb.com](https://victorblancoweb.com)
-- 📅 Book a call via the site's Calendly link
-- 📧 Contact form on-site
+- 📅 Book a call (https://calendly.com/12vblanco/30min)
+
+
+
+
+https://github.com/user-attachments/assets/6514ac13-2721-4a5c-b415-ee82a2d0eaa4
+
+
 
 ---
 
