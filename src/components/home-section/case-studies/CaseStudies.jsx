@@ -28,6 +28,9 @@ const LazyVideoCard = ({ study, index, hasAnimated, containerRef, isTablet, isCl
 
   // Determine which image to show (mobile image if available and on mobile, otherwise default)
   const displayImage = (isMobile && study.mobileImage) ? study.mobileImage : study.image;
+  // Optional JPG fallback for browsers without WebP support (served via <picture>)
+  const displayFallback = (isMobile && study.mobileImageFallback) ? study.mobileImageFallback : study.imageFallback;
+  const displayAlt = (isMobile && study.mobileAlt) ? study.mobileAlt : (study.alt || `${study.client} ${study.title} project screenshot`);
 
   useEffect(() => {
     if (!study.video) return;
@@ -88,12 +91,26 @@ const LazyVideoCard = ({ study, index, hasAnimated, containerRef, isTablet, isCl
       style={{ cursor: isTablet ? 'pointer' : 'default' }}
     >
       <MediaContainer>
-            <Image
-              src={displayImage}
-              alt={(isMobile && study.mobileAlt) ? study.mobileAlt : (study.alt || `${study.client} ${study.title} project screenshot`)}
-              $hidden={videoReady}
-              loading="lazy"
-            />
+            {displayFallback ? (
+              <picture>
+                <source srcSet={displayImage} type="image/webp" />
+                <Image
+                  src={displayFallback}
+                  alt={displayAlt}
+                  $hidden={videoReady}
+                  $objectPosition={study.objectPosition}
+                  loading="lazy"
+                />
+              </picture>
+            ) : (
+              <Image
+                src={displayImage}
+                alt={displayAlt}
+                $hidden={videoReady}
+                $objectPosition={study.objectPosition}
+                loading="lazy"
+              />
+            )}
               {study.video && (
           <Video
             ref={videoRef}
@@ -622,6 +639,7 @@ const Image = styled.img.attrs({ className: 'caseStudies-Image' })`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: ${p => p.$objectPosition || 'center'};
   opacity: ${p => p.$hidden ? 0 : 1};
   transition: all 0.6s ease;
   z-index: 2;
