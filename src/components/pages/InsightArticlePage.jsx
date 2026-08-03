@@ -12,6 +12,7 @@ import {
   AuditAreasFigure,
   AuditIssueBarsFigure,
   ClicksVsVisitorsFigure,
+  McpFlowFigure,
 } from "../pendo-consultant/ArticleFigures.jsx";
 import { PendoAnalyticsDashboard } from "../pendo-consultant/PendoAnalyticsDashboard";
 import { PendoCTA } from "../pendo-consultant/PendoCTA.jsx";
@@ -26,6 +27,7 @@ const ARTICLE_FIGURES = {
   auditIssueBars: AuditIssueBarsFigure,
   clicksVsVisitors: ClicksVsVisitorsFigure,
   apiFlow: ApiFlowFigure,
+  mcpFlow: McpFlowFigure,
 };
 
 const MONO = "'SF Mono', 'Fira Code', Menlo, Consolas, monospace";
@@ -257,6 +259,20 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
                           </tbody>
                         </FindingsTable>
                       </TableWrapper>
+                    )}
+
+                    {section.recommendation && (
+                      <RecommendationBlock>
+                        <RecommendationLabel>
+                          My recommendation
+                        </RecommendationLabel>
+                        <RecommendationText>
+                          {section.recommendation}
+                        </RecommendationText>
+                        <RecommendationSignature>
+                          Victor Blanco, Pendo consultant
+                        </RecommendationSignature>
+                      </RecommendationBlock>
                     )}
                   </Fragment>
                 );
@@ -623,6 +639,48 @@ const PullAttribution = styled.cite`
   text-transform: uppercase;
   color: #999;
   margin-top: 1.25rem;
+`;
+
+// ─── Recommendation callout ───────────────────────────────────────────────────
+
+const RecommendationBlock = styled.aside`
+  border-left: 3px solid #ff3863;
+  border-radius: 0 10px 10px 0;
+  background: rgba(255, 56, 99, 0.04);
+  padding: 1.5rem 1.75rem;
+  margin: 0.5rem 0;
+
+  @media (max-width: 768px) {
+    padding: 1.25rem 1.25rem;
+  }
+`;
+
+const RecommendationLabel = styled.span`
+  display: block;
+  font-family: ${MONO};
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ff3863;
+  margin-bottom: 0.7rem;
+`;
+
+const RecommendationText = styled.p`
+  font-size: 17px;
+  line-height: 1.75;
+  color: #282828;
+  margin: 0;
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
+`;
+
+const RecommendationSignature = styled.span`
+  display: block;
+  font-size: 14px;
+  color: #999;
+  margin-top: 0.9rem;
 `;
 
 // ─── Figures ──────────────────────────────────────────────────────────────────

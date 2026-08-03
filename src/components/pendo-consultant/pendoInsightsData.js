@@ -11,8 +11,13 @@
 //   table:  { head: [], rows: [[]] }
 //   code:   { title, content } dark code block
 //   pull:   short sentence rendered as a large editorial pull quote
+//   recommendation: personal note rendered as a "My recommendation" callout,
+//           signed off, for sections where the reader has a choice to make
 // Set dashboard: true on any entry to render the PendoAnalyticsDashboard at the
 // end of its article page.
+//
+// ORDER: display order comes from `datePublished` (newest first), not from the
+// position of an entry in this array, so new articles can be added anywhere.
 //
 // PUBLISHING: every article has a `published` flag. Drafts (published: false)
 // are excluded from the insights cards, the homepage strip, the prerendered
@@ -276,9 +281,296 @@ x-pendo-integration-key: <your-integration-key>
   },
 
   // ──────────────────────────────────────────────────────────────────────────
-  // DRAFTS — set published: true (and update the dates) to launch one.
+  // DRAFTS: set published: true (and update the dates) to launch one.
   // ──────────────────────────────────────────────────────────────────────────
 
+  {
+    published: true,
+    slug: "pendo-mcp-server",
+    tag: "Pendo AI",
+    title: "The Pendo MCP server: what it opens up and what it won't fix",
+    name: "Victor Blanco - Pendo consultant",
+    date: "August 2026",
+    datePublished: "2026-08-03",
+    dateModified: "2026-08-03",
+    read: "7 min read",
+    pills: [
+      "Pendo MCP",
+      "Model Context Protocol",
+      "Pendo AI",
+      "AI agents",
+      "Product analytics",
+      "Pendo automation",
+    ],
+    subtitle:
+      "Pendo's MCP server puts product data in front of people who never had a Pendo login. It is genuinely useful, and it inherits every weakness in your tagging. Here is what it reaches, what it costs you in reliability, and how I would roll it out.",
+    meta: {
+      title: "Pendo MCP Server: What It Opens Up | Victor Blanco",
+      description:
+        "What the Pendo MCP server makes possible: the data it reaches, read-only versus write tools, service accounts for agents, and the limits to plan for.",
+    },
+    quote: null,
+    sections: [
+      {
+        heading: null,
+        paragraphs: [
+          "For most of Pendo's life, the answer to “how are they actually using it?” sat behind a login that most of the company never had. The support agent handling a complaint, the account manager preparing for a renewal, the founder who wants one number before a board meeting: each of them had to find someone with a seat, and wait. Pendo's pitch for its MCP server is that this stops being true, and that any AI tool can become a product expert.",
+          "The server is a remotely hosted gateway between your subscription and any AI client that speaks the Model Context Protocol, currently in open beta. What Pendo sells is reach. What it does not sell is a view on how to adopt it without quietly making your reporting worse.",
+        ],
+        figure: "mcpFlow",
+      },
+      {
+        heading: "What it can actually reach",
+        paragraphs: [
+          "The catalogue is broader than most people expect. Page and feature usage is the obvious part, but guides, sentiment surveys, session replays, raw customer feedback and Orchestrate journeys are all reachable too. What matters more is that every area carries a ceiling, and the ceilings decide which workflows are viable.",
+        ],
+        table: {
+          head: ["Product area", "What an AI client can reach", "Key limit"],
+          rows: [
+            [
+              "Pages & Features",
+              "Ranked usage, time series, funnels and retention curves",
+              "367 days",
+            ],
+            [
+              "Visitors & accounts",
+              "Metadata fields, segment membership, single-visitor timelines",
+              "31-day timeline",
+            ],
+            [
+              "Guides & polls",
+              "Views, completions, effectiveness rates and poll responses",
+              "Guides Pro",
+            ],
+            [
+              "Listen",
+              "Raw feedback, ideas and AI-clustered themes",
+              "30 per call",
+            ],
+            [
+              "Session Replay",
+              "Replay links, frustration events, console and network logs",
+              "50 per query",
+            ],
+            [
+              "Orchestrate",
+              "Journey configuration, step graphs and email performance",
+              "367 days",
+            ],
+          ],
+        },
+      },
+      {
+        heading: "Turning it on",
+        paragraphs: [
+          "Nothing works until a subscription admin turns it on, under Settings, Subscription settings, AI access. Read-only tools and write tools are separate toggles there, and read-only has to be on first. After that, any user in the subscription connects their own client using the server URL for the region their Pendo instance is hosted in.",
+        ],
+        code: {
+          title: "Connecting Claude Code to the Pendo MCP server",
+          content: `# Claude Code, US region
+claude mcp add --transport http pendo \\
+  https://app.pendo.io/mcp/v0/shttp
+
+# Use the endpoint that matches your Pendo login region
+# US1        https://us1.app.pendo.io/mcp/v0/shttp
+# EU         https://app.eu.pendo.io/mcp/v0/shttp
+# Japan      https://app.jpn.pendo.io/mcp/v0/shttp
+# Australia  https://app.au.pendo.io/mcp/v0/shttp
+
+# Any other MCP client
+{ "mcpServers": { "Pendo": { "url": "<your-regional-endpoint>" } } }`,
+        },
+        paragraphsAfter: [
+          "You are then sent through an OAuth prompt and sign in with your normal Pendo credentials. When a connection fails it is almost always the URL: people paste their Pendo login address instead of the full /mcp/v0/shttp path, and the client caches the mistake.",
+        ],
+        recommendation:
+          "Turn on read-only tools, connect one client, and live with it for a month before you widen access. You will learn more from watching which questions your team actually asks than from any meeting about which ones they might. Waiting costs you nothing here.",
+      },
+      {
+        heading: "Read-only by default",
+        paragraphs: [
+          "The write tools are deliberately narrow. They cover creating and updating feedback items and ideas, and linking the two together, so the worst case is a cluttered Listen backlog rather than a damaged analytics record. An admin has to opt into them separately.",
+          "Everything else is inherited rather than configured. Every request runs as the person who signed in, so nobody can reach data they could not already open in Pendo, and nothing crosses regions. Read-only is the default for a reason, and most businesses should leave it that way.",
+        ],
+        pull: "Read-only is the default for a reason, and most businesses should leave it that way.",
+        recommendation:
+          "Leave the write toggle off unless you have a specific, named workflow that needs it. An agent filing feedback and ideas still needs a person who decided they were worth filing, and that judgement is most of what the record is worth.",
+      },
+      {
+        heading: "Automation without a person in the loop",
+        paragraphs: [
+          "Interactive OAuth covers a person asking questions. For anything that runs on its own, a scheduled digest, a churn-risk check, a support bot with live product context, Pendo provides service accounts: a client credentials grant exchanged for a bearer token that lasts sixty minutes and carries no refresh token. You get twenty-five per subscription, and they need the API package.",
+          "One warning in Pendo's documentation is worth repeating, because it is easy to get wrong in a hurry. The credential grants access to everything that account can see, so it must never sit behind anything your end users can type into.",
+        ],
+        recommendation:
+          "Use interactive OAuth while you are still learning what this is good for. Treat a service account as something you graduate to, with a named owner, a rotation schedule and a written note of what it may touch. It looks like the quick way to start. It isn't.",
+      },
+      {
+        heading: "The limits nobody mentions",
+        paragraphs: [
+          "The ceilings are inconsistent, and hitting one rarely produces an error you would notice. You get a shorter answer than you expected, delivered with the same confidence as a complete one.",
+        ],
+        list: [
+          {
+            term: "Date windows",
+            text: "most usage tools reach back 367 days, but Product Engagement Score stops at 180, agent analytics at 90, and single-visitor timelines and replay searches at 31.",
+          },
+          {
+            term: "Result caps",
+            text: "feedback and ideas return thirty items per call, replay searches fifty, developer logs a hundred.",
+          },
+          {
+            term: "No replay content",
+            text: "you get links, metadata and the console and network logs, never the recording itself.",
+          },
+          {
+            term: "Pendo's own boundary",
+            text: "the documentation recommends the Pendo UI for historical trends and in-depth guide reporting. That is Pendo drawing the line, not me.",
+          },
+        ],
+        recommendation:
+          "Use MCP for the fast questions and the Pendo UI for anything historical or board-facing. Before you trust it on a question you cannot answer yourself, ask it five you can. If it gets those wrong, the problem is your data, not the tool.",
+      },
+      {
+        heading: "What Pendo doesn't sell you",
+        paragraphs: [
+          "None of this checks whether the data underneath is worth querying. An LLM will not tell you your feature tags are broken. It answers the question you asked, fluently, using whatever is there, and it sounds exactly as certain when the numbers are wrong.",
+          "So the problems I usually find in an installation audit get amplified rather than exposed. Internal users nobody excluded now inflate the adoption figure a sales rep quotes on a call. A feature tagged with a positional selector that broke three releases ago now reads as a feature nobody wants. Before, a bad number reached one analyst who might have questioned it. Now it reaches everyone at once, in prose that sounds like an answer.",
+        ],
+        pull: "An LLM will not tell you your feature tags are broken.",
+      },
+      {
+        heading: "Where to start",
+        paragraphs: [
+          "If you want a sequence: verify the installation first, then enable read-only tools, connect one client, and give the fastest questions to the people who already know your data. Used that way it makes your Pendo team considerably quicker, which is a better outcome than handing the whole company a confident answer nobody checks. If you would rather have the verification done properly first, or the whole thing set up and governed, that is what I do.",
+        ],
+      },
+    ],
+  },
+  {
+    published: true,
+    slug: "pendo-aggregation-api-examples",
+    tag: "Pendo API",
+    title: "Five practical Pendo Aggregation API examples",
+    name: "Victor Blanco - Pendo consultant",
+    date: "June 2026",
+    datePublished: "2026-06-19",
+    dateModified: "2026-06-19",
+    read: "7 min read",
+    pills: [
+      "Pendo API",
+      "Aggregation API",
+      "Product analytics",
+      "Custom dashboards",
+      "Feature adoption",
+      "Pendo reporting",
+    ],
+    subtitle:
+      "The Aggregation API answers questions Pendo's dashboards can't. These five pipelines cover the reports I get asked to build most often, from daily feature usage to guide funnels.",
+    meta: {
+      title: "Pendo Aggregation API: 5 Practical Examples | Victor Blanco",
+      description:
+        "Five copy-paste Pendo Aggregation API pipelines: daily active visitors per feature, monthly feature adoption by account, guide completion funnels, and more.",
+    },
+    quote: null,
+    sections: [
+      {
+        heading: null,
+        paragraphs: [
+          "This is the follow-up to my article on Pendo click data, which covers how the Aggregation API works and when to reach for it. Here I want to be purely practical: five pipelines you can adapt, each answering a question I get asked by real product teams. All of them POST to the same endpoint with your integration key.",
+        ],
+        figure: "apiFlow",
+      },
+      {
+        heading: "Daily active visitors per feature",
+        paragraphs: [
+          "The basic shape of feature analytics: who used what, day by day. Group feature events by both feature and day, counting unique visitors rather than raw clicks.",
+        ],
+        code: {
+          title: "Pipeline: daily unique visitors by feature, last 30 days",
+          content: `{ "response": { "mimeType": "application/json" },
+  "request": {
+    "pipeline": [
+      { "source": {
+          "featureEvents": null,
+          "timeSeries": {
+            "period": "dayRange",
+            "first": "date_add(now(), -30, \\"days\\")",
+            "count": 30}}},
+      { "group": { "group": ["featureId", "day"],
+          "fields": { "visitors": { "count": "visitorId" } }}},
+      { "sort": ["day", "-visitors"] }]}}`,
+        },
+      },
+      {
+        heading: "Accounts that adopted a feature this month",
+        paragraphs: [
+          "Adoption questions are account questions in B2B. Swap the grouping key to accountId and filter to one feature, and the result is the list of customers actually using what you shipped.",
+        ],
+        code: {
+          title: "Pipeline: accounts using one feature, current month",
+          content: `{ "response": { "mimeType": "application/json" },
+  "request": {
+    "pipeline": [
+      { "source": {
+          "featureEvents": { "featureId": "<your-feature-id>" },
+          "timeSeries": {
+            "period": "dayRange",
+            "first": "startOfPeriod(now(), \\"month\\")",
+            "count": 31}}},
+      { "group": {
+          "group": ["accountId"],
+          "fields": {
+            "events": { "sum": "numEvents" },
+            "visitors": { "count": "visitorId" }}}},
+      { "sort": ["-events"] }]}}`,
+        },
+      },
+      {
+        heading: "Guide completion funnel",
+        paragraphs: [
+          "Guide analytics in the UI show totals; the API lets you build a proper step funnel. Source guide events for one guide, group by step and event type, and the drop-off between steps falls out of the numbers.",
+        ],
+        code: {
+          title: "Pipeline: guide events by step, last 90 days",
+          content: `{ "response": { "mimeType": "application/json" },
+  "request": {
+    "pipeline": [
+      { "source": {
+          "guideEvents": { "guideId": "<your-guide-id>" },
+          "timeSeries": {
+            "period": "dayRange",
+            "first": "date_add(now(), -90, \\"days\\")",
+            "count": 90}}},
+      { "group": {
+          "group": ["guideStepId", "type"],
+          "fields": { "visitors": { "count": "visitorId" } }}}]}}`,
+        },
+        pull: "Dashboards answer the questions Pendo thought of. The Aggregation API answers yours.",
+      },
+      {
+        heading: "Two more worth knowing",
+        paragraphs: [
+          "Stickiness per feature: run the daily-visitors pipeline twice, once over a day and once over thirty, and divide. DAU over MAU per feature separates habit-forming features from occasional ones, and it is not a number any standard dashboard gives you.",
+          "Page time by account: swap the source to pageEvents and sum numMinutes grouped by accountId. Where accounts actually spend time is often embarrassingly different from where the roadmap assumes they do.",
+        ],
+      },
+      {
+        heading: "What these pipelines leave out",
+        paragraphs: [
+          "Every example here is the query, not the system around it. In a real deployment the integration key has to be secured and rotated (it can read your whole subscription), responses from large accounts have to be paginated, and raw IDs have to be joined to the visitor and account metadata that makes them readable. Then the whole thing needs scheduling, hosting, a chart layer, and an alert for when a pipeline starts returning zero because a tag broke upstream.",
+          "That gap, between a query that runs once and a report a team checks every Monday, is most of the actual work.",
+        ],
+        pull: "The query is the easy part. The system around it is the job.",
+      },
+      {
+        heading: "Putting it together",
+        paragraphs: [
+          "Each of these returns plain JSON, which means each can feed a chart, a scheduled report, or a wallboard without anyone exporting a CSV again. The live dashboard on my click data article is built from exactly these building blocks. If you want pipelines like these wired to your own Pendo subscription, that is a service I offer.",
+        ],
+      },
+    ],
+  },
   {
     published: false,
     slug: "exclude-internal-users-pendo",
@@ -451,131 +743,6 @@ x-pendo-integration-key: <your-integration-key>
   },
 
   {
-    published: true,
-    slug: "pendo-aggregation-api-examples",
-    tag: "Pendo API",
-    title: "Five practical Pendo Aggregation API examples",
-    name: "Victor Blanco - Pendo consultant",
-    date: "June 2026",
-    datePublished: "2026-06-19",
-    dateModified: "2026-06-19",
-    read: "7 min read",
-    pills: [
-      "Pendo API",
-      "Aggregation API",
-      "Product analytics",
-      "Custom dashboards",
-      "Feature adoption",
-      "Pendo reporting",
-    ],
-    subtitle:
-      "The Aggregation API answers questions Pendo's dashboards can't. These five pipelines cover the reports I get asked to build most often, from daily feature usage to guide funnels.",
-    meta: {
-      title: "Pendo Aggregation API: 5 Practical Examples | Victor Blanco",
-      description:
-        "Five copy-paste Pendo Aggregation API pipelines: daily active visitors per feature, monthly feature adoption by account, guide completion funnels, and more.",
-    },
-    quote: null,
-    sections: [
-      {
-        heading: null,
-        paragraphs: [
-          "This is the follow-up to my article on Pendo click data, which covers how the Aggregation API works and when to reach for it. Here I want to be purely practical: five pipelines you can adapt, each answering a question I get asked by real product teams. All of them POST to the same endpoint with your integration key.",
-        ],
-        figure: "apiFlow",
-      },
-      {
-        heading: "Daily active visitors per feature",
-        paragraphs: [
-          "The basic shape of feature analytics: who used what, day by day. Group feature events by both feature and day, counting unique visitors rather than raw clicks.",
-        ],
-        code: {
-          title: "Pipeline: daily unique visitors by feature, last 30 days",
-          content: `{ "response": { "mimeType": "application/json" },
-  "request": {
-    "pipeline": [
-      { "source": {
-          "featureEvents": null,
-          "timeSeries": {
-            "period": "dayRange",
-            "first": "date_add(now(), -30, \\"days\\")",
-            "count": 30}}},
-      { "group": { "group": ["featureId", "day"],
-          "fields": { "visitors": { "count": "visitorId" } }}},
-      { "sort": ["day", "-visitors"] }]}}`,
-        },
-      },
-      {
-        heading: "Accounts that adopted a feature this month",
-        paragraphs: [
-          "Adoption questions are account questions in B2B. Swap the grouping key to accountId and filter to one feature, and the result is the list of customers actually using what you shipped.",
-        ],
-        code: {
-          title: "Pipeline: accounts using one feature, current month",
-          content: `{ "response": { "mimeType": "application/json" },
-  "request": {
-    "pipeline": [
-      { "source": {
-          "featureEvents": { "featureId": "<your-feature-id>" },
-          "timeSeries": {
-            "period": "dayRange",
-            "first": "startOfPeriod(now(), \\"month\\")",
-            "count": 31}}},
-      { "group": {
-          "group": ["accountId"],
-          "fields": {
-            "events": { "sum": "numEvents" },
-            "visitors": { "count": "visitorId" }}}},
-      { "sort": ["-events"] }]}}`,
-        },
-      },
-      {
-        heading: "Guide completion funnel",
-        paragraphs: [
-          "Guide analytics in the UI show totals; the API lets you build a proper step funnel. Source guide events for one guide, group by step and event type, and the drop-off between steps falls out of the numbers.",
-        ],
-        code: {
-          title: "Pipeline: guide events by step, last 90 days",
-          content: `{ "response": { "mimeType": "application/json" },
-  "request": {
-    "pipeline": [
-      { "source": {
-          "guideEvents": { "guideId": "<your-guide-id>" },
-          "timeSeries": {
-            "period": "dayRange",
-            "first": "date_add(now(), -90, \\"days\\")",
-            "count": 90}}},
-      { "group": {
-          "group": ["guideStepId", "type"],
-          "fields": { "visitors": { "count": "visitorId" } }}}]}}`,
-        },
-        pull: "Dashboards answer the questions Pendo thought of. The Aggregation API answers yours.",
-      },
-      {
-        heading: "Two more worth knowing",
-        paragraphs: [
-          "Stickiness per feature: run the daily-visitors pipeline twice, once over a day and once over thirty, and divide. DAU over MAU per feature separates habit-forming features from occasional ones, and it is not a number any standard dashboard gives you.",
-          "Page time by account: swap the source to pageEvents and sum numMinutes grouped by accountId. Where accounts actually spend time is often embarrassingly different from where the roadmap assumes they do.",
-        ],
-      },
-      {
-        heading: "What these pipelines leave out",
-        paragraphs: [
-          "Every example here is the query, not the system around it. In a real deployment the integration key has to be secured and rotated (it can read your whole subscription), responses from large accounts have to be paginated, and raw IDs have to be joined to the visitor and account metadata that makes them readable. Then the whole thing needs scheduling, hosting, a chart layer, and an alert for when a pipeline starts returning zero because a tag broke upstream.",
-          "That gap, between a query that runs once and a report a team checks every Monday, is most of the actual work.",
-        ],
-        pull: "The query is the easy part. The system around it is the job.",
-      },
-      {
-        heading: "Putting it together",
-        paragraphs: [
-          "Each of these returns plain JSON, which means each can feed a chart, a scheduled report, or a wallboard without anyone exporting a CSV again. The live dashboard on my click data article is built from exactly these building blocks. If you want pipelines like these wired to your own Pendo subscription, that is a service I offer.",
-        ],
-      },
-    ],
-  },
-
-  {
     published: false,
     slug: "pendo-react-installation-checklist",
     tag: "Pendo Setup",
@@ -661,7 +828,14 @@ x-pendo-integration-key: <your-integration-key>
   },
 ];
 
-export const publishedInsights = insightsData.filter((item) => item.published);
+/* Newest first, by `datePublished`, so the insights index, the homepage strip
+   and the ItemList schema all agree without anyone having to paste a new
+   article into the right slot in `insightsData` above. Sorted here rather than
+   in each consumer because InsightsStrip takes `.slice(0, 3)` and calls the
+   result "latest", which is only true if this list is ordered. */
+export const publishedInsights = insightsData
+  .filter((item) => item.published)
+  .sort((a, b) => b.datePublished.localeCompare(a.datePublished));
 
 export const getInsightBySlug = (slug) =>
   publishedInsights.find((item) => item.slug === slug);

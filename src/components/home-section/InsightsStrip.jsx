@@ -5,7 +5,7 @@ import { insightsHeader, publishedInsights } from '../pendo-consultant/pendoInsi
 const MONO = "'SF Mono', 'Fira Code', Menlo, Consolas, monospace";
 
 // Compact editorial strip on the homepage linking to the latest published
-// insights — internal links from the strongest page on the site.
+// insights: internal links from the strongest page on the site.
 export const InsightsStrip = () => {
   const latest = publishedInsights.slice(0, 3);
   if (latest.length === 0) return null;

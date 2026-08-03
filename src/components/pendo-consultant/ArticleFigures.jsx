@@ -115,6 +115,34 @@ export const ApiFlowFigure = () => (
   </FigureBlock>
 );
 
+// ─── Figure: how an MCP question reaches Pendo data ──────────────────────────
+
+const mcpFlowSteps = [
+  { title: 'Your team', text: 'A question asked in Claude, Cursor or ChatGPT, in the tool they already use' },
+  { title: 'Pendo MCP server', text: 'OAuth gateway, signed in with the asker’s own Pendo account' },
+  { title: 'Pendo data', text: 'Usage, guides, feedback, replays and journeys, queried as MCP tools' },
+  { title: 'An answer in context', text: 'Returned where the work is happening, with no dashboard or export' },
+];
+
+export const McpFlowFigure = () => (
+  <FigureBlock>
+    <FlowWrapper>
+      {mcpFlowSteps.map((step, i) => (
+        <FlowStep key={step.title}>
+          <FlowCard $accent={i === 1}>
+            <FlowTitle>{step.title}</FlowTitle>
+            <FlowText>{step.text}</FlowText>
+          </FlowCard>
+          {i < mcpFlowSteps.length - 1 && <FlowArrow aria-hidden="true">→</FlowArrow>}
+        </FlowStep>
+      ))}
+    </FlowWrapper>
+    <FigureCaption>
+      The MCP server is a gateway, not a copy of your data. Every request runs with the permissions the person already has in Pendo, and never leaves their region.
+    </FigureCaption>
+  </FigureBlock>
+);
+
 // ─── Shared styled components ────────────────────────────────────────────────
 
 const FigureBlock = styled.figure`

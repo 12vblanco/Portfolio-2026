@@ -68,7 +68,7 @@ export const InsightsIndexPage = ({ onOpenTerms }) => {
             </Title>
             <Subtitle>
               Real-world notes on Pendo installation, auditing, and getting the
-              most out of product analytics — written while doing the work for{" "}
+              most out of product analytics, written while doing the work for{" "}
               <CopyLink to="/pendo-consultant">SaaS teams</CopyLink>.
             </Subtitle>
           </Header>
