@@ -30,7 +30,7 @@ const buildDate = new Date().toISOString().slice(0, 10);
 // lastmod for the evergreen pages is pinned to the last meaningful content
 // change (bump by hand when you edit them) rather than buildDate, so a routine
 // rebuild doesn't churn the sitemap and tell crawlers nothing changed actually did.
-const HOME_LASTMOD = '2026-06-19';
+const HOME_LASTMOD = '2026-08-03';
 const PENDO_LASTMOD = '2026-06-19';
 // The insights hub's freshness tracks the most recently updated article.
 const INSIGHTS_LASTMOD = publishedInsights
