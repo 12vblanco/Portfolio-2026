@@ -72,3 +72,14 @@ yarn-error.log*
 
 
 REFACTOR_BRIEF.md
+
+# Working notes: briefs, assessments and copy drafts. This repo is public and
+# these carry client detail that isn't mine to publish.
+session/
+
+# Capture configs hold clients' tokenised preview URLs (e.g. HubSpot hs_preview
+# links to unreleased sites), which are public to anyone holding them.
+scripts/capture-configs/
+
+# Unoptimised case-study source captures (derivatives are committed)
+**/case-studies/**/_source/
