@@ -240,7 +240,7 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
 
                     {section.table && (
                       <TableWrapper>
-                        <FindingsTable>
+                        <FindingsTable $tagLast={section.table.tagLast}>
                           <thead>
                             <tr>
                               {section.table.head.map((h) => (
@@ -879,12 +879,23 @@ const FindingsTable = styled.table`
     vertical-align: top;
   }
 
-  td:last-child {
-    font-family: ${MONO};
-    font-weight: 700;
-    color: #ff3863;
-    white-space: nowrap;
-  }
+  /* Short final columns (a priority, a limit) read as a tag. Prose does not. */
+  ${({ $tagLast }) =>
+    $tagLast
+      ? `
+    td:last-child {
+      font-family: ${MONO};
+      font-weight: 700;
+      color: #FF3863;
+      white-space: nowrap;
+    }
+  `
+      : `
+    th:first-child,
+    td:first-child {
+      width: 22%;
+    }
+  `}
 
   @media (max-width: 768px) {
     th,

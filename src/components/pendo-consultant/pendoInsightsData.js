@@ -125,6 +125,7 @@ export const insightsData = [
           "The output is a structured report covering every finding, its impact on data reliability, and the exact steps to fix it ordered by priority. Most teams go from uncertainty about their Pendo data to a clear, sequenced remediation plan in under a week. A few examples of what findings look like in practice:",
         ],
         table: {
+          tagLast: true,
           head: ["Sample finding", "Why it matters", "Priority"],
           rows: [
             [
@@ -288,12 +289,13 @@ x-pendo-integration-key: <your-integration-key>
     published: true,
     slug: "pendo-mcp-server",
     tag: "Pendo AI",
-    title: "The Pendo MCP server: what it opens up and what it won't fix",
+    title:
+      "The Pendo MCP server: what it reaches, how to connect it, and what it won't fix",
     name: "Victor Blanco - Pendo consultant",
     date: "August 2026",
     datePublished: "2026-08-03",
-    dateModified: "2026-08-03",
-    read: "7 min read",
+    dateModified: "2026-08-09",
+    read: "9 min read",
     pills: [
       "Pendo MCP",
       "Model Context Protocol",
@@ -301,13 +303,16 @@ x-pendo-integration-key: <your-integration-key>
       "AI agents",
       "Product analytics",
       "Pendo automation",
+      "Claude",
+      "ChatGPT",
     ],
     subtitle:
-      "Pendo's MCP server puts product data in front of people who never had a Pendo login. It is genuinely useful, and it inherits every weakness in your tagging. Here is what it reaches, what it costs you in reliability, and how I would roll it out.",
+      "Pendo's MCP server puts product data in front of people who never had a Pendo login. It is genuinely useful, but it can inherit every weakness in your tagging. Here is what it reaches, how to connect it to Claude, ChatGPT and other clients, and how I would roll it out.",
     meta: {
-      title: "Pendo MCP Server: What It Opens Up | Victor Blanco",
+      title:
+        "Pendo MCP Server: How to Connect It to Claude & ChatGPT | Victor Blanco",
       description:
-        "What the Pendo MCP server makes possible: the data it reaches, read-only versus write tools, service accounts for agents, and the limits to plan for.",
+        "How to connect the Pendo MCP server to Claude, ChatGPT and Cursor, what data it reaches, read-only versus write tools, service accounts, MCP versus Leo, and the limits to plan for.",
     },
     quote: null,
     sections: [
@@ -315,16 +320,17 @@ x-pendo-integration-key: <your-integration-key>
         heading: null,
         paragraphs: [
           "For most of Pendo's life, the answer to “how are they actually using it?” sat behind a login that most of the company never had. The support agent handling a complaint, the account manager preparing for a renewal, the founder who wants one number before a board meeting: each of them had to find someone with a seat, and wait. Pendo's pitch for its MCP server is that this stops being true, and that any AI tool can become a product expert.",
-          "The server is a remotely hosted gateway between your subscription and any AI client that speaks the Model Context Protocol, currently in open beta. What Pendo sells is reach. What it does not sell is a view on how to adopt it without quietly making your reporting worse.",
+          "The server is now a remotely hosted gateway between your subscription and any AI client that speaks the Model Context Protocol (MPC). You ask a question in Claude, ChatGPT or Cursor, and the answer comes back from your live Pendo data, in the tool where you already work, with no dashboard and no export. Pendo greatly improved reach. What it does not sell is a view on how to adopt it without quietly making your reporting worse.",
         ],
         figure: "mcpFlow",
       },
       {
-        heading: "What it can actually reach",
+        heading: "What the Pendo MCP server can reach",
         paragraphs: [
           "The catalogue is broader than most people expect. Page and feature usage is the obvious part, but guides, sentiment surveys, session replays, raw customer feedback and Orchestrate journeys are all reachable too. What matters more is that every area carries a ceiling, and the ceilings decide which workflows are viable.",
         ],
         table: {
+          tagLast: true,
           head: ["Product area", "What an AI client can reach", "Key limit"],
           rows: [
             [
@@ -361,10 +367,36 @@ x-pendo-integration-key: <your-integration-key>
         },
       },
       {
-        heading: "Turning it on",
+        heading: "How to connect Pendo to Claude, ChatGPT and other AI clients",
         paragraphs: [
-          "Nothing works until a subscription admin turns it on, under Settings, Subscription settings, AI access. Read-only tools and write tools are separate toggles there, and read-only has to be on first. After that, any user in the subscription connects their own client using the server URL for the region their Pendo instance is hosted in.",
+          "Nothing works until a subscription admin turns it on, under Settings, Subscription settings, AI access. Read-only tools and write tools are separate toggles there, and read-only has to be on first.",
+          "After that, connecting is a per-user job, and the experience is not the same across tools. That difference matters more than Pendo lets on, because the client you pick decides whether your non-technical people ever actually use this.",
         ],
+        table: {
+          head: ["AI client", "How you connect", "Where it fits"],
+          rows: [
+            [
+              "Claude.ai & Desktop",
+              "An admin adds Pendo once under Admin settings, Connectors. After that each user connects in one click and signs in with OAuth.",
+              "Non-technical teams. The smoothest path, and the one your renewals and support people will actually use.",
+            ],
+            [
+              "Claude Code",
+              "One line in the terminal, then OAuth on first run.",
+              "Developers, and anything you plan to automate later.",
+            ],
+            [
+              "ChatGPT",
+              "Requires Developer mode, then a custom connector with your regional URL and OAuth.",
+              "Teams already standardised on ChatGPT, if they can live with the extra setup.",
+            ],
+            [
+              "Cursor & other MCP clients",
+              "A short JSON block pointing at your regional endpoint.",
+              "Editors and custom agents that already speak MCP.",
+            ],
+          ],
+        },
         code: {
           title: "Connecting Claude Code to the Pendo MCP server",
           content: `# Claude Code, US region
@@ -381,23 +413,32 @@ claude mcp add --transport http pendo \\
 { "mcpServers": { "Pendo": { "url": "<your-regional-endpoint>" } } }`,
         },
         paragraphsAfter: [
-          "You are then sent through an OAuth prompt and sign in with your normal Pendo credentials. When a connection fails it is almost always the URL: people paste their Pendo login address instead of the full /mcp/v0/shttp path, and the client caches the mistake.",
+          "Whichever client you use, you are sent through an OAuth prompt and sign in with your normal Pendo credentials. In Claude, every tool starts on “needs approval”, so it asks before each query until you tell it otherwise. When a connection fails it is almost always the URL: people paste their Pendo login address instead of the full /mcp/v0/shttp path, and the client caches the mistake.",
         ],
         recommendation:
-          "Turn on read-only tools, connect one client, and live with it for a month before you widen access. You will learn more from watching which questions your team actually asks than from any meeting about which ones they might. Waiting costs you nothing here.",
+          "Turn on read-only tools, connect one client, and live with it for a while before you widen access. Start with Claude if your goal is to get product data to people who never log in. You will learn more from watching which questions your team actually asks than from any meeting about which ones they might. Waiting costs you nothing here.",
       },
       {
-        heading: "Read-only by default",
+        heading: "Pendo MCP or Leo: when to use each",
+        paragraphs: [
+          "These get confused, and they answer different questions. Leo is Pendo's built-in AI. You use it inside Pendo, it needs no setup, and it hands you curated insights without leaving the product. The MCP server does the opposite: it brings your Pendo data out to the tool you already work in, and lets you sit it next to your CRM, your tickets or your docs.",
+          "The rule of thumb is simple. Reach for Leo when you want a quick, curated answer and you are already in Pendo. Reach for the MCP server when the work is happening somewhere else, or when you want product data combined with another source, or when you are building something that runs on a schedule. They are not rivals. One keeps you in Pendo, the other meets you where you left it.",
+        ],
+        recommendation:
+          "If your team lives in Pendo, Leo is the shorter road. If they live in Claude or ChatGPT and keep pinging someone else to pull a Pendo number, that ping is the gap the MCP closes.",
+      },
+      {
+        heading: "Read-only by default, and why to keep it that way",
         paragraphs: [
           "The write tools are deliberately narrow. They cover creating and updating feedback items and ideas, and linking the two together, so the worst case is a cluttered Listen backlog rather than a damaged analytics record. An admin has to opt into them separately.",
-          "Everything else is inherited rather than configured. Every request runs as the person who signed in, so nobody can reach data they could not already open in Pendo, and nothing crosses regions. Read-only is the default for a reason, and most businesses should leave it that way.",
+          "Everything else is inherited rather than configured. Every request runs as the person who signed in, so nobody can reach data they could not already open in Pendo, and nothing crosses regions.",
         ],
         pull: "Read-only is the default for a reason, and most businesses should leave it that way.",
         recommendation:
           "Leave the write toggle off unless you have a specific, named workflow that needs it. An agent filing feedback and ideas still needs a person who decided they were worth filing, and that judgement is most of what the record is worth.",
       },
       {
-        heading: "Automation without a person in the loop",
+        heading: "Automation without a person in the loop: service accounts",
         paragraphs: [
           "Interactive OAuth covers a person asking questions. For anything that runs on its own, a scheduled digest, a churn-risk check, a support bot with live product context, Pendo provides service accounts: a client credentials grant exchanged for a bearer token that lasts sixty minutes and carries no refresh token. You get twenty-five per subscription, and they need the API package.",
           "One warning in Pendo's documentation is worth repeating, because it is easy to get wrong in a hurry. The credential grants access to everything that account can see, so it must never sit behind anything your end users can type into.",
@@ -432,7 +473,7 @@ claude mcp add --transport http pendo \\
           "Use MCP for the fast questions and the Pendo UI for anything historical or board-facing. Before you trust it on a question you cannot answer yourself, ask it five you can. If it gets those wrong, the problem is your data, not the tool.",
       },
       {
-        heading: "What Pendo doesn't sell you",
+        heading: "What the MCP won't fix",
         paragraphs: [
           "None of this checks whether the data underneath is worth querying. An LLM will not tell you your feature tags are broken. It answers the question you asked, fluently, using whatever is there, and it sounds exactly as certain when the numbers are wrong.",
           "So the problems I usually find in an installation audit get amplified rather than exposed. Internal users nobody excluded now inflate the adoption figure a sales rep quotes on a call. A feature tagged with a positional selector that broke three releases ago now reads as a feature nobody wants. Before, a bad number reached one analyst who might have questioned it. Now it reaches everyone at once, in prose that sounds like an answer.",
