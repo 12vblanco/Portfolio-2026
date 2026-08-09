@@ -1,41 +1,45 @@
-import lmdouglasMobileJpg from "../../../assets/case-studies/lmdouglas-M.jpg";
-import lmdouglasMobile from "../../../assets/case-studies/lmdouglas-M.webp";
-import lmdouglasJpg from "../../../assets/case-studies/lmdouglas.jpg";
-import lmdVideo from "../../../assets/case-studies/lmdouglas.mp4";
-import lmdouglas from "../../../assets/case-studies/lmdouglas.webp";
-import lokaMobileJpg from "../../../assets/case-studies/loka-M.jpg";
-import lokaMobile from "../../../assets/case-studies/loka-M.webp";
-import lokaVideo from "../../../assets/case-studies/loka.mp4";
-import lokaImageJpg from "../../../assets/case-studies/loka1.jpg";
-import lokaImage from "../../../assets/case-studies/loka1.webp";
-import omsMobileJpg from "../../../assets/case-studies/oms-M.jpg";
-import omsMobile from "../../../assets/case-studies/oms-M.webp";
-import omsImageJpg from "../../../assets/case-studies/oms1.jpg";
-import omsImage from "../../../assets/case-studies/oms1.webp";
-import orchardMobileJpg from "../../../assets/case-studies/orchard-M.jpg";
-import orchardMobile from "../../../assets/case-studies/orchard-M.webp";
-import orchardJpg from "../../../assets/case-studies/orchard.jpg";
-import orchardVideo from "../../../assets/case-studies/orchard.mp4";
-import orchard from "../../../assets/case-studies/orchard.webp";
-import pendoPushMobileJpg from "../../../assets/case-studies/pendo-push-M.jpg";
-import pendoPushMobile from "../../../assets/case-studies/pendo-push-M.webp";
-import pendoPushJpg from "../../../assets/case-studies/pendo-push.jpg";
-import pendoPush from "../../../assets/case-studies/pendo-push.webp";
-import sujinVideo from "../../../assets/case-studies/sujik.mp4";
-import sujinMobileJpg from "../../../assets/case-studies/sujin-M.jpg";
-import sujinMobile from "../../../assets/case-studies/sujin-M.webp";
-import sujinImageJpg from "../../../assets/case-studies/sujin.jpg";
-import sujinImage from "../../../assets/case-studies/sujin.webp";
+import lmdouglasMobileJpg from "../../../assets/case-studies/lmdouglas/lmdouglas-M.jpg";
+import lmdouglasMobile from "../../../assets/case-studies/lmdouglas/lmdouglas-M.webp";
+import lmdouglasJpg from "../../../assets/case-studies/lmdouglas/lmdouglas.jpg";
+import lmdVideo from "../../../assets/case-studies/lmdouglas/lmdouglas.mp4";
+import lmdouglas from "../../../assets/case-studies/lmdouglas/lmdouglas.webp";
+import lokaMobileJpg from "../../../assets/case-studies/loka/loka-M.jpg";
+import lokaMobile from "../../../assets/case-studies/loka/loka-M.webp";
+import lokaVideo from "../../../assets/case-studies/loka/loka.mp4";
+import lokaImageJpg from "../../../assets/case-studies/loka/loka1.jpg";
+import lokaImage from "../../../assets/case-studies/loka/loka1.webp";
+import omsMobileJpg from "../../../assets/case-studies/oms/oms-M.jpg";
+import omsMobile from "../../../assets/case-studies/oms/oms-M.webp";
+import omsImageJpg from "../../../assets/case-studies/oms/oms1.jpg";
+import omsImage from "../../../assets/case-studies/oms/oms1.webp";
+import orchardMobileJpg from "../../../assets/case-studies/orchard/orchard-M.jpg";
+import orchardMobile from "../../../assets/case-studies/orchard/orchard-M.webp";
+import orchardJpg from "../../../assets/case-studies/orchard/orchard.jpg";
+import orchardVideo from "../../../assets/case-studies/orchard/orchard.mp4";
+import orchard from "../../../assets/case-studies/orchard/orchard.webp";
+import pendoPushMobileJpg from "../../../assets/case-studies/pendo-push/pendo-push-M.jpg";
+import pendoPushMobile from "../../../assets/case-studies/pendo-push/pendo-push-M.webp";
+import pendoPushJpg from "../../../assets/case-studies/pendo-push/pendo-push.jpg";
+import pendoPush from "../../../assets/case-studies/pendo-push/pendo-push.webp";
+import sujinVideo from "../../../assets/case-studies/sujin/sujik.mp4";
+import sujinMobileJpg from "../../../assets/case-studies/sujin/sujin-M.jpg";
+import sujinMobile from "../../../assets/case-studies/sujin/sujin-M.webp";
+import sujinImageJpg from "../../../assets/case-studies/sujin/sujin.jpg";
+import sujinImage from "../../../assets/case-studies/sujin/sujin.webp";
 
+// Optional per-study field:
+//   link: internal route to a full case-study page. When present, the card
+//   overlay shows a "Read case study →" CTA (see CaseStudies.jsx). The Orchard
+//   page is staged at /OrchardCaseStudyPage; add its link once published.
 export const caseStudies = [
   {
     id: 6,
     title: "Bar & Restaurant Website",
     client: "The Orchard Bar",
     shortDescription:
-      "React & Typescript website for The Orchard in Edinburgh. It has a table booking system embedded into the page, a dynamic menu, and a fast, fully responsive experience",
+      "React & TypeScript website for The Orchard in Edinburgh, with embedded table booking, a dynamic seasonal menu, and a fast, fully responsive experience",
     description:
-      "The Orchard Bar is a warm Pub and Restaurant in the Canonmills neighbourhood of Edinburgh, just a few meters away from The Royal Botanical. They were my first client when I started offering freelance services back in 2019 and I have managed their site since. Their main 3 requests were to be have a responsive website that allowed their patrons to book a table and where they could advertise their menus.\n\nThe website is a fast React 19 and TypeScript application, with a photographic hero, a dynamically generated menu that changes seasonally, and clear contact details, with the TableSense reservation system wired directly into the page so guests can check availability and book a table directly from the site",
+      "The Orchard Bar is a warm pub and restaurant in Canonmills, Edinburgh, a few minutes from the Royal Botanic Garden. They were my first client when I started freelancing in 2020, and I've designed and managed their site since.\n\nThe 2026 rebuild is a fast React 19 and TypeScript site: a photographic hero, a dynamically generated seasonal menu, and the TableSense reservation system wired into the page so guests can check availability and book a table directly",
     image: orchard,
     imageFallback: orchardJpg,
     alt: "The Orchard Bar website homepage on desktop showing a full-width hero photo of the bar over a warm dark theme with the venue name and navigation",
@@ -52,9 +56,9 @@ export const caseStudies = [
     title: "Fantasy Author Website",
     client: "LM Douglas",
     shortDescription:
-      "Custom Vue website merging author platform and world hub that includes new titles plus exclusive content enriching the fantasy universe for dedicated readers",
+      "Custom Vue website merging author platform and saga's hub that includes new titles plus exclusive content enriching the fantasy universe for dedicated readers",
     description:
-      "As LM Douglas' book catalog expanded, she needed more than a promotional site. Her fantasy world kept on growing with maps, character backstories and designs, and the website was the perfect place to showcase it all.\n\nI redesigned and built a custom Vue application that serves as professional author platform showcasing her growing catalog, and an immersive portal into her fantasy world.\n\n This transformed a static author site into a living world that grows with each release. Readers now have a destination to dive deeper between books, strengthening engagement and loyalty. The platform is ready to scale with whatever world-building she envisions next",
+      "As LM Douglas' book catalogue expanded, she needed more than a promotional site. Her fantasy world kept growing (maps, character backstories, designs) and the website was the perfect place to showcase it all.\n\nI redesigned and built a custom Vue application that serves as a professional author platform and an immersive portal into her fantasy world.\n\nA static author site became a living world that grows with each release, giving readers a destination between books and room to scale with whatever world-building she envisions next",
     image: lmdouglas,
     imageFallback: lmdouglasJpg,
     alt: "LM Douglas fantasy author website featuring illustrated fantasy map background and interactive book cover carousel with Vue.js components",
@@ -74,7 +78,7 @@ export const caseStudies = [
     shortDescription:
       "Marketing website redesign restoring the company's distinctive visual identity. Returned to the unique style that originally set them apart in the SaaS space",
     description:
-      "OMS' website had drifted from the distinctive design that made them recognizable. Years of incremental updates diluted their unique visual identity, making them blend in with generic SaaS competitors.\n\nAs a former frontend developer and designer for OMS, I understand their original design DNA. Led complete marketing website redesign and deployment, reclaiming the clean aesthetic that once differentiated them while modernizing for current standards.\n\n The redesign presents a cohesive, memorable identity to new prospects",
+      "OMS' website had drifted from the distinctive design that made them recognisable. Years of incremental updates had diluted their visual identity, leaving them blending in with generic SaaS competitors.\n\nAs a former frontend developer and designer for OMS, I knew their original design DNA. I led the complete redesign and deployment of their marketing site, reclaiming the clean aesthetic that once set them apart while modernising it for current standards.\n\nThe redesign presents a cohesive, memorable identity to new prospects",
     image: omsImage,
     imageFallback: omsImageJpg,
     alt: "Orders Made Simple SaaS marketing website redesign showing clean dashboard interface with brand color scheme and typography hierarchy",
@@ -92,7 +96,7 @@ export const caseStudies = [
     shortDescription:
       "Graphic designer's portfolio, built using React 19 & showcasing GSAP animations and innovative navigation",
     description:
-      "Sujin had a clear vision for her portfolio. It reflected her sensibility, letting her work take center stage. She sent me a polished Figma design and precise requirements, removing much of the guessing from the development.\n\nHer designs translated into a custom React application that respects her vision while adding interactive depth. Complex animations and unconventional navigation patterns create an experience that feels as considered as her design work.\n\nThe result does exactly what Sujin needed and gets out of the way while making her work look its best. Clean execution of a clear vision",
+      "Sujin had a clear vision for her portfolio: it should reflect her sensibility and let her work take centre stage. She sent me a polished Figma design and precise requirements, which removed much of the guesswork from development.\n\nI translated her designs into a custom React application that respects her vision while adding interactive depth: complex animations and unconventional navigation that feel as considered as her design work.\n\nThe result does exactly what Sujin needed: it makes her work look its best, then gets out of the way. Clean execution of a clear vision",
     image: sujinImage,
     imageFallback: sujinImageJpg,
     alt: "Sujin Kim graphic design portfolio homepage showing minimalist grid layout with custom cursor and GSAP animated text reveals",
@@ -111,7 +115,7 @@ export const caseStudies = [
     shortDescription:
       "Design-as-filter recruiting site for specialized caregiver roles. Intentional calm aesthetics attracted right candidates while deterring misaligned applicants",
     description:
-      "Loka Care needed caregivers for a young adult. Traditional job postings attracted quantity over quality. Applicants who didn't understand the role's patient, focused nature.\n\nDesigned a website where the aesthetic itself acted as a pre-screening tool. Calm color palette, deliberate pacing, and thoughtful typography created an environment that resonated with patient, attentive candidates while naturally filtering out those seeking fast-paced work.\n\nThe aim was to filter applicants before they even applied. Candidates who connected with the site's intentional calm were exactly the personalities suited for the role",
+      "Loka Care needed caregivers for a young adult, and traditional job postings attracted quantity over quality, drawing applicants who didn't understand the role's patient, focused nature.\n\nI designed a website where the aesthetic itself acts as a pre-screening tool: a calm colour palette, deliberate pacing and thoughtful typography that resonate with attentive candidates while naturally deterring those after fast-paced work.\n\nThe aim was to filter applicants before they even applied. The candidates who connected with the site's intentional calm were exactly the personalities suited to the role",
     image: lokaImage,
     imageFallback: lokaImageJpg,
     alt: "Loka Care healthcare recruitment website with calm sage green color palette, patient-focused messaging, and caregiver application form on Wix platform",
@@ -128,9 +132,9 @@ export const caseStudies = [
     title: "Pendo Audit and Management",
     client: "The PUSH Agency",
     shortDescription:
-      "Complete analytics from 0 for talent platform. 50% increase in assignment creation, 70% in reports, and 32 user guides and comprehensive tracking infrastructure",
+      "Pendo analytics built from zero for a talent platform: 32 guides, comprehensive tracking, and measured lifts in assignment creation and reporting",
     description:
-      "The PUSH Agency had little visibility into user engagement on their talent platform, no analytics, no tracking, no way to identify friction or measure adoption.\n\nI helped them build a Pendo infrastructure: 32 guides, 38 tracked features, 15 dashboards, 51 reports, and comprehensive user journey analysis.\n\nWe performed assignment creation: +52% (33%→50%)\nand kickstarted report generation: +37% (51%→70%)\n\n Thanks to all this we activated dormant features, reduced navigation time 34%, and established data-driven optimization framework for ongoing improvement",
+      "The PUSH Agency had little visibility into user engagement on their talent platform: no analytics, no tracking, no way to spot friction or measure adoption.\n\nI built their Pendo infrastructure from zero: 32 guides, 38 tracked features, 15 dashboards, 51 reports and comprehensive user-journey analysis.\n\nAssignment creation rose 52% (33%→50%) and report generation 37% (51%→70%). We activated dormant features, cut navigation time by 34%, and established a data-driven optimisation framework for ongoing improvement",
     image: pendoPush,
     imageFallback: pendoPushJpg,
     alt: "Pendo analytics dashboard for talent platform showing feature adoption metrics, guide performance charts, and user engagement heatmaps",

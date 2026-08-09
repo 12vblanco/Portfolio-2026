@@ -2,6 +2,7 @@
 import gsap from 'gsap';
 import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import CarouselControls from './CarouselControls';
 import { caseStudies } from './CaseStudies';
@@ -139,6 +140,15 @@ const LazyVideoCard = ({ study, index, hasAnimated, containerRef, isTablet, isCl
         <OverlayContent>
           <OverlayTitle>{study.client}</OverlayTitle>
           <OverlayDescription>{study.description}</OverlayDescription>
+          {study.link && (
+            <OverlayLink
+              to={study.link}
+              draggable={false}
+              onClick={(e) => e.stopPropagation()}
+            >
+              Read case study →
+            </OverlayLink>
+          )}
         </OverlayContent>
         <OverlayTagsButton>
           <OverlayTags>{study.tags?.join(' • ')}</OverlayTags>
@@ -260,13 +270,13 @@ const CaseStudies = () => {
   }, [hasAnimated]);
 
   // ── Desktop drag-to-scroll ────────────────────────────────────────────────
-  const dragRef = useRef({ isDragging: false, startX: 0, scrollLeft: 0 });
+  const dragRef = useRef({ isDragging: false, startX: 0, scrollLeft: 0, moved: false });
 
   const handlePointerDown = useCallback((e) => {
     if (isTablet) return;
     const container = containerRef.current;
     if (!container) return;
-    dragRef.current = { isDragging: true, startX: e.clientX, scrollLeft: container.scrollLeft };
+    dragRef.current = { isDragging: true, startX: e.clientX, scrollLeft: container.scrollLeft, moved: false };
     container.style.cursor = 'grabbing';
     container.style.userSelect = 'none';
   }, [isTablet]);
@@ -276,8 +286,18 @@ const CaseStudies = () => {
     const container = containerRef.current;
     if (!container) return;
     const dx = e.clientX - dragRef.current.startX;
+    if (Math.abs(dx) > 6) dragRef.current.moved = true;
     container.scrollLeft = dragRef.current.scrollLeft - dx;
   }, [isTablet]);
+
+  // A drag that ends over a card link must not navigate: capture-phase click
+  // suppression fires before the Link's own handler.
+  const handleClickCapture = useCallback((e) => {
+    if (!dragRef.current.moved) return;
+    e.preventDefault();
+    e.stopPropagation();
+    dragRef.current.moved = false;
+  }, []);
 
   const handlePointerUp = useCallback(() => {
     if (isTablet) return;
@@ -321,6 +341,7 @@ const CaseStudies = () => {
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerLeave={handlePointerUp}
+            onClickCapture={handleClickCapture}
           >
             <CardsTrack $hasAnimated={hasAnimated}>
               {/* Cards render server-side (the $hasAnimated prop drives the
@@ -762,11 +783,14 @@ const OverlayCard = styled.div.attrs({ className: 'caseStudies-OverlayCard' })`
     ${Card}:hover & { clip-path: circle(150% at 50% 0%); }
   }
   ${Card}[data-clicked="true"] & { clip-path: circle(150% at 50% 0%); }
+  /* Keyboard: tabbing to the overlay link reveals the overlay, mirroring hover */
+  ${Card}:focus-within & { clip-path: circle(150% at 50% 0%); }
 `;
 
 const OverlayContent = styled.div.attrs({ className: 'caseStudies-OverlayContent' })`
   padding: 24px;
-  min-height: 90%;
+  flex: 1;
+  min-height: 0;
   text-align: left;
   opacity: 0;
   transform: scale(0.9);
@@ -776,6 +800,7 @@ const OverlayContent = styled.div.attrs({ className: 'caseStudies-OverlayContent
     ${Card}:hover & { opacity: 1; transform: scale(1); }
   }
   ${Card}[data-clicked="true"] & { opacity: 1; transform: scale(1); }
+  ${Card}:focus-within & { opacity: 1; transform: scale(1); }
 `;
 
 const OverlayTagsButton = styled.div.attrs({ className: 'caseStudies-OverlayTagsButton' })`
@@ -788,6 +813,7 @@ const OverlayTagsButton = styled.div.attrs({ className: 'caseStudies-OverlayTags
     ${Card}:hover & { opacity: 1; transform: scale(1); }
   }
   ${Card}[data-clicked="true"] & { opacity: 1; transform: scale(1); }
+  ${Card}:focus-within & { opacity: 1; transform: scale(1); }
 `;
 
 const OverlayTitle = styled.h3.attrs({ className: 'caseStudies-OverlayTitle' })`
@@ -808,6 +834,25 @@ const OverlayDescription = styled.p.attrs({ className: 'caseStudies-OverlayDescr
   @media (max-width: 426px) {
   font-size: 15px;
   letter-spacing: -.2px;
+  }
+`;
+
+const OverlayLink = styled(Link).attrs({ className: 'caseStudies-OverlayLink' })`
+  display: inline-block;
+  margin-top: 16px;
+  padding: 8px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #FF3863;
+  border-bottom: 2px solid #FF3863;
+  &:hover {
+    color: #FFFEFA;
+    border-color: #FFFEFA;
+  }
+  &:focus-visible {
+    outline: 2px solid #FFFEFA;
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 `;
 
