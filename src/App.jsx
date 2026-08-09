@@ -6,7 +6,10 @@ import { Navigation } from './components/navigation/Navigation.jsx';
 import { HomePage } from './components/pages/HomePage.jsx';
 import { InsightArticlePage } from './components/pages/InsightArticlePage.jsx';
 import { InsightsIndexPage } from './components/pages/InsightsIndexPage.jsx';
+import { LMDouglasCaseStudyPage } from './components/pages/LMDouglasCaseStudyPage.jsx';
 import { NotFoundPage } from './components/pages/NotFoundPage.jsx';
+import { OMSCaseStudyPage } from './components/pages/OMSCaseStudyPage.jsx';
+import { OrchardCaseStudyPage } from './components/pages/OrchardCaseStudyPage.jsx';
 import { PendoConsultantPage } from './components/pages/PendoConsultantPage.jsx';
 import { GlobalStyles, theme } from './styles/GlobalStyles';
 
@@ -47,6 +50,30 @@ function App() {
             path="/insights/:slug"
             element={
               <InsightArticlePage
+                onOpenTerms={() => setTermsOpen(true)}
+              />
+            }
+          />
+          <Route
+            path="/OrchardCaseStudyPage"
+            element={
+              <OrchardCaseStudyPage
+                onOpenTerms={() => setTermsOpen(true)}
+              />
+            }
+          />
+          <Route
+            path="/LMDouglasCaseStudyPage"
+            element={
+              <LMDouglasCaseStudyPage
+                onOpenTerms={() => setTermsOpen(true)}
+              />
+            }
+          />
+          <Route
+            path="/OMSCaseStudyPage"
+            element={
+              <OMSCaseStudyPage
                 onOpenTerms={() => setTermsOpen(true)}
               />
             }

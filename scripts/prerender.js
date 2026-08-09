@@ -42,6 +42,11 @@ const routes = [
   { url: '/', out: 'dist/index.html', sitemap: { lastmod: HOME_LASTMOD, priority: '1.0' } },
   { url: '/pendo-consultant', out: 'dist/pendo-consultant.html', sitemap: { lastmod: PENDO_LASTMOD, priority: '0.9' } },
   { url: '/insights', out: 'dist/insights.html', sitemap: { lastmod: INSIGHTS_LASTMOD, priority: '0.8' } },
+  // WIP case-study previews — prerendered so the URLs work, but kept out of the
+  // sitemap (and noindex in the pages) until they're finished and given real routes.
+  { url: '/OrchardCaseStudyPage', out: 'dist/OrchardCaseStudyPage.html' },
+  { url: '/LMDouglasCaseStudyPage', out: 'dist/LMDouglasCaseStudyPage.html' },
+  { url: '/OMSCaseStudyPage', out: 'dist/OMSCaseStudyPage.html' },
   ...publishedInsights.map((item) => ({
     url: `/insights/${item.slug}`,
     out: `dist/insights/${item.slug}.html`,
