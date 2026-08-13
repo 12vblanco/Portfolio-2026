@@ -1,11 +1,5 @@
 
 
-export const servicesHeader = {
-  label: 'What I do',
-  title: 'Pendo consulting services',
-  subtitle: "Whether you need a full Pendo setup for a new SaaS product, an audit of an existing installation, or ongoing consulting,  I cover the full stack of Pendo services.",
-};
-
 export const featuresData = [
   {
     number: '01',
@@ -30,10 +24,17 @@ export const featuresData = [
   },
   {
     number: '04',
-    title: 'Analytics, Dashboards & Reporting',
-    before: 'Dashboards, funnels, NPS reports, and retention analytics that surface what actually matters. ',
-    link: 'Data you can act on',
-    after: ' to build effective products.',
+    title: 'Analytics, Dashboards & Custom Reporting',
+    before: 'Dashboards, funnels, NPS reports and retention analytics inside Pendo, plus ',
+    link: 'custom dashboards built on the Aggregation API',
+    after: ' with secured keys, scheduled refreshes and alerting when a pipeline stops returning data.',
+  },
+  {
+    number: '05',
+    title: 'AI & MCP Enablement',
+    before: 'Setup and governance of the ',
+    link: 'Pendo MCP server',
+    after: ' so your team can query live product data from Claude or ChatGPT: client rollout, read-only defaults, service accounts with a named owner, and verification that the data underneath is worth querying.',
   },
 ];
 
@@ -51,10 +52,10 @@ export const ctaData = {
 
 export const pageMetadata = {
   title: 'Certified Pendo Consultant Edinburgh | Victor Blanco',
-  description: 'Certified Pendo consultant for SaaS teams. Installation, audits, in-app guides and product analytics. Edinburgh-based, available worldwide. Book a free call.',
+  description: 'Certified Pendo consultant for SaaS teams: installation, audits, in-app guides, Aggregation API dashboards and MCP setup. Edinburgh-based, worldwide.',
   canonical: 'https://victorblancoweb.com/pendo-consultant',
   ogTitle: 'Pendo Consultant | Victor Blanco',
-  ogDescription: 'Certified Pendo consultant helping SaaS teams install Pendo correctly, fix broken setups, build in-app guides, and create product analytics dashboards that actually get used.',
+  ogDescription: 'Certified Pendo consultant helping SaaS teams install Pendo correctly, fix broken setups, build in-app guides, create live dashboards on the Aggregation API, and set up the Pendo MCP server.',
   ogImage: 'https://victorblancoweb.com/og-image-pendo.png',
   ogImageWidth: 2928,
   ogImageHeight: 1636,
@@ -64,7 +65,7 @@ export const pendoStructuredData = {
   "@context": "https://schema.org",
   "@type": "Service",
   "name": "Pendo Consulting Services",
-  "description": "Certified Pendo consultant helping SaaS teams get more from their subscription. Installation, audits, custom guides, and analytics reporting.",
+  "description": "Certified Pendo consultant helping SaaS teams get more from their subscription. Installation, audits, custom guides, analytics reporting, Aggregation API dashboards, and Pendo MCP setup.",
   "url": "https://victorblancoweb.com/pendo-consultant",
   "provider": {
     "@type": "Person",
@@ -87,7 +88,8 @@ export const pendoStructuredData = {
     "Pendo Installation & Setup",
     "Pendo Audit & Optimisation",
     "Pendo Guides & Onboarding",
-    "Pendo Analytics & Reporting"
+    "Pendo Analytics, Dashboards & Custom Reporting",
+    "Pendo AI & MCP Enablement"
   ],
   "hasOfferCatalog": {
     "@type": "OfferCatalog",
@@ -121,8 +123,16 @@ export const pendoStructuredData = {
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
-          "name": "Analytics & Reporting",
-          "description": "Pendo dashboards, funnels, and reports that surface actionable data to build effective products."
+          "name": "Analytics, Dashboards & Custom Reporting",
+          "description": "Pendo dashboards, funnels, and reports that surface actionable data, plus custom reporting built on the Pendo Aggregation API with secured keys, scheduled refreshes, and alerting."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "AI & MCP Enablement",
+          "description": "Setup and governance of the Pendo MCP server so teams can query live product data from Claude or ChatGPT, including client rollout, read-only defaults, and service accounts for automation."
         }
       }
     ]
@@ -171,6 +181,22 @@ export const faqStructuredData = {
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "A Pendo audit covers your full installation: snippet configuration, event tracking coverage, funnel setup, guide performance, data layer quality, and account structure. You will receive a prioritised action list of what to fix and how."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can you build custom dashboards from Pendo data?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Beyond Pendo's built-in dashboards, I build custom reporting on the Pendo Aggregation API: pipelines for adoption, stickiness and guide funnels, wired to a scheduled refresh and a chart layer so the report stays live instead of relying on someone running a CSV export."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can you set up the Pendo MCP server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. That covers enabling AI access in your subscription settings, connecting clients such as Claude, ChatGPT or Cursor, keeping the write tools off by default, and setting up service accounts where something needs to run on a schedule. I verify the underlying tagging first, because an AI client answers confidently whether or not the data behind it is correct."
       }
     }
   ]

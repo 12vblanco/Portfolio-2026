@@ -101,11 +101,10 @@ import { ConsentBanner } from "../common/ConsentBanner.jsx";
 import { Contact } from "../common/Contact.jsx";
 import { SEO } from "../common/SEO.jsx";
 
-// ⚠️ As of 3 Aug 2026 this domain returns 404 on every path, including every
-// URL in its own sitemap: the rebuild is still staged in HubSpot and unpublished.
-// The button is here at Victor's request, ready for go-live. Re-check before
-// this page is itself published, or it sends visitors to an error page.
-const SITE = "https://www.ordersmadesimple.com";
+// The rebuild went live in August 2026, so the shots below come from the real
+// URLs rather than the HubSpot previews they were captured from while it was
+// staged. www redirects to the apex, so link straight at the apex.
+const SITE = "https://ordersmadesimple.com";
 // No public repo: the code is hand-written and injected into a HubSpot template.
 const canonical = `${LINKS.site}/OMSCaseStudyPage`;
 
@@ -119,8 +118,9 @@ const SHOTS = {
     width: 800,
     height: 400,
   }),
-  // The old site, from Victor's own captures. ordersmadesimple.com now 404s on
-  // every path, and these are a later state than the last Wayback snapshot.
+  // The old site, from Victor's own captures, taken before the rebuild replaced
+  // it. They are a later state of it than the last Wayback snapshot, whose July
+  // 2025 nav does not yet carry "How OMS Works".
   beforeHome: shot({
     webp: [
       [beforeHomeWebp720, 720],
@@ -167,7 +167,7 @@ const SHOTS = {
       [hiwHeroJpg1440, 1440],
     ],
     width: 1440,
-    height: 1014,
+    height: 1008,
   }),
   benefits: shot({
     webp: [
@@ -179,7 +179,7 @@ const SHOTS = {
       [benefitsJpg1440, 1440],
     ],
     width: 1440,
-    height: 1053,
+    height: 1051,
   }),
   mobileHome: shot({
     webp: [

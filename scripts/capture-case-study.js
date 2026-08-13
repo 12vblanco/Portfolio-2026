@@ -10,11 +10,13 @@
    Config shape:
    {
      "outDir": "/abs/path/to/src/assets/case-studies/<client>",
+     "userAgent": "Mozilla/5.0 …",        // optional, applies to every shot
      "shots": [
        { "name": "live-hero", "url": "https://…", "selector": "#home",
          "widths": [800, 1600], "viewport": 1600, "scale": 1,
          "hide": [".cookie-banner"], "blockHosts": ["usemessages.com"],
-         "waitMs": 2500 }
+         "userAgent": "…", "settleAnimations": true, "waitMs": 2500,
+         "sourceOnly": true }   // keep the original, skip the derivatives
      ]
    }
    Originals land in <outDir>/_source (gitignored); derivatives beside them. */
@@ -47,12 +49,42 @@ for (const s of cfg.shots) {
     hasTouch: viewport < 700,
   });
 
+  // Some hosts (HubSpot CMS among them) answer the default HeadlessChrome UA
+  // with a 404 on every path, so the capture silently photographs an error page.
+  const ua = s.userAgent || cfg.userAgent;
+  if (ua) await page.setUserAgent(ua);
+
   // Scroll-triggered reveals never fire in a full-page capture, so the page
   // would photograph as blank. Asking for reduced motion skips them entirely.
   if (s.reducedMotion) {
     await page.emulateMediaFeatures([
       { name: "prefers-reduced-motion", value: "reduce" },
     ]);
+  }
+
+  // Reveals driven by a scroll-linked timeline (animation-timeline: view())
+  // ignore prefers-reduced-motion and never resolve in a full-page shot: Chrome
+  // grows the viewport to the whole document, so nothing ever scrolls and every
+  // band photographs empty. Re-pointing them at the document timeline and
+  // collapsing the duration lands each one on its final frame.
+  if (s.settleAnimations) {
+    await page.evaluateOnNewDocument(() => {
+      const css = `*, *::before, *::after {
+        animation-timeline: auto !important;
+        animation-range: normal !important;
+        animation-delay: 0s !important;
+        animation-duration: 1ms !important;
+        animation-fill-mode: forwards !important;
+        animation-play-state: running !important;
+      }`;
+      const add = () => {
+        const el = document.createElement("style");
+        el.textContent = css;
+        document.head.appendChild(el);
+      };
+      if (document.head) add();
+      else document.addEventListener("DOMContentLoaded", add);
+    });
   }
 
   // Some third-party widgets (HubSpot's chat bubble, its cookie banner) re-render
@@ -72,7 +104,11 @@ for (const s of cfg.shots) {
     });
   }
 
-  await page.goto(s.url, { waitUntil: "networkidle2", timeout: 90000 });
+  const res = await page.goto(s.url, { waitUntil: "networkidle2", timeout: 90000 });
+  // An error page still screenshots perfectly well, so fail loudly instead.
+  if (res && res.status() >= 400) {
+    throw new Error(`${s.name}: ${s.url} returned ${res.status()}`);
+  }
   await new Promise((r) => setTimeout(r, s.waitMs ?? 2500));
 
   // Drop anything that would date the shot or cover the content.
@@ -134,9 +170,18 @@ for (const s of cfg.shots) {
     await sharp(buf).toFile(raw);
   }
 
+  const meta = await sharp(raw).metadata();
+
+  // A full-page shot is usually only ever a source to cut section bands out of
+  // (see extract-mockup.js), and its derivatives are megabytes nothing imports.
+  // `sourceOnly` keeps it in _source, which is gitignored.
+  if (s.sourceOnly) {
+    console.log(`${s.name}: source ${meta.width}x${meta.height} -> _source only`);
+    continue;
+  }
+
   // Never upscale: a width above the source's own pixels would only invent
   // detail and lie about it in the srcSet.
-  const meta = await sharp(raw).metadata();
   const widths = s.widths.filter((w) => w <= meta.width);
   if (!widths.length) widths.push(meta.width);
 

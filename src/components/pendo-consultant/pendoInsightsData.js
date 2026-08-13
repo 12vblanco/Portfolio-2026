@@ -290,7 +290,7 @@ x-pendo-integration-key: <your-integration-key>
     slug: "pendo-mcp-server",
     tag: "Pendo AI",
     title:
-      "The Pendo MCP server: what it reaches, how to connect it, and what it won't fix",
+      "Pendo MCP: what it reaches, how to connect it, and what it won't fix",
     name: "Victor Blanco - Pendo consultant",
     date: "August 2026",
     datePublished: "2026-08-03",
@@ -307,10 +307,9 @@ x-pendo-integration-key: <your-integration-key>
       "ChatGPT",
     ],
     subtitle:
-      "Pendo's MCP server puts product data in front of people who never had a Pendo login. It is genuinely useful, but it can inherit every weakness in your tagging. Here is what it reaches, how to connect it to Claude, ChatGPT and other clients, and how I would roll it out.",
+      "Pendo's MCP server puts product data in front of people who never had a Pendo login. It is genuinely useful, but it inherits every weakness in your tagging. Here an introduction to what it reaches, how to connect it to Claude, ChatGPT and other clients, and how I would roll it out.",
     meta: {
-      title:
-        "Pendo MCP Server: How to Connect It to Claude & ChatGPT | Victor Blanco",
+      title: "Pendo MCP: How to Connect It to Claude & ChatGPT | Victor Blanco",
       description:
         "How to connect the Pendo MCP server to Claude, ChatGPT and Cursor, what data it reaches, read-only versus write tools, service accounts, MCP versus Leo, and the limits to plan for.",
     },
@@ -319,8 +318,8 @@ x-pendo-integration-key: <your-integration-key>
       {
         heading: null,
         paragraphs: [
-          "For most of Pendo's life, the answer to “how are they actually using it?” sat behind a login that most of the company never had. The support agent handling a complaint, the account manager preparing for a renewal, the founder who wants one number before a board meeting: each of them had to find someone with a seat, and wait. Pendo's pitch for its MCP server is that this stops being true, and that any AI tool can become a product expert.",
-          "The server is now a remotely hosted gateway between your subscription and any AI client that speaks the Model Context Protocol (MPC). You ask a question in Claude, ChatGPT or Cursor, and the answer comes back from your live Pendo data, in the tool where you already work, with no dashboard and no export. Pendo greatly improved reach. What it does not sell is a view on how to adopt it without quietly making your reporting worse.",
+          "For most of Pendo's life, the answer to “how are they actually using it?” had to come from a few people with a Pendo account. The support agent handling a complaint, the account manager preparing for a renewal, the founder who wants one number before a board meeting had to find someone with access, and wait. Pendo's pitch for its MCP server is that this stops being true, and that any AI tool can become a product expert.",
+          "The server is now a remotely hosted gateway between your subscription and any AI client that speaks the Model Context Protocol (MPC). You ask a question in Claude, ChatGPT or Cursor, and the answer comes from your Pendo data, in the tool where you already work, with no dashboard and no export. Pendo has improved reach.",
         ],
         figure: "mcpFlow",
       },

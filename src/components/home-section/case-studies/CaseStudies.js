@@ -10,6 +10,7 @@ import lokaImageJpg from "../../../assets/case-studies/loka/loka1.jpg";
 import lokaImage from "../../../assets/case-studies/loka/loka1.webp";
 import omsMobileJpg from "../../../assets/case-studies/oms/oms-M.jpg";
 import omsMobile from "../../../assets/case-studies/oms/oms-M.webp";
+import omsVideo from "../../../assets/case-studies/oms/oms.mp4";
 import omsImageJpg from "../../../assets/case-studies/oms/oms1.jpg";
 import omsImage from "../../../assets/case-studies/oms/oms1.webp";
 import orchardMobileJpg from "../../../assets/case-studies/orchard/orchard-M.jpg";
@@ -81,11 +82,12 @@ export const caseStudies = [
       "OMS' website had drifted from the distinctive design that made them recognisable. Years of incremental updates had diluted their visual identity, leaving them blending in with generic SaaS competitors.\n\nAs a former frontend developer and designer for OMS, I knew their original design DNA. I led the complete redesign and deployment of their marketing site, reclaiming the clean aesthetic that once set them apart while modernising it for current standards.\n\nThe redesign presents a cohesive, memorable identity to new prospects",
     image: omsImage,
     imageFallback: omsImageJpg,
-    alt: "Orders Made Simple SaaS marketing website redesign showing clean dashboard interface with brand color scheme and typography hierarchy",
+    alt: "Orders Made Simple homepage after the redesign: the headline Restaurant ordering software that saves time and protects your margins beside an illustrated phone running the app, over a row of hospitality client logos",
     mobileImage: omsMobile,
     mobileImageFallback: omsMobileJpg,
     mobileAlt:
-      "Orders Made Simple mobile responsive design showing collapsed navigation menu and feature highlight sections",
+      "The Orders Made Simple homepage on a phone, showing the illustrated app hero above the headline and the opening paragraph",
+    video: omsVideo,
     tags: ["Brand Redesign", "UI/UX Design", "HubSpot"],
     year: "2025 - 2026",
   },
