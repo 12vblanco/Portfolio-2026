@@ -12,6 +12,7 @@ import {
   AuditAreasFigure,
   AuditIssueBarsFigure,
   ClicksVsVisitorsFigure,
+  ConnectedStackFigure,
   McpFlowFigure,
 } from "../pendo-consultant/ArticleFigures.jsx";
 import { PendoAnalyticsDashboard } from "../pendo-consultant/PendoAnalyticsDashboard";
@@ -28,6 +29,7 @@ const ARTICLE_FIGURES = {
   clicksVsVisitors: ClicksVsVisitorsFigure,
   apiFlow: ApiFlowFigure,
   mcpFlow: McpFlowFigure,
+  connectedStack: ConnectedStackFigure,
 };
 
 const MONO = "'SF Mono', 'Fira Code', Menlo, Consolas, monospace";

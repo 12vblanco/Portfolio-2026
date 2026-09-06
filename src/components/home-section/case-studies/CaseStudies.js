@@ -96,19 +96,19 @@ export const caseStudies = [
     title: "Design and Perspective",
     client: "Sujin Kim",
     shortDescription:
-      "Graphic designer's portfolio, built using React 19 & showcasing GSAP animations and innovative navigation",
+      "Graphic designer's portfolio built as a gallery: three rooms instead of pages, a career archive walked one year per scroll, and a hero the cursor scatters into particles",
     description:
       "Sujin had a clear vision for her portfolio: it should reflect her sensibility and let her work take centre stage. She sent me a polished Figma design and precise requirements, which removed much of the guesswork from development.\n\nI translated her designs into a custom React application that respects her vision while adding interactive depth: complex animations and unconventional navigation that feel as considered as her design work.\n\nThe result does exactly what Sujin needed: it makes her work look its best, then gets out of the way. Clean execution of a clear vision",
     image: sujinImage,
     imageFallback: sujinImageJpg,
-    alt: "Sujin Kim graphic design portfolio homepage showing minimalist grid layout with custom cursor and GSAP animated text reveals",
+    alt: "The Sujin Kim portfolio landing page: A curated archive of Design and Perspective set in a large editorial serif, black on bone white, with Curated by Sujin Kim on a rule between them and a Scroll to begin prompt at the right",
     mobileImage: sujinMobile,
     mobileImageFallback: sujinMobileJpg,
     mobileAlt:
-      "Sujin Kim portfolio mobile view showing hamburger menu navigation and animated project thumbnails",
+      "The same landing page on a narrow screen: the Design and Perspective headline in editorial serif on bone white, under the Entrance, Exhibition and Invitation navigation",
     video: sujinVideo,
-    tags: ["React", "GSAP", "Web Development"],
-    year: "2024",
+    tags: ["React 19", "Canvas 2D", "Lenis"],
+    year: "2025",
   },
   {
     id: 4,

@@ -16,6 +16,11 @@
          "widths": [800, 1600], "viewport": 1600, "scale": 1,
          "hide": [".cookie-banner"], "blockHosts": ["usemessages.com"],
          "userAgent": "…", "settleAnimations": true, "waitMs": 2500,
+         "actions": [           // for sites with one URL and no routes
+           { "key": "ArrowDown" },
+           { "click": "nav a", "text": "Exhibition", "wait": 1600 },
+           { "scroll": 900 }    // scrolls the real inner scroller, not window
+         ],
          "sourceOnly": true }   // keep the original, skip the derivatives
      ]
    }
@@ -104,7 +109,12 @@ for (const s of cfg.shots) {
     });
   }
 
-  const res = await page.goto(s.url, { waitUntil: "networkidle2", timeout: 90000 });
+  // networkidle2 is the right default, but a site holding a connection open
+  // (analytics sockets, a dev server, a long poll) never reaches it and the
+  // capture dies on a timeout instead. Those can fall back to domcontentloaded
+  // and let waitMs do the settling.
+  const waitUntil = s.waitUntil || cfg.waitUntil || "networkidle2";
+  const res = await page.goto(s.url, { waitUntil, timeout: 90000 });
   // An error page still screenshots perfectly well, so fail loudly instead.
   if (res && res.status() >= 400) {
     throw new Error(`${s.name}: ${s.url} returned ${res.status()}`);
@@ -121,6 +131,61 @@ for (const s of cfg.shots) {
       );
     }, s.hide);
     await new Promise((r) => setTimeout(r, 400));
+  }
+
+  // Some sites have no URL per screen: they navigate through a gesture behind a
+  // transition lock, so `goto` can only ever reach the first one. `actions`
+  // replays that gesture before the shot is taken.
+  for (const a of s.actions ?? []) {
+    // A keypress beats a synthetic wheel event on anything using a smooth-scroll
+    // library: those often ignore wheel deltas below a velocity floor.
+    if (a.key) await page.keyboard.press(a.key);
+
+    // Nav items and cards built with styled-components have generated class
+    // names, so the visible text is the only stable handle. Of the elements
+    // matching, click the deepest — every ancestor up to <body> also contains
+    // the text, and clicking a wrapper never reaches the child's own handler.
+    // A click on the deepest one bubbles back up to whichever ancestor owns it.
+    if (a.click) {
+      const found = await page.evaluate(
+        (sel, text) => {
+          let els = [...document.querySelectorAll(sel)];
+          if (text) els = els.filter((e) => e.textContent.includes(text));
+          const el = els.find((e) => !els.some((o) => o !== e && e.contains(o)));
+          if (!el) return false;
+          el.click();
+          return true;
+        },
+        a.click,
+        a.text,
+      );
+      if (!found) {
+        throw new Error(
+          `${s.name}: no match for ${a.click}${a.text ? ` containing "${a.text}"` : ""}`,
+        );
+      }
+    }
+
+    // When the document itself is overflow:hidden, the thing that actually
+    // scrolls is some inner element, and window.scrollTo is a silent no-op.
+    // Find the real scroller rather than needing its generated class name.
+    if (a.scroll != null) {
+      const scrolled = await page.evaluate((y) => {
+        const el = [...document.querySelectorAll("*")].find(
+          (e) => e.scrollHeight > e.clientHeight + 50 && e.clientHeight > 200,
+        );
+        if (el) el.scrollTop = y;
+        else window.scrollTo(0, y);
+        return !!el;
+      }, a.scroll);
+      if (!scrolled && a.requireScroller) {
+        throw new Error(`${s.name}: no inner scroller found to scroll`);
+      }
+    }
+
+    // Between every step: a page that cross-fades and then holds an input lock
+    // photographs mid-transition unless the wait clears both.
+    await new Promise((r) => setTimeout(r, a.wait ?? 1400));
   }
 
   // A section taller than the phone screen reads as a 1:5 ribbon in a device

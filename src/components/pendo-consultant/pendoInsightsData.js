@@ -866,6 +866,173 @@ claude mcp add --transport http pendo \\
       },
     ],
   },
+
+  {
+    published: true,
+    slug: "pendo-mcp-security-review",
+    tag: "Pendo AI",
+    title: "The MCP security review: How to get ready for the switch",
+    name: "Victor Blanco - Pendo consultant",
+    date: "September 2026",
+    datePublished: "2026-09-07",
+    dateModified: "2026-09-07",
+    read: "9 min read",
+    pills: [
+      "Pendo MCP",
+      "MCP security review",
+      "Model Context Protocol",
+      "AI governance",
+      "Health score",
+      "Product analytics",
+      "Data quality",
+    ],
+    subtitle:
+      "Switching on the Pendo MCP server is a relatively simple process that can be done in under an hour, but getting everything ready can take weeks. Let's review the questions about your Pendo data that nobody asks at the beginning of the process, but everybody should.",
+    meta: {
+      title: "The MCP Security Review: How To Get Ready | Victor Blanco",
+      description:
+        "What security, legal and IT really test before approving the Pendo MCP server, why to start read-only, and the one question the review never asks.",
+    },
+    quote: null,
+    sections: [
+      {
+        heading: null,
+        paragraphs: [
+          "MCP rollouts can find blocks in predictable places, and it is almost never the technology. Enabling the Pendo MCP server means an admin option change and a user sign-in. An IT team can turn it on in an hour. Getting permission from your organization to do so can take a month and it can even go on for longer.",
+          "The usual advice is to treat that review as an obstacle: prepare the documentation, pre-empt the questions, compress the wait. That works, and the preparation is below. But it undersells what is actually happening in those meetings. Security wil ask who can see this data, what it is going to be used for, and what happens when it turns out to be wrong. Nobody asked those questions when the analytics were installed. For most companies the MCP review is the first time anyone has been made to.",
+        ],
+      },
+      {
+        heading: "First, describe it accurately",
+        paragraphs: [
+          "There is a way of explaining MCP, something like this: an API is a door between two systems, while an MCP hands over a map of the whole building, the staff list and the contents of everyone's desk. Although memorable this is slightly wrong in a way that can costs you the approval.",
+          "An MCP server is a wrapper over the API surface that was already there, with its operations described well enough that a model can pick between them without a developer writing the request. That is the real advance. What it is not is a wider door. It reaches nothing a developer could not already get from the API, permissions are inherited from the account that signed in, and the protocol itself remembers nothing between calls: the conversation history everyone attributes to MCP lives in the AI client, not the connection.",
+          "This matters because the inflated description is the one security hears. Present the connector as a map of the building and you have described unbounded access. Present it as described access to an API they already approved, under each user's existing permissions, and you are having a much smaller conversation.",
+        ],
+        pull: "The right description of an MCP connection will save you a lot of trouble getting this approved by your organization.",
+      },
+      {
+        heading: "The five questions, and what each is testing",
+        paragraphs: [
+          "The list barely varies between companies. What varies is whether the requester understands that each question is a proxy for a broader worry, and answers the worry rather than the words.",
+        ],
+        table: {
+          head: ["What they ask", "What it is really testing", "A good answer"],
+          rows: [
+            [
+              "Read access or write access?",
+              "Whether an agent can change the state of a system, and who would notice if it did.",
+              "Read-only, write tools left off, and a named condition that would justify revisiting it.",
+            ],
+            [
+              "What is the use case?",
+              "Whether the request is bounded, or whether you are asking for a platform and calling it a workflow.",
+              "One workflow, one owner, one group of users to start.",
+            ],
+            [
+              "Who can see what?",
+              "Whether connecting this widens access beyond the permissions people already hold.",
+              "It does not. Every request runs as the person who signed in, so nobody reaches data they could not already open in Pendo.",
+            ],
+            [
+              "Where does the data go?",
+              "Residency obligations, and which third parties end up processing customer records.",
+              "The specific regional endpoint you will use, and the vendor's processing terms.",
+            ],
+            [
+              "What is retained, and is any of it trained on?",
+              "This is the question underneath all the others, and the one people guess at.",
+              "Your AI client's retention and training settings in writing. Do not paraphrase this one from memory.",
+            ],
+          ],
+        },
+        recommendation:
+          "Answer these for yourself before you route them to anyone. If you cannot say who can see what without opening three admin panels, the review has not found a security problem. It has found an access problem you already had, and it would have surfaced eventually in a worse setting than a meeting.",
+      },
+      {
+        heading: "Read-only is not a concession",
+        paragraphs: [
+          "Of the five, this is the one that moves the decision, and it is worth wanting for reasons beyond approval speed. Read access means an agent can pull usage, feedback, guide performance and account data into a conversation. Write access means it can create something. Pendo's write tools are deliberately narrow, covering feedback items and ideas rather than anything that alters the analytics record, but the distinction holds for every connector you will add after this one.",
+          "The case for starting read-only is not caution for its own sake. It is that you do not yet know what your team will use this for, and neither do they. A quarter of read-only usage tells you which three workflows actually recur, which is the evidence a write request needs. Asking for both at once means arguing for a capability you cannot yet justify, and slowing down the half you can.",
+        ],
+        recommendation:
+          "Request read-only, run it for a quarter, then ask for write access on the one or two workflows that earned it. A second request backed by three months of usage is a conversation. A first request backed by a hypothesis is a negotiation.",
+      },
+      {
+        heading: "The cost nobody models",
+        paragraphs: [
+          "One question catches teams out and it does not come from security. Connector usage costs money. Every query pulls records into the model's context, and the shape of that cost surprises people: it scales with the size of the questions, not the number of people asking. A handful of analysts pulling year-long usage tables can consume more than an entire department using chat.",
+          "You cannot answer this from a pricing page, but a fortnight of measured usage answers it precisely. Run a small pilot with named people, record the consumption, and put a real number in the request. A measured figure caps a cost that otherwise sounds unbounded, and unbounded is what gets requests deferred rather than refused.",
+        ],
+      },
+      {
+        heading:
+          "Why the first approval does not automatically make the next one easy",
+        paragraphs: [
+          "You will hear that the first connector is the hard one and the rest follow within days. It is comforting and it is partly survivor bias: it is told by the people who got through. I have seen teams whose vendor contracts predate half the company spend six weeks on a connector for that same vendor, and others blocked on file storage they had used daily for years.",
+          "What actually predicts the second approval is not the first one. It is whether the first review produced a policy: a written category for this class of tool, a standing answer on retention, and a named person who owns the decision. Approval by exhaustion produces none of that, and leaves you starting over. If your company sits under a parent group, or runs shared tenancy across business units, expect the siloing question to reappear every time regardless.",
+        ],
+        pull: "Nothing about the second request is faster if the first one was approved by exhaustion.",
+      },
+      {
+        heading: "Connect in an order you can verify",
+        paragraphs: [
+          "Once it is live, the temptation is to connect everything at once, because the appeal was always the combination. Product usage sits in Pendo, contracts and renewal dates in the CRM, notes and lifecycle stage in the success platform, and the truth of the relationship in tickets and call transcripts. Every question worth asking spans at least two of them.",
+        ],
+        figure: "connectedStack",
+        paragraphsAfter: [
+          "What decides whether this works is not the connections. It is whether the account identifiers line up. If a Pendo account ID cannot be matched to a CRM account ID without a person making a judgement call, an agent will make that call too, silently, and present the result with the same confidence as a clean join. Connecting a second system before that mapping is verified does not double the value. It doubles the surface on which a wrong answer can be assembled.",
+        ],
+        recommendation:
+          "Connect one system and live with it for a few weeks. Pendo is the sensible first choice, not because it is mine, but because it holds the richest data with the fewest people able to query it, so the value shows up fastest. Add the second only when you can demonstrate the identifiers match.",
+      },
+      {
+        heading: "Habits that keep the answers honest",
+        paragraphs: [
+          "A few small practices separate teams who get value from this from teams who tried it twice and went back to exporting spreadsheets. Most of them are about verification rather than prompting.",
+        ],
+        list: [
+          {
+            term: "Make it cite itself",
+            text: "require every figure to arrive with the source and the date range it came from. This is the only practical way to notice an answer that was assembled rather than retrieved.",
+          },
+          {
+            term: "Name the connector explicitly",
+            text: "asking for “the Pendo data” rather than trusting the model to reach for it does produce better results. Treat the need for it as a signal too: it usually means too many overlapping tools are loaded at once.",
+          },
+          {
+            term: "Show it the output you want",
+            text: "a request for a customer review document with no example produces filler that reads like filler. One good example changes the result more than any amount of instruction.",
+          },
+          {
+            term: "Re-test when the model changes",
+            text: "a prompt tuned on one model can quietly degrade on the next. Anything you rely on weekly deserves a scheduled check.",
+          },
+          {
+            term: "Promote what works, discard what does not",
+            text: "once a prompt reliably produces what you want, make it a repeatable, versioned step rather than something living in one person's notes.",
+          },
+        ],
+      },
+      {
+        heading: "The health score is the tempting thing to automate first",
+        paragraphs: [
+          "Connected data makes one project look irresistible, and it is worth being careful about. Most companies keep customer health in a single CRM field. Ask when it was last updated and where the number came from, and it usually falls apart: months ago, and a CSM's impression after a good call. That is not a score, it is a memory with a decimal point.",
+          "The obvious fix is a composite that updates itself, weighting product usage, engagement score, survey sentiment, support volume and contract data. It is better, but it inherits a failure mode worth naming. The weights are still set by human judgement, and once they are inside an automated pipeline that judgement is presented as arithmetic. A number nobody can trace stops being challenged, which is exactly the property that made the stale field dangerous in the first place.",
+        ],
+        recommendation:
+          "Automate the score only after the tagging underneath it has been verified, and keep the weights written down somewhere a person can argue with them. A composite built on broken feature tags is worse than an honest guess, because it arrives with a decimal point and nobody argues with a decimal point.",
+      },
+      {
+        heading: "The question the review never asks",
+        paragraphs: [
+          "Go back through the five questions and notice what is missing. Security asks who can see the number, where it travels and what is retained. Nobody asks whether the number is correct. That is nobody's job in the review, and it is the assumption everything else rests on.",
+          "It matters more here than it did before, because the failure is silent. An agent will answer a question about a feature whose tag broke three releases ago with precisely the confidence it brings to one tagged correctly. Internal users nobody excluded now inflate a figure that gets quoted on a renewal call. Before the connector, a bad number reached one analyst who might have questioned it. After, it reaches everyone at once, in prose that reads like an answer.",
+          "So the sequence that works is the unfashionable one. Verify the installation, request read-only access, connect one system, and give the fastest questions to the people who know the data well enough to notice when it is wrong. The review will make you answer who can see your data. It is worth using the same occasion to establish whether it is worth seeing, and that is the part I can help with.",
+        ],
+      },
+    ],
+  },
 ];
 
 /* Newest first, by `datePublished`, so the insights index, the homepage strip

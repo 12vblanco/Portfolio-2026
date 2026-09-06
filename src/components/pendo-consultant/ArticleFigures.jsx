@@ -143,6 +143,40 @@ export const McpFlowFigure = () => (
   </FigureBlock>
 );
 
+// ─── Figure: the connected stack behind one question ────────────────────────
+
+const connectedStackSources = [
+  { title: 'Pendo', text: 'Adoption, feature usage, NPS and poll responses, guide engagement, session replay' },
+  { title: 'CRM', text: 'Contract value, entitlements, renewal dates and who owns the account' },
+  { title: 'CS platform', text: 'Health scores, CSM notes, lifecycle stage and open success plans' },
+  { title: 'Support & calls', text: 'Tickets, transcripts and everything the customer has already told you' },
+];
+
+export const ConnectedStackFigure = () => (
+  <FigureBlock>
+    <SourceGrid>
+      {connectedStackSources.map((source) => (
+        <SourceCard key={source.title}>
+          <FlowTitle>{source.title}</FlowTitle>
+          <FlowText>{source.text}</FlowText>
+        </SourceCard>
+      ))}
+    </SourceGrid>
+    <ConvergeArrow aria-hidden="true">↓</ConvergeArrow>
+    <FlowCard $accent>
+      <FlowTitle>One agent, one question</FlowTitle>
+      <FlowText>
+        “Which of my renewals in the next 60 days have falling usage?” answered once, from every
+        source at the same time, in the tool the CSM already has open.
+      </FlowText>
+    </FlowCard>
+    <FigureCaption>
+      Each connection is a separate approval and a separate piece of work. The value only appears
+      when the account IDs in each system can be matched to each other.
+    </FigureCaption>
+  </FigureBlock>
+);
+
 // ─── Shared styled components ────────────────────────────────────────────────
 
 const FigureBlock = styled.figure`
@@ -335,4 +369,28 @@ const FlowArrow = styled.span`
   font-weight: 700;
   flex-shrink: 0;
   @media (max-width: 968px) { transform: rotate(90deg); }
+`;
+
+// Connected stack
+
+const SourceGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+`;
+
+const SourceCard = styled.div`
+  background: rgba(40, 40, 40, 0.02);
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 1.25rem;
+`;
+
+const ConvergeArrow = styled.div`
+  font-size: 24px;
+  color: #FF3863;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1;
+  margin: 0.75rem 0;
 `;

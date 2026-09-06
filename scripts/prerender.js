@@ -47,6 +47,7 @@ const routes = [
   { url: '/OrchardCaseStudyPage', out: 'dist/OrchardCaseStudyPage.html' },
   { url: '/LMDouglasCaseStudyPage', out: 'dist/LMDouglasCaseStudyPage.html' },
   { url: '/OMSCaseStudyPage', out: 'dist/OMSCaseStudyPage.html' },
+  { url: '/SujinCaseStudyPage', out: 'dist/SujinCaseStudyPage.html' },
   ...publishedInsights.map((item) => ({
     url: `/insights/${item.slug}`,
     out: `dist/insights/${item.slug}.html`,

@@ -9,6 +9,7 @@ import { InsightsIndexPage } from './components/pages/InsightsIndexPage.jsx';
 import { LMDouglasCaseStudyPage } from './components/pages/LMDouglasCaseStudyPage.jsx';
 import { NotFoundPage } from './components/pages/NotFoundPage.jsx';
 import { OMSCaseStudyPage } from './components/pages/OMSCaseStudyPage.jsx';
+import { SujinCaseStudyPage } from './components/pages/SujinCaseStudyPage.jsx';
 import { OrchardCaseStudyPage } from './components/pages/OrchardCaseStudyPage.jsx';
 import { PendoConsultantPage } from './components/pages/PendoConsultantPage.jsx';
 import { GlobalStyles, theme } from './styles/GlobalStyles';
@@ -74,6 +75,14 @@ function App() {
             path="/OMSCaseStudyPage"
             element={
               <OMSCaseStudyPage
+                onOpenTerms={() => setTermsOpen(true)}
+              />
+            }
+          />
+          <Route
+            path="/SujinCaseStudyPage"
+            element={
+              <SujinCaseStudyPage
                 onOpenTerms={() => setTermsOpen(true)}
               />
             }
