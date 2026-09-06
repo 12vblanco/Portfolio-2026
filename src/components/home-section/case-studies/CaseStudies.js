@@ -30,8 +30,8 @@ import sujinImage from "../../../assets/case-studies/sujin/sujin.webp";
 
 // Optional per-study field:
 //   link: internal route to a full case-study page. When present, the card
-//   overlay shows a "Read case study →" CTA (see CaseStudies.jsx). The Orchard
-//   page is staged at /OrchardCaseStudyPage; add its link once published.
+//   overlay shows a "Read case study →" CTA (see CaseStudies.jsx). Studies
+//   without a page yet simply omit it and the overlay shows no CTA.
 export const caseStudies = [
   {
     id: 6,
@@ -51,6 +51,7 @@ export const caseStudies = [
     video: orchardVideo,
     tags: ["React + TypeScript", "UX", "Vitest"],
     year: "2026",
+    link: "/work/the-orchard-bar",
   },
   {
     id: 2,
@@ -71,6 +72,7 @@ export const caseStudies = [
     video: lmdVideo,
     tags: ["Vue3", "Figma", "UI/UX Design"],
     year: "2024",
+    link: "/work/lm-douglas",
   },
   {
     id: 3,
@@ -90,6 +92,7 @@ export const caseStudies = [
     video: omsVideo,
     tags: ["Brand Redesign", "UI/UX Design", "HubSpot"],
     year: "2025 - 2026",
+    link: "/work/orders-made-simple",
   },
   {
     id: 1,
@@ -109,6 +112,7 @@ export const caseStudies = [
     video: sujinVideo,
     tags: ["React 19", "Canvas 2D", "Lenis"],
     year: "2025",
+    link: "/work/sujin-kim",
   },
   {
     id: 4,

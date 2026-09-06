@@ -101,9 +101,7 @@ import { SEO } from "../common/SEO.jsx";
 
 const SITE = "https://lmdouglas.com/";
 const REPO = "https://github.com/12vblanco/lmdouglas26";
-// Preview URL, matching the Orchard study. Moves to /work/lm-douglas and loses
-// the noindex once the page is finished and linked from the home card.
-const canonical = `${LINKS.site}/LMDouglasCaseStudyPage`;
+const canonical = `${LINKS.site}/work/lm-douglas`;
 
 const SHOTS = {
   books: shot({
@@ -267,7 +265,6 @@ export const LMDouglasCaseStudyPage = ({ onOpenTerms }) => {
         canonical={canonical}
         ogType="article"
         ogTitle="L.M. Douglas: author platform design & build case study"
-        noindex
         structuredData={structuredData}
       />
 

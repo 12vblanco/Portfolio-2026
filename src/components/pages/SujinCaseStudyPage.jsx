@@ -112,7 +112,7 @@ import { ConsentBanner } from "../common/ConsentBanner.jsx";
 import { Contact } from "../common/Contact.jsx";
 import { SEO } from "../common/SEO.jsx";
 
-const canonical = `${LINKS.site}/SujinCaseStudyPage`;
+const canonical = `${LINKS.site}/work/sujin-kim`;
 
 const SHOTS = {
   landing: shot({
@@ -336,7 +336,6 @@ export const SujinCaseStudyPage = ({ onOpenTerms }) => {
         canonical={canonical}
         ogType="article"
         ogTitle="Sujin Kim: a designer's portfolio built as a gallery"
-        noindex
         structuredData={structuredData}
       />
 

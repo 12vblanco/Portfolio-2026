@@ -35,6 +35,29 @@
   to = "/"
   status = 301
 
+# The case-study previews moved to real /work/<slug> routes when they were
+# published. They were noindex and out of the sitemap while staged, so little
+# should point at them, but the old paths were live HTML for a while.
+[[redirects]]
+  from = "/OrchardCaseStudyPage"
+  to = "/work/the-orchard-bar"
+  status = 301
+
+[[redirects]]
+  from = "/LMDouglasCaseStudyPage"
+  to = "/work/lm-douglas"
+  status = 301
+
+[[redirects]]
+  from = "/OMSCaseStudyPage"
+  to = "/work/orders-made-simple"
+  status = 301
+
+[[redirects]]
+  from = "/SujinCaseStudyPage"
+  to = "/work/sujin-kim"
+  status = 301
+
 # /insights is now a real prerendered hub page (dist/insights.html), not a redirect.
 
 # No SPA catch-all: every route is prerendered to a real HTML file at build

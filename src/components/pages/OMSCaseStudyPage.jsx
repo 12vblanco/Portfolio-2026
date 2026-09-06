@@ -106,7 +106,7 @@ import { SEO } from "../common/SEO.jsx";
 // staged. www redirects to the apex, so link straight at the apex.
 const SITE = "https://ordersmadesimple.com";
 // No public repo: the code is hand-written and injected into a HubSpot template.
-const canonical = `${LINKS.site}/OMSCaseStudyPage`;
+const canonical = `${LINKS.site}/work/orders-made-simple`;
 
 const SHOTS = {
   // The OMS brand mark. One width only: it renders at 400px at most, so 800
@@ -305,7 +305,6 @@ export const OMSCaseStudyPage = ({ onOpenTerms }) => {
         canonical={canonical}
         ogType="article"
         ogTitle="Orders Made Simple: SaaS marketing site redesign case study"
-        noindex
         structuredData={structuredData}
       />
 

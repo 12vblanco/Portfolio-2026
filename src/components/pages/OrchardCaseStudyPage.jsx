@@ -102,9 +102,7 @@ import { SEO } from "../common/SEO.jsx";
 
 const SITE = "https://theorchardbar.co.uk/";
 const REPO = "https://github.com/12vblanco/the-orchard-2026";
-// Temporary preview URL. Will move to a per-case route (e.g. /work/the-orchard-bar)
-// and lose the noindex once the page is finished and linked from the home card.
-const canonical = `${LINKS.site}/OrchardCaseStudyPage`;
+const canonical = `${LINKS.site}/work/the-orchard-bar`;
 
 const SHOTS = {
   venue: shot({
@@ -441,7 +439,6 @@ export const OrchardCaseStudyPage = ({ onOpenTerms }) => {
         canonical={canonical}
         ogType="article"
         ogTitle="The Orchard Bar: website design & build case study"
-        noindex
         structuredData={structuredData}
       />
 

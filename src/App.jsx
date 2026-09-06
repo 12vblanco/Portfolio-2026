@@ -56,7 +56,7 @@ function App() {
             }
           />
           <Route
-            path="/OrchardCaseStudyPage"
+            path="/work/the-orchard-bar"
             element={
               <OrchardCaseStudyPage
                 onOpenTerms={() => setTermsOpen(true)}
@@ -64,7 +64,7 @@ function App() {
             }
           />
           <Route
-            path="/LMDouglasCaseStudyPage"
+            path="/work/lm-douglas"
             element={
               <LMDouglasCaseStudyPage
                 onOpenTerms={() => setTermsOpen(true)}
@@ -72,7 +72,7 @@ function App() {
             }
           />
           <Route
-            path="/OMSCaseStudyPage"
+            path="/work/orders-made-simple"
             element={
               <OMSCaseStudyPage
                 onOpenTerms={() => setTermsOpen(true)}
@@ -80,7 +80,7 @@ function App() {
             }
           />
           <Route
-            path="/SujinCaseStudyPage"
+            path="/work/sujin-kim"
             element={
               <SujinCaseStudyPage
                 onOpenTerms={() => setTermsOpen(true)}

@@ -42,12 +42,12 @@ const routes = [
   { url: '/', out: 'dist/index.html', sitemap: { lastmod: HOME_LASTMOD, priority: '1.0' } },
   { url: '/pendo-consultant', out: 'dist/pendo-consultant.html', sitemap: { lastmod: PENDO_LASTMOD, priority: '0.9' } },
   { url: '/insights', out: 'dist/insights.html', sitemap: { lastmod: INSIGHTS_LASTMOD, priority: '0.8' } },
-  // WIP case-study previews — prerendered so the URLs work, but kept out of the
-  // sitemap (and noindex in the pages) until they're finished and given real routes.
-  { url: '/OrchardCaseStudyPage', out: 'dist/OrchardCaseStudyPage.html' },
-  { url: '/LMDouglasCaseStudyPage', out: 'dist/LMDouglasCaseStudyPage.html' },
-  { url: '/OMSCaseStudyPage', out: 'dist/OMSCaseStudyPage.html' },
-  { url: '/SujinCaseStudyPage', out: 'dist/SujinCaseStudyPage.html' },
+  // Published case studies. lastmod mirrors each page's own JSON-LD dateModified
+  // so the sitemap and the structured data can't tell crawlers different stories.
+  { url: '/work/the-orchard-bar', out: 'dist/work/the-orchard-bar.html', sitemap: { lastmod: '2026-07-05', priority: '0.7' } },
+  { url: '/work/lm-douglas', out: 'dist/work/lm-douglas.html', sitemap: { lastmod: '2026-08-01', priority: '0.7' } },
+  { url: '/work/orders-made-simple', out: 'dist/work/orders-made-simple.html', sitemap: { lastmod: '2026-08-02', priority: '0.7' } },
+  { url: '/work/sujin-kim', out: 'dist/work/sujin-kim.html', sitemap: { lastmod: '2026-08-16', priority: '0.7' } },
   ...publishedInsights.map((item) => ({
     url: `/insights/${item.slug}`,
     out: `dist/insights/${item.slug}.html`,
