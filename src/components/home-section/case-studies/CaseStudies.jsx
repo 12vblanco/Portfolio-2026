@@ -393,10 +393,35 @@ const CaseStudies = () => {
             </MobileCarousel>
 
         </CarouselWrapper>
+
+        <AllWorkRow>
+          <AllWorkLink to="/work">See all case studies &rarr;</AllWorkLink>
+        </AllWorkRow>
       </Container>
     </Section>
   );
 };
+
+const AllWorkRow = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+`;
+
+const AllWorkLink = styled(Link)`
+  font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #282828;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 2px;
+  &:hover {
+    color: #ff3863;
+    border-bottom-color: #ff3863;
+  }
+`;
 
 export default CaseStudies;
 

@@ -47,9 +47,7 @@ export const InsightsIndexPage = ({ onOpenTerms }) => {
         title="Pendo Insights & Guides | Victor Blanco"
         description="Practical Pendo insights from a certified consultant: installation audits, click-data analytics, the Aggregation API, guide throttling and more."
         canonical={CANONICAL}
-        ogImage="https://victorblancoweb.com/og-image-pendo.png"
-        ogImageWidth={2928}
-        ogImageHeight={1636}
+        ogImage={`${LINKS.site}/og/insights.png`}
         structuredData={structuredData}
       />
 

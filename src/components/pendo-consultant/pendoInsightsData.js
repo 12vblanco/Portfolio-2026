@@ -309,9 +309,9 @@ x-pendo-integration-key: <your-integration-key>
     subtitle:
       "Pendo's MCP server puts product data in front of people who never had a Pendo login. It is genuinely useful, but it inherits every weakness in your tagging. Here an introduction to what it reaches, how to connect it to Claude, ChatGPT and other clients, and how I would roll it out.",
     meta: {
-      title: "Pendo MCP: How to Connect It to Claude & ChatGPT | Victor Blanco",
+      title: "Pendo MCP: Connect It to Claude & ChatGPT | Victor Blanco",
       description:
-        "How to connect the Pendo MCP server to Claude, ChatGPT and Cursor, what data it reaches, read-only versus write tools, service accounts, MCP versus Leo, and the limits to plan for.",
+        "How to connect the Pendo MCP server to Claude, ChatGPT and Cursor: what data it reaches, read-only versus write tools, service accounts and the limits.",
     },
     quote: null,
     sections: [
@@ -633,7 +633,7 @@ claude mcp add --transport http pendo \\
     meta: {
       title: "Exclude Internal Users from Pendo Analytics | Victor Blanco",
       description:
-        "Three reliable ways to keep your own team out of Pendo data: exclude lists, email domain segments and metadata flags, plus how to keep the segment clean over time.",
+        "Three reliable ways to keep your own team out of Pendo data: exclude lists, email domain segments and metadata flags, plus keeping the segment clean.",
     },
     quote: null,
     sections: [
@@ -726,7 +726,7 @@ claude mcp add --transport http pendo \\
     meta: {
       title: "Pendo Guide Throttling Best Practices | Victor Blanco",
       description:
-        "How to configure Pendo guide throttling so users see helpful guidance instead of popup noise: frequency caps, settings that work for SaaS, and how to measure guide fatigue.",
+        "How to configure Pendo guide throttling so users get helpful guidance, not popup noise: frequency caps, settings that work for SaaS, and measuring fatigue.",
     },
     quote: null,
     sections: [
@@ -805,7 +805,7 @@ claude mcp add --transport http pendo \\
     meta: {
       title: "Pendo Installation Checklist for React Apps | Victor Blanco",
       description:
-        "A practical checklist for installing Pendo in React and SPA products: snippet placement, visitor identification timing, route tracking, environment keys and verification.",
+        "A checklist for installing Pendo in React and SPA products: snippet placement, visitor identification timing, route tracking, environment keys and checks.",
     },
     quote: null,
     sections: [

@@ -45,6 +45,10 @@ import timelineJpg720 from "../../assets/case-studies/sujin/live-timeline-720.jp
 import timelineWebp720 from "../../assets/case-studies/sujin/live-timeline-720.webp";
 import clipPoster from "../../assets/case-studies/sujin/sujin-interaction-poster.jpg";
 import clipMp4 from "../../assets/case-studies/sujin/sujin-interaction.mp4";
+import {
+  caseStudyOgImage,
+  getCaseStudyMeta,
+} from "../../data/caseStudiesMeta";
 import { LINKS } from "../../data/siteConfig";
 import {
   Arrow,
@@ -88,6 +92,7 @@ import {
   Quote,
   QuoteBy,
   QuoteText,
+  RelatedWork,
   ReflectGrid,
   ReflectHead,
   RoleLine,
@@ -103,6 +108,7 @@ import {
   StatTile,
   StatValue,
   Title,
+  TitleSub,
   caseStudySchemas,
   createSectionNumber,
   shot,
@@ -113,6 +119,10 @@ import { Contact } from "../common/Contact.jsx";
 import { SEO } from "../common/SEO.jsx";
 
 const canonical = `${LINKS.site}/work/sujin-kim`;
+// Titles, descriptions and dates live in the shared registry so this page,
+// the /work hub, the OG card and the sitemap cannot drift apart.
+const meta = getCaseStudyMeta("sujin-kim");
+const ogImage = caseStudyOgImage("sujin-kim");
 
 const SHOTS = {
   landing: shot({
@@ -303,12 +313,12 @@ const buildHighlights = [
 ];
 
 const structuredData = caseStudySchemas({
-  headline: "Sujin Kim: a designer's portfolio built as a gallery",
-  description:
-    "A case study on building a graphic designer's portfolio in React 19 as three rooms rather than pages, with a career archive walked one scroll per year and a hero of canvas particles that scatter under the cursor.",
+  headline: meta.headline,
+  description: meta.schemaDescription,
   canonical,
-  datePublished: "2026-08-16",
-  dateModified: "2026-08-16",
+  image: ogImage,
+  datePublished: meta.datePublished,
+  dateModified: meta.dateModified,
   crumb: "Sujin Kim",
   about: {
     "@type": "Person",
@@ -331,11 +341,12 @@ export const SujinCaseStudyPage = ({ onOpenTerms }) => {
   return (
     <Page ref={rootRef}>
       <SEO
-        title="Sujin Kim: Designer Portfolio Case Study | Victor Blanco"
-        description="How a graphic designer's portfolio became a gallery: three rooms instead of pages, a career archive walked one scroll per year, and a hero of canvas particles that scatter under the cursor. Built in React 19."
+        title={meta.title}
+        description={meta.description}
         canonical={canonical}
         ogType="article"
-        ogTitle="Sujin Kim: a designer's portfolio built as a gallery"
+        ogTitle={meta.ogTitle}
+        ogImage={ogImage}
         structuredData={structuredData}
       />
 
@@ -346,9 +357,12 @@ export const SujinCaseStudyPage = ({ onOpenTerms }) => {
         <Hero as="header">
           <Title>
             Sujin Kim<Dot>.</Dot>
+            <TitleSub>
+              React 19 portfolio website for a graphic designer
+            </TitleSub>
           </Title>
           <RoleLine>
-            Designer&apos;s portfolio · Figma to React build · 2025
+            Figma to React build · 2025
           </RoleLine>
           <HeroBody>
             <div>
@@ -519,7 +533,7 @@ export const SujinCaseStudyPage = ({ onOpenTerms }) => {
         <Section data-reveal>
           <SecHead>
             <SecNum>{num()}</SecNum>
-            <SecTitle>The solution</SecTitle>
+            <SecTitle>Building it in React 19</SecTitle>
           </SecHead>
           <Prose>
             <P>
@@ -678,6 +692,9 @@ export const SujinCaseStudyPage = ({ onOpenTerms }) => {
           </ReflectGrid>
         </Section>
 
+        {/* ── More work ── */}
+        <RelatedWork slug="sujin-kim" />
+
         {/* ── CTA ── */}
         <CTABand data-reveal>
           <CTATitle>Need something similar?</CTATitle>
@@ -694,7 +711,7 @@ export const SujinCaseStudyPage = ({ onOpenTerms }) => {
               Book a call ↗
             </PrimaryLink>
           </CTAActions>
-          <BackLink to="/#works">← Back to all work</BackLink>
+          <BackLink to="/work">← Back to all work</BackLink>
         </CTABand>
       </Container>
 

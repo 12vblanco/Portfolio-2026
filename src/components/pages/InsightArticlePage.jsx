@@ -2,7 +2,7 @@ import gsap from "gsap";
 import { Fragment, useEffect, useRef } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { LINKS } from "../../data/siteConfig";
+import { BRAND, LINKS } from "../../data/siteConfig";
 import { prefersReducedMotion } from "../../utils/motion";
 import { ConsentBanner } from "../common/ConsentBanner.jsx";
 import { Contact } from "../common/Contact.jsx";
@@ -85,13 +85,17 @@ export const InsightArticlePage = ({ onOpenTerms }) => {
       "@type": "Person",
       name: "Victor Blanco",
       url: LINKS.site,
+      image: BRAND.logo,
       jobTitle: "Certified Pendo Consultant",
       sameAs: [LINKS.github, LINKS.upwork, LINKS.credly],
     },
+    // Organization rather than Person: Article.publisher.logo is where Google
+    // reads a publisher logo, and that property is only valid on Organization.
     publisher: {
-      "@type": "Person",
-      name: "Victor Blanco",
+      "@type": "Organization",
+      name: BRAND.name,
       url: LINKS.site,
+      logo: { "@type": "ImageObject", url: BRAND.logo, width: 512, height: 512 },
     },
   };
 

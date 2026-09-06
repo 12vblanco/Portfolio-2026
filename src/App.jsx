@@ -10,6 +10,7 @@ import { LMDouglasCaseStudyPage } from './components/pages/LMDouglasCaseStudyPag
 import { NotFoundPage } from './components/pages/NotFoundPage.jsx';
 import { OMSCaseStudyPage } from './components/pages/OMSCaseStudyPage.jsx';
 import { SujinCaseStudyPage } from './components/pages/SujinCaseStudyPage.jsx';
+import { WorkIndexPage } from './components/pages/WorkIndexPage.jsx';
 import { OrchardCaseStudyPage } from './components/pages/OrchardCaseStudyPage.jsx';
 import { PendoConsultantPage } from './components/pages/PendoConsultantPage.jsx';
 import { GlobalStyles, theme } from './styles/GlobalStyles';
@@ -51,6 +52,14 @@ function App() {
             path="/insights/:slug"
             element={
               <InsightArticlePage
+                onOpenTerms={() => setTermsOpen(true)}
+              />
+            }
+          />
+          <Route
+            path="/work"
+            element={
+              <WorkIndexPage
                 onOpenTerms={() => setTermsOpen(true)}
               />
             }

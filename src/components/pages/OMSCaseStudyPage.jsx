@@ -33,6 +33,10 @@ import mHomeJpg1020 from "../../assets/case-studies/oms/live-mobile-home-1020.jp
 import mHomeWebp1020 from "../../assets/case-studies/oms/live-mobile-home-1020.webp";
 import mHomeJpg510 from "../../assets/case-studies/oms/live-mobile-home-510.jpg";
 import mHomeWebp510 from "../../assets/case-studies/oms/live-mobile-home-510.webp";
+import {
+  caseStudyOgImage,
+  getCaseStudyMeta,
+} from "../../data/caseStudiesMeta";
 import { LINKS } from "../../data/siteConfig";
 import {
   Arrow,
@@ -77,6 +81,7 @@ import {
   Quote,
   QuoteBy,
   QuoteText,
+  RelatedWork,
   ReflectGrid,
   ReflectHead,
   RoleLine,
@@ -92,6 +97,7 @@ import {
   StatTile,
   StatValue,
   Title,
+  TitleSub,
   caseStudySchemas,
   createSectionNumber,
   shot,
@@ -107,6 +113,10 @@ import { SEO } from "../common/SEO.jsx";
 const SITE = "https://ordersmadesimple.com";
 // No public repo: the code is hand-written and injected into a HubSpot template.
 const canonical = `${LINKS.site}/work/orders-made-simple`;
+// Titles, descriptions and dates live in the shared registry so this page,
+// the /work hub, the OG card and the sitemap cannot drift apart.
+const meta = getCaseStudyMeta("orders-made-simple");
+const ogImage = caseStudyOgImage("orders-made-simple");
 
 const SHOTS = {
   // The OMS brand mark. One width only: it renders at 400px at most, so 800
@@ -269,12 +279,12 @@ const buildHighlights = [
 ];
 
 const structuredData = caseStudySchemas({
-  headline: "Orders Made Simple: SaaS marketing site redesign",
-  description:
-    "A case study on rebuilding a B2B hospitality-procurement marketing site whose identity had drifted, using hand-written HTML, CSS and JavaScript injected into HubSpot and a 39-token design system.",
+  headline: meta.headline,
+  description: meta.schemaDescription,
   canonical,
-  datePublished: "2026-08-02",
-  dateModified: "2026-08-02",
+  image: ogImage,
+  datePublished: meta.datePublished,
+  dateModified: meta.dateModified,
   crumb: "Orders Made Simple",
   about: {
     "@type": "Organization",
@@ -300,11 +310,12 @@ export const OMSCaseStudyPage = ({ onOpenTerms }) => {
   return (
     <Page ref={rootRef}>
       <SEO
-        title="Orders Made Simple: SaaS Website Redesign Case Study | Victor Blanco"
-        description="How a B2B SaaS marketing site that had drifted into looking like everyone else got its identity back, rebuilt as a 39-token design system in hand-written code inside HubSpot."
+        title={meta.title}
+        description={meta.description}
         canonical={canonical}
         ogType="article"
-        ogTitle="Orders Made Simple: SaaS marketing site redesign case study"
+        ogTitle={meta.ogTitle}
+        ogImage={ogImage}
         structuredData={structuredData}
       />
 
@@ -315,9 +326,12 @@ export const OMSCaseStudyPage = ({ onOpenTerms }) => {
         <Hero as="header">
           <Title>
             Orders Made Simple<Dot>.</Dot>
+            <TitleSub>
+              B2B SaaS marketing site redesign, hand-built in HubSpot
+            </TitleSub>
           </Title>
           <RoleLine>
-            B2B SaaS marketing site · Solo: design &amp; build · 2025 to 2026
+            Solo: design &amp; build · 2025 to 2026
           </RoleLine>
           <HeroBody>
             <div>
@@ -479,7 +493,7 @@ export const OMSCaseStudyPage = ({ onOpenTerms }) => {
         <Section data-reveal>
           <SecHead>
             <SecNum>{num()}</SecNum>
-            <SecTitle>The solution</SecTitle>
+            <SecTitle>The HubSpot rebuild</SecTitle>
           </SecHead>
           <Prose>
             <P>
@@ -621,6 +635,9 @@ export const OMSCaseStudyPage = ({ onOpenTerms }) => {
           </ReflectGrid>
         </Section>
 
+        {/* ── More work ── */}
+        <RelatedWork slug="orders-made-simple" />
+
         {/* ── CTA ── */}
         <CTABand data-reveal>
           <CTATitle>Need something similar?</CTATitle>
@@ -640,7 +657,7 @@ export const OMSCaseStudyPage = ({ onOpenTerms }) => {
               Book a call ↗
             </GhostLink>
           </CTAActions>
-          <BackLink to="/#works">← Back to all work</BackLink>
+          <BackLink to="/work">← Back to all work</BackLink>
         </CTABand>
       </Container>
 

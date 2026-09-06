@@ -14,6 +14,7 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'fs';
 import { dirname } from 'path';
 import { publishedInsights } from '../src/components/pendo-consultant/pendoInsightsData.js';
+import { caseStudiesMeta } from '../src/data/caseStudiesMeta.js';
 import { render } from '../dist-ssr/entry-server.js';
 
 const SITE = 'https://victorblancoweb.com';
@@ -37,17 +38,25 @@ const INSIGHTS_LASTMOD = publishedInsights
   .map((i) => i.dateModified || buildDate)
   .sort()
   .at(-1) || buildDate;
+// Same rule for the work hub: it is as fresh as its most recently edited study.
+const WORK_LASTMOD = caseStudiesMeta
+  .map((s) => s.dateModified)
+  .sort()
+  .at(-1) || buildDate;
 
 const routes = [
   { url: '/', out: 'dist/index.html', sitemap: { lastmod: HOME_LASTMOD, priority: '1.0' } },
   { url: '/pendo-consultant', out: 'dist/pendo-consultant.html', sitemap: { lastmod: PENDO_LASTMOD, priority: '0.9' } },
   { url: '/insights', out: 'dist/insights.html', sitemap: { lastmod: INSIGHTS_LASTMOD, priority: '0.8' } },
-  // Published case studies. lastmod mirrors each page's own JSON-LD dateModified
-  // so the sitemap and the structured data can't tell crawlers different stories.
-  { url: '/work/the-orchard-bar', out: 'dist/work/the-orchard-bar.html', sitemap: { lastmod: '2026-07-05', priority: '0.7' } },
-  { url: '/work/lm-douglas', out: 'dist/work/lm-douglas.html', sitemap: { lastmod: '2026-08-01', priority: '0.7' } },
-  { url: '/work/orders-made-simple', out: 'dist/work/orders-made-simple.html', sitemap: { lastmod: '2026-08-02', priority: '0.7' } },
-  { url: '/work/sujin-kim', out: 'dist/work/sujin-kim.html', sitemap: { lastmod: '2026-08-16', priority: '0.7' } },
+  { url: '/work', out: 'dist/work.html', sitemap: { lastmod: WORK_LASTMOD, priority: '0.8' } },
+  // Published case studies, driven off the same registry the pages, the OG cards
+  // and the /work hub read, so a study's lastmod cannot disagree with its own
+  // JSON-LD dateModified. Adding a study to caseStudiesMeta adds it here.
+  ...caseStudiesMeta.map((study) => ({
+    url: `/work/${study.slug}`,
+    out: `dist/work/${study.slug}.html`,
+    sitemap: { lastmod: study.dateModified, priority: '0.7' },
+  })),
   ...publishedInsights.map((item) => ({
     url: `/insights/${item.slug}`,
     out: `dist/insights/${item.slug}.html`,

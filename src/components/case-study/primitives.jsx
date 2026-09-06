@@ -63,7 +63,7 @@ export const Breadcrumb = ({ current }) => (
   <Crumbs aria-label="Breadcrumb">
     <CrumbLink to="/">Home</CrumbLink>
     <CrumbDivider aria-hidden="true">/</CrumbDivider>
-    <CrumbLink to="/#works">Work</CrumbLink>
+    <CrumbLink to="/work">Work</CrumbLink>
     <CrumbDivider aria-hidden="true">/</CrumbDivider>
     <CrumbCurrent aria-current="page">{current}</CrumbCurrent>
   </Crumbs>
@@ -85,6 +85,20 @@ export const Title = styled.h1`
 `;
 export const Dot = styled.span`
   color: #ff3863;
+`;
+/* Lives INSIDE <Title> so the h1 carries what the study is about, not only the
+   client's name. The name alone is a proper noun nobody searches to find a web
+   developer; this line is where the service keywords go. Sized well below the
+   name so the hero keeps its poster hierarchy. */
+export const TitleSub = styled.span`
+  display: block;
+  max-width: 34ch;
+  margin-top: 0.75rem;
+  font-size: clamp(1.05rem, 2.2vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #666;
 `;
 export const RoleLine = styled.p`
   font-family: ${MONO};

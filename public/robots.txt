@@ -1,4 +1,48 @@
+# Everything here is public and meant to be found. Nothing is disallowed:
+# the whole site is prerendered static HTML with no private or duplicate areas.
 User-agent: *
+Allow: /
+
+# Assistant and AI-search crawlers are allowed deliberately, not by omission.
+# Pendo consulting is a global service sold on technical credibility, so being
+# quotable when someone asks an assistant about Pendo installation, the
+# Aggregation API or the MCP server is a lead source, not a leak. These are
+# listed explicitly because a named group replaces the * group for that agent:
+# if a default ever changes, the intent here still stands.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
 Allow: /
 
 Sitemap: https://victorblancoweb.com/sitemap.xml

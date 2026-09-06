@@ -28,6 +28,10 @@ import v1RealmWebp1440 from "../../assets/case-studies/lmdouglas/v1-desktop-real
 import v1RealmJpg720 from "../../assets/case-studies/lmdouglas/v1-desktop-realm-720.jpg";
 import v1RealmWebp720 from "../../assets/case-studies/lmdouglas/v1-desktop-realm-720.webp";
 import { IconGit } from "../../assets/icons/IconGit.jsx";
+import {
+  caseStudyOgImage,
+  getCaseStudyMeta,
+} from "../../data/caseStudiesMeta";
 import { LINKS } from "../../data/siteConfig";
 import {
   Arrow,
@@ -74,6 +78,7 @@ import {
   Quote,
   QuoteBy,
   QuoteText,
+  RelatedWork,
   ReflectGrid,
   ReflectHead,
   RoleLine,
@@ -90,6 +95,7 @@ import {
   StatTile,
   StatValue,
   Title,
+  TitleSub,
   caseStudySchemas,
   createSectionNumber,
   shot,
@@ -102,6 +108,10 @@ import { SEO } from "../common/SEO.jsx";
 const SITE = "https://lmdouglas.com/";
 const REPO = "https://github.com/12vblanco/lmdouglas26";
 const canonical = `${LINKS.site}/work/lm-douglas`;
+// Titles, descriptions and dates live in the shared registry so this page,
+// the /work hub, the OG card and the sitemap cannot drift apart.
+const meta = getCaseStudyMeta("lm-douglas");
+const ogImage = caseStudyOgImage("lm-douglas");
 
 const SHOTS = {
   books: shot({
@@ -235,12 +245,12 @@ const buildHighlights = [
 ];
 
 const structuredData = caseStudySchemas({
-  headline: "L.M. Douglas: author platform design & build",
-  description:
-    "A case study on growing a fantasy author's site from a two-book promotional page into a Vue 3 saga's hub with an interactive realm map, a status-tagged catalogue and a MailerLite lead-magnet funnel.",
+  headline: meta.headline,
+  description: meta.schemaDescription,
   canonical,
-  datePublished: "2026-08-01",
-  dateModified: "2026-08-01",
+  image: ogImage,
+  datePublished: meta.datePublished,
+  dateModified: meta.dateModified,
   crumb: "L.M. Douglas",
   about: {
     "@type": "Person",
@@ -260,11 +270,12 @@ export const LMDouglasCaseStudyPage = ({ onOpenTerms }) => {
   return (
     <Page ref={rootRef}>
       <SEO
-        title="L.M. Douglas: Vue Author Website Case Study | Victor Blanco"
-        description="How a two-book promotional site became a Vue 3 author platform with an interactive world map, a data-driven catalogue and a free-novella mailing list."
+        title={meta.title}
+        description={meta.description}
         canonical={canonical}
         ogType="article"
-        ogTitle="L.M. Douglas: author platform design & build case study"
+        ogTitle={meta.ogTitle}
+        ogImage={ogImage}
         structuredData={structuredData}
       />
 
@@ -275,9 +286,12 @@ export const LMDouglasCaseStudyPage = ({ onOpenTerms }) => {
         <Hero as="header">
           <Title>
             L.M. Douglas<Dot>.</Dot>
+            <TitleSub>
+              Vue 3 author platform design &amp; build for a fantasy saga
+            </TitleSub>
           </Title>
           <RoleLine>
-            Fantasy author platform · Solo: design &amp; build · 2024 to present
+            Solo: design &amp; build · 2024 to present
           </RoleLine>
           <HeroBody>
             <div>
@@ -447,7 +461,7 @@ export const LMDouglasCaseStudyPage = ({ onOpenTerms }) => {
         <Section data-reveal>
           <SecHead>
             <SecNum>{num()}</SecNum>
-            <SecTitle>The solution</SecTitle>
+            <SecTitle>The Vue 3 build</SecTitle>
           </SecHead>
           <Prose>
             <P>
@@ -574,6 +588,9 @@ export const LMDouglasCaseStudyPage = ({ onOpenTerms }) => {
           </ReflectGrid>
         </Section>
 
+        {/* ── More work ── */}
+        <RelatedWork slug="lm-douglas" />
+
         {/* ── CTA ── */}
         <CTABand data-reveal>
           <CTATitle>Need something similar?</CTATitle>
@@ -595,7 +612,7 @@ export const LMDouglasCaseStudyPage = ({ onOpenTerms }) => {
               Book a call ↗
             </GhostLink>
           </CTAActions>
-          <BackLink to="/#works">← Back to all work</BackLink>
+          <BackLink to="/work">← Back to all work</BackLink>
         </CTABand>
       </Container>
 

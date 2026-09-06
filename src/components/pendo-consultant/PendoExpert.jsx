@@ -216,7 +216,11 @@ export const PendoExpert = () => {
           </FeatureList>
 
           <GraphContainer>
-            <GraphImage src={pendoGraph} alt="Pendo Analytics Graph" />
+            <GraphImage
+              src={pendoGraph}
+              alt="A Pendo analytics report titled Avg. Time Spent: a stacked bar chart comparing average minutes per visitor across five accounts, 15Five, 6sense, Adobe, Airtable and Allstacks, with each bar broken into colour-coded segments and Allstacks the highest at roughly 365 minutes"
+              loading="lazy"
+            />
             <GraphCaption>"Get measurable results faster"</GraphCaption>
           </GraphContainer>
         </MiddleRow>

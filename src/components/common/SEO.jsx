@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import { BRAND } from '../../data/siteConfig';
 
 export const SEO = ({
   title,
@@ -25,6 +26,10 @@ export const SEO = ({
 
     {/* Open Graph */}
     <meta property="og:type" content={ogType} />
+    {/* Without site_name the card is attributed to nobody on Facebook,
+        LinkedIn, Slack and Discord */}
+    <meta property="og:site_name" content={BRAND.name} />
+    <meta property="og:locale" content={BRAND.locale} />
     {canonical && <meta property="og:url" content={canonical} />}
     <meta property="og:title" content={ogTitle || title} />
     <meta property="og:description" content={ogDescription || description} />

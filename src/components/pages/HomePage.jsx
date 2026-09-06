@@ -6,6 +6,7 @@ import { Experience } from '../home-section/Experience';
 import { Hero } from '../home-section/Hero.jsx';
 import { InsightsStrip } from '../home-section/InsightsStrip.jsx';
 import Testimonials from '../home-section/Testimonials';
+import { BRAND } from '../../data/siteConfig';
 
 
 export const HomePage = ({ onOpenTerms }) => {
@@ -32,6 +33,7 @@ export const HomePage = ({ onOpenTerms }) => {
       "@type": "Person",
       "name": "Victor Blanco",
       "url": "https://victorblancoweb.com",
+      "image": BRAND.logo,
       "jobTitle": "Freelance Web Developer & Pendo Consultant",
       "address": {
         "@type": "PostalAddress",
@@ -59,6 +61,8 @@ export const HomePage = ({ onOpenTerms }) => {
       "name": "Victor Blanco - Freelance Web Developer & Pendo Consultant",
       "description": "Edinburgh-based freelance web developer specialising in React websites and certified Pendo consulting for SaaS teams worldwide.",
       "url": "https://victorblancoweb.com",
+      "logo": BRAND.logo,
+      "image": BRAND.logo,
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Edinburgh",

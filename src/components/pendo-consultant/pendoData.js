@@ -71,6 +71,7 @@ export const pendoStructuredData = {
     "@type": "Person",
     "name": "Victor Blanco",
     "url": "https://victorblancoweb.com",
+    "image": "https://victorblancoweb.com/logo.png",
     "jobTitle": "Certified Pendo Consultant",
     "address": {
       "@type": "PostalAddress",

@@ -13,8 +13,11 @@
   <!-- Sitemap -->
   <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/blanco.png" />
+  <!-- Favicon: 192px square (Google wants a square multiple of 48 for the
+       icon beside a search result); apple-touch-icon for iOS home screens.
+       Regenerate with: npm run brand-icons -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
   <!-- Switzer (self-hosted, ITF Free Font License via Fontshare) -->
   <link rel="preload" href="/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin />

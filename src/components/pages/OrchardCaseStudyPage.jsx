@@ -75,6 +75,7 @@ import {
   Quote,
   QuoteBy,
   QuoteText,
+  RelatedWork,
   ReflectGrid,
   ReflectHead,
   SIZES,
@@ -89,12 +90,17 @@ import {
   StatTile,
   StatValue,
   Title,
+  TitleSub,
   RoleLine,
   caseStudySchemas,
   createSectionNumber,
   shot,
   useReveal,
 } from "../case-study";
+import {
+  caseStudyOgImage,
+  getCaseStudyMeta,
+} from "../../data/caseStudiesMeta";
 import { LINKS } from "../../data/siteConfig";
 import { ConsentBanner } from "../common/ConsentBanner.jsx";
 import { Contact } from "../common/Contact.jsx";
@@ -103,6 +109,10 @@ import { SEO } from "../common/SEO.jsx";
 const SITE = "https://theorchardbar.co.uk/";
 const REPO = "https://github.com/12vblanco/the-orchard-2026";
 const canonical = `${LINKS.site}/work/the-orchard-bar`;
+// Titles, descriptions and dates live in the shared registry so this page,
+// the /work hub, the OG card and the sitemap cannot drift apart.
+const meta = getCaseStudyMeta("the-orchard-bar");
+const ogImage = caseStudyOgImage("the-orchard-bar");
 
 const SHOTS = {
   venue: shot({
@@ -405,12 +415,12 @@ const buildHighlights = [
 ];
 
 const structuredData = caseStudySchemas({
-  headline: "The Orchard Bar: website design, build & maintenance",
-  description:
-    "A case study on rebuilding The Orchard Bar, an Edinburgh bar & restaurant, from a dated WordPress theme into a fast bespoke React site with online booking and self-updating menus.",
+  headline: meta.headline,
+  description: meta.schemaDescription,
   canonical,
-  datePublished: "2026-06-29",
-  dateModified: "2026-07-05",
+  image: ogImage,
+  datePublished: meta.datePublished,
+  dateModified: meta.dateModified,
   crumb: "The Orchard Bar",
   about: {
     "@type": "Restaurant",
@@ -434,11 +444,12 @@ export const OrchardCaseStudyPage = ({ onOpenTerms }) => {
   return (
     <Page ref={rootRef}>
       <SEO
-        title="The Orchard Bar: React Website Case Study | Victor Blanco"
-        description="How a dated WordPress site became a fast, bespoke React site with online booking and self-updating menus, plus a client relationship retained since 2020."
+        title={meta.title}
+        description={meta.description}
         canonical={canonical}
         ogType="article"
-        ogTitle="The Orchard Bar: website design & build case study"
+        ogTitle={meta.ogTitle}
+        ogImage={ogImage}
         structuredData={structuredData}
       />
 
@@ -449,10 +460,12 @@ export const OrchardCaseStudyPage = ({ onOpenTerms }) => {
         <Hero as="header">
           <Title>
             The Orchard Bar<Dot>.</Dot>
+            <TitleSub>
+              React website design &amp; build for an Edinburgh restaurant
+            </TitleSub>
           </Title>
           <RoleLine>
-            Edinburgh bar &amp; restaurant · Solo: design, build &amp;
-            maintenance · 2020 to present
+            Solo: design, build &amp; maintenance · 2020 to present
           </RoleLine>
           <HeroBody>
             <div>
@@ -619,7 +632,7 @@ export const OrchardCaseStudyPage = ({ onOpenTerms }) => {
         <Section data-reveal>
           <SecHead>
             <SecNum>{num()}</SecNum>
-            <SecTitle>The solution</SecTitle>
+            <SecTitle>The React build</SecTitle>
           </SecHead>
           <Prose>
             <P>
@@ -733,6 +746,9 @@ export const OrchardCaseStudyPage = ({ onOpenTerms }) => {
           </ReflectGrid>
         </Section>
 
+        {/* ── More work ── */}
+        <RelatedWork slug="the-orchard-bar" />
+
         {/* ── CTA ── */}
         <CTABand data-reveal>
           <CTATitle>Need something similar?</CTATitle>
@@ -754,7 +770,7 @@ export const OrchardCaseStudyPage = ({ onOpenTerms }) => {
               Book a call ↗
             </GhostLink>
           </CTAActions>
-          <BackLink to="/#works">← Back to all work</BackLink>
+          <BackLink to="/work">← Back to all work</BackLink>
         </CTABand>
       </Container>
 

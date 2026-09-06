@@ -8,7 +8,8 @@
     "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.js",
     "lint": "eslint .",
     "preview": "vite preview",
-    "og-images": "node scripts/og-images.js"
+    "og-images": "node scripts/og-images.js",
+    "brand-icons": "node scripts/brand-icons.js"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
